@@ -944,7 +944,7 @@ button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
 </div>
 <div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
 <img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
-<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="#descubre" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Experiencias</a><a href="#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
 <div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
 </div>
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
@@ -974,9 +974,10 @@ class Component extends DCLogic {
   ];
   HAB = [154, 3400, 3400];
   NAV = [['descubre', 'Descubre'], ['conecta', 'Conecta'], ['vive', 'Vive'], ['recuerda', 'Recuerda']];
+  PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
   setMenu(open) {
     if (!!this.state.menuOpen === open) return;
-    document.documentElement.style.overflow = open ? 'hidden' : '';
+    document.body.style.overflow = open ? 'hidden' : '';
     this.setState({ menuOpen: open }, () => {
       const el = open ? this.closeRef.current : this.burgerRef.current;
       if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0);
@@ -1140,7 +1141,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     cancelAnimationFrame(this.raf); clearInterval(this.lt); clearInterval(this.ht);
     window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
-    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
     this.io && this.io.disconnect();
     this.ro && this.ro.disconnect();
     this.mo && this.mo.disconnect();
@@ -1230,8 +1231,8 @@ class Component extends DCLogic {
         n, label, on: gi === i ? 'true' : 'false', state: gi === i ? 'on' : gi > i ? 'done' : 'off',
         go: () => { const sec = this.gcRef.current; if (!sec) return; const top = sec.getBoundingClientRect().top + window.scrollY; window.scrollTo({ top: top + f * (sec.offsetHeight - window.innerHeight), behavior: 'smooth' }); },
       })),
-      navLinks: this.NAV.map(([id, label]) => ({ href: '#' + id, label, current: this.state.nav === id ? 'true' : 'false' })),
-      menuLinks: this.NAV.map(([id, label], i) => ({ href: '#' + id, label, n: String(i + 1).padStart(2, '0') })),
+      navLinks: this.NAV.map(([id, label]) => ({ href: this.PAGES[id] || '#' + id, label, current: !this.PAGES[id] && this.state.nav === id ? 'true' : 'false' })),
+      menuLinks: this.NAV.map(([id, label], i) => ({ href: this.PAGES[id] || '#' + id, label, n: String(i + 1).padStart(2, '0') })),
       headerCls: this.state.scrolled ? 'is-scrolled' : '',
       menuCls: this.state.menuOpen ? 'is-open' : '',
       menuExpanded: this.state.menuOpen ? 'true' : 'false',

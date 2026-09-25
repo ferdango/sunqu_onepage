@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Descubre · Catálogo — Sunqu Journeys</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Regular.ttf) format("truetype");font-weight:300 400;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Medium.ttf) format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Bold.ttf) format("truetype");font-weight:600 800;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-RegularItalic.ttf) format("truetype");font-weight:300 500;font-style:italic;font-display:swap}
+
+/* ══ Sistema de la one-page (tokens, base, componentes) ══ */
+:root{--sj-ease:cubic-bezier(.2,.7,.1,1);--sj-gutter:clamp(20px,4vw,56px);--font-heading:Aeonik,Manrope,system-ui,sans-serif;--sj-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23736d47'/%3E%3C/svg%3E");--sj-band-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23e9eef1'/%3E%3C/svg%3E")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;font-family:Aeonik,Manrope,system-ui,sans-serif;font-size:16px;line-height:1.55;background:#1c1c1c;color:#1c1c1c;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2,h3,h4{font-family:var(--font-heading);font-weight:600;line-height:1.1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0}
+img,svg,video{display:block;max-width:100%}
+figure{margin:0}
+a{color:#736d47;text-underline-offset:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid #736d47;outline-offset:3px}
+[data-bg="dark"] :focus-visible,.sj-drawer :focus-visible,.jr-reel :focus-visible,.jr-lb :focus-visible,footer :focus-visible{outline-color:#f4a700}
+::selection{background:rgba(115,109,71,.3)}
+section[id]{scroll-margin-top:64px}
+.sj-in{max-width:1440px;margin:0 auto;padding-left:var(--sj-gutter);padding-right:var(--sj-gutter)}
+.sj-pad{padding-top:clamp(80px,10vw,140px);padding-bottom:clamp(80px,10vw,140px)}
+.jr-wrap{transition:background-color .9s ease}
+.sj-light,.sj-alt-bg{background:transparent;color:#1c1c1c}
+.sj-dark{background:transparent;color:#e9eef1;--color-text:#e9eef1}
+.sj-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47}
+.sj-eyebrow::before{content:"";width:7px;height:7px;flex:none;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+.sj-h2{margin-top:18px;font-size:clamp(33px,4.4vw,71px);line-height:1.04;letter-spacing:-.02em}
+.sj-lead{font-size:18px;line-height:1.55;color:#424244;max-width:46ch;text-wrap:pretty}
+.sj-dark .sj-lead{color:rgba(233,238,241,.82)}
+.sj-band{height:14px;background:var(--sj-band) repeat-x center/auto 100%}
+.sj-band--light{background-image:var(--sj-band-light)}
+.sj-iso{display:inline-block !important;height:1.05em;width:auto;max-width:none;flex:none;transition:transform .35s var(--sj-ease)}
+.sj-iso--back{transform:scaleX(-1)}
+a:hover .sj-iso,button:hover .sj-iso{transform:translateX(4px)}
+button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
+
+/* Botones de la one-page */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:14px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c;background:transparent;border:1px solid rgba(28,28,28,.22);padding:14px 22px;border-radius:999px;white-space:nowrap;transition:background-color .3s,color .3s,border-color .3s}
+.btn-primary{background:#736d47;border-color:#736d47;color:#e9eef1}
+.btn-primary:hover{background:#5e5939;border-color:#5e5939;color:#e9eef1}
+.btn-secondary:hover{background:rgba(115,109,71,.08);color:#1c1c1c}
+.btn-light{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.btn-light:hover{background:#f4a700;border-color:#f4a700;color:#1c1c1c}
+.btn-ghost-light{border-color:rgba(233,238,241,.4);color:#e9eef1}
+.btn-ghost-light:hover{background:rgba(233,238,241,.1);border-color:#e9eef1;color:#e9eef1}
+.btn-lime{background:#83b300;border-color:#83b300;color:#1c1c1c}
+.btn-lime:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+
+/* Tarjetas: borde fino */
+.blueprint{position:relative;border:1px solid color-mix(in srgb,var(--color-text,#1c1c1c) 12%,transparent);border-radius:24px;background:rgba(255,255,255,.4);overflow:hidden}
+article.blueprint::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid #736d47;opacity:0;pointer-events:none;transition:opacity .45s ease}
+article.blueprint:hover::after{opacity:.6}
+.sj-dark .blueprint{background:rgba(233,238,241,.035)}
+.sj-dark article.blueprint::after{border-color:#83b300}
+.duotone{position:relative;overflow:hidden}
+.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;background:#736d47;mix-blend-mode:color;opacity:.85;transition:opacity .8s var(--sj-ease)}
+.duotone img{transition:transform 1.2s var(--sj-ease)}
+article:hover .duotone::after{opacity:0}
+article:hover .duotone img{transform:scale(1.04)}
+
+/* Header y menú lateral */
+.sj-header{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);transition:background-color .35s,border-color .35s,color .35s}
+.sj-nav{max-width:1440px;margin:0 auto;height:76px;padding:0 var(--sj-gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;transition:height .35s var(--sj-ease)}
+.sj-header.is-scrolled .sj-nav{height:64px}
+.sj-logo{position:relative;display:block;width:116px;height:30px;justify-self:start}
+.sj-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center;transition:opacity .3s}
+.sj-links{display:flex;align-items:center;gap:clamp(22px,2.6vw,40px);list-style:none;margin:0;padding:0}
+.sj-link{position:relative;display:block;padding:8px 0;color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.78;transition:opacity .25s}
+.sj-link::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--sj-ease)}
+.sj-link:hover,.sj-link[aria-current="true"]{opacity:1;color:inherit}
+.sj-link:hover::after,.sj-link[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
+.sj-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.sj-back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 32%,transparent);color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.sj-back:hover{color:inherit;border-color:currentColor}
+.sj-cta{height:40px;padding:0 20px;font-size:13px;letter-spacing:.08em}
+.sj-burger{display:none;position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;cursor:pointer;align-items:center;justify-content:center}
+.sj-burger span{position:absolute;left:13px;right:13px;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:currentColor}
+.sj-burger span:nth-child(1){transform:translateY(-4px)}
+.sj-burger span:nth-child(2){transform:translateY(4px)}
+.sj-scrim{position:fixed;inset:0;z-index:70;background:rgba(20,20,18,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .45s ease}
+.sj-scrim.is-open{opacity:1;pointer-events:auto}
+.sj-drawer{position:fixed;top:0;right:0;z-index:80;width:min(100%,420px);height:100vh;height:100dvh;display:flex;flex-direction:column;gap:26px;padding:12px clamp(20px,5vw,32px) 0;background:#736d47;color:#fff;overflow-y:auto;overscroll-behavior:contain;transform:translateX(100%);visibility:hidden;box-shadow:-24px 0 80px rgba(0,0,0,.28);transition:transform .5s cubic-bezier(.7,0,.2,1),visibility 0s linear .5s}
+.sj-drawer.is-open{transform:none;visibility:visible;transition:transform .65s var(--sj-ease),visibility 0s}
+.sj-drawer-top{display:flex;align-items:center;justify-content:space-between;min-height:52px}
+.sj-drawer-top img{height:28px;width:auto}
+.sj-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.sj-drawer-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px}
+.sj-drawer-nav{display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.22)}
+.sj-drawer-link{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,8.5vw,40px);line-height:1;letter-spacing:-.02em}
+.sj-drawer-link:hover{color:#fff}
+.sj-drawer-n{align-self:start;padding-top:5px;font-size:13px;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.78)}
+.sj-drawer-sub{display:flex;flex-wrap:wrap;gap:10px 24px}
+.sj-drawer-sub a{color:#fff;text-decoration:none;font-size:16px}
+.sj-drawer-foot{margin-top:auto;display:flex;flex-direction:column;gap:18px}
+.sj-drawer-cta{width:100%;background:#83b300;border-color:#83b300;color:#1c1c1c;font-size:15px;padding:16px 22px}
+.sj-drawer-cta:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.sj-drawer .sj-band{margin:4px calc(-1 * clamp(20px,5vw,32px)) 0}
+
+/* WhatsApp flotante */
+.sj-wa{position:fixed;right:clamp(16px,2.4vw,28px);bottom:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-bottom,0px));z-index:65;display:inline-flex;align-items:center;height:60px;min-width:60px;padding:0 16px;border-radius:999px;background:#25D366;color:#fff;text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.24);opacity:0;visibility:hidden;transform:translateY(18px) scale(.9);transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),bottom .45s var(--sj-ease),visibility 0s linear .45s}
+.sj-wa.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),bottom .45s var(--sj-ease),visibility 0s}
+.sj-wa:hover{color:#fff;transform:translateY(-3px)}
+.sj-wa svg{width:28px;height:28px;flex:none}
+.sj-wa-label{max-width:0;overflow:hidden;white-space:nowrap;font-family:var(--font-heading);font-weight:500;font-size:15px;transition:max-width .45s var(--sj-ease),margin .45s var(--sj-ease)}
+.sj-wa:hover .sj-wa-label{max-width:120px;margin-left:10px}
+
+/* Formulario de la one-page */
+.sj-form-card{padding:clamp(30px,3.4vw,48px) clamp(22px,3vw,44px) clamp(24px,3vw,40px);background:rgba(255,255,255,.55)}
+.sj-form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
+.sj-form{display:flex;flex-direction:column;gap:22px}
+.sj-form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px 16px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:0;border:0}
+.field>label,.sj-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0;font-size:14px;font-weight:500;color:#2b2b2d}
+fieldset.field>legend{margin-bottom:10px}
+.input{display:block;width:100%;min-height:52px;padding:14px 16px;font-size:16px;line-height:1.4;color:#1c1c1c;background:rgba(255,255,255,.75);border:1px solid rgba(28,28,28,.14);border-radius:14px;-webkit-appearance:none;appearance:none;transition:border-color .25s,box-shadow .25s,background-color .25s}
+.input::placeholder{color:#8a8a8d;opacity:1}
+.input:hover{border-color:rgba(28,28,28,.3)}
+.input:focus,.input:focus-visible{outline:none;border-color:#736d47;background:#fff;box-shadow:0 0 0 4px rgba(115,109,71,.15)}
+select.input{padding-right:46px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23736d47' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:16px}
+.sj-chips{display:flex;flex-wrap:wrap;gap:10px}
+.radio{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 18px 11px 14px;border:1px solid rgba(28,28,28,.16);border-radius:999px;background:rgba(255,255,255,.55);font-size:15px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background-color .25s,border-color .25s,color .25s}
+.radio input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.radio .dot{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid rgba(28,28,28,.32);transition:all .25s}
+.radio:hover{border-color:rgba(28,28,28,.38)}
+.radio:has(input:checked){background:#736d47;border-color:#736d47;color:#fff}
+.radio input:checked+.dot{border-color:#fff;background:#fff;box-shadow:inset 0 0 0 4px #736d47}
+.radio:has(input:focus-visible){outline:2px solid #736d47;outline-offset:3px}
+.sj-form-foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;padding-top:6px}
+.sj-form-note{margin:0;font-size:14px;line-height:1.45;color:#5d5d60;max-width:30ch}
+.sj-optional{font-size:12px;font-weight:400;color:#7a7a7d}
+textarea.input{min-height:132px;resize:vertical}
+.sj-submit{padding:16px 26px;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.sj-contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) !important;align-items:start}
+
+/* ══ Catálogo Descubre ══ */
+.sj-link[aria-current="page"]{opacity:1}
+.sj-link[aria-current="page"]::after{transform:scaleX(1);transform-origin:left}
+.dc-sec-t{margin-top:14px;font-size:clamp(28px,2.8vw,42px);line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.dc-plus{color:#df5f0c;margin-right:.04em}
+
+/* Cabecera + buscador */
+.dc-hero{position:relative;isolation:isolate;padding-top:clamp(120px,13vw,180px)}
+.dc-hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(52% 58% at 96% -6%,rgba(131,179,0,.15),transparent 72%),radial-gradient(48% 62% at -6% 108%,rgba(223,95,12,.2),transparent 72%)}
+.dc-title{margin-top:18px;font-size:clamp(46px,8vw,128px);line-height:.96;letter-spacing:-.035em;color:#e9eef1;max-width:11ch}
+.dc-title em{font-style:normal;color:#83b300}
+.dc-hero .sj-lead{margin-top:clamp(18px,2.2vw,28px)}
+.dc-search{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.66fr);gap:12px;margin-top:clamp(32px,4vw,52px)}
+.dc-field{display:flex;align-items:center;gap:12px;min-width:0;min-height:66px;padding:0 18px;border-radius:20px;background:#26262a;border:1px solid rgba(233,238,241,.1);color:#e9eef1;transition:border-color .25s,box-shadow .25s}
+.dc-field:focus-within{border-color:#83b300;box-shadow:0 0 0 4px rgba(131,179,0,.14)}
+.dc-ico{width:24px;height:24px;flex:none;color:rgba(233,238,241,.7)}
+.dc-kw-iso{width:24px;height:auto;flex:none}
+.dc-field input{flex:1;min-width:0;border:0;background:transparent;outline:none;color:#e9eef1;font-size:17px;padding:0;color-scheme:dark}
+.dc-field input::placeholder{color:rgba(233,238,241,.55);opacity:1}
+.dc-kw input{height:64px}
+.dc-kw input::-webkit-search-cancel-button{filter:invert(1);opacity:.6}
+.dc-kw-go{width:42px;height:42px;flex:none;border-radius:50%;border:0;background:#e9eef1;color:#1c1c1c;display:grid;place-items:center;cursor:pointer;transition:background-color .3s}
+.dc-kw-go:hover{background:#f4a700}
+.dc-kw-go svg{width:20px;height:20px}
+.dc-dates{padding:0}
+.dc-date{flex:1;min-width:0;display:flex;align-items:center;gap:12px;padding:0 16px;height:64px;cursor:pointer}
+.dc-date-in{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.dc-cap{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.6)}
+.dc-date input{font-size:16px;height:24px;cursor:pointer}
+.dc-date input::-webkit-calendar-picker-indicator{opacity:0;position:absolute;inset:0;width:auto;height:auto;cursor:pointer}
+.dc-date{position:relative}
+.dc-sep{width:1px;height:30px;flex:none;background:rgba(233,238,241,.18)}
+.dc-pax{justify-content:space-between}
+.dc-pax-in{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.dc-pax-v{font-size:16px;white-space:nowrap}
+.dc-step{width:36px;height:36px;flex:none;border-radius:50%;border:1px solid rgba(233,238,241,.3);background:transparent;color:#e9eef1;display:grid;place-items:center;cursor:pointer;font-size:18px;line-height:1;transition:border-color .25s,background-color .25s}
+.dc-step:hover:not(:disabled){border-color:#e9eef1;background:rgba(233,238,241,.08)}
+.dc-step:disabled{opacity:.35;cursor:default}
+
+/* Barra de filtros (tipo significa) */
+.dc-toolbar{margin-top:clamp(40px,5vw,64px);border-top:1px solid rgba(233,238,241,.14);border-bottom:1px solid rgba(233,238,241,.14)}
+.dc-toolbar-in{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;min-height:68px;padding-top:12px;padding-bottom:12px}
+.dc-tbtn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(233,238,241,.28);background:transparent;color:#e9eef1;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background-color .3s,border-color .3s,color .3s}
+.dc-tbtn:hover{border-color:#e9eef1}
+.dc-tbtn[aria-pressed="true"],.dc-tbtn[aria-expanded="true"]{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.dc-tbtn svg{width:18px;height:18px}
+.dc-tbtn img{height:15px;width:auto}
+.dc-num{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#83b300;color:#1c1c1c;font-size:12px;letter-spacing:0;display:inline-grid;place-items:center}
+.dc-num.is-zero{display:none}
+.dc-active{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex:1;min-width:0}
+.dc-x{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 10px 0 14px;border-radius:999px;background:rgba(233,238,241,.08);border:1px solid rgba(233,238,241,.16);color:#e9eef1;font-size:14px;cursor:pointer;transition:border-color .25s}
+.dc-x:hover{border-color:rgba(233,238,241,.5)}
+.dc-x svg{width:14px;height:14px;opacity:.7}
+.dc-clear{background:none;border:0;padding:6px 4px;color:#f4a700;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.dc-clear.is-hidden{display:none}
+.dc-tools{display:flex;align-items:center;gap:10px;margin-left:auto}
+.dc-view{display:inline-flex;padding:3px;border-radius:999px;border:1px solid rgba(233,238,241,.28)}
+.dc-view button{width:40px;height:36px;border-radius:999px;border:0;background:transparent;color:#e9eef1;display:grid;place-items:center;cursor:pointer;transition:background-color .3s,color .3s}
+.dc-view button[aria-pressed="true"]{background:#e9eef1;color:#1c1c1c}
+.dc-view svg{width:18px;height:18px}
+.dc-panel{display:grid;grid-template-rows:0fr;border-bottom:1px solid transparent;transition:grid-template-rows .6s var(--sj-ease),border-color .3s}
+.dc-panel.is-open{grid-template-rows:1fr;border-bottom-color:rgba(233,238,241,.14)}
+.dc-panel>div{overflow:hidden;min-height:0}
+.dc-panel-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) minmax(0,1fr)}
+.dc-group{padding:28px 28px 34px;border-left:1px solid rgba(233,238,241,.14);opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .6s var(--sj-ease)}
+.dc-group:first-child{border-left:0;padding-left:0}
+.dc-panel.is-open .dc-group{opacity:1;transform:none;transition-delay:.12s}
+.dc-panel.is-open .dc-group+.dc-group{transition-delay:.2s}
+.dc-group-t{font-family:var(--font-body,inherit);font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6);margin-bottom:14px}
+.dc-pills{display:flex;flex-wrap:wrap;gap:8px}
+.dc-pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;border:1px solid rgba(233,238,241,.3);background:transparent;color:#e9eef1;font-size:15px;cursor:pointer;transition:background-color .3s,border-color .3s,color .3s}
+.dc-pill:hover{border-color:#e9eef1}
+.dc-pill[aria-pressed="true"]{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.dc-pill img{height:14px;width:auto}
+
+/* Sunqu IA */
+.dc-ia{display:grid;grid-template-columns:88px minmax(0,1fr);gap:24px;align-items:start;padding-top:clamp(48px,6vw,80px);padding-bottom:clamp(36px,4.6vw,60px)}
+.dc-ia-art{width:88px;height:auto}
+.dc-ia-t{display:flex;align-items:center;gap:12px;font-size:clamp(21px,1.8vw,26px);letter-spacing:-.01em;color:#fff}
+.dc-ia-t svg{width:26px;height:26px;flex:none;color:#f4a700}
+.dc-sugg{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:14px;font-size:14px;color:rgba(233,238,241,.72)}
+.dc-sugg-k{font-weight:600;color:#fff}
+.dc-sugg button{display:inline-flex;align-items:center;gap:6px;padding:4px 0;border:0;background:none;color:rgba(233,238,241,.72);font-size:14px;cursor:pointer;transition:color .25s}
+.dc-sugg button img{height:13px;width:auto;opacity:0;transform:scale(.6);transition:opacity .3s,transform .3s var(--sj-ease)}
+.dc-sugg button:hover,.dc-sugg button[aria-pressed="true"]{color:#f4a700}
+.dc-sugg button[aria-pressed="true"] img{opacity:1;transform:none}
+.dc-ia-p{margin-top:12px;max-width:64ch;font-size:16px;line-height:1.55;color:rgba(233,238,241,.82)}
+.dc-ia-sum{margin-top:10px;font-size:14px;color:#83b300}
+
+/* Journeys · lista */
+.dc-j{border-top:1px solid rgba(233,238,241,.14)}
+.dc-j:last-child{border-bottom:1px solid rgba(233,238,241,.14)}
+.dc-j-in{max-width:1440px;margin:0 auto;padding:clamp(40px,5vw,64px) var(--sj-gutter);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,64px);align-items:stretch}
+.dc-j-text{display:flex;flex-direction:column;gap:20px;min-width:0}
+.dc-j-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#f4a700}
+.dc-j-title{font-size:clamp(28px,3vw,46px);line-height:1.07;letter-spacing:-.025em;color:#e9eef1}
+.dc-j-title a{color:inherit;text-decoration:none}
+.dc-j-name{color:rgba(233,238,241,.46);transition:color .45s}
+.dc-j:hover .dc-j-name,.dc-j:focus-within .dc-j-name{color:#f4a700}
+.dc-j-meta{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.dc-j-meta li{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(233,238,241,.2);font-size:14px;color:rgba(233,238,241,.85)}
+.dc-feels{display:flex;flex-wrap:wrap;gap:14px 30px}
+.dc-feel{display:flex;align-items:center;gap:12px}
+.dc-feel-i{width:44px;height:44px;flex:none;border-radius:12px;background:rgba(233,238,241,.06);border:1px solid rgba(233,238,241,.12);display:grid;place-items:center}
+.dc-feel-i img{width:20px;height:auto}
+.dc-feel-k{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.55)}
+.dc-feel-v{display:block;font-size:15px;font-weight:500;color:#e9eef1}
+.dc-note{display:none;font-size:14px;color:#f4a700}
+.dc-note.is-on{display:block}
+.dc-j-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:8px}
+.dc-price-k{display:block;font-size:12px;font-weight:600;color:rgba(233,238,241,.72)}
+.dc-price-v{display:block;margin-top:2px;font-family:var(--font-heading);font-weight:500;font-size:26px;line-height:1.2;letter-spacing:-.01em;color:#e9eef1}
+.dc-price-t{display:block;margin-top:2px;font-size:13px;color:rgba(233,238,241,.6)}
+.dc-actions{display:flex;align-items:center;gap:8px}
+.dc-go{background:#48725E;border-color:#48725E;color:#e9eef1;padding:13px 22px}
+.dc-go:hover{background:#83b300;border-color:#83b300;color:#1c1c1c}
+.dc-j-media{position:relative;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:10px;min-height:clamp(300px,32vw,470px);text-decoration:none}
+.dc-img{position:relative;display:block;overflow:hidden;border-radius:24px;background:#26262a}
+.dc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--sj-ease)}
+.dc-j:hover .dc-img img{transform:scale(1.05)}
+.dc-j:hover .dc-img+.dc-img img{transform:scale(1.08)}
+.dc-badge{position:absolute;left:14px;top:14px;z-index:1;display:none;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:500;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.dc-badge.is-on{display:inline-flex}
+.dc-badge.is-ideal{background:#83b300;color:#1c1c1c}
+.dc-badge.is-good{background:#f4a700;color:#1c1c1c}
+.dc-badge.is-rain{background:rgba(28,28,28,.66);color:#e9eef1;border:1px solid rgba(233,238,241,.3)}
+.dc-alt{position:absolute;right:14px;bottom:14px;z-index:1;display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;background:rgba(28,28,28,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#e9eef1;font-size:13px}
+.dc-j.is-feat .dc-j-in{grid-template-columns:1fr}
+.dc-j.is-feat .dc-j-title{font-size:clamp(34px,4.4vw,68px);max-width:22ch}
+.dc-j.is-feat .dc-j-text{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px clamp(28px,4vw,64px);align-items:end}
+.dc-j.is-feat .dc-j-kicker,.dc-j.is-feat .dc-j-title{grid-column:1}
+.dc-j.is-feat .dc-j-head{grid-column:1}
+.dc-j.is-feat .dc-j-side{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:20px}
+.dc-j.is-feat .dc-j-media{min-height:clamp(340px,42vw,620px);grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.dc-j-head{display:flex;flex-direction:column;gap:20px}
+.dc-j-side{display:contents}
+
+/* Journeys · cuadrícula (como el Figma) */
+.dc-jlist.is-grid .dc-jlist-in{max-width:1440px;margin:0 auto;padding:0 var(--sj-gutter);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px}
+.dc-jlist.is-grid .dc-j{border:0}
+.dc-jlist.is-grid .dc-j-in{display:flex;flex-direction:column;gap:18px;height:100%;max-width:none;padding:0}
+.dc-jlist.is-grid .dc-j-media{order:-1;display:block;min-height:0;aspect-ratio:1/.96}
+.dc-jlist.is-grid .dc-img{height:100%}
+.dc-jlist.is-grid .dc-img+.dc-img,.dc-jlist.is-grid .dc-feels{display:none}
+.dc-jlist.is-grid .dc-j-text{gap:14px;flex:1;padding:0 4px}
+.dc-jlist.is-grid .dc-j-head{gap:10px}
+.dc-jlist.is-grid .dc-j-title{font-size:22px;line-height:1.2}
+.dc-jlist.is-grid .dc-j-name{display:block;color:#fff;margin-bottom:8px}
+.dc-jlist.is-grid .dc-dot{display:none}
+.dc-jlist.is-grid .dc-j-why{display:block;font-family:Aeonik,Manrope,system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.5;letter-spacing:0;color:rgba(233,238,241,.8)}
+.dc-jlist.is-grid .dc-j-meta li{height:28px;font-size:13px}
+.dc-jlist.is-grid .dc-price-v{font-size:22px}
+.dc-empty{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:clamp(48px,6vw,80px) 0;border-top:1px solid rgba(233,238,241,.14)}
+.dc-empty h3{font-size:clamp(24px,2.4vw,34px);color:#e9eef1}
+.dc-empty p{color:rgba(233,238,241,.75);max-width:52ch}
+.dc-empty-row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Guardar (isotipo corazón) */
+.dc-fav{width:48px;height:48px;flex:none;border-radius:50%;border:1px solid rgba(233,238,241,.3);background:transparent;display:grid;place-items:center;cursor:pointer;transition:background-color .3s,border-color .3s}
+.dc-fav img{width:20px;height:auto;filter:brightness(0) invert(.93);transition:filter .3s,transform .5s var(--sj-ease)}
+.dc-fav:hover{border-color:#e9eef1}
+.dc-fav[aria-pressed="true"]{border-color:#df5f0c;background:rgba(223,95,12,.14)}
+.dc-fav[aria-pressed="true"] img{filter:none;transform:scale(1.14)}
+.sj-light .dc-fav{border-color:rgba(28,28,28,.2)}
+.sj-light .dc-fav:hover{border-color:#1c1c1c}
+.sj-light .dc-fav img{filter:brightness(0) opacity(.72)}
+.sj-light .dc-fav[aria-pressed="true"]{border-color:#df5f0c;background:rgba(223,95,12,.1)}
+.sj-light .dc-fav[aria-pressed="true"] img{filter:none}
+
+/* +Experiencias Sunqu */
+.dc-exp-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 24px;flex-wrap:wrap}
+.dc-exp-count{font-size:14px;color:#5d5d60}
+.dc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 16px;margin-top:clamp(24px,3vw,36px)}
+.dc-card{display:flex;flex-direction:column;min-width:0}
+.dc-card-img{position:relative;aspect-ratio:1/1.02;overflow:hidden;border-radius:24px;background:#cfd6da}
+.dc-card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--sj-ease)}
+.dc-card:hover .dc-card-img img{transform:scale(1.06)}
+.dc-tags{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:8px}
+.dc-tag{display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:999px;background:rgba(28,28,28,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#e9eef1;font-size:12.5px;white-space:nowrap}
+.dc-card-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:16px 8px 0 12px}
+.dc-card h3{font-size:18px;line-height:1.22;letter-spacing:-.01em}
+.dc-card-sep{height:1px;margin:10px 0;background:rgba(28,28,28,.14)}
+.dc-loc{display:flex;align-items:center;gap:6px;font-size:15px;color:#424244}
+.dc-loc svg{width:18px;height:18px;flex:none;color:#736d47}
+.dc-pager{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:clamp(40px,5vw,64px)}
+.dc-pager.is-hidden{display:none}
+.dc-pg{width:56px;height:56px;border-radius:50%;border:1px solid rgba(28,28,28,.18);background:rgba(255,255,255,.5);color:#1c1c1c;display:grid;place-items:center;font-family:var(--font-heading);font-weight:500;font-size:15px;cursor:pointer;transition:background-color .3s,border-color .3s,color .3s}
+.dc-pg:hover:not(:disabled){border-color:#736d47}
+.dc-pg[aria-current="page"]{background:#736d47;border-color:#736d47;color:#e9eef1}
+.dc-pg:disabled{opacity:.35;cursor:default}
+.dc-pg img{height:18px;width:auto}
+.dc-exp-empty{margin-top:24px;color:#424244}
+@media (max-width:1100px){
+  .sj-nav{grid-template-columns:1fr auto;height:64px}
+  .sj-header.is-scrolled .sj-nav{height:60px}
+  .sj-links,.sj-back,.sj-cta{display:none}
+  .sj-burger{display:inline-flex}
+  .sj-contact-grid{grid-template-columns:1fr !important}
+  .sj-foot-contact{grid-template-columns:1fr 1fr !important;gap:20px !important}
+  .sj-foot-contact>div:first-child{grid-column:1/-1}
+  .dc-search{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .dc-kw{grid-column:1/-1}
+  .dc-panel-in{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .dc-group:nth-child(3){grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid rgba(233,238,241,.14)}
+  .dc-jlist.is-grid .dc-jlist-in{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dc-j.is-feat .dc-j-text{grid-template-columns:1fr}
+  .dc-j.is-feat .dc-j-side{grid-column:1;grid-row:auto}
+  .dc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:900px){
+  .dc-j-in{grid-template-columns:1fr}
+  .dc-j-media{order:-1}
+  .dc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:759px){
+  .sj-steps li{grid-template-columns:44px 1fr !important;gap:12px !important}
+  .sj-steps li>span{font-size:28px !important}
+  .sj-submit{width:100%}
+  .sj-foot-row{flex-direction:column;align-items:flex-start !important}
+  .sj-form-note{max-width:none;text-align:center;width:100%}
+  .dc-hero{padding-top:108px}
+  .dc-title{font-size:clamp(42px,12vw,64px)}
+  .dc-search{grid-template-columns:1fr;gap:10px}
+  .dc-field{min-height:60px;border-radius:18px}
+  .dc-kw input{height:58px;font-size:16px}
+  .dc-date{height:60px;padding:0 12px;gap:10px}
+  .dc-date .dc-ico{width:20px;height:20px}
+  .dc-date input{font-size:15px}
+  .dc-toolbar-in{gap:10px}
+  .dc-tools{margin-left:auto}
+  .dc-active{order:3;flex-basis:100%}
+  .dc-active:empty{display:none}
+  .dc-tbtn{height:42px;padding:0 14px}
+  .dc-fav-lbl{display:none}
+  .dc-panel-in{grid-template-columns:1fr}
+  .dc-group{padding:22px 0 24px;border-left:0 !important;padding-left:0 !important}
+  .dc-group+.dc-group{border-top:1px solid rgba(233,238,241,.14)}
+  .dc-ia{grid-template-columns:52px minmax(0,1fr);gap:14px}
+  .dc-ia-art{width:52px}
+  .dc-ia-t{font-size:20px;align-items:flex-start}
+  .dc-ia-t svg{width:22px;height:22px;margin-top:2px}
+  .dc-ia-p{font-size:15px}
+  .dc-j-in{padding-top:32px;padding-bottom:36px;gap:22px}
+  .dc-j-media,.dc-j.is-feat .dc-j-media{grid-template-columns:1fr;min-height:0;aspect-ratio:4/3.3}
+  .dc-img+.dc-img{display:none}
+  .dc-j-title,.dc-j.is-feat .dc-j-title{font-size:clamp(26px,7.4vw,34px)}
+  .dc-j-foot{align-items:center}
+  .dc-price-v{font-size:22px}
+  .dc-jlist.is-grid .dc-jlist-in{grid-template-columns:1fr;gap:36px}
+  .dc-grid{gap:26px 12px}
+  .dc-card-img{border-radius:18px;aspect-ratio:1/1.12}
+  .dc-tags{left:8px;right:8px;top:8px;flex-direction:column;align-items:flex-start;gap:6px}
+  .dc-tag{height:24px;font-size:11.5px;padding:0 8px}
+  .dc-card-body{grid-template-columns:1fr;padding:12px 2px 0;gap:10px}
+  .dc-card h3{font-size:15.5px}
+  .dc-loc{font-size:13.5px}
+  .dc-card{position:relative}
+  .dc-card .dc-fav{position:absolute;top:8px;right:8px;width:38px;height:38px;border-color:transparent;background:rgba(28,28,28,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .dc-card .dc-fav img{width:17px;filter:brightness(0) invert(.95)}
+  .dc-card .dc-fav[aria-pressed="true"]{background:rgba(233,238,241,.92)}
+  .dc-card .dc-fav[aria-pressed="true"] img{filter:none}
+  .dc-tags{right:52px}
+  .dc-pg{width:48px;height:48px}
+}
+@media (max-width:420px){
+  .dc-date .dc-ico{display:none}
+}
+@media (max-width:520px){
+  .sj-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .sj-chips .radio{justify-content:center;padding:12px 6px;font-size:14px}
+  .sj-chips .radio .dot{display:none}
+}
+@media print{
+  .sj-header,.sj-wa,.sj-drawer,.sj-scrim{display:none !important}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .dc-panel,.dc-group{transition:none !important}
+}
+</style>
+</helmet>
+<div class="jr-wrap" style="background:{{ pageBg }}">
+
+<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+<nav class="sj-nav" aria-label="Principal">
+<a href="index.html" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio"><img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}"><img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}"></a>
+<ul class="sj-links">
+<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+</sc-for>
+</ul>
+<div class="sj-actions">
+<a href="index.html" class="sj-back">Inicio</a>
+<a href="#reservar" class="btn btn-primary sj-cta">Diseña tu viaje</a>
+<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
+</div>
+</nav>
+</header>
+
+<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
+<div class="sj-drawer-top">
+<img src="assets/logo-light.png" alt="Sunqu Journeys">
+<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+<div>
+<div class="sj-drawer-kicker">Descubre · Catálogo</div>
+<nav class="sj-drawer-nav" aria-label="Secciones">
+<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link"><span class="sj-drawer-n">{{ m.n }}</span><span>{{ m.label }}</span><img src="assets/diamond-lime.png" alt="" class="sj-iso" style="height:24px"></a>
+</sc-for>
+</nav>
+</div>
+<div class="sj-drawer-sub"><a href="index.html">Inicio</a><a href="#journeys" onClick="{{ closeMenu }}">Journeys</a><a href="#experiencias" onClick="{{ closeMenu }}">Experiencias</a></div>
+<div class="sj-drawer-foot">
+<a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+<div class="sj-band sj-band--light" aria-hidden="true"></div>
+</div>
+</aside>
+
+<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg><span class="sj-wa-label">¿Hablamos?</span></a>
+
+<main>
+
+<section id="catalogo" class="dc-hero sj-dark" data-bg="dark" aria-label="Encuentra tu viaje perfecto">
+<div class="sj-in">
+<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Descubre · Catálogo</span>
+<h1 class="dc-title" data-reveal="">Encuentra tu viaje perfecto<em>.</em></h1>
+<p class="sj-lead" data-reveal="">Journeys de autor y experiencias con nombre propio. Filtra por lo que quieres sentir, el destino o el tiempo que tienes.</p>
+<form class="dc-search" onSubmit="{{ submitSearch }}" role="search" data-reveal="" data-delay="120">
+<label class="dc-field dc-kw">
+<img src="assets/diamond-olive.png" alt="" class="dc-kw-iso">
+<input type="search" value="{{ q }}" onChange="{{ setQ }}" placeholder="Escribe una palabra clave…" aria-label="Buscar por palabra clave" autoComplete="off">
+<button type="submit" class="dc-kw-go" aria-label="Buscar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+</label>
+<div class="dc-field dc-dates">
+<label class="dc-date"><svg class="dc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg><span class="dc-date-in"><span class="dc-cap">Desde</span><input type="date" value="{{ from }}" min="{{ minDate }}" onChange="{{ setFrom }}" aria-label="Fecha de inicio"></span></label>
+<span class="dc-sep" aria-hidden="true"></span>
+<label class="dc-date"><svg class="dc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg><span class="dc-date-in"><span class="dc-cap">Hasta</span><input type="date" value="{{ to }}" min="{{ minTo }}" onChange="{{ setTo }}" aria-label="Fecha de regreso"></span></label>
+</div>
+<div class="dc-field dc-pax" role="group" aria-label="Pasajeros">
+<svg class="dc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+<span class="dc-pax-in"><span class="dc-cap">Pasajeros</span><span class="dc-pax-v" aria-live="polite">{{ paxText }}</span></span>
+<button type="button" class="dc-step" onClick="{{ paxDown }}" disabled="{{ paxMin }}" aria-label="Quitar un pasajero">−</button>
+<button type="button" class="dc-step" onClick="{{ paxUp }}" disabled="{{ paxMax }}" aria-label="Añadir un pasajero">+</button>
+</div>
+</form>
+</div>
+
+<div class="dc-toolbar">
+<div class="sj-in dc-toolbar-in">
+<button type="button" class="dc-tbtn" onClick="{{ toggleFilters }}" aria-expanded="{{ filtersOpen }}" aria-controls="dc-panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>{{ filtersLabel }}<span class="dc-num {{ nFiltersCls }}">{{ nFilters }}</span></button>
+<div class="dc-active">
+<sc-for list="{{ active }}" as="a" hint-placeholder-count="0"><button type="button" class="dc-x" onClick="{{ a.remove }}" aria-label="{{ a.aria }}">{{ a.label }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></button></sc-for>
+<button type="button" class="dc-clear {{ clearCls }}" onClick="{{ clearAll }}">Limpiar todo</button>
+</div>
+<div class="dc-tools">
+<button type="button" class="dc-tbtn" onClick="{{ toggleFavOnly }}" aria-pressed="{{ favOnlyOn }}"><img src="assets/diamond-orange.png" alt=""><span class="dc-fav-lbl">Guardados</span><span class="dc-num {{ favCountCls }}">{{ favCount }}</span></button>
+<div class="dc-view" role="group" aria-label="Vista de los journeys">
+<button type="button" onClick="{{ setList }}" aria-pressed="{{ isList }}" aria-label="Ver como lista"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"></rect><rect x="3" y="14" width="18" height="7" rx="2"></rect></svg></button>
+<button type="button" onClick="{{ setGrid }}" aria-pressed="{{ isGrid }}" aria-label="Ver como cuadrícula"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"></rect><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"></rect><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"></rect><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"></rect></svg></button>
+</div>
+</div>
+</div>
+</div>
+
+<div id="dc-panel" class="dc-panel {{ panelCls }}" aria-hidden="{{ panelHidden }}">
+<div>
+<div class="sj-in dc-panel-in">
+<div class="dc-group">
+<h2 class="dc-group-t">Qué quieres sentir</h2>
+<div class="dc-pills"><sc-for list="{{ pillsC }}" as="p" hint-placeholder-count="3"><button type="button" class="dc-pill" onClick="{{ p.toggle }}" aria-pressed="{{ p.on }}" tabIndex="{{ panelTab }}"><img src="{{ p.icon }}" alt="">{{ p.label }}</button></sc-for></div>
+</div>
+<div class="dc-group">
+<h2 class="dc-group-t">Destino</h2>
+<div class="dc-pills"><sc-for list="{{ pillsD }}" as="p" hint-placeholder-count="5"><button type="button" class="dc-pill" onClick="{{ p.toggle }}" aria-pressed="{{ p.on }}" tabIndex="{{ panelTab }}">{{ p.label }}</button></sc-for></div>
+</div>
+<div class="dc-group">
+<h2 class="dc-group-t">Duración</h2>
+<div class="dc-pills"><sc-for list="{{ pillsR }}" as="p" hint-placeholder-count="3"><button type="button" class="dc-pill" onClick="{{ p.toggle }}" aria-pressed="{{ p.on }}" tabIndex="{{ panelTab }}">{{ p.label }}</button></sc-for></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="journeys" class="sj-dark" data-bg="dark" aria-label="Journeys">
+<div class="sj-in dc-ia">
+<img src="assets/pattern-pair.png" alt="" class="dc-ia-art" data-reveal="">
+<div data-reveal="" data-delay="80">
+<h2 class="dc-ia-t" aria-live="polite"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 1l-1.26 2.75L15 5l2.74 1.26L19 9l1.25-2.74L23 5l-2.75-1.25M9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5M19 15l-1.26 2.74L15 19l2.74 1.25L19 23l1.25-2.75L23 19l-2.75-1.26"></path></svg>{{ iaTitle }}</h2>
+<div class="dc-sugg"><span class="dc-sugg-k">Más sugerencias:</span><sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="4"><button type="button" onClick="{{ s.pick }}" aria-pressed="{{ s.on }}"><img src="assets/diamond-yellow.png" alt="">{{ s.label }}</button></sc-for></div>
+<p class="dc-ia-p">Encuentra las mejores experiencias para ti con ayuda de Sunqu IA. Cuéntale qué quieres sentir y cuánto tiempo tienes: te propone justo lo que estás buscando.</p>
+<p class="dc-ia-sum">{{ summary }}</p>
+</div>
+</div>
+
+<div class="dc-jlist {{ viewCls }}">
+<div class="dc-jlist-in">
+<sc-for list="{{ journeys }}" as="j" hint-placeholder-count="5">
+<article class="dc-j {{ j.cls }}" data-reveal="">
+<div class="dc-j-in">
+<div class="dc-j-text">
+<div class="dc-j-head">
+<span class="dc-j-kicker">{{ j.kicker }}</span>
+<h3 class="dc-j-title"><a href="{{ j.href }}"><span class="dc-j-name">{{ j.title }}<span class="dc-dot">.</span></span> <span class="dc-j-why">{{ j.why }}</span></a></h3>
+</div>
+<div class="dc-j-side">
+<ul class="dc-j-meta" aria-label="Datos del viaje"><li>{{ j.region }}</li><li>{{ j.days }}</li><li>{{ j.altitude }}</li></ul>
+<div class="dc-feels">
+<div class="dc-feel"><span class="dc-feel-i"><img src="{{ j.f1i }}" alt=""></span><span><span class="dc-feel-k">Sentirás</span><span class="dc-feel-v">{{ j.f1 }}</span></span></div>
+<div class="dc-feel"><span class="dc-feel-i"><img src="{{ j.f2i }}" alt=""></span><span><span class="dc-feel-k">Sentirás</span><span class="dc-feel-v">{{ j.f2 }}</span></span></div>
+</div>
+<p class="dc-note {{ j.noteCls }}">{{ j.note }}</p>
+<div class="dc-j-foot">
+<div class="dc-price"><span class="dc-price-k">{{ j.priceLabel }}</span><span class="dc-price-v">{{ j.price }}</span><span class="dc-price-t">{{ j.total }}</span></div>
+<div class="dc-actions">
+<button type="button" class="dc-fav" onClick="{{ j.toggleFav }}" aria-pressed="{{ j.favOn }}" aria-label="{{ j.favLabel }}"><img src="assets/diamond-orange.png" alt=""></button>
+<a href="{{ j.href }}" class="btn dc-go">Conocer<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
+</div>
+</div>
+</div>
+</div>
+<a href="{{ j.href }}" class="dc-j-media" tabIndex="-1" aria-hidden="true">
+<span class="dc-img"><img src="{{ j.img1 }}" alt="" loading="lazy"><span class="dc-badge {{ j.badgeCls }}">{{ j.badge }}</span><span class="dc-alt">{{ j.altitude }}</span></span>
+<span class="dc-img"><img src="{{ j.img2 }}" alt="" loading="lazy"></span>
+</a>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ noJourneys }}" hint-placeholder-val="{{ false }}">
+<div class="sj-in">
+<div class="dc-empty">
+<h3>No encontramos journeys con esa búsqueda.</h3>
+<p>Prueba con otra palabra o quita algún filtro. Y si lo que buscas no está en el catálogo, lo diseñamos contigo.</p>
+<div class="dc-empty-row"><button type="button" class="btn btn-light" onClick="{{ clearAll }}">Limpiar filtros</button><a href="#reservar" class="btn btn-ghost-light">Diseñar a medida<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a></div>
+</div>
+</div>
+</sc-if>
+<div style="height:clamp(80px,10vw,140px)"></div>
+</section>
+
+<section id="experiencias" class="sj-light" data-bg="light" aria-label="Experiencias Sunqu">
+<div class="sj-in sj-pad">
+<div class="dc-exp-head">
+<div><span class="sj-eyebrow" data-reveal="">Momentos que puedes sumar</span><h2 class="dc-sec-t" data-reveal=""><span class="dc-plus" aria-hidden="true">+</span>Experiencias Sunqu</h2></div>
+<p class="dc-exp-count" aria-live="polite">{{ expCount }}</p>
+</div>
+<div class="dc-grid">
+<sc-for list="{{ exps }}" as="e" hint-placeholder-count="8">
+<article class="dc-card" data-reveal="">
+<div class="dc-card-img"><img src="{{ e.img }}" alt="{{ e.t }}" loading="lazy"><span class="dc-tags"><span class="dc-tag">{{ e.dur }}</span><span class="dc-tag">{{ e.alt }}</span></span></div>
+<div class="dc-card-body">
+<div><h3>{{ e.t }}</h3><div class="dc-card-sep"></div><p class="dc-loc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.3 11.8a1 1 0 0 0 1.4 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"></path></svg>{{ e.place }}</p></div>
+<button type="button" class="dc-fav" onClick="{{ e.toggleFav }}" aria-pressed="{{ e.favOn }}" aria-label="{{ e.favLabel }}"><img src="assets/diamond-orange.png" alt=""></button>
+</div>
+</article>
+</sc-for>
+</div>
+<sc-if value="{{ noExps }}" hint-placeholder-val="{{ false }}"><p class="dc-exp-empty">Ninguna experiencia coincide con tu búsqueda. <button type="button" class="dc-clear" style="color:#736d47" onClick="{{ clearAll }}">Limpiar filtros</button></p></sc-if>
+<nav class="dc-pager {{ pagerCls }}" aria-label="Páginas de experiencias">
+<button type="button" class="dc-pg" onClick="{{ prevPage }}" disabled="{{ prevDis }}" aria-label="Página anterior"><img src="assets/diamond-olive.png" alt="" class="sj-iso sj-iso--back"></button>
+<sc-for list="{{ pages }}" as="pg" hint-placeholder-count="2"><button type="button" class="dc-pg" onClick="{{ pg.go }}" aria-current="{{ pg.cur }}" aria-label="{{ pg.aria }}">{{ pg.n }}</button></sc-for>
+<button type="button" class="dc-pg" onClick="{{ nextPage }}" disabled="{{ nextDis }}" aria-label="Página siguiente"><img src="assets/diamond-olive.png" alt="" class="sj-iso"></button>
+</nav>
+</div>
+</section>
+
+<section id="reservar" class="sj-light" data-bg="light" aria-label="Diseña tu viaje" style="border-top:1px solid rgba(28,28,28,.16)">
+<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+<div>
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
+<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
+<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+<div><h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3><p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p></div>
+</li>
+</sc-for>
+</ol>
+</div>
+<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ submit }}" class="sj-form">
+<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+<div class="sj-form-row">
+<div class="field"><label for="f-name">Nombre</label><input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre"></div>
+<div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com"></div>
+</div>
+<div class="field"><label for="f-month">¿Cuándo te gustaría viajar?</label>
+<select id="f-month" name="mes" class="input"><option>Aún no lo sé</option><option>Enero – marzo</option><option>Abril – junio</option><option>Julio – septiembre</option><option>Octubre – diciembre</option></select></div>
+<fieldset class="field"><legend class="sj-label">¿Qué quieres sentir?</legend>
+<div class="sj-chips">
+<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
+<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
+</div></fieldset>
+<div class="field"><label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label><textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea></div>
+<div class="sj-form-foot">
+<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+<img src="assets/diamond-lime.png" alt="" style="width:56px">
+<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
+<a href="#reservar" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+</div>
+<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span><a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span><a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span><span>Lima, Perú</span></div>
+</div>
+</div>
+<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="index.html#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false };
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
+  MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  CL = { historia: 'La historia', sabor: 'El sabor', gente: 'La gente' };
+  CI = { historia: 'assets/diamond-orange.png', sabor: 'assets/diamond-yellow.png', gente: 'assets/diamond-lime.png' };
+  DL = { cusco: 'Cusco y Valle Sagrado', machu: 'Machu Picchu', arequipa: 'Arequipa y Colca', lima: 'Lima', titicaca: 'Lago Titicaca' };
+  RL = { exp: 'Experiencias de un día', escapada: 'Escapadas · 3–4 días', journey: 'Journeys · 8–10 días' };
+  // Journeys: mismos datos que journey.html (J y PLAN). months: 0 lluvias · 1 buena · 2 ideal (ene → dic)
+  JOURNEYS = [
+    { id: 'origen', kicker: 'Journey insignia · Del mercado a la montaña', title: 'Sunqu Origen', why: 'Seguimos el ingrediente en reversa, del plato terminado hasta la tierra.', region: 'Lima · Valle Sagrado · Cusco', dest: ['lima', 'cusco', 'machu'], days: '9 días', dur: 'journey', alt: '3.500 m', c: ['sabor', 'historia'], img: ['1632913582499-381c7c798787', '1730423284218-a8a7e9422ebf'], price: 0, priceKicker: 'Precio por adulto', kw: 'mercado surquillo central kjolle moray maras mil pachamanca machu picchu', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    { id: 'alma', kicker: 'Journey · 8 días sin prisa', title: 'El Alma de los Andes', why: 'Los Andes no son ruinas y paisaje: son una cultura que sigue viva.', region: 'Valle Sagrado · Cusco · Machu Picchu', dest: ['cusco', 'machu'], days: '8 días', dur: 'journey', alt: '2.800 m', c: ['historia', 'gente'], img: ['1590835192370-3941b97e93fd', '1568805778796-96b66708d6e0'], price: 4200, kw: 'tejedora telar chinchero maras moray aclimatacion soroche', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    { id: 'sabor', kicker: 'Journey · Fuera de la ruta de siempre', title: 'El Perú que se Saborea', why: 'La comida es el registro más honesto de una cultura.', region: 'Arequipa · Colca', dest: ['arequipa'], days: '10 días', dur: 'journey', alt: '2.335 m', c: ['sabor', 'gente'], img: ['1535399831218-d5bd36d1a6b3', '1566793772361-1d5d9cefbd12'], price: 5400, kw: 'picanteria picantera condor colca cocina', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1] },
+    { id: 'profundo', kicker: 'Journey · Primero la piedra', title: 'Perú Profundo', why: 'Primero la piedra, después la gente que desciende de quienes la pusieron ahí.', region: 'Machu Picchu · comunidades', dest: ['machu', 'cusco'], days: '9 días', dur: 'journey', alt: '2.430 m', c: ['historia', 'gente'], img: ['1532996152552-eaffc4edfc1a', '1730424508745-29ea708ae698'], price: 6800, kw: 'comunidad comunidades ayni reciprocidad', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    { id: 'corto', kicker: 'Escapada corta · La puerta de entrada', title: 'Módulo gastronómico', why: 'Vive un Momento Sunqu antes de comprometerte con un Journey completo.', region: 'Arequipa · escapada', dest: ['arequipa'], days: '3–4 días', dur: 'escapada', alt: '2.335 m', c: ['sabor', 'gente'], img: ['1535400875775-0269e7a919af', '1535400255456-984241443b29'], price: 600, priceMax: 900, kw: 'picanteria picantera cocina receta corto', months: [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2] },
+  ];
+  EXPS = [
+    { t: 'Telar de cintura con una tejedora', place: 'Chinchero, Cusco', dest: 'cusco', img: '1568805778796-96b66708d6e0', alt: '3.762 m', dur: 'Medio día', c: ['gente', 'historia'] },
+    { t: 'Pachamanca con una familia quechua', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1593460915132-fcb729cc4597', alt: '2.870 m', dur: 'Día completo', c: ['sabor', 'gente'] },
+    { t: 'Picantería arequipeña con la picantera', place: 'Arequipa', dest: 'arequipa', img: '1535400875775-0269e7a919af', alt: '2.335 m', dur: 'Medio día', c: ['sabor', 'gente'] },
+    { t: 'Machu Picchu: primero la piedra', place: 'Machu Picchu, Cusco', dest: 'machu', img: '1567597243073-2d274aabecec', alt: '2.430 m', dur: 'Día completo', c: ['historia'] },
+    { t: 'San Blas y sus talleres, a pie', place: 'Cusco', dest: 'cusco', img: '1526697675318-89790adec369', alt: '3.400 m', dur: 'Medio día', c: ['historia', 'gente'] },
+    { t: 'Islas flotantes de los Uros', place: 'Lago Titicaca, Puno', dest: 'titicaca', img: 'assets/catalogo/uros-islas.jpg', alt: '3.812 m', dur: 'Día completo', c: ['gente', 'historia'] },
+    { t: 'Ceviche con un cocinero en Surquillo', place: 'Lima', dest: 'lima', img: '1535399831218-d5bd36d1a6b3', alt: '154 m', dur: 'Medio día', c: ['sabor'] },
+    { t: 'Arequipa, la ciudad blanca', place: 'Arequipa', dest: 'arequipa', img: 'assets/catalogo/arequipa.jpg', alt: '2.335 m', dur: 'Medio día', c: ['historia'] },
+    { t: 'Maíces nativos en la chacra', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1632913582499-381c7c798787', alt: '2.870 m', dur: 'Medio día', c: ['sabor'] },
+    { t: 'Balsa de totora en el Titicaca', place: 'Lago Titicaca, Puno', dest: 'titicaca', img: 'assets/catalogo/uros-balsa.jpg', alt: '3.812 m', dur: 'Medio día', c: ['gente'] },
+    { t: 'La Lima de los balcones', place: 'Centro de Lima', dest: 'lima', img: '1568805647297-df963b524678', alt: '154 m', dur: 'Medio día', c: ['historia'] },
+    { t: 'Vinicunca con una familia alpaquera', place: 'Cusco', dest: 'cusco', img: '1578362646678-a1b282e43ff8', alt: '5.036 m', dur: 'Día completo', c: ['gente'] },
+    { t: 'Anticuchos y choclo, Lima de noche', place: 'Barranco, Lima', dest: 'lima', img: '1535400255456-984241443b29', alt: '154 m', dur: 'Noche', c: ['sabor'] },
+    { t: 'Cusco desde el mirador, con artesanas', place: 'Cusco', dest: 'cusco', img: '1783660107893-aa8554a9bc39', alt: '3.400 m', dur: 'Medio día', c: ['gente'] },
+    { t: 'El Urubamba y el Valle Sagrado', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1541637593725-923467404d17', alt: '2.870 m', dur: 'Día completo', c: ['historia'] },
+    { t: 'Las pampas de Chinchero al atardecer', place: 'Chinchero, Cusco', dest: 'cusco', img: '1559160671-cc23bc25eb94', alt: '3.762 m', dur: 'Medio día', c: ['historia'] },
+  ];
+
+  lock() { document.body.style.overflow = this.state.menuOpen ? 'hidden' : ''; }
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  toggleFav(key) {
+    this.setState((s) => {
+      const fav = { ...s.fav }; if (fav[key]) delete fav[key]; else fav[key] = 1;
+      try { window.localStorage.setItem('sunqu-fav', JSON.stringify(fav)); } catch (e) {}
+      return { fav, favOnly: s.favOnly && Object.keys(fav).length > 0 };
+    });
+  }
+  goTo(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: this.motion ? 'smooth' : 'auto' }); }
+  goPage(i) { this.setState({ page: Math.max(0, i) }, () => this.goTo('experiencias')); }
+
+  componentDidMount() {
+    this.pageTitle = 'Descubre · Catálogo — Sunqu Journeys';
+    document.title = this.pageTitle;
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    try { const f = JSON.parse(window.localStorage.getItem('sunqu-fav') || '{}'); if (f && typeof f === 'object') this.setState({ fav: f }); } catch (e) {}
+    try { const q = new URLSearchParams(window.location.search).get('q'); if (q) this.setState({ q }); } catch (e) {}
+    this.onKey = (e) => { if (e.key === 'Escape') { if (this.state.menuOpen) this.setMenu(false); else if (this.state.filtersOpen) this.setState({ filtersOpen: false }); } };
+    this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0), ease = 'cubic-bezier(.2,.7,.1,1)';
+          el.style.opacity = 0; el.style.transform = 'translateY(32px)';
+          el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => this.observe());
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (document.title !== this.pageTitle) document.title = this.pageTitle;
+      const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      let bg = 'dark';
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) bg = s.getAttribute('data-bg'); });
+      if (bg !== this.state.bg) this.setState({ bg, dark: bg === 'dark' });
+      const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect();
+    document.body.style.overflow = '';
+  }
+
+  renderVals() {
+    const st = this.state, dark = st.dark, CL = this.CL, CI = this.CI, DL = this.DL, RL = this.RL;
+    const U = (id, w) => id.indexOf('assets/') === 0 ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`;
+    const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const words = norm(st.q).trim().split(/\s+/).filter(Boolean);
+    const num = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const ok = (it) => {
+      if (st.favOnly && !st.fav[it.key]) return false;
+      if (st.fc.length && !st.fc.some((c) => it.c.includes(c))) return false;
+      if (st.fd.length && !st.fd.some((d) => it.dest.includes(d))) return false;
+      if (st.fr.length && !st.fr.includes(it.dur)) return false;
+      if (words.length) { const h = norm(it.hay); if (!words.every((w) => h.includes(w))) return false; }
+      return true;
+    };
+    const day = (v) => new Date(v + 'T12:00:00');
+    const short = (v) => { const d = day(v); return d.getDate() + ' ' + this.MONTHS[d.getMonth()].slice(0, 3); };
+    const month = st.from ? day(st.from).getMonth() : -1;
+    const win = st.from && st.to ? Math.round((day(st.to) - day(st.from)) / 864e5) + 1 : 0;
+    const pax = st.pax, paxWord = pax === 1 ? 'viajero' : 'viajeros';
+    const favOf = (key, label) => ({ favOn: st.fav[key] ? 'true' : 'false', favLabel: (st.fav[key] ? 'Quitar de guardados: ' : 'Guardar: ') + label, toggleFav: () => this.toggleFav(key) });
+    const listMode = st.view === 'list';
+
+    const journeys = this.JOURNEYS.map((j) => ({ ...j, key: 'j-' + j.id, hay: [j.title, j.region, j.why, j.kicker, j.kw, ...j.c.map((c) => CL[c]), ...j.dest.map((d) => DL[d])].join(' ') })).filter(ok).map((j, i) => {
+      const lv = month >= 0 ? j.months[month] : -1, mName = month >= 0 ? this.MONTHS[month] : '';
+      const need = parseInt(j.days, 10);
+      const price = j.price ? 'USD ' + num(j.price) + (j.priceMax ? ' – ' + num(j.priceMax) : '') : 'A consultar';
+      const total = j.price ? `Para ${pax} ${paxWord}: ${j.priceMax ? '' : 'desde '}USD ${num(j.price * pax)}${j.priceMax ? ' – ' + num(j.priceMax * pax) : ''}` : 'Tu Travel Advisor te envía el precio';
+      return {
+        href: 'journey.html?j=' + j.id, kicker: j.kicker, title: j.title, why: j.why, region: j.region, days: j.days, altitude: j.alt,
+        img1: U(j.img[0], 1600), img2: U(j.img[1], 900),
+        f1: CL[j.c[0]], f1i: CI[j.c[0]], f2: CL[j.c[1]], f2i: CI[j.c[1]],
+        priceLabel: j.price ? (j.priceMax ? 'Precio por adulto' : 'Precio por adulto desde') : j.priceKicker, price, total,
+        badge: lv === 2 ? `Ideal en ${mName}` : lv === 1 ? `Buena época en ${mName}` : lv === 0 ? `Lluvias en ${mName}` : '',
+        badgeCls: lv === 2 ? 'is-on is-ideal' : lv === 1 ? 'is-on is-good' : lv === 0 ? 'is-on is-rain' : '',
+        note: win && win < need ? `Necesita ${need} días y tu ventana es de ${win}. Lo ajustamos contigo.` : '',
+        noteCls: win && win < need ? 'is-on' : '',
+        cls: i === 0 && listMode ? 'is-feat' : '',
+        ...favOf('j-' + j.id, j.title),
+      };
+    });
+
+    const exAll = this.EXPS.map((e, i) => ({ ...e, durLabel: e.dur, key: 'e-' + i, dest: [e.dest], dur: 'exp', hay: [e.t, e.place, DL[e.dest], ...e.c.map((c) => CL[c])].join(' ') })).filter(ok);
+    const per = 8, nPages = Math.max(1, Math.ceil(exAll.length / per)), page = Math.min(st.page, nPages - 1);
+    const exps = exAll.slice(page * per, page * per + per).map((e) => ({ t: e.t, place: e.place, img: U(e.img, 800), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
+
+    const tog = (k, v) => () => this.setState((s) => ({ [k]: s[k].includes(v) ? s[k].filter((x) => x !== v) : [...s[k], v], page: 0 }));
+    const pills = (k, map) => Object.keys(map).map((v) => ({ label: map[v], icon: CI[v] || '', on: st[k].includes(v) ? 'true' : 'false', toggle: tog(k, v) }));
+    const chip = (label, remove) => ({ label, remove, aria: 'Quitar filtro ' + label });
+    const active = [
+      ...(st.q.trim() ? [chip(`“${st.q.trim()}”`, () => this.setState({ q: '', page: 0 }))] : []),
+      ...st.fc.map((v) => chip(CL[v], tog('fc', v))), ...st.fd.map((v) => chip(DL[v], tog('fd', v))), ...st.fr.map((v) => chip(RL[v], tog('fr', v))),
+      ...(st.favOnly ? [chip('Solo guardados', () => this.setState({ favOnly: false, page: 0 }))] : []),
+    ];
+    const nFilters = st.fc.length + st.fd.length + st.fr.length;
+    const favCount = Object.keys(st.fav).length;
+    const n = journeys.length;
+    const dates = st.from ? (win ? `Del ${short(st.from)} al ${short(st.to)} · ${win} días` : `Desde el ${short(st.from)}`) : '';
+    const today = new Date(); const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+
+    return {
+      pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
+      headerCls: st.scrolled ? 'is-scrolled' : '',
+      navFg: dark ? '#e9eef1' : '#1c1c1c',
+      navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
+      navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 0 ? 'page' : 'false' })),
+      menuLinks: this.NAV.map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef,
+      toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
+      waCls: st.waOn ? 'is-on' : '', waHref: 'https://wa.me/51966461384?text=' + encodeURIComponent('Hola Sunqu, quiero ayuda para elegir mi viaje'),
+
+      q: st.q, from: st.from, to: st.to, minDate: iso(today), minTo: st.from || iso(today),
+      setQ: (e) => this.setState({ q: e.target.value, page: 0 }),
+      setFrom: (e) => { const v = e.target.value; this.setState((s) => ({ from: v, to: s.to && v && s.to < v ? '' : s.to })); },
+      setTo: (e) => this.setState({ to: e.target.value }),
+      paxText: `${pax} ${paxWord}`, paxMin: pax <= 1, paxMax: pax >= 12,
+      paxDown: () => this.setState((s) => ({ pax: Math.max(1, s.pax - 1) })), paxUp: () => this.setState((s) => ({ pax: Math.min(12, s.pax + 1) })),
+      submitSearch: (e) => { e.preventDefault(); if (document.activeElement) document.activeElement.blur(); this.goTo('journeys'); },
+
+      filtersOpen: st.filtersOpen ? 'true' : 'false', filtersLabel: st.filtersOpen ? 'Cerrar' : 'Filtros',
+      panelCls: st.filtersOpen ? 'is-open' : '', panelHidden: st.filtersOpen ? 'false' : 'true', panelTab: st.filtersOpen ? 0 : -1,
+      toggleFilters: () => this.setState((s) => ({ filtersOpen: !s.filtersOpen })),
+      nFilters: String(nFilters), nFiltersCls: nFilters ? '' : 'is-zero',
+      pillsC: pills('fc', CL), pillsD: pills('fd', DL), pillsR: pills('fr', RL),
+      active, clearCls: active.length ? '' : 'is-hidden',
+      clearAll: () => this.setState({ q: '', fc: [], fd: [], fr: [], favOnly: false, page: 0 }),
+      favCount: String(favCount), favCountCls: favCount ? '' : 'is-zero', favOnlyOn: st.favOnly ? 'true' : 'false',
+      toggleFavOnly: () => this.setState((s) => ({ favOnly: !s.favOnly, page: 0 })),
+      isList: listMode ? 'true' : 'false', isGrid: listMode ? 'false' : 'true', viewCls: listMode ? '' : 'is-grid',
+      setList: () => this.setState({ view: 'list' }), setGrid: () => this.setState({ view: 'grid' }),
+
+      iaTitle: n ? `${n} ${n === 1 ? 'resultado' : 'resultados'} de Sunqu IA` : 'Sunqu IA no encontró journeys con esa búsqueda',
+      suggestions: ['Machu Picchu', 'Cusco', 'Titicaca', 'Arequipa'].map((s) => ({ label: s, on: norm(st.q).trim() === norm(s) ? 'true' : 'false', pick: () => this.setState((x) => ({ q: norm(x.q).trim() === norm(s) ? '' : s, page: 0 })) })),
+      summary: [dates, `${pax} ${paxWord}`].filter(Boolean).join(' · '),
+      journeys, noJourneys: n === 0,
+
+      exps, noExps: exAll.length === 0,
+      expCount: exAll.length ? `${exAll.length} ${exAll.length === 1 ? 'experiencia' : 'experiencias'} · página ${page + 1} de ${nPages}` : 'Sin experiencias',
+      pages: Array.from({ length: nPages }, (_, i) => ({ n: String(i + 1), cur: i === page ? 'page' : 'false', aria: 'Página ' + (i + 1), go: () => this.goPage(i) })),
+      pagerCls: nPages > 1 ? '' : 'is-hidden', prevDis: page === 0, nextDis: page >= nPages - 1,
+      prevPage: () => this.goPage(page - 1), nextPage: () => this.goPage(Math.min(nPages - 1, page + 1)),
+
+      steps: [
+        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
+        { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
+        { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
+      ],
+      notSent: !st.sent, sent: st.sent, submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>

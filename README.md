@@ -2,6 +2,8 @@
 
 **Web publicada:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz).
 `index.html` es la copia publicada de `Sunqu Journeys v2.dc.html`: al editar el prototipo, copia el archivo a `index.html` y haz push.
+`descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos viven en `JOURNEYS` y `EXPS` dentro del archivo.
+`recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Las reseñas actuales son de ejemplo (`REVIEWS`) y los precios de `PRODUCTS` son de referencia.
 `journey.html?j=<id>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Todo su contenido vive en el objeto `J` y en `PLAN` (consejos, notas y temporada) dentro del propio archivo.
 
 ## Overview

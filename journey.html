@@ -502,7 +502,7 @@ textarea.input{min-height:132px;resize:vertical}
 </sc-for>
 </ul>
 <div class="sj-actions">
-<a href="index.html#descubre" class="sj-back">Journeys</a>
+<a href="descubre.html" class="sj-back">Journeys</a>
 <a href="#reservar" class="btn btn-primary sj-cta">Diseña tu viaje</a>
 <button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
 </div>
@@ -523,7 +523,7 @@ textarea.input{min-height:132px;resize:vertical}
 </sc-for>
 </nav>
 </div>
-<div class="sj-drawer-sub"><a href="index.html">Inicio</a><a href="index.html#descubre">Todos los journeys</a><a href="#otros" onClick="{{ closeMenu }}">Otros journeys</a></div>
+<div class="sj-drawer-sub"><a href="index.html">Inicio</a><a href="descubre.html">Todos los journeys</a><a href="#otros" onClick="{{ closeMenu }}">Otros journeys</a></div>
 <div class="sj-drawer-foot">
 <a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
 <div class="sj-band sj-band--light" aria-hidden="true"></div>
@@ -563,7 +563,7 @@ textarea.input{min-height:132px;resize:vertical}
 <div class="jr-hero-media">
 <sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><img src="{{ s.src }}" alt="" class="jr-hero-img" style="opacity:{{ s.op }};transform:scale({{ s.sc }})"></sc-for>
 <div class="jr-hero-shade"></div>
-<nav class="jr-crumbs" aria-label="Migas de pan"><a href="index.html#descubre">Journeys</a><span aria-hidden="true">/</span><span aria-current="page">{{ j.title }}</span></nav>
+<nav class="jr-crumbs" aria-label="Migas de pan"><a href="descubre.html">Journeys</a><span aria-hidden="true">/</span><span aria-current="page">{{ j.title }}</span></nav>
 <div class="jr-chips"><span class="jr-chip-dark">{{ j.alt }}</span><span class="jr-chip-light">{{ j.days }}</span></div>
 <div class="jr-hero-in">
 <div>
@@ -926,7 +926,7 @@ textarea.input{min-height:132px;resize:vertical}
 </div>
 <div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
 <img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
-<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="index.html#descubre" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Experiencias</a><a href="index.html#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="index.html#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
 <div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
 </div>
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
@@ -945,6 +945,7 @@ class Component extends DCLogic {
   stripRef = React.createRef();
   chartRef = React.createRef();
   NAV = [['descubre', 'Descubre'], ['vive', 'Día a día'], ['conecta', 'Conecta'], ['recuerda', 'Recuerda']];
+  PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
   U = (id, w = 1800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`;
   PRINCIPLES = {
     '01': { kicker: '01 · Selección', title: 'Curamos, no acumulamos', q: '¿Es la experiencia correcta, o solo una más disponible?', bg: '#1c1c1c', fg: '#e9eef1', photo: '1567597243073-2d274aabecec' },
@@ -1093,7 +1094,7 @@ class Component extends DCLogic {
   GAL = [['1526697675318-89790adec369', '3/4'], ['1568805778734-f0a5a77d7272', '4/3'], ['1535400255456-984241443b29', '4/3'], ['1578362646678-a1b282e43ff8', '3/4'], ['1730424508745-29ea708ae698', '3/4'], ['1559160671-cc23bc25eb94', '4/3'], ['1567597243073-2d274aabecec', '4/3'], ['1568805647297-df963b524678', '3/4']];
   jid = (() => { let q = null; try { q = new URLSearchParams(window.location.search).get('j'); } catch (e) {} return this.J[q] ? q : 'alma'; })();
 
-  lock() { document.documentElement.style.overflow = (this.state.menuOpen || this.state.reel || this.state.lb >= 0) ? 'hidden' : ''; }
+  lock() { document.body.style.overflow = (this.state.menuOpen || this.state.reel || this.state.lb >= 0) ? 'hidden' : ''; }
   setMenu(open) {
     if (!!this.state.menuOpen === open) return;
     this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
@@ -1186,7 +1187,7 @@ class Component extends DCLogic {
     cancelAnimationFrame(this.raf); clearInterval(this.ht); clearInterval(this.rt);
     window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
     this.io && this.io.disconnect(); this.mo && this.mo.disconnect(); this.ro && this.ro.disconnect();
-    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
   }
 
   renderVals() {
@@ -1231,8 +1232,8 @@ class Component extends DCLogic {
       navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
-      navLinks: this.NAV.map(([k, label]) => ({ href: '#' + k, label, current: st.nav === k ? 'true' : 'false' })),
-      menuLinks: this.NAV.map(([k, label], i) => ({ href: '#' + k, label, n: String(i + 1).padStart(2, '0') })),
+      navLinks: this.NAV.map(([k, label]) => ({ href: this.PAGES[k] || '#' + k, label, current: !this.PAGES[k] && st.nav === k ? 'true' : 'false' })),
+      menuLinks: this.NAV.map(([k, label], i) => ({ href: this.PAGES[k] || '#' + k, label, n: String(i + 1).padStart(2, '0') })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef, stripRef: this.stripRef, chartRef: this.chartRef,
       toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
