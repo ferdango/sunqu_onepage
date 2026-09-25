@@ -163,10 +163,40 @@ textarea.input{min-height:132px;resize:vertical}
 .sj-carousel::-webkit-scrollbar{display:none}
 @media (min-width:760px){.sj-grid-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
 
+/* Ruta: mapa a pantalla completa con cámara que sigue el recorrido */
+.sj-route{isolation:isolate}
+.sj-map{position:absolute;inset:0;z-index:-2;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease}
+.sj-map.is-ready{opacity:1}
+.sj-route-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(28,28,28,.94) 0,rgba(28,28,28,.78) 28%,rgba(28,28,28,0) 50%)}
+.sj-route-in{position:relative;height:100%;max-width:1440px;margin:0 auto;padding:96px clamp(20px,4vw,56px) 40px;box-sizing:border-box;display:flex;align-items:center}
+.sj-route-text{width:min(100%,440px);display:flex;flex-direction:column;gap:22px}
+.sj-route-t{margin:0;font-size:clamp(32px,4vw,64px);line-height:1;letter-spacing:-.03em;color:#e9eef1}
+.sj-stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.sj-stop{display:grid;grid-template-columns:36px 1fr auto;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid rgba(233,238,241,.14);opacity:.35;transition:opacity .4s}
+.sj-stop.is-on{opacity:1}
+.sj-stop-n{font-size:13px;color:rgba(233,238,241,.6);transition:color .3s}
+.sj-stop.is-on .sj-stop-n{color:#f4a700}
+.sj-stop-name{font-family:var(--font-heading);font-size:clamp(18px,1.6vw,24px);color:#e9eef1;transition:color .3s}
+.sj-stop.is-cur .sj-stop-name{color:#f4a700}
+.sj-stop-alt{font-size:13px;color:rgba(233,238,241,.7)}
+.sj-route-now{display:none}
 @media (max-width:1200px){
   .sj-sunqu-cols{grid-template-columns:1fr !important}
 }
 @media (max-width:1100px){
+  /* Ruta en tablet y móvil: título arriba, parada actual abajo */
+  .sj-route-shade{background:linear-gradient(180deg,rgba(28,28,28,.94) 0,rgba(28,28,28,.6) 22%,rgba(28,28,28,0) 40%,rgba(28,28,28,0) 66%,rgba(28,28,28,.9) 100%)}
+  .sj-route-in{flex-direction:column;align-items:stretch;justify-content:space-between;padding:84px clamp(20px,4vw,56px) calc(24px + env(safe-area-inset-bottom,0px))}
+  .sj-route-text{width:100%;gap:10px}
+  .sj-route-t{font-size:clamp(28px,6vw,46px)}
+  .sj-stops{display:none}
+  .sj-route-now{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 14px;width:min(100%,440px);padding:14px 18px 16px;border-radius:20px;background:rgba(28,28,28,.74);border:1px solid rgba(233,238,241,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .sj-route-now-iso{width:26px;height:auto}
+  .sj-route-now-n{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#f4a700}
+  .sj-route-now-name{display:block;font-family:var(--font-heading);font-weight:600;font-size:22px;line-height:1.15;color:#e9eef1}
+  .sj-route-dots{grid-column:1/-1;display:flex;gap:6px;margin-top:6px}
+  .sj-route-dots i{flex:1;height:3px;border-radius:2px;background:rgba(233,238,241,.2);transition:background-color .4s}
+  .sj-route-dots i.is-on{background:#f4a700}
   .sj-cond-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
   .sj-market{grid-template-columns:1fr !important}
   .sj-market-img{min-height:240px !important;border-right:0 !important;border-bottom:1px solid rgba(28,28,28,.12)}
@@ -185,6 +215,7 @@ textarea.input{min-height:132px;resize:vertical}
   .sj-foot-contact>div:first-child{grid-column:1/-1}
 }
 @media (max-width:759px){
+  .sj-route-now{width:calc(100% - 76px)}
   /* Hero */
   .sj-hero h1{font-size:clamp(40px,11.5vw,60px) !important;max-width:none !important}
   .sj-hero-row{flex-direction:column;align-items:stretch !important;gap:20px !important;padding-top:18px !important}
@@ -217,15 +248,6 @@ textarea.input{min-height:132px;resize:vertical}
   .sj-cond-grid{gap:14px !important}
   .sj-cond{min-height:0 !important;padding:22px !important}
   .sj-cond h3{margin-top:22px !important;font-size:22px !important}
-  /* Ruta */
-  .sj-route-grid{grid-template-columns:1fr !important;grid-template-rows:auto minmax(0,1fr);align-content:start;align-items:start !important;padding-top:76px !important;gap:12px !important}
-  .sj-route-text{gap:12px !important}
-  .sj-route-text h2{font-size:28px !important}
-  .sj-stops{display:grid !important;grid-template-columns:1fr 1fr;column-gap:16px}
-  .sj-stops li{grid-template-columns:24px 1fr !important;gap:8px !important;padding:7px 0 !important}
-  .sj-stops li>span:nth-child(2){font-size:15px !important}
-  .sj-stops li>span:nth-child(3){display:none}
-  .sj-map{height:calc(100svh - 370px) !important;min-height:200px;max-height:none !important}
   /* Recuerda */
   .sj-words>div{padding:22px 0 !important}
   /* Instagram */
@@ -772,21 +794,23 @@ button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
 </div>
 </section>
 
-<section id="ruta" data-map="" data-bg="dark" data-screen-label="Ruta" style="height:280vh;position:relative;color:#e9eef1">
-<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
-<div class="sj-route-grid" style="max-width:1440px;height:100%;margin:0 auto;padding:80px clamp(20px,4vw,56px) 32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(24px,4vw,64px);align-items:center">
-<div class="sj-route-text" style="display:flex;flex-direction:column;gap:22px">
+<section id="ruta" data-map="" data-bg="dark" data-screen-label="Ruta" style="height:300vh;position:relative;color:#e9eef1">
+<div class="sj-sticky sj-route" style="position:sticky;top:0;height:100vh;overflow:hidden">
+<svg ref="{{ mapRef }}" class="sj-map" role="img" aria-label="Mapa del Perú con la ruta Sunqu, de Lima al Colca"></svg>
+<div class="sj-route-shade" aria-hidden="true"></div>
+<div class="sj-route-in">
+<div class="sj-route-text">
 <span class="sj-eyebrow" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#83b300">La ruta · de la costa a los Andes</span>
-<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,64px);line-height:1;margin:0;color:#e9eef1">Del mar a la montaña, sin prisa.</h2>
-<ol class="sj-stops" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
-<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7">
-<li style="display:grid;grid-template-columns:36px 1fr auto;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid rgba(233,238,241,.14);opacity:{{ st.op }};transition:opacity .4s">
-<span style="font-size:13px;color:{{ st.dot }}">{{ st.n }}</span><span style="font-family:var(--font-heading);font-size:clamp(18px,1.6vw,24px);color:#e9eef1">{{ st.name }}</span><span style="font-size:13px;color:rgba(233,238,241,.7)">{{ st.alt }}</span>
-</li>
-</sc-for>
+<h2 class="sj-route-t">Del mar a la montaña, sin prisa.</h2>
+<ol class="sj-stops">
+<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7"><li class="sj-stop {{ st.cls }}"><span class="sj-stop-n">{{ st.n }}</span><span class="sj-stop-name">{{ st.name }}</span><span class="sj-stop-alt">{{ st.alt }}</span></li></sc-for>
 </ol>
 </div>
-<svg ref="{{ mapRef }}" class="sj-map" viewBox="0 0 600 720" style="width:100%;max-height:calc(100vh - 120px);display:block" role="img" aria-label="Mapa del Perú con la ruta Sunqu"></svg>
+<div class="sj-route-now" aria-live="polite">
+<img src="assets/diamond-lime.png" alt="" class="sj-route-now-iso">
+<div><span class="sj-route-now-n">{{ stopNow.n }} · {{ stopNow.alt }}</span><span class="sj-route-now-name">{{ stopNow.name }}</span></div>
+<div class="sj-route-dots" aria-hidden="true"><sc-for list="{{ stops }}" as="st" hint-placeholder-count="7"><i class="{{ st.cls }}"></i></sc-for></div>
+</div>
 </div>
 </div>
 </section>
@@ -948,7 +972,7 @@ button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
 <div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
 </div>
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
-<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span><span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 <a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 </div>
 </div>
@@ -991,12 +1015,97 @@ class Component extends DCLogic {
     const svg = this.mapRef.current; if (!svg || !window.d3) return;
     const d3 = window.d3; const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(r => r.json());
     const all = topojson.feature(world, world.objects.countries).features; const peru = all.find(f => f.id === '604'); if (!peru) return;
-    const proj = d3.geoMercator().fitExtent([[20, 20], [580, 700]], peru); const path = d3.geoPath(proj);
+    const proj = d3.geoMercator().fitExtent([[0, 0], [600, 720]], peru); const path = d3.geoPath(proj);
     const pts = this.STOPS.map(s => proj([s[2], s[3]]));
     const line = d3.line().curve(d3.curveCatmullRom.alpha(.5))(pts);
     const others = all.filter(f => ['218', '170', '076', '068', '152'].includes(f.id)).map(f => path(f)).filter(Boolean).join('');
-    svg.innerHTML = `<defs><clipPath id="mc"><rect width="600" height="720"/></clipPath></defs><g clip-path="url(#mc)"><path d="${others}" fill="rgba(233,238,241,.04)" stroke="rgba(233,238,241,.12)" stroke-width=".6"/><path d="${path(peru)}" fill="rgba(131,179,0,.08)" stroke="rgba(233,238,241,.55)" stroke-width="1"/><path data-route d="${line}" fill="none" stroke="#f4a700" stroke-width="2.5" stroke-linecap="round"/>` + pts.map((p, i) => `<g data-stop="${i}" style="opacity:0;transition:opacity .4s"><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="rgba(244,167,0,.25)"/><circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#f4a700"/><text x="${p[0] + (i === 3 ? -12 : 12)}" y="${p[1] + (i === 2 ? 16 : i === 1 ? -8 : 4)}" fill="#e9eef1" font-size="13" text-anchor="${i === 3 ? 'end' : 'start'}" font-family="Aeonik,Manrope,sans-serif">${this.STOPS[i][0]}</text></g>`).join('') + '</g>';
+    const ns = 'vector-effect="non-scaling-stroke"';
+    svg.innerHTML = `<path d="${others}" fill="rgba(233,238,241,.035)" stroke="rgba(233,238,241,.14)" stroke-width="1" ${ns}/>`
+      + `<path d="${path(peru)}" fill="rgba(131,179,0,.07)" stroke="rgba(233,238,241,.5)" stroke-width="1.2" ${ns}/>`
+      + `<path data-guide d="${line}" fill="none" stroke="rgba(244,167,0,.4)" stroke-linecap="round"/>`
+      + `<path data-route d="${line}" fill="none" stroke="#f4a700" stroke-linecap="round" stroke-linejoin="round"/>`
+      + pts.map((q, i) => `<g data-stop="${i}" style="transition:opacity .5s"><circle data-halo cx="${q[0]}" cy="${q[1]}" fill="rgba(244,167,0,.22)"/><circle data-dot cx="${q[0]}" cy="${q[1]}" fill="#f4a700"/><text data-label fill="#e9eef1" font-family="Aeonik,Manrope,sans-serif" style="transition:opacity .5s">${this.STOPS[i][0]}</text></g>`).join('')
+      + `<g data-iso><circle data-iso-bg fill="#1c1c1c" stroke="#83b300" stroke-width="1.5" ${ns}/><image data-iso-img href="assets/diamond-lime.png" preserveAspectRatio="xMidYMid meet"/></g>`;
     const r = svg.querySelector('[data-route]'); this.routeLen = r.getTotalLength(); r.style.strokeDasharray = this.routeLen; r.style.strokeDashoffset = this.routeLen;
+    // largo del recorrido en el que cae cada parada
+    this.stopLen = pts.map(() => 0); const best = pts.map(() => Infinity);
+    for (let L = 0; L <= this.routeLen; L += 0.5) { const q = r.getPointAtLength(L); pts.forEach((pt, i) => { const d = Math.hypot(q.x - pt[0], q.y - pt[1]); if (d < best[i]) { best[i] = d; this.stopLen[i] = L; } }); }
+    const box = (arr, pad, min) => { const xs = arr.map(q => q[0]), ys = arr.map(q => q[1]); let w = Math.max(...xs) - Math.min(...xs), h = Math.max(...ys) - Math.min(...ys); const cx = (Math.max(...xs) + Math.min(...xs)) / 2, cy = (Math.max(...ys) + Math.min(...ys)) / 2; w = Math.max(min, w * pad); h = Math.max(min, h * pad); return { cx, cy, w, h }; };
+    const pb = path.bounds(peru);
+    this.mapBox = {
+      peru: { cx: (pb[0][0] + pb[1][0]) / 2, cy: (pb[0][1] + pb[1][1]) / 2, w: (pb[1][0] - pb[0][0]) * 1.06, h: (pb[1][1] - pb[0][1]) * 1.06 },
+      route: box(pts, 1.35, 60), cluster: box(pts.slice(1, 5), 2.6, 46), south: box(pts.slice(4), 1.7, 80),
+    };
+    // ancho de cámara al llegar a cada parada: Lima (tramo largo), Cusco y alrededores (cerca), sur (medio)
+    const Z = this.mapBox; this.stopZoom = [Z.route.w, Z.cluster.w, Z.cluster.w, Z.cluster.w, Z.cluster.w, Z.south.w, Z.south.w];
+    this.labelOff = [[14, 5, 'start'], [14, -9, 'start'], [14, 19, 'start'], [-14, 5, 'end'], [14, 6, 'start'], [14, 5, 'start'], [-14, 5, 'end']];
+    this.cam = null;
+  }
+  mapFrame(ms, vh) {
+    const svg = this.mapRef.current; if (!svg || !this.mapBox) return;
+    const sr = ms.getBoundingClientRect(); if (sr.bottom < -vh || sr.top > vh * 2) return;
+    const W = svg.clientWidth, H = svg.clientHeight; if (!W || !H) return;
+    const raw = Math.min(1, Math.max(0, -sr.top / Math.max(1, sr.height - vh)));
+    const q = this.motion ? Math.min(1, Math.max(0, (raw - 0.1) / 0.76)) : 1;
+    const route = svg.querySelector('[data-route]'), len = this.routeLen, SL = this.stopLen, nSeg = SL.length - 1;
+    let seg = Math.min(nSeg - 1, Math.floor(q * nSeg)), f = q >= 1 ? 1 : q * nSeg - seg;
+    const fx = Math.min(1, Math.max(0, (f - 0.14) / 0.72)), fe = fx * fx * (3 - 2 * fx);
+    const L = SL[seg] + (SL[seg + 1] - SL[seg]) * fe;
+    route.style.strokeDashoffset = len - L;
+    const head = route.getPointAtLength(L), a = route.getPointAtLength(Math.min(len, L + 1.5)), b = route.getPointAtLength(Math.max(0, L - 1.5));
+    const ang = Math.atan2(a.y - b.y, a.x - b.x) * 180 / Math.PI;
+    const idx = fe > 0.985 ? seg + 1 : seg;
+    // zona libre del mapa (fuera del texto) donde se centra la cámara
+    const wide = window.innerWidth > 1100;
+    const ar = wide ? { x0: W * 0.44, x1: W, y0: 60, y1: H } : { x0: 0, x1: W, y0: H * 0.3, y1: H * 0.74 };
+    const aw = ar.x1 - ar.x0, ah = ar.y1 - ar.y0, ax = (ar.x0 + ar.x1) / 2, ay = (ar.y0 + ar.y1) / 2;
+    let t;
+    if (!this.motion || raw >= 0.9) t = this.mapBox.route;
+    else if (raw < 0.1) t = this.mapBox.peru;
+    else {
+      const w = this.stopZoom[seg] + (this.stopZoom[seg + 1] - this.stopZoom[seg]) * fe;
+      t = { cx: head.x, cy: head.y, w, h: w, follow: true };
+    }
+    const follow = !!t.follow, px = follow ? 0 : (wide ? 150 : 110), py = follow ? 0 : 50;
+    const tk = Math.max(t.w / Math.max(80, aw - px), t.h / Math.max(80, ah - py));
+    if (!follow) t = { ...t, cx: t.cx + (wide ? 30 : 34) * tk };
+    if (!this.cam || !this.motion) this.cam = { cx: t.cx, cy: t.cy, k: tk };
+    else { const m = 0.085; this.cam.cx += (t.cx - this.cam.cx) * m; this.cam.cy += (t.cy - this.cam.cy) * m; this.cam.k = Math.exp(Math.log(this.cam.k) + (Math.log(tk) - Math.log(this.cam.k)) * m); }
+    const c = this.cam, k = c.k;
+    svg.setAttribute('viewBox', `${(c.cx - ax * k).toFixed(2)} ${(c.cy - ay * k).toFixed(2)} ${(W * k).toFixed(2)} ${(H * k).toFixed(2)}`);
+    // marcadores, trazos y textos con tamaño constante en pantalla
+    route.setAttribute('stroke-width', (3 * k).toFixed(3));
+    const guide = svg.querySelector('[data-guide]'); guide.setAttribute('stroke-width', (1.6 * k).toFixed(3)); guide.setAttribute('stroke-dasharray', `${(1 * k).toFixed(3)} ${(7 * k).toFixed(3)}`);
+    const vx = c.cx - ax * k, vy = c.cy - ay * k, boxes = [];
+    const order = [idx, ...[0, 4, 3, 5, 6, 1, 2].filter(i => i !== idx)];
+    const showLabel = {};
+    order.forEach((i) => {
+      const g = svg.querySelector(`[data-stop="${i}"]`), d = g.querySelector('[data-dot]'), o = this.labelOff[i];
+      const px = (+d.getAttribute('cx') - vx) / k, py = (+d.getAttribute('cy') - vy) / k, fs = i === idx ? 15 : 13, ox = o[0] * (i === idx ? 1.9 : 1);
+      const tw = this.STOPS[i][0].length * fs * 0.56, x0 = o[2] === 'end' ? px + ox - tw : px + ox, y0 = py + o[1] - fs;
+      const bx = { x0: x0 - 4, x1: x0 + tw + 4, y0: y0 - 3, y1: y0 + fs + 5 };
+      const hit = boxes.some(q => bx.x0 < q.x1 && bx.x1 > q.x0 && bx.y0 < q.y1 && bx.y1 > q.y0);
+      if (i <= idx && !hit) { boxes.push(bx); showLabel[i] = true; }
+    });
+    svg.querySelectorAll('[data-stop]').forEach((g, i) => {
+      const on = i <= idx, cur = i === idx;
+      g.style.opacity = on ? 1 : 0.4;
+      g.querySelector('[data-halo]').setAttribute('r', ((cur ? 13 : 9) * k).toFixed(2));
+      g.querySelector('[data-dot]').setAttribute('r', (4.5 * k).toFixed(2));
+      const tx = g.querySelector('[data-label]'), o = this.labelOff[i];
+      const cx = +g.querySelector('[data-dot]').getAttribute('cx'), cy = +g.querySelector('[data-dot]').getAttribute('cy');
+      tx.setAttribute('x', (cx + o[0] * (cur ? 1.9 : 1) * k).toFixed(2)); tx.setAttribute('y', (cy + o[1] * k).toFixed(2)); tx.setAttribute('text-anchor', o[2]);
+      tx.setAttribute('font-size', ((cur ? 15 : 13) * k).toFixed(2)); tx.setAttribute('font-weight', cur ? '600' : '400');
+      tx.setAttribute('fill', cur ? '#f4a700' : '#e9eef1'); tx.style.opacity = showLabel[i] ? 1 : 0;
+    });
+    const iso = svg.querySelector('[data-iso]'), s = 30 * k;
+    const west = Math.abs(ang) > 90;
+    iso.setAttribute('transform', `translate(${head.x.toFixed(2)} ${head.y.toFixed(2)}) rotate(${(west ? ang - 180 : ang).toFixed(1)})${west ? ' scale(-1 1)' : ''}`);
+    iso.style.opacity = q > 0.002 && q < 0.999 ? 1 : 0;
+    const bg = iso.querySelector('[data-iso-bg]'); bg.setAttribute('r', (s * 0.62).toFixed(2));
+    const im = iso.querySelector('[data-iso-img]'); im.setAttribute('x', (-s / 2).toFixed(2)); im.setAttribute('y', (-s / 2).toFixed(2)); im.setAttribute('width', s.toFixed(2)); im.setAttribute('height', s.toFixed(2));
+    if (!svg.classList.contains('is-ready')) svg.classList.add('is-ready');
+    if (idx !== this.state.mapIdx) this.setState({ mapIdx: idx });
   }
 
   componentDidMount() {
@@ -1067,13 +1176,7 @@ class Component extends DCLogic {
         if (t) { const q = Math.min(1, Math.max(0, (p - 0.55) / 0.3)); t.style.opacity = q; t.style.transform = `translateY(${(1 - q) * 40}px)`; }
       });
       const ms = root.querySelector('[data-map]');
-      if (ms && this.routeLen) {
-        const r = ms.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh) * 1.15));
-        const rt = ms.querySelector('[data-route]'); rt.style.strokeDashoffset = this.routeLen * (1 - p);
-        const n = this.STOPS.length; const idx = Math.min(n - 1, Math.floor(p * (n - 1) + 0.05));
-        ms.querySelectorAll('[data-stop]').forEach((g, i) => { g.style.opacity = i <= idx ? 1 : 0; });
-        if (idx !== this.state.mapIdx) this.setState({ mapIdx: idx });
-      }
+      if (ms && this.routeLen) this.mapFrame(ms, vh);
       root.querySelectorAll('[data-stack]').forEach(sec => {
         const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
         const cards = sec.querySelectorAll('[data-card]'); const n = cards.length; const rots = [-5, 4, -2, 3];
@@ -1218,7 +1321,8 @@ class Component extends DCLogic {
     };
     return {
       alt, chartRef: this.chartRef,
-      mapRef: this.mapRef, stops: this.STOPS.map((s, i) => ({ n: String(i + 1).padStart(2, '0'), name: s[0], alt: s[1], op: i <= (this.state.mapIdx ?? 0) ? 1 : .35, dot: i <= (this.state.mapIdx ?? 0) ? '#f4a700' : 'rgba(233,238,241,.6)' })),
+      mapRef: this.mapRef, stops: this.STOPS.map((s, i) => { const m = this.state.mapIdx ?? 0; return { n: String(i + 1).padStart(2, '0'), name: s[0], alt: s[1], cls: (i <= m ? 'is-on' : '') + (i === m ? ' is-cur' : '') }; }),
+      stopNow: (() => { const m = this.state.mapIdx ?? 0, st = this.STOPS[m]; return { n: String(m + 1).padStart(2, '0'), name: st[0], alt: st[1] }; })(),
       heroSlides, heroCaption: hs[hi][1], heroVideo: this.props.heroVideo || '', hasVideo: !!this.props.heroVideo,
       loaderOp: this.state.loaded ? 0 : 1, loaderY: this.state.loaded ? '-100%' : '0', loaderPe: this.state.loaded ? 'none' : 'auto', loadPct: this.state.pct + '%',
       pageBg: dark ? '#1c1c1c' : '#e9eef1', logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1, navFg: dark ? '#e9eef1' : '#1c1c1c',
