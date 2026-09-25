@@ -666,7 +666,7 @@ button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
 <p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ j.why }}</p>
 <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
 <span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ j.price }}</span>
-<a href="#contacto" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+<a href="{{ j.href }}" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
 </div>
 </div>
 </article>
@@ -1156,6 +1156,7 @@ class Component extends DCLogic {
       { id: 'origen', img: 'https://images.unsplash.com/photo-1632913582499-381c7c798787?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'historia'], title: 'Sunqu Origen', region: 'Lima · Valle Sagrado · Cusco', days: '9 días', alt: '3.500 m', price: 'Journey insignia', icon: 'assets/diamond-yellow.png', ph: 'Foto — Moray o salineras de Maras', why: 'Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.', moment: 'La pachamanca del sexto día, cocinada bajo tierra con una familia quechua.' },
       { id: 'corto', img: 'https://images.unsplash.com/photo-1535400875775-0269e7a919af?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'gente'], title: 'Módulo gastronómico', region: 'Escapada corta', days: '3–4 días', alt: '2.335 m', price: 'USD 600 – 900', icon: 'assets/diamond-olive.png', ph: 'Foto — mercado y producto local', why: 'Vive un Momento Sunqu antes de comprometerte con un Journey completo.', moment: 'El mismo encuentro con nombre propio que luego forma parte de un Journey.' },
     ];
+    all.forEach(j => { j.href = 'journey.html?j=' + j.id; });
     const journeys = concept === 'todo' ? all : all.filter(j => j.c.includes(concept));
     const concepts = [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'El sabor'], ['gente', 'La gente']].map(([id, label]) => ({
       label, bg: id === concept ? '#e9eef1' : 'transparent', color: id === concept ? '#1c1c1c' : '#e9eef1', pressed: id === concept ? 'true' : 'false',

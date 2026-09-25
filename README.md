@@ -2,6 +2,7 @@
 
 **Web publicada:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz).
 `index.html` es la copia publicada de `Sunqu Journeys v2.dc.html`: al editar el prototipo, copia el archivo a `index.html` y haz push.
+`journey.html?j=<id>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Todo su contenido vive en el objeto `J` y en `PLAN` (consejos, notas y temporada) dentro del propio archivo.
 
 ## Overview
 Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idioma base: español (selector ES/EN/PT preparado).

@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Journey — Sunqu Journeys</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Regular.ttf) format("truetype");font-weight:300 400;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Medium.ttf) format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Bold.ttf) format("truetype");font-weight:600 800;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-RegularItalic.ttf) format("truetype");font-weight:300 500;font-style:italic;font-display:swap}
+
+/* ══ Sistema de la one-page (tokens, base, componentes) ══ */
+:root{--sj-ease:cubic-bezier(.2,.7,.1,1);--sj-gutter:clamp(20px,4vw,56px);--font-heading:Aeonik,Manrope,system-ui,sans-serif;--sj-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23736d47'/%3E%3C/svg%3E");--sj-band-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23e9eef1'/%3E%3C/svg%3E")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;font-family:Aeonik,Manrope,system-ui,sans-serif;font-size:16px;line-height:1.55;background:#1c1c1c;color:#1c1c1c;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2,h3,h4{font-family:var(--font-heading);font-weight:600;line-height:1.1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0}
+img,svg,video{display:block;max-width:100%}
+figure{margin:0}
+a{color:#736d47;text-underline-offset:3px}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid #736d47;outline-offset:3px}
+[data-bg="dark"] :focus-visible,.sj-drawer :focus-visible,.jr-reel :focus-visible,.jr-lb :focus-visible,footer :focus-visible{outline-color:#f4a700}
+::selection{background:rgba(115,109,71,.3)}
+section[id]{scroll-margin-top:64px}
+.sj-in{max-width:1440px;margin:0 auto;padding-left:var(--sj-gutter);padding-right:var(--sj-gutter)}
+.sj-pad{padding-top:clamp(80px,10vw,140px);padding-bottom:clamp(80px,10vw,140px)}
+.jr-wrap{transition:background-color .9s ease}
+.sj-light,.sj-alt-bg{background:transparent;color:#1c1c1c}
+.sj-dark{background:transparent;color:#e9eef1;--color-text:#e9eef1}
+.sj-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47}
+.sj-eyebrow::before{content:"";width:7px;height:7px;flex:none;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+.sj-h2{margin-top:18px;font-size:clamp(33px,4.4vw,71px);line-height:1.04;letter-spacing:-.02em}
+.sj-lead{font-size:18px;line-height:1.55;color:#424244;max-width:46ch;text-wrap:pretty}
+.sj-dark .sj-lead{color:rgba(233,238,241,.82)}
+.sj-band{height:14px;background:var(--sj-band) repeat-x center/auto 100%}
+.sj-band--light{background-image:var(--sj-band-light)}
+.sj-iso{display:inline-block !important;height:1.05em;width:auto;max-width:none;flex:none;transition:transform .35s var(--sj-ease)}
+.sj-iso--back{transform:scaleX(-1)}
+a:hover .sj-iso,button:hover .sj-iso{transform:translateX(4px)}
+button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
+
+/* Botones de la one-page */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:14px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c;background:transparent;border:1px solid rgba(28,28,28,.22);padding:14px 22px;border-radius:999px;white-space:nowrap;transition:background-color .3s,color .3s,border-color .3s}
+.btn-primary{background:#736d47;border-color:#736d47;color:#e9eef1}
+.btn-primary:hover{background:#5e5939;border-color:#5e5939;color:#e9eef1}
+.btn-secondary:hover{background:rgba(115,109,71,.08);color:#1c1c1c}
+.btn-light{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.btn-light:hover{background:#f4a700;border-color:#f4a700;color:#1c1c1c}
+.btn-ghost-light{border-color:rgba(233,238,241,.4);color:#e9eef1}
+.btn-ghost-light:hover{background:rgba(233,238,241,.1);border-color:#e9eef1;color:#e9eef1}
+.btn-lime{background:#83b300;border-color:#83b300;color:#1c1c1c}
+.btn-lime:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+
+/* Tarjetas: borde fino */
+.blueprint{position:relative;border:1px solid color-mix(in srgb,var(--color-text,#1c1c1c) 12%,transparent);border-radius:24px;background:rgba(255,255,255,.4);overflow:hidden}
+article.blueprint::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid #736d47;opacity:0;pointer-events:none;transition:opacity .45s ease}
+article.blueprint:hover::after{opacity:.6}
+.sj-dark .blueprint{background:rgba(233,238,241,.035)}
+.sj-dark article.blueprint::after{border-color:#83b300}
+.duotone{position:relative;overflow:hidden}
+.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;background:#736d47;mix-blend-mode:color;opacity:.85;transition:opacity .8s var(--sj-ease)}
+.duotone img{transition:transform 1.2s var(--sj-ease)}
+article:hover .duotone::after{opacity:0}
+article:hover .duotone img{transform:scale(1.04)}
+
+/* Header y menú lateral */
+.sj-header{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);transition:background-color .35s,border-color .35s,color .35s}
+.sj-nav{max-width:1440px;margin:0 auto;height:76px;padding:0 var(--sj-gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;transition:height .35s var(--sj-ease)}
+.sj-header.is-scrolled .sj-nav{height:64px}
+.sj-logo{position:relative;display:block;width:116px;height:30px;justify-self:start}
+.sj-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center;transition:opacity .3s}
+.sj-links{display:flex;align-items:center;gap:clamp(22px,2.6vw,40px);list-style:none;margin:0;padding:0}
+.sj-link{position:relative;display:block;padding:8px 0;color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.78;transition:opacity .25s}
+.sj-link::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--sj-ease)}
+.sj-link:hover,.sj-link[aria-current="true"]{opacity:1;color:inherit}
+.sj-link:hover::after,.sj-link[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
+.sj-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.sj-back{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 32%,transparent);color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.sj-back:hover{color:inherit;border-color:currentColor}
+.sj-cta{height:40px;padding:0 20px;font-size:13px;letter-spacing:.08em}
+.sj-burger{display:none;position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;cursor:pointer;align-items:center;justify-content:center}
+.sj-burger span{position:absolute;left:13px;right:13px;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:currentColor}
+.sj-burger span:nth-child(1){transform:translateY(-4px)}
+.sj-burger span:nth-child(2){transform:translateY(4px)}
+.sj-scrim{position:fixed;inset:0;z-index:70;background:rgba(20,20,18,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .45s ease}
+.sj-scrim.is-open{opacity:1;pointer-events:auto}
+.sj-drawer{position:fixed;top:0;right:0;z-index:80;width:min(100%,420px);height:100vh;height:100dvh;display:flex;flex-direction:column;gap:26px;padding:12px clamp(20px,5vw,32px) 0;background:#736d47;color:#fff;overflow-y:auto;overscroll-behavior:contain;transform:translateX(100%);visibility:hidden;box-shadow:-24px 0 80px rgba(0,0,0,.28);transition:transform .5s cubic-bezier(.7,0,.2,1),visibility 0s linear .5s}
+.sj-drawer.is-open{transform:none;visibility:visible;transition:transform .65s var(--sj-ease),visibility 0s}
+.sj-drawer-top{display:flex;align-items:center;justify-content:space-between;min-height:52px}
+.sj-drawer-top img{height:28px;width:auto}
+.sj-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.sj-drawer-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px}
+.sj-drawer-nav{display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.22)}
+.sj-drawer-link{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,8.5vw,40px);line-height:1;letter-spacing:-.02em}
+.sj-drawer-link:hover{color:#fff}
+.sj-drawer-n{align-self:start;padding-top:5px;font-size:13px;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.78)}
+.sj-drawer-sub{display:flex;flex-wrap:wrap;gap:10px 24px}
+.sj-drawer-sub a{color:#fff;text-decoration:none;font-size:16px}
+.sj-drawer-foot{margin-top:auto;display:flex;flex-direction:column;gap:18px}
+.sj-drawer-cta{width:100%;background:#83b300;border-color:#83b300;color:#1c1c1c;font-size:15px;padding:16px 22px}
+.sj-drawer-cta:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.sj-drawer .sj-band{margin:4px calc(-1 * clamp(20px,5vw,32px)) 0}
+
+/* WhatsApp flotante */
+.sj-wa{position:fixed;right:clamp(16px,2.4vw,28px);bottom:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-bottom,0px));z-index:65;display:inline-flex;align-items:center;height:60px;min-width:60px;padding:0 16px;border-radius:999px;background:#25D366;color:#fff;text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.24);opacity:0;visibility:hidden;transform:translateY(18px) scale(.9);transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),bottom .45s var(--sj-ease),visibility 0s linear .45s}
+.sj-wa.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),bottom .45s var(--sj-ease),visibility 0s}
+.sj-wa:hover{color:#fff;transform:translateY(-3px)}
+.sj-wa svg{width:28px;height:28px;flex:none}
+.sj-wa-label{max-width:0;overflow:hidden;white-space:nowrap;font-family:var(--font-heading);font-weight:500;font-size:15px;transition:max-width .45s var(--sj-ease),margin .45s var(--sj-ease)}
+.sj-wa:hover .sj-wa-label{max-width:120px;margin-left:10px}
+
+/* Formulario de la one-page */
+.sj-form-card{padding:clamp(30px,3.4vw,48px) clamp(22px,3vw,44px) clamp(24px,3vw,40px);background:rgba(255,255,255,.55)}
+.sj-form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
+.sj-form{display:flex;flex-direction:column;gap:22px}
+.sj-form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px 16px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:0;border:0}
+.field>label,.sj-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0;font-size:14px;font-weight:500;color:#2b2b2d}
+fieldset.field>legend{margin-bottom:10px}
+.input{display:block;width:100%;min-height:52px;padding:14px 16px;font-size:16px;line-height:1.4;color:#1c1c1c;background:rgba(255,255,255,.75);border:1px solid rgba(28,28,28,.14);border-radius:14px;-webkit-appearance:none;appearance:none;transition:border-color .25s,box-shadow .25s,background-color .25s}
+.input::placeholder{color:#8a8a8d;opacity:1}
+.input:hover{border-color:rgba(28,28,28,.3)}
+.input:focus,.input:focus-visible{outline:none;border-color:#736d47;background:#fff;box-shadow:0 0 0 4px rgba(115,109,71,.15)}
+select.input{padding-right:46px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23736d47' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:16px}
+.sj-chips{display:flex;flex-wrap:wrap;gap:10px}
+.radio{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 18px 11px 14px;border:1px solid rgba(28,28,28,.16);border-radius:999px;background:rgba(255,255,255,.55);font-size:15px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background-color .25s,border-color .25s,color .25s}
+.radio input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.radio .dot{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid rgba(28,28,28,.32);transition:all .25s}
+.radio:hover{border-color:rgba(28,28,28,.38)}
+.radio:has(input:checked){background:#736d47;border-color:#736d47;color:#fff}
+.radio input:checked+.dot{border-color:#fff;background:#fff;box-shadow:inset 0 0 0 4px #736d47}
+.radio:has(input:focus-visible){outline:2px solid #736d47;outline-offset:3px}
+.sj-form-foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;padding-top:6px}
+.sj-form-note{margin:0;font-size:14px;line-height:1.45;color:#5d5d60;max-width:30ch}
+.sj-optional{font-size:12px;font-weight:400;color:#7a7a7d}
+textarea.input{min-height:132px;resize:vertical}
+.sj-submit{padding:16px 26px;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.sj-contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) !important;align-items:start}
+
+/* Curva de altitud interactiva (misma de la one-page) */
+.sj-alt{padding:clamp(18px,2.4vw,32px)}
+.sj-alt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-bottom:10px;font-size:13px;color:rgba(233,238,241,.78)}
+.sj-alt-leg{display:inline-flex;align-items:center;gap:8px}
+.sj-alt-key{display:inline-block;width:22px;height:0;border-top:3px solid #83b300;border-radius:2px}
+.sj-alt-key--th{border-top:2px dashed #df5f0c}
+.sj-alt-plot{position:relative;touch-action:pan-y;cursor:crosshair;-webkit-user-select:none;user-select:none}
+.sj-alt-reveal{position:absolute;inset:0;transition:clip-path 1.8s var(--sj-ease)}
+.sj-alt-y{position:absolute;left:0;transform:translateY(calc(-100% - 4px));font-size:12px;color:rgba(233,238,241,.55);pointer-events:none}
+.sj-alt-pt{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;padding:0;border:0;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sj-alt-pt span{width:12px;height:12px;border-radius:50%;background:#e9eef1;box-shadow:0 0 0 4px #1c1c1c;transition:transform .3s var(--sj-ease),background-color .3s,box-shadow .3s}
+.sj-alt-pt:hover span{transform:scale(1.3)}
+.sj-alt-pt[data-on="true"] span{background:#f4a700;transform:scale(1.45);box-shadow:0 0 0 4px #1c1c1c,0 0 0 11px rgba(244,167,0,.22)}
+.sj-alt-tip{position:absolute;margin-top:-18px;padding:6px 11px;border-radius:10px;background:#f4a700;color:#1c1c1c;font-family:var(--font-heading);font-weight:600;font-size:15px;line-height:1.2;white-space:nowrap;pointer-events:none;transition:left .4s var(--sj-ease),top .4s var(--sj-ease)}
+.sj-alt-x{position:relative;height:30px;margin-top:8px}
+.sj-alt-x>span{position:absolute;top:0;transform:translateX(-50%);font-size:13px;font-weight:500;color:rgba(233,238,241,.6);white-space:nowrap;transition:color .3s}
+.sj-alt-x>span[data-on="true"]{color:#f4a700}
+
+/* ══ Pantalla de journey ══ */
+.jr-hero{padding:76px 12px 0}
+.jr-hero-media{position:relative;height:calc(100vh - 88px);height:calc(100svh - 88px);min-height:600px;border-radius:28px;overflow:hidden;background:#111;color:#e9eef1;isolation:isolate}
+.jr-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.6s ease,transform 8s linear}
+.jr-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,.5) 0%,rgba(28,28,28,.05) 30%,rgba(28,28,28,.2) 55%,rgba(28,28,28,.86) 100%);pointer-events:none}
+.jr-crumbs{position:absolute;top:22px;left:clamp(20px,3vw,40px);display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.06em;color:rgba(233,238,241,.8)}
+.jr-crumbs a{color:#e9eef1;text-decoration:none;border-bottom:1px solid rgba(233,238,241,.4)}
+.jr-crumbs a:hover{color:#e9eef1;border-color:#e9eef1}
+.jr-chips{position:absolute;top:18px;right:clamp(20px,3vw,40px);display:flex;gap:8px}
+.jr-chip-dark{background:rgba(28,28,28,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1}
+.jr-chip-light{background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase}
+.jr-hero-in{position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,3vw,40px) clamp(22px,3vw,40px);display:flex;flex-direction:column;gap:clamp(20px,2.6vw,34px)}
+.jr-hero-kicker{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#f4a700}
+.jr-hero-kicker::before{content:"";width:7px;height:7px;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+.jr-hero h1{margin-top:14px;font-size:clamp(46px,8vw,132px);line-height:.98;letter-spacing:-.035em;color:#e9eef1;max-width:12ch}
+.jr-sub{display:block;color:#f4a700}
+.jr-hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:20px 24px;flex-wrap:wrap;padding-top:22px;border-top:1px solid rgba(233,238,241,.3)}
+.jr-hero-row p{max-width:46ch;font-size:clamp(16px,1.3vw,19px);line-height:1.5;color:rgba(233,238,241,.9)}
+.jr-hero-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.jr-hero-cap{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.8)}
+.jr-bars{display:flex;gap:6px}
+.jr-bars>span{width:28px;height:2px;transition:background-color .6s}
+.jr-play-ico{width:14px;height:14px}
+
+.jr-intro{padding:clamp(80px,10vw,140px) var(--sj-gutter)}
+.jr-intro-col{max-width:880px;margin:0 auto}
+.jr-why{margin-top:22px;font-family:var(--font-heading);font-weight:600;font-size:clamp(28px,3.4vw,52px);line-height:1.12;letter-spacing:-.025em;color:#e9eef1;text-wrap:balance}
+.jr-what{margin-top:22px;font-size:18px;line-height:1.55;color:rgba(233,238,241,.72);max-width:56ch}
+.jr-specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:clamp(40px,5vw,64px);padding-top:28px;border-top:1px solid rgba(233,238,241,.14)}
+.jr-meta-label{display:block;margin-bottom:12px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(233,238,241,.5)}
+.jr-specs ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:15px;color:#e9eef1}
+
+.jr-layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:clamp(40px,6vw,96px);align-items:start}
+.jr-main{min-width:0}
+.jr-story{display:flex;flex-direction:column;gap:18px;margin-top:clamp(28px,3vw,40px);max-width:60ch}
+.jr-story p{font-size:18px;line-height:1.6;color:#424244;text-wrap:pretty}
+.jr-story .jr-moment-line{padding-left:20px;border-left:2px solid #736d47;color:#1c1c1c}
+.jr-principle{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:center;margin-top:clamp(48px,6vw,80px)}
+.jr-pcard{border-radius:32px;padding:26px 24px 30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;box-shadow:0 30px 80px rgba(0,0,0,.18);transform:rotate(-4deg);transition:transform .6s var(--sj-ease)}
+.jr-pcard:hover{transform:rotate(0) translateY(-4px)}
+.jr-pcard-img{width:62%;aspect-ratio:1/1.05;border-radius:22px;overflow:hidden}
+.jr-pcard-img img{width:100%;height:100%;object-fit:cover}
+.jr-pcard>span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.jr-pcard h3{font-size:clamp(28px,2.6vw,38px);line-height:1;letter-spacing:-.03em}
+.jr-principle-txt .jr-meta-label{color:#5d5d60}
+.jr-principle-txt h3{font-size:clamp(24px,2.2vw,32px);letter-spacing:-.02em}
+.jr-principle-txt p{margin-top:12px;font-size:17px;line-height:1.6;color:#424244;max-width:44ch}
+.jr-q{display:block;margin-top:16px;padding-left:20px;border-left:2px solid #736d47;font-family:var(--font-heading);font-size:clamp(20px,1.8vw,26px);line-height:1.25;color:#1c1c1c}
+.jr-aside{position:sticky;top:96px}
+.jr-book{padding:34px 26px 24px;background:rgba(255,255,255,.55)}
+.jr-book::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
+.jr-book-price{margin-top:14px;font-family:var(--font-heading);font-weight:600;font-size:34px;line-height:1.05;letter-spacing:-.02em}
+.jr-book-price small{display:block;margin-top:6px;font-size:14px;font-weight:400;letter-spacing:0;color:#5d5d60}
+.jr-book ul{list-style:none;margin:22px 0;padding:0;border-top:1px solid rgba(28,28,28,.12)}
+.jr-book li{display:grid;grid-template-columns:22px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid rgba(28,28,28,.12);font-size:15px;color:#424244}
+.jr-book li svg{width:20px;height:20px;color:#736d47}
+.jr-book li b{font-weight:600;color:#1c1c1c;text-align:right}
+.jr-book .btn{width:100%}
+.jr-book .btn+.btn{margin-top:10px}
+.jr-book-note{margin-top:14px;font-size:13px;line-height:1.45;color:#7a7a7d;text-align:center}
+
+
+
+.jr-hosts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px;margin-top:clamp(40px,5vw,64px)}
+.jr-host{display:flex;flex-direction:column}
+.jr-host-img{aspect-ratio:3/3.2}
+.jr-host-img img{width:100%;height:100%;object-fit:cover}
+.jr-host-body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px}
+.jr-host-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.jr-host-body h3{font-size:22px;letter-spacing:-.02em}
+.jr-host-body small{font-size:13px;color:#5d5d60}
+.jr-host-body p{font-size:15px;line-height:1.5;color:#424244}
+.jr-host-body strong{font-weight:500;color:#736d47}
+.jr-ayni{display:flex;flex-direction:column;justify-content:space-between;gap:20px;padding:clamp(24px,3vw,36px)}
+.jr-ayni>img{width:72px}
+.jr-ayni-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47}
+.jr-ayni h3{margin-top:4px;font-size:26px;letter-spacing:-.02em}
+.jr-ayni p{margin-top:10px;font-size:16px;line-height:1.55;color:#424244}
+.jr-ayni b{display:block;margin-top:12px;font-weight:600;color:#1c1c1c}
+
+.jr-vive-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px clamp(32px,5vw,72px);align-items:end}
+.jr-chart{margin-top:clamp(32px,4vw,52px)}
+.jr-days{border-top:1px solid rgba(28,28,28,.14)}
+.jr-day{border-bottom:1px solid rgba(28,28,28,.14)}
+.jr-day-btn{width:100%;display:grid;grid-template-columns:84px minmax(0,1fr) auto 110px 36px;align-items:center;gap:16px;padding:20px 0;border:0;background:transparent;text-align:left;cursor:pointer;color:#1c1c1c}
+.jr-day-n{font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a7a7d;transition:color .3s}
+.jr-day-t{font-family:var(--font-heading);font-weight:600;font-size:clamp(19px,1.8vw,26px);letter-spacing:-.015em}
+.jr-stage{justify-self:start;padding:4px 10px;border-radius:999px;border:1px solid currentColor;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.jr-stage[data-s="DESCUBRE"]{color:#9a6a00}
+.jr-stage[data-s="CONECTA"]{color:#4f7a00}
+.jr-stage[data-s="VIVE"]{color:#b8500a}
+.jr-stage[data-s="RECUERDA"]{color:#736d47}
+.sj-dark .jr-stage[data-s="DESCUBRE"]{color:#f4a700}
+.sj-dark .jr-stage[data-s="CONECTA"]{color:#83b300}
+.sj-dark .jr-stage[data-s="VIVE"]{color:#f07a2c}
+.sj-dark .jr-stage[data-s="RECUERDA"]{color:#c9c3a3}
+.jr-stage[data-s=""]{visibility:hidden}
+.jr-day-m{font-size:14px;color:#5d5d60;text-align:right}
+.jr-day-ico{width:36px;height:36px;border-radius:50%;border:1px solid rgba(28,28,28,.2);display:grid;place-items:center;transition:transform .45s var(--sj-ease),background-color .3s,border-color .3s,color .3s}
+.jr-day-ico svg{width:16px;height:16px}
+.jr-day.is-open .jr-day-ico{transform:rotate(45deg);background:#736d47;border-color:#736d47;color:#e9eef1}
+.jr-day.is-open .jr-day-n{color:#736d47}
+.jr-day-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--sj-ease)}
+.jr-day.is-open .jr-day-panel{grid-template-rows:1fr}
+.jr-day-panel>div{overflow:hidden}
+.jr-day-inner{padding:0 52px 24px 100px;font-size:16px;line-height:1.6;color:#424244;max-width:820px}
+.jr-medida{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;margin-top:clamp(32px,4vw,52px);padding:clamp(24px,3vw,44px)}
+.jr-medida h3{font-size:clamp(24px,2.4vw,34px);letter-spacing:-.02em}
+.jr-medida p{margin-top:12px;font-size:17px;line-height:1.6;color:#424244}
+.jr-medida ul{list-style:none;margin:0;padding:0;border-top:1px solid rgba(28,28,28,.14)}
+.jr-medida li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid rgba(28,28,28,.14);font-size:15px;color:#5d5d60}
+.jr-medida li b{font-weight:500;color:#1c1c1c;text-align:right}
+/* Detalle del día bajo la curva (igual que la one-page) */
+.sj-alt-detail{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr) auto;grid-template-areas:"head body nav" "main body nav";gap:6px clamp(20px,3vw,40px);align-items:center;margin-top:10px;padding-top:22px;border-top:1px solid rgba(233,238,241,.12)}
+.sj-alt-dhead{grid-area:head;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sj-alt-dday{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)}
+.sj-alt-dmain{grid-area:main;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.sj-alt-dmain h4{margin:0;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.02em;color:#e9eef1}
+.sj-alt-dmain>span{font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,2.2vw,30px);color:#f4a700}
+.sj-alt-detail p{grid-area:body;margin:0;font-size:16px;line-height:1.55;color:rgba(233,238,241,.85);max-width:52ch}
+.sj-alt-nav{grid-area:nav;display:flex;gap:8px}
+.sj-alt-nav button{width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.25);background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .25s,background-color .25s}
+.sj-alt-nav button:hover{border-color:#83b300;background:rgba(131,179,0,.1)}
+.sj-alt-nav .sj-iso{height:18px}
+
+.jr-phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:clamp(40px,5vw,64px)}
+.jr-phase{display:flex;flex-direction:column}
+.jr-phase-img{aspect-ratio:16/10;overflow:hidden}
+.jr-phase-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--sj-ease)}
+.jr-phase:hover .jr-phase-img img{transform:scale(1.05)}
+.jr-phase-body{padding:22px 24px 26px;display:flex;flex-direction:column;gap:8px}
+.jr-phase-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.jr-phase-body h3{font-size:24px;letter-spacing:-.02em}
+.jr-phase-body p{font-size:15px;line-height:1.55;color:#424244}
+
+.jr-gal{columns:4 220px;column-gap:16px;margin-top:clamp(32px,4vw,52px)}
+.jr-gal button{display:block;width:100%;margin:0 0 16px;padding:0;border:0;border-radius:24px;overflow:hidden;cursor:zoom-in;break-inside:avoid;background:#cfd6da}
+.jr-gal img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--sj-ease)}
+.jr-gal button:hover img{transform:scale(1.05)}
+
+/* Consejos Sunqu + Notas importantes */
+.jr-plan{position:relative;isolation:isolate}
+.jr-plan-nazca{position:absolute;top:clamp(28px,4vw,64px);right:var(--sj-gutter);width:clamp(200px,28vw,440px);z-index:-1;pointer-events:none}
+.jr-plan-nazca img{width:100%;height:auto;animation:jrFloat 10s ease-in-out infinite}
+@keyframes jrFloat{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(-12px,14px) rotate(-3deg)}}
+.jr-plus{color:#df5f0c;margin-right:.04em}
+.jr-tips{list-style:none;margin:clamp(28px,3.5vw,44px) 0 0;padding:0;max-width:780px}
+.jr-tips li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:18px;align-items:start;padding:20px 0;border-top:1px solid rgba(28,28,28,.12)}
+.jr-tips li:last-child{border-bottom:1px solid rgba(28,28,28,.12)}
+.jr-tip-ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#736d47;border:1px solid rgba(115,109,71,.35);background:rgba(233,238,241,.6)}
+.jr-tip-ico svg{width:20px;height:20px}
+.jr-tips p{padding-top:8px;font-size:18px;line-height:1.55;color:#424244;text-wrap:pretty}
+.jr-notes-t{margin-top:clamp(56px,7vw,96px);font-size:clamp(26px,2.6vw,38px);letter-spacing:-.02em}
+.jr-notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:clamp(22px,2.6vw,32px)}
+.jr-note{display:flex;flex-direction:column;gap:18px;padding:clamp(22px,2.4vw,30px)}
+.jr-note-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(115,109,71,.1);color:#736d47}
+.jr-note-ico svg{width:24px;height:24px}
+.jr-note p{font-size:16px;line-height:1.55;color:#424244;text-wrap:pretty}
+.jr-note b{font-weight:600;color:#1c1c1c}
+.jr-note a,.jr-fact a{color:#b04604;font-weight:600;text-decoration:none;background:linear-gradient(currentColor,currentColor) left bottom/0 1px no-repeat;transition:background-size .4s var(--sj-ease)}
+.jr-note a:hover,.jr-fact a:hover{background-size:100% 1px}
+
+/* El mejor momento para visitar */
+#temporada{overflow:hidden}
+.jr-season{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,80px);align-items:end;padding-bottom:0}
+.jr-season-main{padding-bottom:clamp(80px,10vw,140px)}
+.jr-season .sj-lead{margin-top:22px}
+.jr-months{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;align-items:end;max-width:620px;margin-top:clamp(30px,3.6vw,44px)}
+.jr-month{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;text-align:center}
+.jr-month i{display:block;height:16px;border-radius:6px;border:1px dashed rgba(28,28,28,.3)}
+.jr-month[data-l="1"] i{height:30px;border:0;background:rgba(72,114,94,.38)}
+.jr-month[data-l="2"] i{height:48px;border:0;background:#48725E}
+.jr-month small{font-size:12px;letter-spacing:.08em;color:#5d5d60}
+.jr-months-key{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px;font-size:13px;color:#5d5d60}
+.jr-months-key span{display:inline-flex;align-items:center;gap:8px}
+.jr-months-key span::before{content:"";width:12px;height:12px;border-radius:4px;border:1px dashed rgba(28,28,28,.35)}
+.jr-months-key span[data-l="2"]::before{border:0;background:#48725E}
+.jr-months-key span[data-l="1"]::before{border:0;background:rgba(72,114,94,.38)}
+.jr-facts{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 32px;max-width:620px;margin:clamp(40px,4.6vw,60px) 0 0;padding:clamp(28px,3vw,36px) 0 0;border-top:1px solid rgba(28,28,28,.14)}
+.jr-fact{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:start;align-content:start}
+.jr-fact-ico{color:#736d47}
+.jr-fact-ico svg{display:block;width:36px;height:36px}
+.jr-fact-k{display:block;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#1c1c1c}
+.jr-fact-v{display:block;margin-top:6px;font-size:17px;line-height:1.45;color:#424244}
+.jr-season-art{justify-self:end;align-self:end;width:min(100%,600px);margin-right:calc(-1 * var(--sj-gutter))}
+.jr-season-art img{display:block;width:100%;height:auto;transform:translate(6%,8%)}
+
+
+
+.jr-bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:64;display:none;align-items:center;justify-content:space-between;gap:12px;padding:8px 8px 8px 20px;border-radius:999px;background:rgba(28,28,28,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#e9eef1;box-shadow:0 18px 40px rgba(0,0,0,.28);transform:translateY(160%);transition:transform .5s var(--sj-ease)}
+.jr-bar.is-on{transform:none}
+.jr-bar small{display:block;font-size:12px;color:rgba(233,238,241,.65)}
+.jr-bar b{font-family:var(--font-heading);font-weight:600;font-size:18px}
+.jr-bar .btn{padding:13px 20px}
+
+.jr-reel,.jr-lb{position:fixed;inset:0;z-index:90;background:#0f0f0f;color:#e9eef1;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.jr-reel.is-open,.jr-lb.is-open{opacity:1;visibility:visible;transition:opacity .45s ease,visibility 0s}
+.jr-reel>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 1.2s ease,transform 6s linear}
+.jr-reel-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 60%,rgba(0,0,0,.7))}
+.jr-reel-bars{position:absolute;top:24px;left:24px;right:88px;display:flex;gap:6px}
+.jr-reel-bars>span{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.jr-reel-bars b{display:block;height:100%;background:#fff;transform-origin:left}
+.jr-x{position:absolute;top:14px;right:18px;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.25);color:#fff;display:grid;place-items:center;cursor:pointer}
+.jr-reel-cap{position:absolute;left:clamp(20px,4vw,56px);bottom:clamp(28px,5vw,56px);max-width:720px}
+.jr-reel-cap>span{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#f4a700}
+.jr-reel-cap h3{margin-top:10px;font-size:clamp(30px,4.4vw,64px);color:#e9eef1}
+.jr-nav-btn{position:absolute;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.3);display:grid;place-items:center;cursor:pointer}
+.jr-nav-btn .sj-iso{height:18px}
+.jr-nav-prev{left:clamp(12px,2vw,28px)}
+.jr-nav-next{right:clamp(12px,2vw,28px)}
+.jr-lb-img{position:absolute;inset:72px clamp(16px,8vw,120px);display:grid;place-items:center}
+.jr-lb-img img{max-width:100%;max-height:100%;border-radius:18px;object-fit:contain}
+.jr-lb-count{position:absolute;top:26px;left:24px;font-size:14px;color:rgba(255,255,255,.75)}
+
+/* Slider de journeys (igual que la one-page) y Momento Sunqu expandible */
+.sj-sticky{height:100vh !important;height:100svh !important}
+.jr-mo-kicker{position:absolute;left:50%;top:12%;transform:translateX(-50%);color:#83b300;white-space:nowrap;z-index:1}
+.jr-mo-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,.1) 25%,rgba(28,28,28,.35) 55%,rgba(28,28,28,.88));pointer-events:none}
+.jr-mo-text{position:absolute;left:0;right:0;bottom:0;max-width:1440px;margin:0 auto;padding:0 var(--sj-gutter) clamp(40px,7vh,84px)}
+.jr-mo-quote{margin:16px 0 0;font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,5vw,84px);line-height:1.02;letter-spacing:-.03em;color:#e9eef1;max-width:17ch;text-wrap:balance}
+.jr-mo-quote::before{content:"“";color:#83b300}
+.jr-mo-quote::after{content:"”";color:#83b300}
+.jr-mo-conds{list-style:none;margin:clamp(22px,3vw,34px) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.jr-mo-conds li{display:inline-flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:999px;background:rgba(28,28,28,.5);border:1px solid rgba(233,238,241,.24);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-family:var(--font-heading);font-weight:500;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#e9eef1}
+.jr-mo-conds img{width:18px;height:auto}
+
+@media (max-width:1100px){
+  .sj-nav{grid-template-columns:1fr auto;height:64px}
+  .sj-header.is-scrolled .sj-nav{height:60px}
+  .sj-links,.sj-back,.sj-cta{display:none}
+  .sj-burger{display:inline-flex}
+  .jr-layout{grid-template-columns:1fr}
+  .jr-aside{display:none}
+  .jr-bar{display:flex}
+  .jr-has-bar .sj-wa{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+  .sj-contact-grid{grid-template-columns:1fr !important}
+  .sj-foot-contact{grid-template-columns:1fr 1fr !important;gap:20px !important}
+  .sj-foot-contact>div:first-child{grid-column:1/-1}
+  .jr-phases{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+  .jr-notes{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+  .jr-season{grid-template-columns:1fr;gap:0}
+  .jr-season-main{padding-bottom:0}
+  .jr-season-art{width:min(78%,520px);margin-top:clamp(28px,5vw,48px)}
+}
+@media (max-width:759px){
+  .jr-hero{padding:64px 8px 0}
+  .jr-hero-media{height:calc(100svh - 72px);min-height:560px;border-radius:20px}
+  .jr-hero h1{font-size:clamp(40px,11.5vw,60px);max-width:none}
+  .jr-hero-row{flex-direction:column;align-items:stretch;gap:18px;padding-top:18px}
+  .jr-hero-meta .btn{flex:1}
+  .jr-hero-cap,.jr-bars{display:none}
+  .jr-chips{right:auto;left:clamp(20px,3vw,40px);top:52px}
+  .jr-specs{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 16px}
+  .jr-principle{grid-template-columns:1fr}
+  .jr-pcard{max-width:300px}
+  .jr-vive-head{grid-template-columns:1fr}
+  .jr-day-btn{grid-template-columns:58px minmax(0,1fr) 36px;gap:8px 12px;padding:18px 0}
+  .jr-stage{grid-column:2;grid-row:2}
+  .jr-stage[data-s=""]{display:none}
+  .jr-day-m{grid-column:2;grid-row:3;text-align:left}
+  .jr-day-ico{grid-column:3;grid-row:1 / span 3}
+  .jr-day-inner{padding:0 0 22px 70px}
+  .jr-medida{grid-template-columns:1fr}
+  .sj-alt-detail{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"head nav" "main nav" "body body";row-gap:8px}
+  .sj-alt-detail p{margin-top:6px;font-size:15px}
+  .jr-gal{columns:2;column-gap:10px}
+  .jr-gal button{margin-bottom:10px;border-radius:16px}
+  .sj-steps li{grid-template-columns:44px 1fr !important;gap:12px !important}
+  .sj-steps li>span{font-size:28px !important}
+  .sj-submit{width:100%}
+  .sj-foot-row{flex-direction:column;align-items:flex-start !important}
+  .sj-form-note{max-width:none;text-align:center;width:100%}
+  .jr-nav-btn{display:none}
+  .jr-lb-img{inset:72px 12px 96px}
+  .sj-h-sticky{padding-top:72px !important;gap:16px !important}
+  .sj-h-head h2{font-size:30px !important}
+  .sj-filters{border:0 !important;padding:0 !important;gap:8px !important;flex-wrap:nowrap !important;overflow-x:auto;width:calc(100% + 2 * var(--sj-gutter));margin:0 calc(-1 * var(--sj-gutter));padding:0 var(--sj-gutter) !important;scrollbar-width:none}
+  .sj-filters::-webkit-scrollbar{display:none}
+  .sj-filters button{flex:none;border:1px solid rgba(233,238,241,.3) !important;font-size:13px !important;padding:9px 14px !important}
+  .sj-jimg{height:min(30vh,240px) !important}
+  .sj-jcard h3{font-size:22px !important}
+  .sj-jwhy{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .sj-jprice{font-size:16px !important}
+  .sj-jlink{font-size:12px !important}
+  .jr-mo-shade{background:linear-gradient(180deg,rgba(28,28,28,.05) 15%,rgba(28,28,28,.55) 45%,rgba(28,28,28,.92))}
+  .jr-mo-text{padding-bottom:calc(158px + env(safe-area-inset-bottom,0px))}
+  .jr-mo-quote{font-size:clamp(28px,8vw,42px)}
+  .jr-mo-conds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .jr-mo-conds li{border-radius:14px;padding:11px 12px;font-size:11px;letter-spacing:.05em;line-height:1.25}
+  .jr-mo-conds img{width:15px;flex:none}
+  .jr-plan-nazca{top:28px;right:4px;width:150px;opacity:.75}
+  .jr-tips li{grid-template-columns:36px minmax(0,1fr);gap:14px;padding:18px 0}
+  .jr-tip-ico{width:36px;height:36px}
+  .jr-tip-ico svg{width:18px;height:18px}
+  .jr-tips p{padding-top:5px;font-size:16px}
+  .jr-months{gap:4px}
+  .jr-month i{height:12px;border-radius:5px}
+  .jr-month[data-l="1"] i{height:24px}
+  .jr-month[data-l="2"] i{height:38px}
+  .jr-month small{font-size:11px;letter-spacing:.04em}
+  .jr-facts{gap:26px 16px}
+  .jr-fact{grid-template-columns:1fr;gap:10px}
+  .jr-fact-ico svg{width:30px;height:30px}
+  .jr-fact-v{font-size:16px}
+}
+@media (max-width:759px) and (max-height:700px){
+  .sj-jimg{height:150px !important}
+  .sj-h-head h2{font-size:26px !important}
+  .sj-h-sticky{padding-top:68px !important;gap:12px !important}
+}
+@media (max-width:520px){
+  .sj-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .sj-chips .radio{justify-content:center;padding:12px 6px;font-size:14px}
+  .sj-chips .radio .dot{display:none}
+}
+@media print{
+  .sj-header,.sj-wa,.jr-bar,.jr-reel,.jr-lb,.sj-drawer,.sj-scrim{display:none !important}
+  .jr-day-panel{grid-template-rows:1fr !important}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .jr-hero-img,.jr-reel>img{transition:opacity .01s !important}
+  .sj-alt-reveal{transition:none !important}
+  .jr-plan-nazca img{animation:none}
+}
+</style>
+</helmet>
+<div class="jr-wrap {{ wrapCls }}" style="background:{{ pageBg }}">
+
+<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+<nav class="sj-nav" aria-label="Principal">
+<a href="index.html" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio"><img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}"><img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}"></a>
+<ul class="sj-links">
+<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+</sc-for>
+</ul>
+<div class="sj-actions">
+<a href="index.html#descubre" class="sj-back">Journeys</a>
+<a href="#reservar" class="btn btn-primary sj-cta">Diseña tu viaje</a>
+<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
+</div>
+</nav>
+</header>
+
+<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
+<div class="sj-drawer-top">
+<img src="assets/logo-light.png" alt="Sunqu Journeys">
+<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+<div>
+<div class="sj-drawer-kicker">{{ j.title }}</div>
+<nav class="sj-drawer-nav" aria-label="Secciones del journey">
+<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link"><span class="sj-drawer-n">{{ m.n }}</span><span>{{ m.label }}</span><img src="assets/diamond-lime.png" alt="" class="sj-iso" style="height:24px"></a>
+</sc-for>
+</nav>
+</div>
+<div class="sj-drawer-sub"><a href="index.html">Inicio</a><a href="index.html#descubre">Todos los journeys</a><a href="#otros" onClick="{{ closeMenu }}">Otros journeys</a></div>
+<div class="sj-drawer-foot">
+<a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+<div class="sj-band sj-band--light" aria-hidden="true"></div>
+</div>
+</aside>
+
+<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg><span class="sj-wa-label">¿Hablamos?</span></a>
+
+<div class="jr-bar {{ barCls }}" role="region" aria-label="Reserva">
+<div><small>{{ j.priceKicker }}</small><b>{{ j.priceShort }}</b></div>
+<a href="#reservar" class="btn btn-light">Diseñar<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</div>
+
+<div class="jr-reel {{ reelCls }}" role="dialog" aria-modal="true" aria-label="El viaje en imágenes">
+<sc-for list="{{ reelSlides }}" as="r" hint-placeholder-count="4">
+<img src="{{ r.src }}" alt="{{ r.alt }}" style="opacity:{{ r.op }};transform:scale({{ r.sc }})">
+</sc-for>
+<div class="jr-reel-shade"></div>
+<div class="jr-reel-bars" aria-hidden="true"><sc-for list="{{ reelSlides }}" as="r" hint-placeholder-count="4"><span><b style="transform:scaleX({{ r.fill }});transition:{{ r.tr }}"></b></span></sc-for></div>
+<button type="button" class="jr-x" onClick="{{ closeReel }}" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+<button type="button" class="jr-nav-btn jr-nav-prev" onClick="{{ reelPrev }}" aria-label="Anterior"><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back"></button>
+<button type="button" class="jr-nav-btn jr-nav-next" onClick="{{ reelNext }}" aria-label="Siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+<div class="jr-reel-cap" aria-live="polite"><span>{{ j.title }}</span><h3>{{ reelTitle }}</h3></div>
+</div>
+
+<div class="jr-lb {{ lbCls }}" role="dialog" aria-modal="true" aria-label="Galería del viaje">
+<span class="jr-lb-count">{{ lbCount }}</span>
+<div class="jr-lb-img"><img src="{{ lbSrc }}" alt="Foto del viaje"></div>
+<button type="button" class="jr-x" onClick="{{ closeLb }}" aria-label="Cerrar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+<button type="button" class="jr-nav-btn jr-nav-prev" onClick="{{ lbPrev }}" aria-label="Foto anterior"><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back"></button>
+<button type="button" class="jr-nav-btn jr-nav-next" onClick="{{ lbNext }}" aria-label="Foto siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+</div>
+
+<main>
+
+<section id="inicio" class="jr-hero" data-bg="dark" aria-label="{{ j.title }}">
+<div class="jr-hero-media">
+<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><img src="{{ s.src }}" alt="" class="jr-hero-img" style="opacity:{{ s.op }};transform:scale({{ s.sc }})"></sc-for>
+<div class="jr-hero-shade"></div>
+<nav class="jr-crumbs" aria-label="Migas de pan"><a href="index.html#descubre">Journeys</a><span aria-hidden="true">/</span><span aria-current="page">{{ j.title }}</span></nav>
+<div class="jr-chips"><span class="jr-chip-dark">{{ j.alt }}</span><span class="jr-chip-light">{{ j.days }}</span></div>
+<div class="jr-hero-in">
+<div>
+<span class="jr-hero-kicker" data-reveal="" data-delay="150">{{ j.kicker }}</span>
+<h1 data-reveal="" data-delay="250">{{ j.title }}<sc-if value="{{ j.hasSub }}" hint-placeholder-val="{{ false }}"><span class="jr-sub">{{ j.sub }}</span></sc-if></h1>
+</div>
+<div class="jr-hero-row" data-reveal="" data-delay="380">
+<p>{{ j.what }}</p>
+<div class="jr-hero-meta">
+<span class="jr-hero-cap">{{ heroCaption }}</span>
+<div class="jr-bars" aria-hidden="true"><sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><span style="background:{{ s.bar }}"></span></sc-for></div>
+<button type="button" class="btn btn-ghost-light" onClick="{{ openReel }}"><svg class="jr-play-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14z" fill="currentColor"></path></svg>Ver el viaje</button>
+<a href="#reservar" class="btn btn-light">Diseñar mi viaje<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="jr-intro sj-dark" data-bg="dark" aria-label="Por qué existe este viaje">
+<div class="jr-intro-col">
+<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Por qué existe este viaje</span>
+<p class="jr-why" data-reveal="" data-delay="80">“{{ j.why }}”</p>
+<p class="jr-what" data-reveal="" data-delay="160">{{ j.whatLong }}</p>
+<div class="jr-specs" data-reveal="">
+<div><span class="jr-meta-label">Duración</span><ul><li>{{ j.days }}</li></ul></div>
+<div><span class="jr-meta-label">Precio</span><ul><li>{{ j.price }}</li></ul></div>
+<div><span class="jr-meta-label">Ruta</span><ul><sc-for list="{{ j.route }}" as="r" hint-placeholder-count="3"><li>{{ r }}</li></sc-for></ul></div>
+<div><span class="jr-meta-label">Ideal para</span><ul><sc-for list="{{ j.concepts }}" as="c" hint-placeholder-count="2"><li>{{ c }}</li></sc-for></ul></div>
+</div>
+</div>
+</section>
+
+<div class="sj-light" data-bg="light">
+<div class="sj-in sj-pad jr-layout">
+<div class="jr-main">
+<section id="descubre">
+<span class="sj-eyebrow" data-reveal="">Descubre</span>
+<h2 class="sj-h2" data-reveal="" style="max-width:14ch">{{ j.storyTitle }}</h2>
+<div class="jr-story">
+<sc-for list="{{ j.story }}" as="p" hint-placeholder-count="2"><p data-reveal="">{{ p }}</p></sc-for>
+<p class="jr-moment-line" data-reveal=""><b>Momento Sunqu:</b> {{ j.moment }}</p>
+</div>
+<div class="jr-principle">
+<div class="jr-pcard" data-reveal="" style="background:{{ j.how.bg }};color:{{ j.how.fg }}">
+<div class="jr-pcard-img"><img src="{{ j.how.photo }}" alt=""></div>
+<span>{{ j.how.kicker }}</span>
+<h3 style="color:{{ j.how.fg }}">{{ j.how.title }}</h3>
+</div>
+<div class="jr-principle-txt" data-reveal="" data-delay="120">
+<span class="jr-meta-label">El principio que guía este viaje</span>
+<h3>{{ j.how.name }}</h3>
+<p>{{ j.how.text }}</p>
+<span class="jr-q">{{ j.how.q }}</span>
+</div>
+</div>
+</section>
+</div>
+<aside class="jr-aside" aria-label="Reserva">
+<div class="blueprint jr-book">
+<span class="sj-eyebrow">Sunqu Journey</span>
+<div class="jr-book-price">{{ j.price }}<small>{{ j.priceNote }}</small></div>
+<ul>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>Duración<b>{{ j.days }}</b></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>{{ j.altLabel }}<b>{{ j.alt }}</b></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Ruta<b>{{ j.region }}</b></li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Acompañamiento<b>Travel Advisor</b></li>
+</ul>
+<a href="#reservar" class="btn btn-primary">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
+<a href="{{ waHref }}" target="_blank" rel="noopener" class="btn btn-secondary">Escríbenos por WhatsApp</a>
+<p class="jr-book-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+</div>
+</aside>
+</div>
+</div>
+
+<section id="vive" class="sj-alt-bg" data-bg="alt" aria-label="Día a día">
+<div class="sj-in sj-pad">
+<div class="jr-vive-head">
+<div><span class="sj-eyebrow" data-reveal="">Vive · Día a día</span><h2 class="sj-h2" data-reveal="" style="max-width:13ch">{{ j.vivTitle }}</h2></div>
+<p class="sj-lead" data-reveal="">{{ j.vivText }}</p>
+</div>
+<sc-if value="{{ hasDays }}" hint-placeholder-val="{{ true }}">
+
+<div class="jr-days" style="margin-top:clamp(32px,4vw,52px)">
+<sc-for list="{{ days }}" as="d" hint-placeholder-count="8">
+<div class="jr-day {{ d.cls }}">
+<button type="button" class="jr-day-btn" onClick="{{ d.toggle }}" aria-expanded="{{ d.open }}" aria-controls="{{ d.pid }}">
+<span class="jr-day-n">{{ d.n }}</span>
+<span class="jr-day-t">{{ d.title }}</span>
+<span class="jr-stage" data-s="{{ d.stage }}">{{ d.stage }}</span>
+<span class="jr-day-m">{{ d.m }}</span>
+<span class="jr-day-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+</button>
+<div class="jr-day-panel" id="{{ d.pid }}"><div><p class="jr-day-inner">{{ d.body }}</p></div></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ noDays }}" hint-placeholder-val="{{ false }}">
+<div class="blueprint jr-medida" data-reveal="">
+<div><h3>El día a día lo diseñamos contigo</h3><p>{{ j.whatLong }} Tu Travel Advisor te envía el itinerario completo, con precio y altitud claros desde el primer día.</p><a href="#reservar" class="btn btn-primary" style="margin-top:22px">Pedir el itinerario<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a></div>
+<ul><li>Duración<b>{{ j.days }}</b></li><li>Ruta<b>{{ j.region }}</b></li><li>{{ j.altLabel }}<b>{{ j.alt }}</b></li><li>Precio<b>{{ j.price }}</b></li></ul>
+</div>
+</sc-if>
+</div>
+</section>
+
+<sc-if value="{{ hasDays }}" hint-placeholder-val="{{ true }}">
+<section id="altitud" class="sj-dark" data-bg="dark" aria-label="Curva de altitud">
+<div class="sj-in sj-pad">
+<div class="jr-vive-head">
+<div><span class="sj-eyebrow" data-reveal="" style="color:#83b300">Curva de altitud</span><h2 class="sj-h2" data-reveal="" style="color:#e9eef1;max-width:14ch">{{ j.chartTitle }}</h2></div>
+<p class="sj-lead" data-reveal="">{{ j.chartText }}</p>
+</div>
+<figure class="blueprint sj-alt jr-chart" data-reveal="" role="group" aria-label="Curva de altitud día a día">
+<div class="sj-alt-bar"><span class="sj-alt-leg"><i class="sj-alt-key"></i>Altitud del viaje</span><span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Umbral del soroche · 3.400 m</span></div>
+<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
+<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
+<svg width="100%" height="100%" viewBox="{{ alt.vb }}" aria-hidden="true" style="display:block">
+<defs><linearGradient id="jrAltFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#83b300" stopOpacity=".38"></stop><stop offset="1" stopColor="#83b300" stopOpacity="0"></stop></linearGradient></defs>
+<rect x="0" y="0" width="{{ alt.w }}" height="{{ alt.yTh }}" fill="rgba(223,95,12,.07)"></rect>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y4000 }}" y2="{{ alt.y4000 }}" stroke="rgba(233,238,241,.1)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y2000 }}" y2="{{ alt.y2000 }}" stroke="rgba(233,238,241,.1)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yBase }}" y2="{{ alt.yBase }}" stroke="rgba(233,238,241,.28)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yTh }}" y2="{{ alt.yTh }}" stroke="#df5f0c" strokeWidth="1.5" strokeDasharray="6 6"></line>
+<polygon points="{{ alt.area }}" fill="url(#jrAltFill)"></polygon>
+<line x1="{{ alt.gx }}" x2="{{ alt.gx }}" y1="{{ alt.gy }}" y2="{{ alt.yBase }}" stroke="rgba(244,167,0,.7)" strokeDasharray="2 4"></line>
+<polyline points="{{ alt.line }}" fill="none" stroke="#83b300" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"></polyline>
+</svg>
+<span class="sj-alt-y" style="top:{{ alt.y4000 }}px">4.000 m</span>
+<span class="sj-alt-y" style="top:{{ alt.y2000 }}px">2.000 m</span>
+<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8"><button type="button" class="sj-alt-pt" data-on="{{ pt.on }}" style="left:{{ pt.x }}px;top:{{ pt.y }}px" onClick="{{ pt.pick }}" onFocus="{{ pt.pick }}" aria-label="{{ pt.label }}" aria-pressed="{{ pt.on }}"><span></span></button></sc-for>
+<div class="sj-alt-tip" style="left:{{ alt.tipX }}px;top:{{ alt.tipY }}px;transform:translate({{ alt.tipTx }},-100%)">{{ alt.selM }}</div>
+</div>
+</div>
+<div class="sj-alt-x" aria-hidden="true"><sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8"><span data-on="{{ pt.on }}" style="left:{{ pt.x }}px">{{ pt.d }}</span></sc-for></div>
+<div class="sj-alt-detail" aria-live="polite">
+<div class="sj-alt-dhead"><span class="sj-alt-dday">{{ alt.selD }}</span><span class="jr-stage" data-s="{{ alt.selStage }}">{{ alt.selStage }}</span></div>
+<div class="sj-alt-dmain"><h4>{{ alt.selTitle }}</h4><span>{{ alt.selM }}</span></div>
+<p>{{ alt.selBody }}</p>
+<div class="sj-alt-nav"><button type="button" onClick="{{ alt.prev }}" aria-label="Día anterior"><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back"></button><button type="button" onClick="{{ alt.next }}" aria-label="Día siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso"></button></div>
+</div>
+</figure>
+</div>
+</section>
+</sc-if>
+
+<section id="momento" class="sj-dark" data-expand="" data-bg="dark" aria-label="Momento Sunqu" style="height:240vh;position:relative">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
+<span class="sj-eyebrow jr-mo-kicker" data-expand-kicker="">Momento Sunqu</span>
+<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
+<img src="{{ j.momentImg }}" alt="{{ j.momentAlt }}" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
+<div class="jr-mo-shade"></div>
+</div>
+<div data-expand-text="" class="jr-mo-text" style="opacity:0">
+<span class="sj-eyebrow" style="color:#83b300">Momento Sunqu</span>
+<blockquote class="jr-mo-quote">{{ j.moment }}</blockquote>
+<ul class="jr-mo-conds" aria-label="Las cuatro condiciones de un Momento Sunqu">
+<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4"><li><img src="{{ c.icon }}" alt="">{{ c.title }}</li></sc-for>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="conecta" class="sj-light" data-bg="light" aria-label="Te reciben">
+<div class="sj-in sj-pad">
+<span class="sj-eyebrow" data-reveal="">Conecta · Te reciben</span>
+<h2 class="sj-h2" data-reveal="" style="max-width:14ch">Viajas con personas, no con proveedores.</h2>
+<div class="jr-hosts">
+<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="2">
+<article class="blueprint jr-host" data-reveal="">
+<div class="duotone jr-host-img"><img src="{{ h.img }}" alt="{{ h.alt }}"></div>
+<div class="jr-host-body"><div class="jr-host-head"><h3>{{ h.role }}</h3><small>{{ h.place }}</small></div><p><strong>Te enseña · </strong>{{ h.teach }}</p></div>
+</article>
+</sc-for>
+<div class="blueprint jr-ayni" data-reveal="">
+<img src="assets/pattern-ring.png" alt="">
+<div><span class="jr-ayni-k">Ayni · reciprocidad</span><h3>Ficha de reciprocidad</h3><p>Publicamos qué recibe cada comunidad anfitriona, cómo se decidió y quién lo administra. La comunidad tiene poder de veto sobre cómo se cuenta su historia.</p><sc-if value="{{ j.hasAyniNote }}" hint-placeholder-val="{{ false }}"><b>{{ j.ayniNote }}</b></sc-if></div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+<section id="recuerda" class="sj-alt-bg" data-bg="alt" aria-label="Antes, durante y después">
+<div class="sj-in sj-pad">
+<span class="sj-eyebrow" data-reveal="">Recuerda · Qué incluye</span>
+<h2 class="sj-h2" data-reveal="" style="max-width:15ch">El viaje empieza antes del vuelo y sigue después.</h2>
+<div class="jr-phases">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+<article class="blueprint jr-phase" data-reveal="">
+<div class="jr-phase-img"><img src="{{ ph.img }}" alt="" loading="lazy"></div>
+<div class="jr-phase-body"><span class="jr-phase-k" style="color:{{ ph.color }}">{{ ph.kicker }}</span><h3>{{ ph.title }}</h3><p>{{ ph.body }}</p></div>
+</article>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="planifica" class="sj-light" data-bg="light" aria-label="Consejos y notas importantes">
+<div class="sj-in sj-pad jr-plan">
+<div class="jr-plan-nazca" aria-hidden="true"><img src="assets/nazca.png" alt=""></div>
+<span class="sj-eyebrow" data-reveal="">Antes de ir</span>
+<h2 class="sj-h2" data-reveal=""><span class="jr-plus" aria-hidden="true">+</span>Consejos Sunqu</h2>
+<ul class="jr-tips">
+<sc-for list="{{ tips }}" as="t" hint-placeholder-count="3">
+<li data-reveal=""><span class="jr-tip-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span><p>{{ t.text }}</p></li>
+</sc-for>
+</ul>
+<h3 class="jr-notes-t" data-reveal="">Notas importantes</h3>
+<div class="jr-notes">
+<article class="blueprint jr-note" data-reveal="">
+<span class="jr-note-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path><path d="m9 16 2 2 4-4"></path></svg></span>
+<p>Aplaza sin coste hasta <b>20 días antes</b> de la salida. Lo ves junto al precio, no en la letra pequeña.</p>
+</article>
+<article class="blueprint jr-note" data-reveal="" data-delay="90">
+<span class="jr-note-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></span>
+<p>Cada comunidad anfitriona sabe qué recibe de tu viaje. Lo publicamos en nuestra <a href="#conecta">Ficha de reciprocidad</a>.</p>
+</article>
+<article class="blueprint jr-note" data-reveal="" data-delay="180">
+<span class="jr-note-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="4" r="1"></circle><path d="m18 19 1-7-6 1"></path><path d="m5 8 3-3 5.5 3-2.36 3.5"></path><path d="M4.24 14.5a5 5 0 0 0 6.88 6"></path><path d="M13.76 17.5a5 5 0 0 0-6.88-6"></path></svg></span>
+<p>{{ access }} Si tienes movilidad reducida, <a href="#reservar">cuéntanos y lo adaptamos</a>.</p>
+</article>
+</div>
+</div>
+</section>
+
+<section id="temporada" class="sj-alt-bg" data-bg="alt" aria-label="El mejor momento para visitar">
+<div class="sj-in sj-pad jr-season">
+<div class="jr-season-main">
+<span class="sj-eyebrow" data-reveal="">Temporadas de viaje</span>
+<h2 class="sj-h2" data-reveal="" style="max-width:13ch">El mejor momento para visitar</h2>
+<p class="sj-lead" data-reveal="">{{ season.text }}</p>
+<div class="jr-months" data-reveal="" role="img" aria-label="{{ season.label }}">
+<sc-for list="{{ season.months }}" as="mo" hint-placeholder-count="12"><span class="jr-month" data-l="{{ mo.level }}" title="{{ mo.tip }}"><i></i><small>{{ mo.m }}</small></span></sc-for>
+</div>
+<div class="jr-months-key" data-reveal="" aria-hidden="true"><span data-l="2">Ideal</span><span data-l="1">Buena</span><span data-l="0">Temporada de lluvias</span></div>
+<ul class="jr-facts">
+<li class="jr-fact" data-reveal=""><span class="jr-fact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M4.93 4.93l1.41 1.41M20 12h2M19.07 4.93l-1.41 1.41"></path><path d="M15.95 12.65a4 4 0 0 0-5.93-4.13"></path><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"></path></svg></span><div><b class="jr-fact-k">Clima</b><span class="jr-fact-v">{{ season.clima }}</span></div></li>
+<li class="jr-fact" data-reveal="" data-delay="90"><span class="jr-fact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path><path d="M12 9v6"></path></svg></span><div><b class="jr-fact-k">Temperatura</b><span class="jr-fact-v">{{ season.temp }}</span></div></li>
+<li class="jr-fact" data-reveal=""><span class="jr-fact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path></svg></span><div><b class="jr-fact-k">Calendario</b><span class="jr-fact-v">{{ season.cal }}</span></div></li>
+<li class="jr-fact" data-reveal="" data-delay="90"><span class="jr-fact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path><path d="M8 12h8M8 8.5h5"></path></svg></span><div><b class="jr-fact-k">Consejos y más</b><span class="jr-fact-v">Todo lo que debes saber, <a href="{{ waHref }}" target="_blank" rel="noopener">pregúntalo aquí</a></span></div></li>
+</ul>
+</div>
+<div class="jr-season-art" data-reveal="" data-delay="120" aria-hidden="true"><img src="assets/pattern-steps.png" alt="" loading="lazy"></div>
+</div>
+</section>
+
+<section id="galeria" class="sj-light" data-bg="light" aria-label="Galería del viaje">
+<div class="sj-in sj-pad">
+<span class="sj-eyebrow" data-reveal="">Galería</span>
+<h2 class="sj-h2" data-reveal="">Así se ve el viaje.</h2>
+<div class="jr-gal">
+<sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8"><button type="button" onClick="{{ g.open }}" aria-label="{{ g.label }}" style="aspect-ratio:{{ g.ratio }}"><img src="{{ g.src }}" alt="Foto del viaje" loading="lazy"></button></sc-for>
+</div>
+</div>
+</section>
+
+<section id="otros" class="sj-dark" data-hscroll="" data-bg="dark" aria-label="Otros journeys" style="position:relative;height:300vh;color:#e9eef1">
+<div class="sj-sticky sj-h-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3vh,36px);padding-top:64px;box-sizing:border-box">
+<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap" class="sj-h-head">
+<div><span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">Otros journeys · {{ journeyCount }}</span>
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4.4vw,72px);line-height:1;margin:10px 0 0;max-width:13ch;color:#e9eef1">¿Cómo quieres sentir el Perú?</h2></div>
+<div class="sj-filters" role="group" aria-label="Filtrar journeys" style="display:flex;border:1px solid rgba(233,238,241,.3);border-radius:999px;padding:4px;flex-wrap:wrap;gap:2px">
+<sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="border:0;border-radius:999px;font-family:var(--font-heading);font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;background:{{ c.bg }};color:{{ c.color }};cursor:pointer;transition:background .3s">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+<div data-htrack="" ref="{{ stripRef }}" style="display:flex;gap:24px;width:max-content;padding:0 max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));will-change:transform">
+<sc-for list="{{ others }}" as="oj" hint-placeholder-count="4">
+<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
+<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
+<img src="{{ oj.img }}" alt="{{ oj.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ oj.alt }}</span>
+<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ oj.days }}</span>
+</div>
+<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1">
+<span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.65)">{{ oj.region }}</span>
+<h3 style="letter-spacing:-.02em;font-size:26px;line-height:1.08;margin:0;color:#e9eef1">{{ oj.title }}</h3>
+<p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ oj.why }}</p>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
+<span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ oj.price }}</span>
+<a href="{{ oj.href }}" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box"><div style="height:2px;background:rgba(233,238,241,.18)"><div data-hbar="" style="height:100%;background:#f4a700;transform-origin:left;transform:scaleX(0)"></div></div></div>
+</div>
+</section>
+
+<section id="reservar" class="sj-light" data-bg="light" aria-label="Diseña tu viaje" style="border-top:1px solid rgba(28,28,28,.16)">
+<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+<div>
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
+<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
+<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+<div><h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3><p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p></div>
+</li>
+</sc-for>
+</ol>
+</div>
+<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ submit }}" class="sj-form">
+<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+<div class="sj-form-row">
+<div class="field"><label for="f-name">Nombre</label><input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre"></div>
+<div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com"></div>
+</div>
+<div class="field"><label for="f-month">¿Cuándo te gustaría viajar?</label>
+<select id="f-month" name="mes" class="input"><option>Aún no lo sé</option><option>Enero – marzo</option><option>Abril – junio</option><option>Julio – septiembre</option><option>Octubre – diciembre</option></select></div>
+<fieldset class="field"><legend class="sj-label">¿Qué quieres sentir?</legend>
+<div class="sj-chips">
+<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
+<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
+</div></fieldset>
+<div class="field"><label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label><textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea></div>
+<div class="sj-form-foot">
+<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+<img src="assets/diamond-lime.png" alt="" style="width:56px">
+<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
+<a href="#reservar" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+</div>
+<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span><a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span><a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span><span>Lima, Perú</span></div>
+</div>
+</div>
+<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="index.html#descubre" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Experiencias</a><a href="index.html#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, barOn: false, nav: null, hero: 0, reel: false, reelIdx: 0, reelTick: 0, day: 0, altIdx: 0, chartW: 0, chartIn: false, lb: -1, sent: false, concept: 'todo' };
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  stripRef = React.createRef();
+  chartRef = React.createRef();
+  NAV = [['descubre', 'Descubre'], ['vive', 'Día a día'], ['conecta', 'Conecta'], ['recuerda', 'Recuerda']];
+  U = (id, w = 1800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`;
+  PRINCIPLES = {
+    '01': { kicker: '01 · Selección', title: 'Curamos, no acumulamos', q: '¿Es la experiencia correcta, o solo una más disponible?', bg: '#1c1c1c', fg: '#e9eef1', photo: '1567597243073-2d274aabecec' },
+    '02': { kicker: '02 · Ejecución', title: 'Contamos historias', q: '¿Recibes contexto y significado, no solo acceso?', bg: '#83b300', fg: '#1c1c1c', photo: '1568805647297-df963b524678' },
+    '06': { kicker: '06 · Ejecución', title: 'Antes, durante y después', q: '¿La relación empieza antes del vuelo y sigue después?', bg: '#48725E', fg: '#e9eef1', photo: '1730423284218-a8a7e9422ebf' },
+    'or': { kicker: 'Cómo se vive', title: 'Del plato al origen', q: '¿De dónde viene lo que tienes en el plato?', bg: '#df5f0c', fg: '#1c1c1c', photo: '1632913582499-381c7c798787' },
+  };
+  HOSTS = {
+    tejedora: { role: 'Tejedora', place: 'Chinchero, Cusco', teach: 'teñido natural y telar de cintura.', img: '1568805778796-96b66708d6e0', alt: 'Tejedora en su telar' },
+    picantera: { role: 'Picantera', place: 'Arequipa', teach: 'un plato de picantería, y te llevas la receta.', img: '1566793772361-1d5d9cefbd12', alt: 'Anfitrionas con trajes tradicionales' },
+    familia: { role: 'Familia anfitriona', place: 'Valle Sagrado', teach: 'la pachamanca, cocinada bajo tierra.', img: '1730423284218-a8a7e9422ebf', alt: 'Familia anfitriona' },
+  };
+  J = {
+    alma: {
+      c: ['historia', 'gente'], momentImg: 'https://images.unsplash.com/photo-1590835192370-3941b97e93fd?auto=format&fit=crop&w=2200&q=72', momentAlt: 'Valle Sagrado al atardecer',
+      title: 'El Alma de los Andes', kicker: 'Journey · La historia · La gente', days: '8 días', price: 'Desde USD 4.200', priceShort: 'USD 4.200', priceKicker: 'Desde · por persona', priceNote: 'por persona · precio desde', alt: '2.800 m', altLabel: 'Altitud de entrada',
+      region: 'Valle Sagrado · Cusco · Machu Picchu', route: ['Lima', 'Valle Sagrado', 'Maras y Moray', 'Machu Picchu', 'Cusco'], concepts: ['La historia', 'La gente'], card: '1559160671-cc23bc25eb94',
+      why: 'Los Andes no son ruinas y paisaje: son una cultura que sigue viva y que se puede conocer a través de quienes la sostienen.',
+      what: 'Journey de 8 días con entrada por el Valle Sagrado a 2.800 m en lugar de Cusco a 3.400 m.',
+      whatLong: 'Un journey de 8 días que entra por el Valle Sagrado a 2.800 m en lugar de Cusco a 3.400 m.',
+      storyTitle: 'Empezamos 600 metros más abajo.',
+      story: ['La decisión de empezar en el Valle Sagrado parece logística, pero es la expresión más concreta de cómo acompañamos: el cuidado empieza antes de que el viaje empiece.', 'Tratamos el soroche como una variable de diseño, no como una advertencia en letra pequeña. Empezamos 600 metros más abajo porque queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza.'],
+      moment: 'La primera noche en el Valle Sagrado, cuando entiendes por qué llegaste ahí y no a Cusco.',
+      how: '06', howText: 'El cuidado empieza en la web y en el itinerario: por eso publicamos el precio, la altitud y el nombre de tus anfitriones antes de que tengas que preguntar.',
+      hosts: ['tejedora', 'familia'], mp: 'alma',
+      slides: [['1590835192370-3941b97e93fd', 'Valle Sagrado · 2.800 m'], ['1568805778796-96b66708d6e0', 'Chinchero · telar de cintura'], ['1532996152552-eaffc4edfc1a', 'Machu Picchu · 2.430 m'], ['1730423284218-a8a7e9422ebf', 'Valle Sagrado · familia anfitriona']],
+      vivTitle: 'Ocho días, sin prisa.', vivText: 'Toca cada día para ver qué vives. La altitud sube de a poco para que el cuerpo se adapte.',
+      chartTitle: 'La altitud es parte del diseño.', chartText: 'La curva comunica el cuidado antes de que tengas que preguntar por él: entramos por el Valle Sagrado a 2.800 m y llegamos a Cusco, en el umbral del soroche, al final.',
+      itin: [
+        { t: 'Lima', m: 154, stage: '', body: 'Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa.' },
+        { t: 'Valle Sagrado', m: 2800, stage: '', body: 'Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche.' },
+        { t: 'Valle Sagrado', m: 2800, stage: '', body: 'Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre.' },
+        { t: 'Maras y Moray', m: 3300, stage: '', body: 'Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray.' },
+        { t: 'Machu Picchu', m: 2430, stage: '', body: 'Bajamos a la ciudadela. Primero la piedra.' },
+        { t: 'Comunidad', m: 3500, stage: '', body: 'Después, la gente: la pachamanca, cocinada bajo tierra con una familia anfitriona.' },
+        { t: 'Cusco', m: 3400, stage: '', body: 'Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura.' },
+        { t: 'Lima', m: 154, stage: '', body: 'Regreso a Lima con los nombres de quienes te recibieron.' },
+      ],
+    },
+    sabor: {
+      c: ['sabor', 'gente'], momentImg: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=2200&q=72', momentAlt: 'Plato de picantería',
+      title: 'El Perú que se Saborea', kicker: 'Journey · El sabor · La gente', days: '10 días', price: 'Desde USD 5.400', priceShort: 'USD 5.400', priceKicker: 'Desde · por persona', priceNote: 'por persona · precio desde', alt: '2.335 m', altLabel: 'Altitud de Arequipa',
+      region: 'Arequipa · Colca', route: ['Arequipa', 'Valle del Colca'], concepts: ['El sabor', 'La gente'], card: '1535399831218-d5bd36d1a6b3',
+      why: 'La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.',
+      what: 'Journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.',
+      whatLong: 'Un journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.',
+      storyTitle: 'Elegir el destino correcto, no el obvio.',
+      story: ['Arequipa no se eligió porque sea mejor que Cusco, sino porque la picantería arequipeña es un formato culinario con anfitriona de nombre propio: algo que un restaurante de autor no ofrece.', 'Por eso el viaje se construye fuera de la ruta de siempre. Curar con disciplina es elegir el lugar donde la cocina todavía tiene nombre y apellido.'],
+      moment: 'La picantería, con la picantera nombrada y tú cocinando con ella. Te llevas la receta.',
+      how: '01', howText: 'Curar es elegir una experiencia y renunciar a otras diez. Aquí significa que la picantería no es una parada gastronómica: es el centro del viaje, con una persona que te enseña.',
+      hosts: ['picantera'], mp: null,
+      slides: [['1535399831218-d5bd36d1a6b3', 'Arequipa · picantería'], ['1535400875775-0269e7a919af', 'Mercado y producto local'], ['1566793772361-1d5d9cefbd12', 'Cocina con nombre propio'], ['1541637593725-923467404d17', 'Paisaje andino']],
+      vivTitle: 'Diez días, del mercado a la cocina.', vivText: 'La picantería es el centro del viaje: ahí cocinas con la picantera y te llevas su receta.',
+      itin: null,
+    },
+    profundo: {
+      c: ['historia', 'gente'], momentImg: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=2200&q=72', momentAlt: 'Comunidad anfitriona',
+      title: 'Perú Profundo', kicker: 'Journey · La historia · La gente', days: '9 días', price: 'Desde USD 6.800', priceShort: 'USD 6.800', priceKicker: 'Desde · por persona', priceNote: 'por persona · precio desde', alt: '2.430 m', altLabel: 'Altitud de Machu Picchu',
+      region: 'Machu Picchu · comunidades', route: ['Machu Picchu', 'Comunidades andinas'], concepts: ['La historia', 'La gente'], card: '1532996152552-eaffc4edfc1a',
+      why: 'El monumento se entiende al revés: primero la piedra, después la gente que desciende de quienes la pusieron ahí.',
+      what: 'Journey de 9 días con Machu Picchu al inicio e inmersión comunitaria después.',
+      whatLong: 'Un journey de 9 días con Machu Picchu al inicio y la inmersión comunitaria después.',
+      storyTitle: 'Machu Picchu es la premisa, no el clímax.',
+      story: ['La estructura del itinerario es en sí misma la historia que se cuenta. Cuando Machu Picchu es el clímax, todo lo anterior se vuelve preparación y todo lo posterior, anticlímax.', 'Aquí Machu Picchu va al principio. Es la premisa, y los días siguientes son el argumento: la gente que desciende de quienes pusieron la piedra.'],
+      moment: 'El regreso a la comunidad después de Machu Picchu, cuando descubres que lo que recordarás no es la piedra.',
+      how: '02', howText: 'Contar historias no es añadir un guía: es ordenar el viaje para que tenga sentido. El orden de los días es el relato.',
+      hosts: ['familia'], mp: 'profundo', ayniNote: 'En este viaje la ficha de reciprocidad es un requisito, no un extra.',
+      slides: [['1532996152552-eaffc4edfc1a', 'Machu Picchu · 2.430 m'], ['1730423284218-a8a7e9422ebf', 'Comunidad anfitriona'], ['1566793772361-1d5d9cefbd12', 'Comunidades andinas'], ['1590835192370-3941b97e93fd', 'Valle Sagrado']],
+      vivTitle: 'Primero la piedra, después la gente.', vivText: 'Machu Picchu abre el viaje; la inmersión comunitaria es lo que viene después, y lo que recordarás.',
+      itin: null,
+    },
+    origen: {
+      c: ['sabor', 'historia'], momentImg: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=2200&q=72', momentAlt: 'Familia anfitriona',
+      title: 'Sunqu Origen', sub: 'Del mercado a la montaña', kicker: 'Journey insignia · El sabor · La historia', days: '9 días', price: 'Journey insignia', priceShort: 'Journey insignia', priceKicker: 'Precio a consultar', priceNote: 'precio a consultar con tu Travel Advisor', alt: '3.500 m', altLabel: 'Altitud máxima',
+      region: 'Lima · Valle Sagrado · Cusco', route: ['Lima', 'Valle Sagrado', 'Moray y Maras', 'Machu Picchu', 'Cusco'], concepts: ['El sabor', 'La historia'], card: '1632913582499-381c7c798787',
+      why: 'Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.',
+      what: 'Journey insignia de 9 días: del plato terminado en Lima a la tierra y la familia en los Andes.',
+      whatLong: 'Un journey insignia de 9 días que empieza en el plato terminado, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia.',
+      storyTitle: 'El orden de los días no se puede alterar.',
+      story: ['El itinerario sigue el ingrediente en reversa. Empieza en el plato terminado en Lima, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia, en la pachamanca del día 6.', 'Por eso el orden de los días no se puede cambiar sin destruir el viaje: cada etapa prepara la siguiente.'],
+      moment: 'La pachamanca del día 6, cocinada bajo tierra con una familia quechua.',
+      how: 'or', howText: 'Del plato terminado al origen del ingrediente: así se vive la gastronomía en Sunqu. No es un tour de restaurantes, es un camino de vuelta a la tierra.',
+      hosts: ['familia'], mp: 'origen',
+      slides: [['1535399831218-d5bd36d1a6b3', 'Lima · el plato terminado'], ['1535400875775-0269e7a919af', 'Dónde empieza el mercado'], ['1632913582499-381c7c798787', 'Moray y Maras · 3.500 m'], ['1730423284218-a8a7e9422ebf', 'Día 6 · la tierra']],
+      vivTitle: 'Nueve días, del plato a la tierra.', vivText: 'Cada día lleva un título que cuenta la historia. Toca un día para ver qué vives.',
+      chartTitle: 'Del nivel del mar a 3.500 m, sin prisa.', chartText: 'Subimos por etapas: primero el Valle Sagrado a 2.800 m, después la técnica de la altura en Moray. Toca un punto de la curva para ver cada día.',
+      itin: [
+        { t: 'El plato terminado', m: 160, stage: 'DESCUBRE', body: 'Llegada a Lima. Cena en Central o Kjolle: el punto de llegada de todo lo que se verá después.' },
+        { t: 'Dónde empieza el mercado', m: 160, stage: 'VIVE', body: 'Mercado N.º 1 de Surquillo con un cocinero anfitrión. Compras y cocinas.' },
+        { t: 'Subir despacio', m: 2800, stage: 'CONECTA', body: 'Vuelo a Cusco y traslado directo al Valle Sagrado. Tarde de aclimatación.' },
+        { t: 'La técnica de la altura', m: 3500, stage: 'VIVE', body: 'MIL Centro y Moray: los andenes como laboratorio agrícola inca.' },
+        { t: 'La sal que viene de la montaña', m: 2430, stage: 'VIVE', body: 'Salineras de Maras con una familia salinera. Machu Picchu.' },
+        { t: 'La tierra', m: 3400, stage: 'CONECTA', body: 'Pachamanca con una familia quechua. El Momento Sunqu del viaje.' },
+        { t: 'El mercado de los Andes', m: 3400, stage: 'VIVE', body: 'Mercado San Pedro y Chicha por Gastón Acurio, en Cusco.' },
+        { t: 'Lo que se lleva', m: 3400, stage: 'RECUERDA', body: 'Cusco libre. Cierre con los anfitriones y entrega del recuerdo.' },
+        { t: 'Regreso', m: 160, stage: 'RECUERDA', body: 'Traslado a Lima y salida internacional.' },
+      ],
+    },
+    corto: {
+      c: ['sabor', 'gente'], momentImg: 'https://images.unsplash.com/photo-1535400875775-0269e7a919af?auto=format&fit=crop&w=2200&q=72', momentAlt: 'Mercado y producto local',
+      title: 'Módulo gastronómico', kicker: 'Escapada corta · El sabor · La gente', days: '3–4 días', price: 'USD 600 – 900', priceShort: 'USD 600 – 900', priceKicker: 'Escapada corta', priceNote: 'por persona · rango de precio', alt: '2.335 m', altLabel: 'Altitud',
+      region: 'Escapada corta', route: ['Módulo autónomo', '3 a 4 días'], concepts: ['El sabor', 'La gente'], card: '1535400875775-0269e7a919af',
+      why: 'Que puedas vivir un Momento Sunqu antes de comprometerte con un Journey completo.',
+      what: 'Módulo autónomo de 3 a 4 días, que se reserva por separado.',
+      whatLong: 'Un módulo autónomo de 3 a 4 días que se reserva por separado.',
+      storyTitle: 'La puerta de entrada a Sunqu.',
+      story: ['Es la forma de vivir un Momento Sunqu antes de comprometerte con un Journey completo: el mismo encuentro con nombre propio, en tres o cuatro días.', 'También es donde validamos personalmente a cada anfitrión antes de integrarlo en un viaje largo. Si funciona aquí, forma parte de un Journey.'],
+      moment: 'El mismo encuentro con nombre propio que luego forma parte de un Journey.',
+      how: '01', howText: 'Curamos, también en su vertiente de validación: cada experiencia se prueba personalmente antes de venderse en un viaje largo.',
+      hosts: ['picantera'], mp: null,
+      slides: [['1535400875775-0269e7a919af', 'Mercado y producto local'], ['1535399831218-d5bd36d1a6b3', 'Picantería'], ['1566793772361-1d5d9cefbd12', 'Anfitrionas con nombre propio']],
+      vivTitle: 'Tres o cuatro días, un encuentro.', vivText: 'Un Momento Sunqu completo, pensado para vivirlo por separado o antes de un Journey.',
+      itin: null,
+    },
+  };
+  ORDER = ['alma', 'sabor', 'profundo', 'origen', 'corto'];
+  // Consejos, notas y temporada por journey. months: 0 lluvias · 1 buena · 2 ideal (ene → dic)
+  PLAN = {
+    alma: {
+      tips: ['Los primeros días en el Valle Sagrado son para aclimatarte: camina despacio, bebe mucha agua y prueba el mate de coca.', 'Viste en capas: en los Andes el sol del mediodía calienta, pero de noche la temperatura se acerca a 0 °C.', 'Lee tu kit de preparación antes de volar: ahí están tus primeras palabras en quechua y los nombres de tus anfitriones.'],
+      access: 'Incluye caminatas cortas por terreno irregular y en altura.',
+      season: { text: 'De mayo a septiembre es la temporada seca de los Andes: cielos despejados, días templados y noches frías. Abril y octubre son meses de transición, con el valle todavía verde y menos viajeros.', clima: 'Seco y soleado', temp: 'Día 20 °C · noche 3 °C', cal: 'De mayo a septiembre', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    },
+    sabor: {
+      tips: ['Llega con hambre y sin prisa: en Arequipa la picantería se vive al mediodía, como lo hacen los arequipeños.', 'El Colca está más alto que Arequipa: subimos por etapas y te enviamos el plan de aclimatación antes de salir.', 'Lleva protector solar, gafas de sol y una capa abrigadora: el sol de altura es intenso y las noches, frías.'],
+      access: 'En el Colca hay miradores y caminatas por terreno irregular a más de 3.600 m.',
+      season: { text: 'Arequipa tiene sol casi todo el año. De mayo a octubre el Colca está seco y el cielo, despejado: la mejor época para ver al cóndor. De enero a marzo llueve en la sierra.', clima: 'Soleado y seco', temp: 'Día 22 °C · noche 5 °C', cal: 'De mayo a octubre', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1] },
+    },
+    profundo: {
+      tips: ['Confirma tu fecha con tiempo: las entradas a Machu Picchu tienen cupo diario y nosotros las gestionamos por ti.', 'En la comunidad, pregunta antes de fotografiar a alguien: en este viaje la relación va antes que la foto.', 'Lleva calzado con buen agarre y ropa en capas: hay escaleras de piedra y el clima cambia en pocas horas.'],
+      access: 'Machu Picchu y las comunidades tienen escaleras de piedra y caminos irregulares.',
+      season: { text: 'De mayo a septiembre, temporada seca: días claros en Machu Picchu y caminos firmes para llegar a las comunidades. Es temporada alta, así que reservamos las entradas con tiempo.', clima: 'Seco, con mañanas de neblina', temp: 'Día 22 °C · noche 4 °C', cal: 'De mayo a septiembre', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    },
+    origen: {
+      tips: ['La cena del día 1 en Central o Kjolle se reserva con meses de anticipación: la gestionamos en cuanto confirmas tu fecha.', 'No te saltes la tarde de aclimatación del día 3: al día siguiente subes a 3.500 m en Moray.', 'Deja espacio en la maleta: la sal de Maras es el recuerdo que casi todos se llevan a casa.'],
+      access: 'Moray, Maras y Machu Picchu tienen escaleras de piedra y terreno irregular.',
+      season: { text: 'Lima y los Andes tienen estaciones opuestas. De mayo a septiembre la sierra está seca y, después de la cosecha, los mercados andinos están en su mejor momento; Lima, en cambio, amanece gris y fresca.', clima: 'Costa gris, sierra soleada', temp: 'De 3 °C a 20 °C', cal: 'De mayo a septiembre', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
+    },
+    corto: {
+      tips: ['Úsalo como primer contacto: si después quieres un Journey completo, tu Travel Advisor parte de lo que viviste aquí.', 'Se combina bien antes o después de otro viaje por el Perú: dinos tus fechas y lo encajamos.', 'Ven con hambre y ganas de cocinar: aquí no solo pruebas, te llevas la receta.'],
+      access: 'Casi todo ocurre en cocinas y mercados, con poca caminata.',
+      season: { text: 'Es una escapada de cocina y mercado, así que funciona todo el año. Arequipa tiene sol casi todos los días; de enero a marzo llueve en la sierra, pero la cocina no cambia.', clima: 'Sol casi todo el año', temp: 'Día 22 °C · noche 9 °C', cal: 'Todo el año', months: [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2] },
+    },
+  };
+  MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  GAL = [['1526697675318-89790adec369', '3/4'], ['1568805778734-f0a5a77d7272', '4/3'], ['1535400255456-984241443b29', '4/3'], ['1578362646678-a1b282e43ff8', '3/4'], ['1730424508745-29ea708ae698', '3/4'], ['1559160671-cc23bc25eb94', '4/3'], ['1567597243073-2d274aabecec', '4/3'], ['1568805647297-df963b524678', '3/4']];
+  jid = (() => { let q = null; try { q = new URLSearchParams(window.location.search).get('j'); } catch (e) {} return this.J[q] ? q : 'alma'; })();
+
+  lock() { document.documentElement.style.overflow = (this.state.menuOpen || this.state.reel || this.state.lb >= 0) ? 'hidden' : ''; }
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  openReel(i) { this.setState({ reel: true, reelIdx: i || 0, reelTick: Date.now() }, () => this.lock()); }
+  closeReel() { this.setState({ reel: false }, () => this.lock()); }
+  stepReel(d) { const n = this.J[this.jid].slides.length; this.setState((s) => ({ reelIdx: (s.reelIdx + d + n) % n, reelTick: Date.now() })); }
+  openLb(i) { this.setState({ lb: i }, () => this.lock()); }
+  closeLb() { this.setState({ lb: -1 }, () => this.lock()); }
+  stepLb(d) { const n = this.GAL.length; this.setState((s) => ({ lb: (s.lb + d + n) % n })); }
+  scrollTrack(ref, dir) { const t = ref.current; if (!t) return; const c = t.firstElementChild; t.scrollBy({ left: dir * (c ? c.getBoundingClientRect().width + 24 : 320), behavior: 'smooth' }); }
+
+  componentDidMount() {
+    const j = this.J[this.jid];
+    this.pageTitle = j.title + ' — Sunqu Journeys';
+    document.title = this.pageTitle;
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (!this.motion) this.setState({ chartIn: true });
+    this.ht = setInterval(() => this.setState((s) => ({ hero: (s.hero + 1) % j.slides.length })), 5200);
+    this.rt = setInterval(() => { if (this.state.reel && Date.now() - this.state.reelTick > 4400) this.stepReel(1); }, 250);
+    this.onKey = (e) => {
+      if (e.key === 'Escape') { if (this.state.lb >= 0) this.closeLb(); else if (this.state.reel) this.closeReel(); else if (this.state.menuOpen) this.setMenu(false); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const d = e.key === 'ArrowRight' ? 1 : -1; if (this.state.lb >= 0) this.stepLb(d); else if (this.state.reel) this.stepReel(d); }
+    };
+    this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    this.watchChart = () => {
+      if (this.ro || !window.ResizeObserver || !this.chartRef.current) return;
+      this.ro = new ResizeObserver((es) => { const w = Math.round(es[0].contentRect.width); if (w && w !== this.state.chartW) this.setState({ chartW: w }); });
+      this.ro.observe(this.chartRef.current);
+    };
+    this.watchChart();
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0), ease = 'cubic-bezier(.2,.7,.1,1)';
+          el.style.opacity = 0; el.style.transform = 'translateY(32px)';
+          el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => { this.observe(); this.watchChart(); });
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (document.title !== this.pageTitle) document.title = this.pageTitle;
+      const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      let bg = 'light';
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) bg = s.getAttribute('data-bg'); });
+      if (bg !== this.state.bg) this.setState({ bg, dark: bg === 'dark' });
+      const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
+      const cta = document.getElementById('reservar');
+      const barOn = y > vh * 0.7 && !(cta && cta.getBoundingClientRect().top < vh * 0.9);
+      if (barOn !== this.state.barOn) this.setState({ barOn });
+      let nav = null;
+      this.NAV.forEach(([id]) => { const s = document.getElementById(id); if (!s) return; const r = s.getBoundingClientRect(); if (r.top < vh * 0.45 && r.bottom > vh * 0.45) nav = id; });
+      if (nav !== this.state.nav) this.setState({ nav });
+      document.querySelectorAll('[data-expand]').forEach((sec) => {
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const m = sec.querySelector('[data-expand-media]'), t = sec.querySelector('[data-expand-text]'), k = sec.querySelector('[data-expand-kicker]');
+        const e = this.motion ? 1 - Math.pow(1 - Math.min(1, p / 0.7), 3) : 1;
+        if (m) { m.style.clipPath = `inset(${(1 - e) * 22}% ${(1 - e) * 30}% round ${(1 - e) * 28}px)`; if (m.firstElementChild) m.firstElementChild.style.transform = `scale(${1.25 - e * 0.25})`; }
+        if (k) k.style.opacity = Math.max(0, 1 - e * 1.6);
+        if (t) {
+          const q = this.motion ? Math.min(1, Math.max(0, (p - 0.5) / 0.3)) : 1;
+          t.style.opacity = Math.min(1, q * 1.4); t.style.transform = `translateY(${(1 - q) * 40}px)`;
+          t.querySelectorAll('li').forEach((li, i) => { const qq = Math.min(1, Math.max(0, (q - 0.25 - i * 0.12) / 0.4)); li.style.opacity = qq; li.style.transform = `translateY(${(1 - qq) * 14}px)`; });
+        }
+      });
+      document.querySelectorAll('[data-hscroll]').forEach((sec) => {
+        const tr = sec.querySelector('[data-htrack]'); if (!tr) return;
+        const dist = Math.max(0, tr.scrollWidth - window.innerWidth);
+        const want = (dist + vh) + 'px'; if (sec.style.height !== want) sec.style.height = want;
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, dist)));
+        tr.style.transform = `translate3d(${-p * dist}px,0,0)`;
+        const bar = sec.querySelector('[data-hbar]'); if (bar) bar.style.transform = `scaleX(${p})`;
+      });
+      if (!this.state.chartIn && this.chartRef.current) { const cr = this.chartRef.current.getBoundingClientRect(); if (cr.top < vh * 0.85 && cr.bottom > 0) this.setState({ chartIn: true }); }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearInterval(this.ht); clearInterval(this.rt);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect(); this.ro && this.ro.disconnect();
+    document.documentElement.style.overflow = '';
+  }
+
+  renderVals() {
+    const U = this.U, st = this.state, dark = st.dark, id = this.jid, J = this.J[id];
+    const fmt = (m) => String(m).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' m';
+    const P = this.PRINCIPLES[J.how];
+    const hi = st.hero % J.slides.length, ri = st.reelIdx % J.slides.length;
+    const D = J.itin || [];
+    const na = D.length;
+    const W = Math.max(200, st.chartW || 900), small = W < 560;
+    const H = small ? Math.round(Math.max(260, Math.min(340, W * 0.9))) : Math.round(Math.min(400, Math.max(280, W * 0.3)));
+    const padX = small ? 20 : 44, padT = 56, padB = 10;
+    const yOf = (m) => +(padT + (1 - m / 4200) * (H - padT - padB)).toFixed(1);
+    const xOf = (i) => +(padX + i * (W - 2 * padX) / Math.max(1, na - 1)).toFixed(1);
+    const ai = Math.min(Math.max(0, na - 1), Math.max(0, st.altIdx));
+    const pts = D.map((d, i) => [xOf(i), yOf(d.m)]);
+    const pick = (i) => { if (i !== this.state.altIdx || i !== this.state.day) this.setState({ altIdx: i, day: i }); };
+    const alt = na ? {
+      w: W, h: H, vb: `0 0 ${W} ${H}`, y4000: yOf(4000), y2000: yOf(2000), yBase: yOf(0), yTh: yOf(3400),
+      line: pts.map((q) => q.join(',')).join(' '), area: `${pts[0][0]},${yOf(0)} ` + pts.map((q) => q.join(',')).join(' ') + ` ${pts[na - 1][0]},${yOf(0)}`,
+      gx: pts[ai][0], gy: pts[ai][1], clip: st.chartIn ? '0%' : '100%',
+      tipX: pts[ai][0], tipY: pts[ai][1], tipTx: ai === 0 ? '-14px' : ai === na - 1 ? 'calc(-100% + 14px)' : '-50%', selM: fmt(D[ai].m),
+      selD: 'Día ' + (ai + 1), selTitle: D[ai].t, selBody: D[ai].body, selStage: D[ai].stage,
+      prev: () => { const i = (ai - 1 + na) % na; this.setState({ altIdx: i, day: i }); }, next: () => { const i = (ai + 1) % na; this.setState({ altIdx: i, day: i }); },
+      pts: D.map((d, i) => ({ x: pts[i][0], y: pts[i][1], d: 'D' + (i + 1), on: i === ai ? 'true' : 'false', label: `Día ${i + 1}, ${d.t}, ${fmt(d.m)}`, pick: () => pick(i) })),
+      move: (e) => { const r = e.currentTarget.getBoundingClientRect(); const x = e.clientX - r.left; let best = 0, bd = Infinity; pts.forEach((q, i) => { const dd = Math.abs(q[0] - x); if (dd < bd) { bd = dd; best = i; } }); pick(best); },
+    } : {};
+    const waHref = 'https://wa.me/51966461384?text=' + encodeURIComponent('Hola Sunqu, quiero saber más del journey ' + J.title);
+    const card = (k) => { const c = this.J[k]; return { href: 'journey.html?j=' + k, img: U(c.card, 1400), ph: c.title, alt: c.alt, days: c.days, region: c.region, title: c.title, why: c.why, price: c.price }; };
+    const PL = this.PLAN[id], LV = ['Temporada de lluvias', 'Buena', 'Ideal'];
+    const season = { ...PL.season, label: 'Mejor época: ' + PL.season.cal.toLowerCase(), months: PL.season.months.map((l, i) => ({ m: this.MONTHS[i][0], level: String(l), tip: `${this.MONTHS[i]} · ${LV[l]}` })) };
+    const others = this.ORDER.filter((k) => k !== id && (st.concept === 'todo' || this.J[k].c.includes(st.concept))).map(card);
+    return {
+      j: {
+        ...J, hasSub: !!J.sub, hasAyniNote: !!J.ayniNote,
+        how: { ...P, photo: U(P.photo, 700), name: J.how === 'or' ? 'Del plato terminado al origen del ingrediente' : `${J.how} — ${P.title}`, text: J.howText },
+      },
+      wrapCls: st.barOn ? 'jr-has-bar' : '',
+      pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
+      headerCls: st.scrolled ? 'is-scrolled' : '',
+      navFg: dark ? '#e9eef1' : '#1c1c1c',
+      navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
+      navLinks: this.NAV.map(([k, label]) => ({ href: '#' + k, label, current: st.nav === k ? 'true' : 'false' })),
+      menuLinks: this.NAV.map(([k, label], i) => ({ href: '#' + k, label, n: String(i + 1).padStart(2, '0') })),
+      menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef, stripRef: this.stripRef, chartRef: this.chartRef,
+      toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
+      waCls: st.waOn ? 'is-on' : '', barCls: st.barOn ? 'is-on' : '', waHref,
+      heroSlides: J.slides.map(([sid], i) => ({ src: U(sid, 2200), op: i === hi ? 1 : 0, sc: i === hi ? 1.1 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' })),
+      heroCaption: J.slides[hi][1],
+      openReel: () => this.openReel(hi), closeReel: () => this.closeReel(), reelPrev: () => this.stepReel(-1), reelNext: () => this.stepReel(1),
+      reelCls: st.reel ? 'is-open' : '', reelTitle: J.slides[ri][1],
+      reelSlides: J.slides.map(([sid, cap], i) => ({ src: U(sid, 2200), alt: cap, op: i === ri ? 1 : 0, sc: i === ri && st.reel ? 1.08 : 1, fill: st.reel && i <= ri ? 1 : 0, tr: i === ri && st.reel ? 'transform 4.4s linear' : 'none' })),
+      conditions: [
+        { title: 'Tiene nombre propio', icon: 'assets/diamond-orange.png' },
+        { title: 'Tú haces algo', icon: 'assets/diamond-yellow.png' },
+        { title: 'Solo existe en el viaje', icon: 'assets/diamond-lime.png' },
+        { title: 'Te llevas algo', icon: 'assets/diamond-olive.png' },
+      ],
+      hosts: J.hosts.map((k) => { const h = this.HOSTS[k]; return { ...h, img: U(h.img, 1000) }; }),
+      hasDays: na > 0, noDays: na === 0, alt,
+      days: D.map((d, i) => { const open = st.day === i; return { n: 'Día ' + (i + 1), title: d.t, stage: d.stage, m: fmt(d.m), body: d.body, pid: 'jr-day-' + i, open: open ? 'true' : 'false', cls: open ? 'is-open' : '', toggle: () => this.setState((s) => (s.day === i ? { day: -1 } : { day: i, altIdx: i })) }; }),
+      phases: [
+        { kicker: 'Antes', color: '#736d47', title: 'Kit de preparación', body: 'Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.', img: U('1541637593725-923467404d17', 900) },
+        { kicker: 'Durante', color: '#5c8f00', title: 'Acompañamiento', body: 'Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.', img: U('1593460915132-fcb729cc4597', 900) },
+        { kicker: 'Después', color: '#b87d00', title: 'Diario del viaje', body: 'Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.', img: U('1568805778734-f0a5a77d7272', 900) },
+      ],
+      gallery: this.GAL.map(([gid, ratio], i) => ({ src: U(gid, 900), ratio, label: 'Ampliar foto ' + (i + 1), open: () => this.openLb(i) })),
+      lbCls: st.lb >= 0 ? 'is-open' : '', lbSrc: st.lb >= 0 ? U(this.GAL[st.lb][0], 2000) : '', lbCount: st.lb >= 0 ? `Foto ${st.lb + 1} de ${this.GAL.length}` : '',
+      closeLb: () => this.closeLb(), lbPrev: () => this.stepLb(-1), lbNext: () => this.stepLb(1),
+      concepts: [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'El sabor'], ['gente', 'La gente']].map(([cid, label]) => ({
+        label, bg: cid === st.concept ? '#e9eef1' : 'transparent', color: cid === st.concept ? '#1c1c1c' : '#e9eef1', pressed: cid === st.concept ? 'true' : 'false',
+        onClick: () => { this.setState({ concept: cid }); const sec = document.getElementById('otros'); sec && window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); },
+      })),
+      tips: PL.tips.map((text) => ({ text })), access: PL.access, season,
+      others, journeyCount: String(others.length).padStart(2, '0') + ' journeys',
+      steps: [
+        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
+        { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
+        { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
+      ],
+      notSent: !st.sent, sent: st.sent, submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>
