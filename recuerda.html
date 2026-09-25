@@ -168,8 +168,6 @@ textarea.input{min-height:132px;resize:vertical}
 .rc-stat-v{display:flex;align-items:baseline;gap:8px;font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,3.4vw,52px);line-height:1;letter-spacing:-.03em;color:#e9eef1}
 .rc-stat-s{font-size:16px;letter-spacing:.06em;color:#f4a700}
 .rc-stat-k{display:block;margin-top:8px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.6)}
-.rc-note{display:inline-flex;align-items:center;gap:10px;margin-top:clamp(26px,3vw,40px);padding:10px 16px;border-radius:14px;border:1px dashed rgba(244,167,0,.45);background:rgba(244,167,0,.06);font-size:14px;line-height:1.45;color:rgba(233,238,241,.85);max-width:72ch}
-.rc-note img{height:15px;width:auto;flex:none}
 
 /* Barra del muro */
 .rc-bar{margin-top:clamp(36px,4.6vw,60px);border-top:1px solid rgba(233,238,241,.14);border-bottom:1px solid rgba(233,238,241,.14)}
@@ -232,6 +230,7 @@ textarea.input{min-height:132px;resize:vertical}
 .rc-likes.is-empty{display:none}
 .rc-flag{align-self:flex-start;display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:999px;border:1px dashed rgba(244,167,0,.55);color:#f4a700;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 .rc-flag.is-new{border-style:solid;border-color:#83b300;color:#83b300}
+.rc-flag.is-hidden{display:none}
 .rc-empty{padding:40px 0;color:rgba(233,238,241,.75)}
 
 /* Visor de videos y fotos */
@@ -437,7 +436,7 @@ textarea.input{min-height:132px;resize:vertical}
 </ul>
 <div class="sj-actions">
 <a href="#tienda" class="sj-back">Tienda</a>
-<a href="#reservar" class="btn btn-primary sj-cta">Diseña tu viaje</a>
+<a href="index.html#contacto" class="btn btn-primary sj-cta">Diseña tu viaje</a>
 <button type="button" class="rc-bag-btn" onClick="{{ openBag }}" aria-label="{{ bagAria }}" aria-controls="rc-bag" aria-expanded="{{ bagExpanded }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg><span class="rc-bag-n {{ bagNCls }}">{{ bagN }}</span></button>
 <button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
 </div>
@@ -460,7 +459,7 @@ textarea.input{min-height:132px;resize:vertical}
 </div>
 <div class="sj-drawer-sub"><a href="index.html">Inicio</a><a href="#resenas" onClick="{{ closeMenu }}">Reseñas</a><a href="#tienda" onClick="{{ closeMenu }}">Tienda</a></div>
 <div class="sj-drawer-foot">
-<a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+<a href="index.html#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
 <div class="sj-band sj-band--light" aria-hidden="true"></div>
 </div>
 </aside>
@@ -522,7 +521,6 @@ textarea.input{min-height:132px;resize:vertical}
 <div><span class="rc-stat-v">{{ nPhotos }}</span><span class="rc-stat-k">Fotos</span></div>
 </div>
 </div>
-<p class="rc-note" role="note" data-reveal=""><img src="assets/diamond-yellow.png" alt="">Reseñas de ejemplo para el prototipo: se reemplazan por publicaciones reales de viajeros, con su permiso.</p>
 </div>
 
 <div class="rc-bar">
@@ -570,6 +568,28 @@ textarea.input{min-height:132px;resize:vertical}
 <sc-if value="{{ noWall }}" hint-placeholder-val="{{ false }}"><p class="rc-empty">No hay reseñas con esos filtros todavía.</p></sc-if>
 </div>
 <div style="height:clamp(64px,8vw,112px)"></div>
+</section>
+
+<section id="tienda" class="sj-light" data-bg="light" aria-label="Tienda Sunqu">
+<div class="sj-in sj-pad">
+<div class="rc-shop-head">
+<div><span class="sj-eyebrow" data-reveal="">Tienda Sunqu</span><h2 class="rc-sec-t" data-reveal=""><span class="rc-plus" aria-hidden="true">+</span>Merch Sunqu</h2><p class="sj-lead" data-reveal="">Las piezas de nuestra identidad, para llevarte el Perú puesto. Coordinamos el pago y la entrega contigo por WhatsApp.</p></div>
+<div class="rc-cats" role="group" aria-label="Categorías" data-reveal=""><sc-for list="{{ cats }}" as="c" hint-placeholder-count="4"><button type="button" class="rc-cat" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}">{{ c.label }}</button></sc-for></div>
+</div>
+<div class="rc-shop">
+<sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+<article class="rc-prod" data-reveal="">
+<div class="rc-prod-img"><img src="{{ p.img }}" alt="{{ p.alt }}" loading="lazy" style="object-position:{{ p.pos }}"><span class="rc-prod-tag">{{ p.tag }}</span></div>
+<div class="rc-prod-body">
+<div class="rc-prod-top"><h3>{{ p.name }}</h3><span class="rc-price">{{ p.price }}</span></div>
+<p class="rc-prod-d">{{ p.desc }}</p>
+<div class="rc-sizes {{ p.sizesCls }}" role="group" aria-label="{{ p.sizesAria }}"><sc-for list="{{ p.sizes }}" as="s" hint-placeholder-count="0"><button type="button" class="rc-size" onClick="{{ s.pick }}" aria-pressed="{{ s.on }}">{{ s.label }}</button></sc-for></div>
+<button type="button" class="btn btn-primary rc-buy {{ p.buyCls }}" onClick="{{ p.buy }}" aria-label="{{ p.buyAria }}">{{ p.buyLabel }}<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+</div>
+</article>
+</sc-for>
+</div>
+</div>
 </section>
 
 <section id="comparte" class="sj-alt-bg" data-bg="alt" aria-label="Comparte tu reseña">
@@ -629,75 +649,6 @@ textarea.input{min-height:132px;resize:vertical}
 </div>
 </section>
 
-<section id="tienda" class="sj-light" data-bg="light" aria-label="Tienda Sunqu">
-<div class="sj-in sj-pad">
-<div class="rc-shop-head">
-<div><span class="sj-eyebrow" data-reveal="">Tienda Sunqu</span><h2 class="rc-sec-t" data-reveal=""><span class="rc-plus" aria-hidden="true">+</span>Merch Sunqu</h2><p class="sj-lead" data-reveal="">Las piezas de nuestra identidad, para llevarte el Perú puesto. Coordinamos el pago y la entrega contigo por WhatsApp.</p></div>
-<div class="rc-cats" role="group" aria-label="Categorías" data-reveal=""><sc-for list="{{ cats }}" as="c" hint-placeholder-count="4"><button type="button" class="rc-cat" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}">{{ c.label }}</button></sc-for></div>
-</div>
-<div class="rc-shop">
-<sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
-<article class="rc-prod" data-reveal="">
-<div class="rc-prod-img"><img src="{{ p.img }}" alt="{{ p.alt }}" loading="lazy" style="object-position:{{ p.pos }}"><span class="rc-prod-tag">{{ p.tag }}</span></div>
-<div class="rc-prod-body">
-<div class="rc-prod-top"><h3>{{ p.name }}</h3><span class="rc-price">{{ p.price }}</span></div>
-<p class="rc-prod-d">{{ p.desc }}</p>
-<div class="rc-sizes {{ p.sizesCls }}" role="group" aria-label="{{ p.sizesAria }}"><sc-for list="{{ p.sizes }}" as="s" hint-placeholder-count="0"><button type="button" class="rc-size" onClick="{{ s.pick }}" aria-pressed="{{ s.on }}">{{ s.label }}</button></sc-for></div>
-<button type="button" class="btn btn-primary rc-buy {{ p.buyCls }}" onClick="{{ p.buy }}" aria-label="{{ p.buyAria }}">{{ p.buyLabel }}<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
-</div>
-</article>
-</sc-for>
-</div>
-</div>
-</section>
-
-<section id="reservar" class="sj-light" data-bg="light" aria-label="Diseña tu viaje" style="border-top:1px solid rgba(28,28,28,.16)">
-<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
-<div>
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
-<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
-<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
-<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
-<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
-<div><h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3><p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p></div>
-</li>
-</sc-for>
-</ol>
-</div>
-<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
-<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
-<form onSubmit="{{ submit }}" class="sj-form">
-<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
-<div class="sj-form-row">
-<div class="field"><label for="f-name">Nombre</label><input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre"></div>
-<div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com"></div>
-</div>
-<div class="field"><label for="f-month">¿Cuándo te gustaría viajar?</label>
-<select id="f-month" name="mes" class="input"><option>Aún no lo sé</option><option>Enero – marzo</option><option>Abril – junio</option><option>Julio – septiembre</option><option>Octubre – diciembre</option></select></div>
-<fieldset class="field"><legend class="sj-label">¿Qué quieres sentir?</legend>
-<div class="sj-chips">
-<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
-<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
-<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
-</div></fieldset>
-<div class="field"><label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label><textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea></div>
-<div class="sj-form-foot">
-<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
-<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
-</div>
-</form>
-</sc-if>
-<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
-<img src="assets/diamond-lime.png" alt="" style="width:56px">
-<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
-<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
-</div>
-</sc-if>
-</div>
-</div>
-</section>
-
 </main>
 
 <footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
@@ -706,7 +657,7 @@ textarea.input{min-height:132px;resize:vertical}
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
 <div style="display:flex;flex-direction:column;gap:20px">
 <h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
-<a href="#reservar" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+<a href="index.html#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
 </div>
 <div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
 <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span><a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a></div>
@@ -716,7 +667,7 @@ textarea.input{min-height:132px;resize:vertical}
 </div>
 <div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
 <img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
-<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="index.html#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
 <div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
 </div>
 <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
@@ -729,7 +680,7 @@ textarea.input{min-height:132px;resize:vertical}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, sent: false, type: 'todo', topic: '', view: null, vIdx: 0, playing: null, rStars: 5, fLink: '', linkErr: '', fPhotos: [], shared: false, userReviews: [], cat: 'todo', sizes: {}, bag: [], bagOpen: false, added: null };
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, type: 'todo', topic: '', view: null, vIdx: 0, playing: null, rStars: 5, fLink: '', linkErr: '', fPhotos: [], shared: false, userReviews: [], cat: 'todo', sizes: {}, bag: [], bagOpen: false, added: null };
   burgerRef = React.createRef();
   closeRef = React.createRef();
   viewCloseRef = React.createRef();
@@ -741,20 +692,20 @@ class Component extends DCLogic {
   TOPIC_ICON = { viaje: 'assets/diamond-lime.png', souvenir: 'assets/diamond-yellow.png', merch: 'assets/diamond-orange.png' };
   PLAT = { tiktok: 'TikTok', instagram: 'Instagram', web: 'Reseña Sunqu' };
   AV = ['#83b300', '#f4a700', '#df5f0c', '#9fb4a8', '#d8cfae'];
-  // Reseñas de ejemplo (sample: true). Para una reseña real de Instagram o TikTok basta con poner su enlace en `url`.
+  // Reseñas de ejemplo (sample: true muestra la etiqueta «Ejemplo»). Para una reseña real: sample: false y, si es de Instagram o TikTok, su enlace en `url`.
   REVIEWS = [
-    { id: 'r1', kind: 'video', plat: 'tiktok', name: 'Camila R.', country: 'Chile', when: 'mayo de 2026', topic: 'viaje', what: 'El Perú que se Saborea', caption: 'Cociné con una picantera en Arequipa y me llevé su receta. Nadie me había explicado así un plato.', video: 'assets/resenas/reel-picanteria.mp4', poster: 'assets/resenas/reel-picanteria.jpg', dur: '0:09', likes: '12,4 mil', url: '' },
-    { id: 'r2', kind: 'comment', plat: 'web', name: 'James P.', country: 'Estados Unidos', when: 'junio de 2026', topic: 'merch', what: 'Polo y pines Sunqu', stars: 5, caption: 'Me llevé el polo Sunqu y los pines para mis hijos. El diseño es el mismo patrón que vimos en los textiles de Chinchero: ahora lo usan para ir al colegio.', photos: ['assets/merch/polo.jpg', 'assets/merch/pines.jpg'] },
-    { id: 'r3', kind: 'photo', plat: 'instagram', name: 'Lena S.', country: 'Alemania', when: 'julio de 2026', topic: 'viaje', what: 'Sunqu Origen', caption: 'La pachamanca del día 6. Ninguna foto le hace justicia al olor de la tierra.', photos: ['1593460915132-fcb729cc4597', '1730423284218-a8a7e9422ebf', '1632913582499-381c7c798787'], likes: '1.284', url: '' },
-    { id: 'r4', kind: 'video', plat: 'instagram', name: 'Thomas B.', country: 'Francia', when: 'mayo de 2026', topic: 'viaje', what: 'El Alma de los Andes', caption: 'Primer día en el Valle Sagrado y nada de soroche. Empezar 600 metros más abajo fue la mejor decisión del viaje.', video: 'assets/resenas/reel-valle.mp4', poster: 'assets/resenas/reel-valle.jpg', dur: '0:09', likes: '3.912', url: '' },
-    { id: 'r5', kind: 'comment', plat: 'web', name: 'Sofía R.', country: 'España', when: 'agosto de 2026', topic: 'souvenir', what: 'Textil de Chinchero', stars: 5, caption: 'Compré un textil a la tejedora que nos enseñó el telar. En la etiqueta está su nombre y su comunidad: sé exactamente a quién se lo compré.', photos: ['1568805778796-96b66708d6e0', '1568805778734-f0a5a77d7272'] },
-    { id: 'r6', kind: 'photo', plat: 'instagram', name: 'Nora L.', country: 'Canadá', when: 'junio de 2026', topic: 'viaje', what: 'Perú Profundo', caption: 'Primero la piedra, después la gente. Ver Machu Picchu al inicio cambió todo lo que vino después.', photos: ['1567597243073-2d274aabecec', '1532996152552-eaffc4edfc1a'], likes: '2.051', url: '' },
-    { id: 'r7', kind: 'video', plat: 'tiktok', name: 'Mateo V.', country: 'México', when: 'septiembre de 2026', topic: 'viaje', what: 'Islas de los Uros', caption: 'Balsa de totora en el Titicaca. Nos enseñaron a remar y terminamos riéndonos todos.', video: 'assets/resenas/reel-titicaca.mp4', poster: 'assets/resenas/reel-titicaca.jpg', dur: '0:09', likes: '8,7 mil', url: '' },
-    { id: 'r8', kind: 'comment', plat: 'web', name: 'Martin K.', country: 'Alemania', when: 'julio de 2026', topic: 'merch', what: 'Bolso bandolera Sunqu', stars: 4, caption: 'El bolso aguantó todo el viaje, de Lima a Puno. Le pondría un bolsillo interior más, pero lo sigo usando a diario.', photos: ['assets/merch/bolso.jpg'] },
-    { id: 'r9', kind: 'photo', plat: 'tiktok', name: 'Júlia M.', country: 'Brasil', when: 'agosto de 2026', topic: 'souvenir', what: 'Maíces nativos', caption: 'Lo que traje de vuelta: maíces de la chacra del Valle Sagrado y la historia de la familia que los siembra.', photos: ['1632913582499-381c7c798787', '1535400875775-0269e7a919af'], likes: '5.330', url: '' },
-    { id: 'r10', kind: 'comment', plat: 'web', name: 'Lucía F.', country: 'Argentina', when: 'septiembre de 2026', topic: 'merch', what: 'Llaveros Sunqu', stars: 5, caption: 'Los llaveros fueron el regalo perfecto para la familia: chiquitos, bonitos y con la historia de Sunqu detrás.', photos: ['assets/merch/llaveros.jpg'] },
-    { id: 'r11', kind: 'photo', plat: 'instagram', name: 'Daniel O.', country: 'Reino Unido', when: 'abril de 2026', topic: 'viaje', what: 'Ceviche en Surquillo', caption: 'Ceviche con el cocinero anfitrión. Compramos todo en el mercado esa misma mañana.', photos: ['1535399831218-d5bd36d1a6b3', '1535400255456-984241443b29'], likes: '964', url: '' },
-    { id: 'r12', kind: 'comment', plat: 'web', name: 'Valentina P.', country: 'Colombia', when: 'agosto de 2026', topic: 'viaje', what: 'Módulo gastronómico', stars: 5, caption: 'Hice el módulo gastronómico antes de decidirme por un Journey completo. Ya reservé el de diez días.', photos: ['1566793772361-1d5d9cefbd12'] },
+    { sample: true, id: 'r1', kind: 'video', plat: 'tiktok', name: 'Camila R.', country: 'Chile', when: 'mayo de 2026', topic: 'viaje', what: 'El Perú que se Saborea', caption: 'Cociné con una picantera en Arequipa y me llevé su receta. Nadie me había explicado así un plato.', video: 'assets/resenas/reel-picanteria.mp4', poster: 'assets/resenas/reel-picanteria.jpg', dur: '0:09', likes: '12,4 mil', url: '' },
+    { sample: true, id: 'r2', kind: 'comment', plat: 'web', name: 'James P.', country: 'Estados Unidos', when: 'junio de 2026', topic: 'merch', what: 'Polo y pines Sunqu', stars: 5, caption: 'Me llevé el polo Sunqu y los pines para mis hijos. El diseño es el mismo patrón que vimos en los textiles de Chinchero: ahora lo usan para ir al colegio.', photos: ['assets/merch/polo.jpg', 'assets/merch/pines.jpg'] },
+    { sample: true, id: 'r3', kind: 'photo', plat: 'instagram', name: 'Lena S.', country: 'Alemania', when: 'julio de 2026', topic: 'viaje', what: 'Sunqu Origen', caption: 'La pachamanca del día 6. Ninguna foto le hace justicia al olor de la tierra.', photos: ['1593460915132-fcb729cc4597', '1730423284218-a8a7e9422ebf', '1632913582499-381c7c798787'], likes: '1.284', url: '' },
+    { sample: true, id: 'r4', kind: 'video', plat: 'instagram', name: 'Thomas B.', country: 'Francia', when: 'mayo de 2026', topic: 'viaje', what: 'El Alma de los Andes', caption: 'Primer día en el Valle Sagrado y nada de soroche. Empezar 600 metros más abajo fue la mejor decisión del viaje.', video: 'assets/resenas/reel-valle.mp4', poster: 'assets/resenas/reel-valle.jpg', dur: '0:09', likes: '3.912', url: '' },
+    { sample: true, id: 'r5', kind: 'comment', plat: 'web', name: 'Sofía R.', country: 'España', when: 'agosto de 2026', topic: 'souvenir', what: 'Textil de Chinchero', stars: 5, caption: 'Compré un textil a la tejedora que nos enseñó el telar. En la etiqueta está su nombre y su comunidad: sé exactamente a quién se lo compré.', photos: ['1568805778796-96b66708d6e0', '1568805778734-f0a5a77d7272'] },
+    { sample: true, id: 'r6', kind: 'photo', plat: 'instagram', name: 'Nora L.', country: 'Canadá', when: 'junio de 2026', topic: 'viaje', what: 'Perú Profundo', caption: 'Primero la piedra, después la gente. Ver Machu Picchu al inicio cambió todo lo que vino después.', photos: ['1567597243073-2d274aabecec', '1532996152552-eaffc4edfc1a'], likes: '2.051', url: '' },
+    { sample: true, id: 'r7', kind: 'video', plat: 'tiktok', name: 'Mateo V.', country: 'México', when: 'septiembre de 2026', topic: 'viaje', what: 'Islas de los Uros', caption: 'Balsa de totora en el Titicaca. Nos enseñaron a remar y terminamos riéndonos todos.', video: 'assets/resenas/reel-titicaca.mp4', poster: 'assets/resenas/reel-titicaca.jpg', dur: '0:09', likes: '8,7 mil', url: '' },
+    { sample: true, id: 'r8', kind: 'comment', plat: 'web', name: 'Martin K.', country: 'Alemania', when: 'julio de 2026', topic: 'merch', what: 'Bolso bandolera Sunqu', stars: 4, caption: 'El bolso aguantó todo el viaje, de Lima a Puno. Le pondría un bolsillo interior más, pero lo sigo usando a diario.', photos: ['assets/merch/bolso.jpg'] },
+    { sample: true, id: 'r9', kind: 'photo', plat: 'tiktok', name: 'Júlia M.', country: 'Brasil', when: 'agosto de 2026', topic: 'souvenir', what: 'Maíces nativos', caption: 'Lo que traje de vuelta: maíces de la chacra del Valle Sagrado y la historia de la familia que los siembra.', photos: ['1632913582499-381c7c798787', '1535400875775-0269e7a919af'], likes: '5.330', url: '' },
+    { sample: true, id: 'r10', kind: 'comment', plat: 'web', name: 'Lucía F.', country: 'Argentina', when: 'septiembre de 2026', topic: 'merch', what: 'Llaveros Sunqu', stars: 5, caption: 'Los llaveros fueron el regalo perfecto para la familia: chiquitos, bonitos y con la historia de Sunqu detrás.', photos: ['assets/merch/llaveros.jpg'] },
+    { sample: true, id: 'r11', kind: 'photo', plat: 'instagram', name: 'Daniel O.', country: 'Reino Unido', when: 'abril de 2026', topic: 'viaje', what: 'Ceviche en Surquillo', caption: 'Ceviche con el cocinero anfitrión. Compramos todo en el mercado esa misma mañana.', photos: ['1535399831218-d5bd36d1a6b3', '1535400255456-984241443b29'], likes: '964', url: '' },
+    { sample: true, id: 'r12', kind: 'comment', plat: 'web', name: 'Valentina P.', country: 'Colombia', when: 'agosto de 2026', topic: 'viaje', what: 'Módulo gastronómico', stars: 5, caption: 'Hice el módulo gastronómico antes de decidirme por un Journey completo. Ya reservé el de diez días.', photos: ['1566793772361-1d5d9cefbd12'] },
   ];
   // Merch de las aplicaciones del manual de marca (precios de referencia)
   PRODUCTS = [
@@ -849,9 +800,11 @@ class Component extends DCLogic {
       const y = window.scrollY, vh = window.innerHeight;
       if (document.title !== this.pageTitle) document.title = this.pageTitle;
       const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
-      let bg = 'dark';
-      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) bg = s.getAttribute('data-bg'); });
-      if (bg !== this.state.bg) this.setState({ bg, dark: bg === 'dark' });
+      // El fondo lo define la última sección que cruzó el centro; el header toma el color de lo que tiene debajo.
+      let bg = 'dark', at = null;
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && s.tagName === 'SECTION') bg = s.getAttribute('data-bg'); if (r.top < 36 && r.bottom > 36) at = s.getAttribute('data-bg'); });
+      const dark = (at || bg) === 'dark';
+      if (bg !== this.state.bg || dark !== this.state.dark) this.setState({ bg, dark });
       const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
       this.raf = requestAnimationFrame(tick);
     };
@@ -892,7 +845,7 @@ class Component extends DCLogic {
         name: r.name, from: `${r.country} · ${r.user ? 'Reseña de ' : 'Viajó en '}${r.when}`, initial: r.name.trim().charAt(0).toUpperCase(), avBg: av(r.name),
         topicLabel: `${this.TOPIC_ONE[r.topic]}${r.what ? ' · ' + r.what : ''}`,
         likes: r.likes || '', likesCls: r.likes ? '' : 'is-empty',
-        flag: r.user ? 'En revisión' : 'Ejemplo', flagCls: r.user ? 'is-new' : '',
+        flag: r.user ? 'En revisión' : r.sample ? 'Ejemplo' : '', flagCls: r.user ? 'is-new' : r.sample ? '' : 'is-hidden',
       };
     };
     const wall = shown.map(card);
@@ -901,7 +854,7 @@ class Component extends DCLogic {
     const count = (k) => byTopic.filter((r) => k === 'todo' || r.kind === k).length;
 
     const cur = st.view ? all.find((r) => r.id === st.view) : null;
-    let v = { aria: '', stageCls: '', isEmbed: false, isVideo: false, isPhoto: false, embed: '', video: '', poster: '', src: '', alt: '', dots: [], navCls: 'is-hidden', plat: 'web', platLabel: '', avBg: '', initial: '', name: '', from: '', caption: '', topicLabel: '', likes: '', likesCls: 'is-empty', url: '#', linkCls: 'is-hidden', linkLabel: '', flag: '', flagCls: '', prev: () => {}, next: () => {} };
+    let v = { aria: '', stageCls: '', isEmbed: false, isVideo: false, isPhoto: false, embed: '', video: '', poster: '', src: '', alt: '', dots: [], navCls: 'is-hidden', plat: 'web', platLabel: '', avBg: '', initial: '', name: '', from: '', caption: '', topicLabel: '', likes: '', likesCls: 'is-empty', url: '#', linkCls: 'is-hidden', linkLabel: '', flag: '', flagCls: 'is-hidden', prev: () => {}, next: () => {} };
     if (cur) {
       const c = card(cur), photos = cur.photos || [], i = Math.min(st.vIdx, Math.max(0, photos.length - 1));
       const isEmbed = !!cur.embed;
@@ -983,12 +936,6 @@ class Component extends DCLogic {
       openBag: () => this.setBag(true), closeBag: () => this.setBag(false),
       bagWaHref: 'https://wa.me/51966461384?text=' + encodeURIComponent(waText),
 
-      steps: [
-        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
-        { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
-        { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
-      ],
-      notSent: !st.sent, sent: st.sent, submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
     };
   }
 }
