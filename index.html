@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Sunqu Journeys — El corazón del Perú</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<style>
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Regular.ttf) format("truetype");font-weight:300 400;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Medium.ttf) format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Bold.ttf) format("truetype");font-weight:600 800;font-style:normal;font-display:swap}
+@font-face{font-family:Aeonik;src:url(fonts/Aeonik-RegularItalic.ttf) format("truetype");font-weight:300 500;font-style:italic;font-display:swap}
+
+/* ══ Sunqu — base (reemplaza al design system externo que faltaba) ══ */
+:root{--sj-ease:cubic-bezier(.2,.7,.1,1);--sj-gutter:clamp(20px,4vw,56px);--sj-line:rgba(28,28,28,.12);--sj-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23736d47'/%3E%3C/svg%3E");--sj-band-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23e9eef1'/%3E%3C/svg%3E")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;font-family:Aeonik,Manrope,system-ui,sans-serif;font-size:16px;line-height:1.55;background:#e9eef1;color:#1c1c1c;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading,Aeonik,Manrope,system-ui,sans-serif);font-weight:600;line-height:1.1;letter-spacing:-.015em;margin:0 0 8px}
+h1,h2,h3{text-wrap:balance}
+p{margin:0 0 12px}
+img,svg,video{display:block;max-width:100%}
+figure{margin:0}
+a{color:#736d47;text-underline-offset:3px}
+a:hover{color:#4a462d}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid #736d47;outline-offset:3px}
+[data-bg="dark"] :focus-visible,.sj-drawer :focus-visible,footer :focus-visible{outline-color:#f4a700}
+::selection{background:rgba(115,109,71,.3)}
+section[id]{scroll-margin-top:64px}
+
+/* Eyebrow con rombo — el símbolo de la marca como viñeta */
+.sj-eyebrow{display:inline-flex !important;align-items:center;gap:10px}
+.sj-eyebrow::before{content:"";width:7px;height:7px;flex:none;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+
+/* Franja andina — cadena de rombos en los colores secundarios */
+.sj-band{height:14px;background:var(--sj-band) repeat-x center/auto 100%}
+.sj-band--light{background-image:var(--sj-band-light)}
+
+/* ── Botones ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:14px;line-height:1.2;color:var(--color-text);background:transparent;border:1px solid rgba(28,28,28,.22);padding:12px 20px;border-radius:999px;white-space:nowrap;transition:background-color .3s,color .3s,border-color .3s}
+.btn-primary{background:var(--color-accent);border-color:var(--color-accent);color:#e9eef1}
+.btn-primary:hover{background:var(--color-accent-600);border-color:var(--color-accent-600);color:#e9eef1}
+.btn-secondary:hover{background:rgba(28,28,28,.05)}
+.btn .sj-arrow{transition:transform .35s var(--sj-ease)}
+.btn:hover .sj-arrow{transform:translateX(4px)}
+
+/* ── Header ── */
+.sj-header{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);transition:background-color .35s,border-color .35s,color .35s}
+.sj-nav{max-width:1440px;margin:0 auto;height:76px;padding:0 var(--sj-gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;transition:height .35s var(--sj-ease)}
+.sj-header.is-scrolled .sj-nav{height:64px}
+.sj-logo{position:relative;display:block;width:116px;height:30px;justify-self:start}
+.sj-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center;transition:opacity .3s}
+.sj-links{display:flex;align-items:center;gap:clamp(22px,2.6vw,40px);list-style:none;margin:0;padding:0}
+.sj-link{position:relative;display:block;padding:8px 0;color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.78;transition:opacity .25s}
+.sj-link::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--sj-ease)}
+.sj-link:hover,.sj-link[aria-current="true"]{opacity:1;color:inherit}
+.sj-link:hover::after,.sj-link[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
+.sj-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.sj-lang{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;cursor:pointer;transition:border-color .25s,background-color .25s}
+.sj-lang:hover{border-color:currentColor;background:color-mix(in srgb,currentColor 8%,transparent)}
+.sj-cta{height:40px;padding:0 20px;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.sj-burger{display:none;position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;cursor:pointer;align-items:center;justify-content:center;transition:border-color .25s,background-color .25s}
+.sj-burger:hover{border-color:currentColor}
+.sj-burger span{position:absolute;left:13px;right:13px;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:currentColor;transition:transform .45s var(--sj-ease)}
+.sj-burger span:nth-child(1){transform:translateY(-4px)}
+.sj-burger span:nth-child(2){transform:translateY(4px)}
+
+/* ── Menú lateral (móvil / tablet) ── */
+.sj-scrim{position:fixed;inset:0;z-index:70;background:rgba(20,20,18,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .45s ease}
+.sj-scrim.is-open{opacity:1;pointer-events:auto}
+.sj-drawer{position:fixed;top:0;right:0;z-index:80;width:min(100%,420px);height:100vh;height:100dvh;display:flex;flex-direction:column;gap:28px;padding:12px clamp(20px,5vw,32px) 0;background:#736d47;color:#fff;overflow-y:auto;overscroll-behavior:contain;transform:translateX(100%);visibility:hidden;box-shadow:-24px 0 80px rgba(0,0,0,.28);transition:transform .5s cubic-bezier(.7,0,.2,1),visibility 0s linear .5s}
+.sj-drawer.is-open{transform:none;visibility:visible;transition:transform .65s var(--sj-ease),visibility 0s}
+.sj-drawer-top{display:flex;align-items:center;justify-content:space-between;min-height:52px}
+.sj-drawer-top img{height:28px;width:auto}
+.sj-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .25s}
+.sj-close:hover{background:rgba(255,255,255,.12)}
+.sj-drawer-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px}
+.sj-drawer-nav{display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.22)}
+.sj-drawer-link{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,8.5vw,40px);line-height:1;letter-spacing:-.02em;opacity:0;transform:translateX(28px);transition:opacity .4s ease,transform .6s var(--sj-ease)}
+.sj-drawer-link:hover{color:#fff}
+.sj-drawer.is-open .sj-drawer-link{opacity:1;transform:none}
+.sj-drawer.is-open .sj-drawer-link:nth-child(1){transition-delay:.12s}
+.sj-drawer.is-open .sj-drawer-link:nth-child(2){transition-delay:.17s}
+.sj-drawer.is-open .sj-drawer-link:nth-child(3){transition-delay:.22s}
+.sj-drawer.is-open .sj-drawer-link:nth-child(4){transition-delay:.27s}
+.sj-drawer-n{align-self:start;padding-top:5px;font-size:13px;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.78)}
+.sj-drawer-link svg{opacity:.75;transition:transform .35s var(--sj-ease)}
+.sj-drawer-link:hover svg{transform:translate(3px,-3px);opacity:1}
+.sj-drawer-sub{display:flex;flex-wrap:wrap;gap:10px 24px}
+.sj-drawer-sub a{color:#fff;text-decoration:none;font-size:16px;border-bottom:1px solid transparent;transition:border-color .25s}
+.sj-drawer-sub a:hover{color:#fff;border-color:#fff}
+.sj-drawer-foot{margin-top:auto;display:flex;flex-direction:column;gap:18px}
+.sj-drawer-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sj-drawer-contact{display:flex;flex-direction:column;gap:2px;font-size:15px}
+.sj-drawer-contact a{color:#fff;text-decoration:none}
+.sj-drawer-cta{width:100%;background:#83b300;border-color:#83b300;color:#1c1c1c;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:16px 22px}
+.sj-drawer-cta:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
+.sj-drawer .sj-band{margin:4px calc(-1 * clamp(20px,5vw,32px)) 0}
+.sj-seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;border:1px solid rgba(255,255,255,.35)}
+.sj-seg-btn{min-width:44px;height:36px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:#fff;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;cursor:pointer;transition:background-color .25s,color .25s}
+.sj-seg-btn[aria-pressed="true"]{background:#fff;color:#1c1c1c}
+
+/* ── Tarjetas: borde fino, sin marcas de plano ── */
+.blueprint{position:relative;border:1px solid color-mix(in srgb,var(--color-text,#1c1c1c) 12%,transparent);border-radius:24px;background:rgba(255,255,255,.4);overflow:hidden}
+.blueprint>.corner{display:none}
+article.blueprint::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid #736d47;opacity:0;pointer-events:none;transition:opacity .45s ease}
+article.blueprint:hover::after{opacity:.6}
+#vive .blueprint{background:rgba(233,238,241,.035)}
+#vive article.blueprint::after{border-color:#83b300}
+.duotone{position:relative;overflow:hidden}
+.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;background:#736d47;mix-blend-mode:color;opacity:.85;transition:opacity .8s var(--sj-ease)}
+.duotone img{transition:transform 1.2s var(--sj-ease)}
+article:hover .duotone::after{opacity:0}
+article:hover .duotone img{transform:scale(1.04)}
+
+/* ── Formulario ── */
+.sj-form-card{padding:clamp(30px,3.4vw,48px) clamp(22px,3vw,44px) clamp(24px,3vw,40px) !important;background:rgba(255,255,255,.55)}
+.sj-form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
+.sj-form{display:flex;flex-direction:column;gap:22px}
+.sj-form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px 16px}
+.field{display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:0;border:0}
+.field>label,.sj-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0;font-size:14px;font-weight:500;color:#2b2b2d}
+fieldset.field>legend{margin-bottom:10px}
+.sj-optional{font-size:12px;font-weight:400;color:#7a7a7d}
+.input{display:block;width:100%;min-height:52px;padding:14px 16px;font-size:16px;line-height:1.4;color:#1c1c1c;background:rgba(255,255,255,.75);border:1px solid rgba(28,28,28,.14);border-radius:14px;-webkit-appearance:none;appearance:none;transition:border-color .25s,box-shadow .25s,background-color .25s}
+.input::placeholder{color:#8a8a8d;opacity:1}
+.input:hover{border-color:rgba(28,28,28,.3)}
+.input:focus,.input:focus-visible{outline:none;border-color:#736d47;background:#fff;box-shadow:0 0 0 4px rgba(115,109,71,.15)}
+select.input{padding-right:46px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23736d47' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:16px}
+textarea.input{min-height:132px;resize:vertical}
+.sj-chips{display:flex;flex-wrap:wrap;gap:10px}
+.radio{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 18px 11px 14px;border:1px solid rgba(28,28,28,.16);border-radius:999px;background:rgba(255,255,255,.55);font-size:15px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background-color .25s,border-color .25s,color .25s}
+.radio input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.radio .dot{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid rgba(28,28,28,.32);transition:all .25s}
+.radio:hover{border-color:rgba(28,28,28,.38)}
+.radio:has(input:checked){background:#736d47;border-color:#736d47;color:#fff}
+.radio input:checked+.dot{border-color:#fff;background:#fff;box-shadow:inset 0 0 0 4px #736d47}
+.radio:has(input:focus-visible){outline:2px solid #736d47;outline-offset:3px}
+.sj-form-foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;padding-top:6px}
+.sj-submit{padding:16px 26px;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
+.sj-form-note{margin:0;font-size:14px;line-height:1.45;color:#5d5d60;max-width:30ch}
+
+/* ── Utilidades de layout ── */
+.sj-hero{height:100vh !important;height:100svh !important}
+.sj-sticky{height:100vh !important;height:100svh !important}
+.sj-sunqu-grid{grid-template-columns:minmax(0,1fr) minmax(0,3fr) !important}
+.sj-sunqu-body{grid-column:auto !important;min-width:0 !important}
+.sj-ayni{grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto !important}
+.sj-cond-grid{grid-template-columns:repeat(4,minmax(0,1fr)) !important}
+.sj-cond{min-height:0 !important}
+.sj-cond h3{margin:clamp(28px,4vw,56px) 0 0 !important}
+.sj-contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) !important;align-items:start}
+.sj-carousel{scrollbar-width:none}
+.sj-carousel::-webkit-scrollbar{display:none}
+@media (min-width:760px){.sj-grid-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+
+@media (max-width:1200px){
+  .sj-sunqu-cols{grid-template-columns:1fr !important}
+}
+@media (max-width:1100px){
+  .sj-cond-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .sj-market{grid-template-columns:1fr !important}
+  .sj-market-img{min-height:240px !important;border-right:0 !important;border-bottom:1px solid rgba(28,28,28,.12)}
+  .sj-ayni{grid-template-columns:1fr !important}
+}
+@media (max-width:960px){
+  .sj-nav{grid-template-columns:1fr auto;height:64px}
+  .sj-header.is-scrolled .sj-nav{height:60px}
+  .sj-links,.sj-lang,.sj-cta{display:none}
+  .sj-burger{display:inline-flex}
+  .sj-contact-grid{grid-template-columns:1fr !important}
+  .sj-sunqu-grid{grid-template-columns:1fr !important}
+  .sj-sunqu-aside{flex-direction:row !important;align-items:center;justify-content:space-between}
+  .sj-sunqu-aside img{width:64px !important}
+  .sj-foot-contact{grid-template-columns:1fr 1fr !important;gap:20px !important}
+  .sj-foot-contact>div:first-child{grid-column:1/-1}
+}
+@media (max-width:759px){
+  /* Hero */
+  .sj-hero h1{font-size:clamp(40px,11.5vw,60px) !important;max-width:none !important}
+  .sj-hero-row{flex-direction:column;align-items:stretch !important;gap:20px !important;padding-top:18px !important}
+  .sj-hero-meta{justify-content:space-between;gap:14px !important}
+  .sj-hero-meta .btn{width:100%}
+  .sj-hero-cap{display:none}
+  /* Detrás de Sunqu */
+  /* Círculo dorado */
+  /* Principios / fases apiladas */
+  .sj-stack{height:440vh !important}
+  /* Formas de viajar */
+  .sj-formas-media{aspect-ratio:4/3 !important;border-radius:20px !important}
+  .sj-formas-list a{padding:18px 0 !important}
+  .sj-formas-list a>span:last-child{width:40px !important;height:40px !important}
+  /* Descubre (scroll horizontal) */
+  .sj-h-sticky{padding-top:72px !important;gap:16px !important}
+  .sj-h-head h2{font-size:30px !important}
+  .sj-filters{border:0 !important;padding:0 !important;gap:8px !important;flex-wrap:nowrap !important;overflow-x:auto;width:calc(100% + 2 * var(--sj-gutter));margin:0 calc(-1 * var(--sj-gutter));padding:0 var(--sj-gutter) !important;scrollbar-width:none}
+  .sj-filters::-webkit-scrollbar{display:none}
+  .sj-filters button{flex:none;border:1px solid rgba(233,238,241,.3) !important;font-size:13px !important;padding:9px 14px !important}
+  .sj-jimg{height:min(30vh,240px) !important}
+  .sj-jcard h3{font-size:22px !important}
+  .sj-jwhy{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .sj-jprice{font-size:16px !important}
+  .sj-jlink{font-size:12px !important}
+  /* Carruseles con snap (anfitriones, blog) */
+  .sj-carousel{display:flex !important;gap:14px !important;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--sj-gutter));padding:4px var(--sj-gutter) 8px;scroll-padding:0 var(--sj-gutter)}
+  .sj-carousel>*{flex:0 0 min(82%,340px);scroll-snap-align:start}
+  /* Vive */
+  .sj-cond-grid{gap:14px !important}
+  .sj-cond{min-height:0 !important;padding:22px !important}
+  .sj-cond h3{margin-top:22px !important;font-size:22px !important}
+  /* Ruta */
+  .sj-route-grid{grid-template-columns:1fr !important;grid-template-rows:auto minmax(0,1fr);align-content:start;align-items:start !important;padding-top:76px !important;gap:12px !important}
+  .sj-route-text{gap:12px !important}
+  .sj-route-text h2{font-size:28px !important}
+  .sj-stops{display:grid !important;grid-template-columns:1fr 1fr;column-gap:16px}
+  .sj-stops li{grid-template-columns:24px 1fr !important;gap:8px !important;padding:7px 0 !important}
+  .sj-stops li>span:nth-child(2){font-size:15px !important}
+  .sj-stops li>span:nth-child(3){display:none}
+  .sj-map{height:calc(100svh - 370px) !important;min-height:200px;max-height:none !important}
+  /* Recuerda */
+  .sj-words>div{padding:22px 0 !important}
+  /* Instagram */
+  .sj-ig{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:6px !important}
+  .sj-ig>a{border-radius:12px !important}
+  /* Contacto */
+  .sj-steps li{grid-template-columns:44px 1fr !important;gap:12px !important}
+  .sj-steps li>span{font-size:28px !important}
+  .sj-submit{width:100%}
+  .sj-form-note{max-width:none;text-align:center;width:100%}
+  /* Footer */
+  .sj-foot-row{flex-direction:column;align-items:flex-start !important}
+}
+@media (max-width:599px){
+  .sj-cond-grid{grid-template-columns:1fr !important}
+}
+@media (max-width:759px) and (max-height:700px){
+  .sj-jimg{height:150px !important}
+  .sj-h-head h2{font-size:26px !important}
+  .sj-h-sticky{padding-top:68px !important;gap:12px !important}
+}
+@media (max-width:520px){
+  .sj-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .sj-chips .radio{justify-content:center;padding:12px 6px;font-size:14px}
+  .sj-chips .radio .dot{display:none}
+}
+/* ── Isotipo de marca como flecha ── */
+.sj-iso{display:inline-block !important;height:1.05em;width:auto;max-width:none;flex:none;vertical-align:-.12em;transition:transform .35s var(--sj-ease)}
+.sj-iso--lg{height:26px}
+.sj-iso--back{transform:scaleX(-1)}
+a:hover .sj-iso,button:hover .sj-iso{transform:translateX(4px)}
+button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
+
+/* ── Vive: figura grande, sin recortes ── */
+.sj-vive-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:clamp(30px,3.7vw,53px)}
+.sj-vive-fig{flex:none;width:clamp(220px,25vw,380px);height:auto;animation:sj-float 8s ease-in-out infinite}
+@keyframes sj-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+
+/* ── Stickers inmersivos detrás de las tarjetas apiladas ── */
+.sj-stack-bleed{margin-inline:calc(-1 * var(--sj-gutter))}
+.sj-sticker{position:absolute;z-index:0;height:auto;pointer-events:none;will-change:transform;filter:drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(0 24px 40px rgba(28,28,28,.2))}
+.sj-st1{left:3%;top:7%;width:clamp(210px,25vw,420px)}
+.sj-st2{right:3%;top:5%;width:clamp(220px,26vw,440px)}
+.sj-st3{left:6%;bottom:4%;width:clamp(200px,23vw,390px)}
+.sj-st4{right:5%;bottom:5%;width:clamp(210px,24vw,400px)}
+.sj-st5{left:21%;top:42%;width:clamp(150px,16vw,280px)}
+.sj-st6{right:21%;top:47%;width:clamp(150px,16vw,280px)}
+.sj-sr1{left:4%;top:8%;width:clamp(200px,23vw,380px)}
+.sj-sr2{right:4%;top:6%;width:clamp(210px,24vw,400px)}
+.sj-sr3{left:7%;bottom:5%;width:clamp(190px,21vw,360px)}
+.sj-sr4{right:6%;bottom:6%;width:clamp(200px,22vw,370px)}
+
+/* ── Curva de altitud interactiva ── */
+.sj-alt-wrap{margin-top:clamp(80px,10vw,140px);display:flex;flex-direction:column;gap:clamp(28px,3.4vw,44px)}
+.sj-alt-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px clamp(32px,5vw,72px);align-items:end}
+.sj-alt{padding:clamp(18px,2.4vw,32px) !important}
+.sj-alt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-bottom:10px;font-size:13px;color:rgba(233,238,241,.78)}
+.sj-alt-leg{display:inline-flex;align-items:center;gap:8px}
+.sj-alt-key{display:inline-block;width:22px;height:0;border-top:3px solid #83b300;border-radius:2px}
+.sj-alt-key--th{border-top:2px dashed #df5f0c}
+.sj-alt-key--hab{border-top:2px dashed rgba(233,238,241,.8)}
+.sj-alt-toggle{display:inline-flex;align-items:center;gap:8px;margin-left:auto;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(233,238,241,.25);background:transparent;color:rgba(233,238,241,.7);font-size:13px;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s}
+.sj-alt-toggle:hover{border-color:rgba(233,238,241,.5)}
+.sj-alt-toggle[aria-pressed="true"]{background:rgba(233,238,241,.1);border-color:rgba(233,238,241,.45);color:#e9eef1}
+.sj-alt-toggle[aria-pressed="false"] .sj-alt-key--hab{opacity:.35}
+.sj-alt-plot{position:relative;touch-action:pan-y;cursor:crosshair;-webkit-user-select:none;user-select:none}
+.sj-alt-reveal{position:absolute;inset:0;transition:clip-path 1.8s var(--sj-ease)}
+.sj-alt-y{position:absolute;left:0;transform:translateY(calc(-100% - 4px));font-size:12px;color:rgba(233,238,241,.55);pointer-events:none}
+.sj-alt-pt{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;padding:0;border:0;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:left .4s var(--sj-ease),top .4s var(--sj-ease)}
+.sj-alt-pt span{width:12px;height:12px;border-radius:50%;background:#e9eef1;box-shadow:0 0 0 4px #1c1c1c;transition:transform .3s var(--sj-ease),background-color .3s,box-shadow .3s}
+.sj-alt-pt:hover span{transform:scale(1.3)}
+.sj-alt-pt[data-on="true"] span{background:#f4a700;transform:scale(1.45);box-shadow:0 0 0 4px #1c1c1c,0 0 0 11px rgba(244,167,0,.22)}
+.sj-alt-tip{position:absolute;margin-top:-18px;padding:6px 11px;border-radius:10px;background:#f4a700;color:#1c1c1c;font-family:var(--font-heading);font-weight:600;font-size:15px;line-height:1.2;white-space:nowrap;pointer-events:none;transition:left .4s var(--sj-ease),top .4s var(--sj-ease)}
+.sj-alt-x{position:relative;height:46px;margin-top:8px}
+.sj-alt-x>span{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:rgba(233,238,241,.5);white-space:nowrap;transition:color .3s}
+.sj-alt-x b{font-weight:500;font-size:13px;color:rgba(233,238,241,.8);transition:color .3s}
+.sj-alt-x i{font-style:normal}
+.sj-alt-x>span[data-on="true"],.sj-alt-x>span[data-on="true"] b{color:#f4a700}
+.sj-alt-detail{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr) auto;grid-template-areas:"head body nav" "main body nav";gap:6px clamp(20px,3vw,40px);align-items:center;margin-top:10px;padding-top:22px;border-top:1px solid rgba(233,238,241,.12)}
+.sj-alt-dhead{grid-area:head;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sj-alt-dday{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)}
+.sj-alt-status{font-size:12px;line-height:1.3;padding:4px 10px;border-radius:999px;border:1px solid currentColor;color:#83b300}
+.sj-alt-status[data-tone="high"]{color:#f4a700}
+.sj-alt-status[data-tone="sea"]{color:rgba(233,238,241,.75)}
+.sj-alt-dmain{grid-area:main;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.sj-alt-dmain h4{margin:0;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.02em;color:#e9eef1}
+.sj-alt-dmain>span{font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,2.2vw,30px);color:#f4a700}
+.sj-alt-detail p{grid-area:body;margin:0;font-size:16px;line-height:1.55;color:rgba(233,238,241,.85);max-width:52ch}
+.sj-alt-nav{grid-area:nav;display:flex;gap:8px}
+.sj-alt-nav button{width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.25);background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .25s,background-color .25s}
+.sj-alt-nav button:hover{border-color:#83b300;background:rgba(131,179,0,.1)}
+.sj-alt-nav .sj-iso{height:18px}
+@media (max-width:900px){.sj-alt-intro{grid-template-columns:1fr}}
+@media (max-width:759px){
+  .sj-stack-card{width:min(80vw,540px) !important}
+  .sj-st1,.sj-sr1{left:2%;top:9%;width:44vw}
+  .sj-st2,.sj-sr2{right:2%;top:8%;width:44vw}
+  .sj-st3,.sj-sr3{left:3%;bottom:7%;width:42vw}
+  .sj-st4,.sj-sr4{right:2%;bottom:8%;width:44vw}
+  .sj-st5{left:1%;top:44%;width:28vw}
+  .sj-st6{right:1%;top:50%;width:28vw}
+  .sj-alt-x i{display:none}
+  .sj-alt-toggle{margin-left:0}
+  .sj-alt-detail{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"head nav" "main nav" "body body";row-gap:8px}
+  .sj-alt-detail p{margin-top:6px;font-size:15px}
+}
+@media (max-width:640px){
+  .sj-vive-head{flex-direction:column-reverse;align-items:stretch;gap:24px}
+  .sj-vive-fig{align-self:flex-end;width:min(60vw,280px)}
+}
+/* ── Círculo Dorado: zoom tipo iris (WHY → HOW → WHAT) ── */
+.sj-gc-wrap{max-width:1440px;width:100%;margin:0 auto;padding:88px var(--sj-gutter) 36px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,96px);align-items:center}
+.sj-gc-stage-wrap{position:relative;width:min(70vh,100%);width:min(70svh,100%);aspect-ratio:1;margin:0 auto}
+.sj-gc-stage-wrap::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 40px 90px rgba(28,28,28,.28),0 0 0 1px rgba(28,28,28,.08)}
+.sj-gc-orbit{position:absolute;left:-8%;top:-8%;width:116%;height:116%;max-width:none;overflow:visible;fill:#736d47;font-family:var(--font-heading);font-weight:500;font-size:7px;letter-spacing:.3em;pointer-events:none;will-change:transform}
+.sj-gc-stage{position:absolute;inset:0;border-radius:50%;overflow:hidden;clip-path:circle(50%);background:#1c1c1c}
+.sj-gc-ring{position:absolute;left:50%;top:50%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background-position:center;background-size:cover;box-shadow:0 0 0 1.5px rgba(233,238,241,.6),0 0 60px rgba(0,0,0,.45)}
+.sj-gc-what{width:calc(100% * var(--z));box-shadow:none}
+.sj-gc-how{width:calc(68% * var(--z))}
+.sj-gc-why{width:calc(36% * var(--z));display:flex;align-items:center;justify-content:center}
+.sj-gc-dim{position:absolute;inset:0;border-radius:50%;background:#1c1c1c;transition:opacity .7s ease;pointer-events:none}
+.sj-gc-isow{position:relative;width:calc(24% / var(--z));margin-bottom:6%;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
+.sj-gc-iso{display:block;width:100%;aspect-ratio:.856;background:#fff;-webkit-mask:url(assets/diamond-teal.png) center/contain no-repeat;mask:url(assets/diamond-teal.png) center/contain no-repeat}
+.sj-gc-label{position:absolute;left:50%;transform:translate(-50%,-50%);font-family:var(--font-heading);font-weight:500;font-size:clamp(12px,1.1vw,15px);letter-spacing:.2em;color:#fff;white-space:nowrap;text-shadow:0 1px 12px rgba(0,0,0,.55);pointer-events:none}
+.sj-gc-l-what{top:calc(50% - (100% + 68%) * var(--z) / 4)}
+.sj-gc-l-how{top:calc(50% - (68% + 36%) * var(--z) / 4)}
+.sj-gc-l-why{top:calc(50% + 36% * var(--z) * .3)}
+.sj-gc-text{display:flex;flex-direction:column;gap:28px}
+.sj-gc-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sj-gc-tab{position:relative;display:flex;align-items:baseline;gap:8px;padding:14px 0 0;border:0;background:transparent;color:#7a7a7d;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-align:left;cursor:pointer;transition:color .3s}
+.sj-gc-tab::before,.sj-gc-tab::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;border-radius:2px;background:rgba(28,28,28,.14)}
+.sj-gc-tab::after{background:#736d47;transform:scaleX(0);transform-origin:left;transition:transform .6s var(--sj-ease)}
+.sj-gc-tab b{font-weight:500;color:#b0b0b3;transition:color .3s}
+.sj-gc-tab:hover{color:#1c1c1c}
+.sj-gc-tab[data-state="done"]::after,.sj-gc-tab[data-state="on"]::after{transform:scaleX(1)}
+.sj-gc-tab[data-state="on"]{color:#1c1c1c}
+.sj-gc-tab[data-state="on"] b{color:#736d47}
+
+/* ── Detrás de Sunqu: lista mínima ── */
+.sj-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.sj-swap2{display:flex;flex-direction:column;max-width:560px}
+.sj-swap2-head,.sj-swap2-row{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);align-items:center;gap:12px}
+.sj-swap2-head{padding-bottom:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7a7d}
+.sj-swap2-row{padding:18px 0;border-top:1px solid rgba(28,28,28,.12)}
+.sj-swap2-row:last-child{border-bottom:1px solid rgba(28,28,28,.12)}
+.sj-swap2-from{font-size:clamp(19px,1.9vw,24px);color:#8a8a8d;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(28,28,28,.4)}
+.sj-swap2-to{font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.015em;color:#1c1c1c}
+.sj-swap2-iso{height:20px !important;justify-self:center}
+.sj-swap2-row:hover .sj-swap2-iso{transform:translateX(5px)}
+
+/* ── WhatsApp flotante ── */
+.sj-wa{position:fixed;right:clamp(16px,2.4vw,28px);bottom:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-bottom,0px));z-index:65;display:inline-flex;align-items:center;height:60px;min-width:60px;padding:0 16px;border-radius:999px;background:#25D366;color:#fff;text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.24);opacity:0;visibility:hidden;transform:translateY(18px) scale(.9);transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),visibility 0s linear .45s}
+.sj-wa.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),visibility 0s}
+.sj-wa::before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(37,211,102,.5);animation:sj-wa-pulse 2.6s ease-out infinite;pointer-events:none}
+@keyframes sj-wa-pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%,100%{box-shadow:0 0 0 16px rgba(37,211,102,0)}}
+.sj-wa:hover,.sj-wa:focus-visible{color:#fff;transform:translateY(-3px)}
+.sj-wa svg{width:28px;height:28px;flex:none}
+.sj-wa-label{max-width:0;overflow:hidden;white-space:nowrap;font-family:var(--font-heading);font-weight:500;font-size:15px;transition:max-width .45s var(--sj-ease),margin .45s var(--sj-ease)}
+.sj-wa:hover .sj-wa-label,.sj-wa:focus-visible .sj-wa-label{max-width:120px;margin-left:10px}
+@media (max-width:960px){
+  .sj-gc-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
+  .sj-gc-stage-wrap{width:min(54svh,100%)}
+}
+@media (max-width:759px){
+  .sj-gc-sec{height:300vh !important}
+  .sj-gc-wrap{grid-template-columns:1fr;padding:80px var(--sj-gutter) 20px;gap:30px;align-content:center}
+  .sj-gc-stage-wrap{width:min(44svh,80vw)}
+  .sj-gc-text{gap:16px}
+  .sj-gc-text h2{font-size:26px !important;margin:0 0 10px !important}
+  .sj-gc-text p{font-size:15px !important}
+  .sj-gc-tab{font-size:12px;letter-spacing:.08em}
+  .sj-wa{height:56px;min-width:56px;padding:0 14px}
+}
+@media (max-width:759px) and (max-height:700px){
+  .sj-gc-stage-wrap{width:min(36svh,66vw)}
+  .sj-gc-text h2{font-size:22px !important}
+  .sj-gc-text p{font-size:14px !important}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .sj-wa::before{animation:none}
+  .sj-vive-fig{animation:none}
+  .sj-alt-reveal,.sj-alt-pt,.sj-alt-tip{transition:none !important}
+  .sj-drawer,.sj-drawer.is-open,.sj-drawer-link,.sj-scrim{transition:none !important}
+}
+</style>
+</helmet>
+<div style="--font-heading:'Aeonik','Manrope',system-ui,sans-serif;--font-body:'Aeonik','Manrope',system-ui,sans-serif;--font-heading-weight:600;--color-bg:#e9eef1;--color-text:#1c1c1c;--color-divider:rgba(28,28,28,.16);--color-accent:#736d47;--color-accent-600:#5e5939;--color-accent-700:#4a462d;--color-accent-100:#efece2;--color-accent-800:#736d47;position:relative;background:{{ pageBg }};transition:background-color .9s ease;color:#1c1c1c;font-family:var(--font-body)">
+
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:100;background:#736d47;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;opacity:{{ loaderOp }};transform:translateY({{ loaderY }});pointer-events:{{ loaderPe }};transition:opacity .6s ease .5s,transform 1s cubic-bezier(.7,0,.2,1)">
+<div style="width:min(56vw,360px);aspect-ratio:4.05/1;background:#e9eef1;-webkit-mask:url(assets/logo-mask.png) center/contain no-repeat;mask:url(assets/logo-mask.png) center/contain no-repeat"></div>
+<div style="width:min(56vw,360px);height:2px;background:rgba(233,238,241,.25)"><div style="height:100%;width:{{ loadPct }};background:#e9eef1;transition:width .25s linear"></div></div>
+<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#e9eef1">Viaja al corazón del Perú</span>
+</div>
+<sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);padding:0 clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+<div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06);border-right:1px solid rgba(28,28,28,.06)"></div>
+</div>
+</sc-if>
+
+<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+<nav class="sj-nav" aria-label="Principal">
+<a href="#inicio" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio"><img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}"><img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}"></a>
+<ul class="sj-links">
+<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+</sc-for>
+</ul>
+<div class="sj-actions">
+<button type="button" class="sj-lang" onClick="{{ openLang }}" aria-label="Cambiar idioma"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>{{ langCode }}</button>
+<a href="#contacto" class="btn btn-primary sj-cta">Diseña tu viaje</a>
+<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
+</div>
+</nav>
+</header>
+
+<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
+<div class="sj-drawer-top">
+<img src="assets/logo-light.png" alt="Sunqu Journeys">
+<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+<div>
+<div class="sj-drawer-kicker sj-eyebrow">Viaja al corazón del Perú</div>
+<nav class="sj-drawer-nav" aria-label="Menú principal">
+<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link"><span class="sj-drawer-n">{{ m.n }}</span><span>{{ m.label }}</span><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg"></a>
+</sc-for>
+</nav>
+</div>
+<div class="sj-drawer-sub">
+<a href="#sunqu" onClick="{{ closeMenu }}">Sobre Sunqu</a><a href="#formas" onClick="{{ closeMenu }}">Formas de viajar</a><a href="#blog" onClick="{{ closeMenu }}">Blog</a><a href="#contacto" onClick="{{ closeMenu }}">Contacto</a>
+</div>
+<div class="sj-drawer-foot">
+<a href="#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+<div class="sj-drawer-row">
+<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
+<div class="sj-seg" role="group" aria-label="Idioma">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
+</sc-for>
+</div>
+</div>
+<div class="sj-band sj-band--light" aria-hidden="true"></div>
+</div>
+</aside>
+
+<a class="sj-wa {{ waCls }}" href="https://wa.me/51966461384?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg><span class="sj-wa-label">¿Hablamos?</span></a>
+<sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeLang }}" style="position:fixed;inset:0;z-index:90;background:rgba(28,28,28,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px">
+<div role="dialog" aria-label="Selecciona tu idioma" onClick="{{ stop }}" style="width:min(100%,440px);background:#e9eef1;color:#1c1c1c;border-radius:28px;padding:clamp(24px,4vw,36px);display:flex;flex-direction:column;gap:20px;box-shadow:0 30px 80px rgba(0,0,0,.3)">
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="letter-spacing:-.02em;font-size:28px;margin:0">Elige tu idioma</h3>
+<button type="button" onClick="{{ closeLang }}" aria-label="Cerrar" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(28,28,28,.2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#1c1c1c" style-hover="background:rgba(28,28,28,.06)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+<button type="button" onClick="{{ l.pick }}" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-radius:18px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.fg }};font-family:var(--font-heading);font-size:18px;cursor:pointer;text-align:left;transition:all .25s"><span>{{ l.name }}</span><span style="font-size:13px;letter-spacing:.1em;opacity:.8">{{ l.code }}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<main style="position:relative;z-index:1">
+
+<section id="inicio" class="sj-hero" data-screen-label="Hero" data-bg="dark" style="position:relative;height:100vh;min-height:640px;overflow:hidden;color:#e9eef1">
+<div data-parallax="0.25" style="position:absolute;inset:-6% 0">
+<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
+<img src="{{ s.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
+</sc-for>
+<sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}"><video src="{{ heroVideo }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video></sc-if>
+</div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,.45) 0%,rgba(28,28,28,.05) 35%,rgba(28,28,28,.8) 100%);pointer-events:none"></div>
+<div style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(24px,3vw,40px)">
+<h1 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(46px,9vw,150px);line-height:.98;letter-spacing:-.035em;margin:0;max-width:10ch;color:#e9eef1">
+<span data-reveal="" data-delay="1900" style="display:block">El Perú no es</span>
+<span data-reveal="" data-delay="2020" style="display:block">un destino.</span>
+<span data-reveal="" data-delay="2140" style="display:block;color:#f4a700">Es una relación.</span>
+</h1>
+<div class="sj-hero-row" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(233,238,241,.3);padding-top:22px">
+<p data-reveal="" data-delay="2260" style="font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:42ch;margin:0;color:rgba(233,238,241,.9)">Viaja al corazón del Perú: viajes a medida con anfitriones que tienen nombre propio.</p>
+<div data-reveal="" data-delay="2340" class="sj-hero-meta" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+<span class="sj-hero-cap" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.8)">{{ heroCaption }}</span>
+<div style="display:flex;gap:6px"><sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><span style="width:28px;height:2px;background:{{ s.bar }};transition:background .6s"></span></sc-for></div>
+<a href="#descubre" class="btn btn-primary" style="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c;font-size:16px;padding:14px 22px;letter-spacing:.04em;text-transform:uppercase;border-radius:999px" style-hover="background:#f4a700;border-color:#f4a700;color:#1c1c1c">Descubre los journeys<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</div>
+</div>
+</div>
+</section>
+
+
+<section id="sunqu" data-bg="light" data-screen-label="Detrás de Sunqu" style="padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+<div class="sj-sunqu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(24px,4vw,56px)">
+<div class="sj-sunqu-aside" style="display:flex;flex-direction:column;gap:20px">
+<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Detrás de Sunqu</span>
+<img data-reveal="" data-delay="100" src="assets/pattern-pair.png" alt="" style="width:92px">
+</div>
+<div class="sj-sunqu-body" style="grid-column:span 3;min-width:min(100%,560px)">
+<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(24px,3vw,46px);line-height:1.22;letter-spacing:-.01em;margin:0;text-wrap:pretty"><span data-highlight="" style="color:#1c1c1c">Creemos que el Perú se ha vendido como destino cuando en realidad es una relación. La mayoría de los viajes premium terminan en fotografías; los nuestros terminan en vínculos que siguen vivos después del vuelo de regreso.</span></p>
+<div class="sj-sunqu-cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,3vw,48px);margin-top:clamp(40px,5vw,72px)">
+<p data-reveal="" style="font-size:17px;line-height:1.6;margin:0;max-width:48ch;text-wrap:pretty;color:#424244">Vivimos los viajes con corazón de ayer y mirada de hoy; como un artesano que trabaja hasta conseguir la perfección en cada proyecto. Con dedicación creamos experiencias exclusivas, únicas y a medida.</p>
+<div class="sj-swap2">
+<div class="sj-swap2-head" data-reveal="" data-delay="80"><span>Lo que dejamos</span><span></span><span>Lo que construimos</span></div>
+<div class="sj-swap2-row" data-reveal="" data-delay="160"><span class="sj-swap2-from">Destino</span><span class="sj-sr">, se convierte en,</span><img src="assets/diamond-olive.png" alt="" class="sj-iso sj-swap2-iso"><span class="sj-swap2-to">Relación</span></div>
+<div class="sj-swap2-row" data-reveal="" data-delay="240"><span class="sj-swap2-from">Fotografía</span><span class="sj-sr">, se convierte en,</span><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-swap2-iso"><span class="sj-swap2-to">Vínculo</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="circulo" data-bg="light" ref="{{ gcRef }}" class="sj-gc-sec" data-screen-label="Círculo Dorado" style="height:340vh;position:relative;border-top:1px solid rgba(28,28,28,.12)">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden">
+<div class="sj-gc-wrap">
+<div class="sj-gc-stage-wrap">
+<svg class="sj-gc-orbit" data-gc-orbit="" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sjOrbitPath" d="M100,100 m-93,0 a93,93 0 1,1 186,0 a93,93 0 1,1 -186,0"></path></defs><text><textPath href="#sjOrbitPath" startOffset="0" textLength="580" lengthAdjust="spacing">POR QUÉ · CÓMO · QUÉ · SUNQU · VIAJA AL CORAZÓN DEL PERÚ · POR QUÉ · CÓMO · QUÉ · SUNQU · </textPath></text></svg>
+<div class="sj-gc-stage" data-gc-stage="" style="--z:2.9">
+<div class="sj-gc-ring sj-gc-what" style="background-image:url(https://images.unsplash.com/photo-1532996152552-eaffc4edfc1a?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.whatDim }}"></i></div>
+<div class="sj-gc-ring sj-gc-how" style="background-image:url(https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.howDim }}"></i></div>
+<div class="sj-gc-ring sj-gc-why" style="background-image:url(https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.whyDim }}"></i><span class="sj-gc-isow"><i class="sj-gc-iso"></i></span></div>
+<span class="sj-gc-label sj-gc-l-what">WHAT</span>
+<span class="sj-gc-label sj-gc-l-how">HOW</span>
+<span class="sj-gc-label sj-gc-l-why">WHY</span>
+</div>
+</div>
+<div class="sj-gc-text">
+<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">El Círculo Dorado de Sunqu</span>
+<div class="sj-gc-tabs" role="group" aria-label="Pasos del Círculo Dorado">
+<sc-for list="{{ gcTabs }}" as="t" hint-placeholder-count="3">
+<button type="button" class="sj-gc-tab" data-state="{{ t.state }}" aria-pressed="{{ t.on }}" onClick="{{ t.go }}"><b>{{ t.n }}</b>{{ t.label }}</button>
+</sc-for>
+</div>
+<div style="display:grid">
+<div style="grid-area:1/1;opacity:{{ gc.o0 }};transform:translateY({{ gc.y0 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Conectar a las personas con el corazón del Perú.</h2>
+<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">No describe un producto ni un destino. Es lo que permanece aunque cambien los viajes, la app o las rutas: que cada encuentro termine en un vínculo, no en una foto.</p>
+</div>
+<div style="grid-area:1/1;opacity:{{ gc.o1 }};transform:translateY({{ gc.y1 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Seis principios, un solo filtro.</h2>
+<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Curamos, contamos historias, conectamos con personas, te convertimos en participante, personalizamos y te acompañamos antes, durante y después.</p>
+</div>
+<div style="grid-area:1/1;opacity:{{ gc.o2 }};transform:translateY({{ gc.y2 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Journeys, Private y Collective.</h2>
+<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Viajes de 8 a 10 días, experiencias a medida y una red de anfitriones, chefs, guías y comunidades. Después llegarán el Marketplace y la App.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="principios" data-bg="light" data-screen-label="Principios" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,4.0vw,62px);line-height:1.07;margin:0;text-wrap:balance">Curamos, no acumulamos.</h2>
+<div data-reveal="" data-delay="120" style="border-left:2px solid #736d47;padding-left:20px">
+<p style="font-family:var(--font-heading);font-size:clamp(22px,2vw,28px);line-height:1.2;margin:0 0 6px">¿Esto ayuda a conectar al viajero con el corazón del Perú?</p>
+<p style="margin:0;color:#5d5d60;font-size:15px">Si la respuesta es no, no pertenece a Sunqu. Cada destino, anfitrión y experiencia pasa por esta pregunta.</p>
+</div>
+</div>
+<div data-stack="" class="sj-stack sj-stack-bleed" style="height:520vh;position:relative">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-st1" data-sticker="-12" data-depth="150">
+<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-st2" data-sticker="10" data-depth="190">
+<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-st3" data-sticker="8" data-depth="-160">
+<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-st4" data-sticker="-8" data-depth="-130">
+<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-sticker sj-st5" data-sticker="18" data-depth="70">
+<img src="assets/pattern-pair.png" alt="" aria-hidden="true" class="sj-sticker sj-st6" data-sticker="-16" data-depth="-70">
+<sc-for list="{{ principles }}" as="p" hint-placeholder-count="6">
+<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,540px);background:{{ p.bg }};color:{{ p.fg }};border-radius:32px;padding:clamp(28px,4vw,44px) clamp(24px,4vw,52px) clamp(34px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(12px,1.8vh,20px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
+<div style="width:min(56%,270px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden"><img src="{{ p.photo }}" alt="{{ p.title }}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ p.n }} · {{ p.layer }}</span>
+<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,4.4vw,64px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ p.fg }};text-wrap:balance">{{ p.title }}</h3>
+<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:34ch;text-wrap:pretty;color:{{ p.fg }}">{{ p.q }}</p>
+</article>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="formas" data-bg="light" data-screen-label="Formas de viajar" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(32px,4vw,56px)">Formas de viajar con Sunqu</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,80px);align-items:start">
+<div data-clip="" class="sj-formas-media" style="position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#dde3e7">
+<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
+<img src="{{ f.img }}" alt="{{ f.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ f.op }};transform:scale({{ f.sc }});transition:opacity .6s,transform 1.2s cubic-bezier(.2,.7,.1,1)">
+</sc-for>
+</div>
+<ul class="sj-formas-list" style="list-style:none;margin:0;padding:0;border-top:1px solid rgba(28,28,28,.16)">
+<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
+<li onMouseEnter="{{ f.onEnter }}" style="border-bottom:1px solid rgba(28,28,28,.16)">
+<a href="#descubre" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:clamp(18px,2.2vw,30px) 0;text-decoration:none;color:#1c1c1c">
+<span style="display:flex;flex-direction:column;gap:6px;transform:translateX({{ f.x }}px);transition:transform .5s cubic-bezier(.2,.7,.1,1)">
+<span style="font-family:var(--font-heading);font-weight:600;font-size:clamp(28px,3.6vw,54px);line-height:1;letter-spacing:-.02em;color:{{ f.color }};transition:color .4s">{{ f.title }}</span>
+<span style="font-size:16px;color:#5d5d60">{{ f.sub }}</span>
+</span>
+<span style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:{{ f.btnBg }};color:{{ f.btnFg }};transition:all .4s"><img src="{{ f.iso }}" alt="" class="sj-iso"></span>
+</a>
+</li>
+</sc-for>
+</ul>
+</div>
+</section>
+
+<section data-expand="" data-bg="dark" data-screen-label="Expandir" style="height:260vh;position:relative">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
+<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
+<img src="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&fit=crop&w=2000&q=72" alt="Dos mujeres quechuas miran la ciudad desde la montaña" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,0) 40%,rgba(28,28,28,.75))"></div>
+</div>
+<div data-expand-text="" style="position:absolute;left:0;right:0;bottom:0;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(36px,6vh,72px);color:#e9eef1;opacity:0">
+<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#f4a700">Perú Profundo</span>
+<h2 style="font-size:clamp(36px,6vw,104px);line-height:1;letter-spacing:-.03em;margin:14px 0 0;max-width:13ch;color:#e9eef1">Primero la piedra. Después, la gente.</h2>
+</div>
+</div>
+</section>
+
+<section id="descubre" data-hscroll="" data-bg="dark" data-screen-label="01 Descubre" style="position:relative;height:300vh;color:#e9eef1">
+<div class="sj-sticky sj-h-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3vh,36px);padding-top:64px;box-sizing:border-box">
+<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap" class="sj-h-head">
+<div><span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">01 — Descubre · {{ journeyCount }}</span>
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4.4vw,72px);line-height:1;margin:10px 0 0;max-width:13ch;color:#e9eef1">¿Cómo quieres sentir el Perú?</h2></div>
+<div class="sj-filters" role="group" aria-label="Filtrar journeys" style="display:flex;border:1px solid rgba(233,238,241,.3);border-radius:999px;padding:4px;flex-wrap:wrap;gap:2px">
+<sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="border:0;border-radius:999px;font-family:var(--font-heading);font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;background:{{ c.bg }};color:{{ c.color }};cursor:pointer;transition:background .3s">{{ c.label }}</button>
+</sc-for>
+</div>
+</div>
+<div data-htrack="" ref="{{ stripRef }}" style="display:flex;gap:24px;width:max-content;padding:0 max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));will-change:transform">
+<sc-for list="{{ journeys }}" as="j" hint-placeholder-count="3">
+<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
+<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
+<img src="{{ j.img }}" alt="{{ j.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ j.alt }}</span>
+<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ j.days }}</span>
+</div>
+<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1">
+<span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.65)">{{ j.region }}</span>
+<h3 style="letter-spacing:-.02em;font-size:26px;line-height:1.08;margin:0;color:#e9eef1">{{ j.title }}</h3>
+<p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ j.why }}</p>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
+<span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ j.price }}</span>
+<a href="#contacto" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+</div>
+</div>
+</article>
+</sc-for>
+</div>
+<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box"><div style="height:2px;background:rgba(233,238,241,.18)"><div data-hbar="" style="height:100%;background:#f4a700;transform-origin:left;transform:scaleX(0)"></div></div></div>
+</div>
+</section>
+
+<section id="conecta" data-bg="light" data-screen-label="02 Conecta" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">02 — Conecta · Sunqu Collective</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0">Viajas con personas, no con proveedores.</h2>
+<p data-reveal="" data-delay="120" style="font-size:18px;line-height:1.55;margin:0;max-width:44ch;color:#424244;text-wrap:pretty">Detrás de cada Journey hay alguien con nombre propio. No «una familia quechua», sino Rosa, y su historia. Te presentamos a quienes te reciben antes de que llegues.</p>
+</div>
+<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px">
+<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="3">
+<article data-reveal="" class="blueprint" style="display:flex;flex-direction:column">
+<div data-clip="" class="duotone" style="position:relative;aspect-ratio:3/3.4;overflow:hidden">
+<img src="{{ h.img }}" alt="{{ h.ph }}" style="width:100%;height:100%;object-fit:cover;display:block">
+</div>
+<div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="letter-spacing:-.02em;font-size:22px;margin:0">{{ h.role }}</h3><span style="font-size:13px;color:#5d5d60">{{ h.place }}</span></div>
+<p style="margin:0;font-size:15px;color:#424244;line-height:1.5"><strong style="font-weight:500;color:#736d47">Te enseña · </strong>{{ h.teach }}</p>
+</div>
+</article>
+</sc-for>
+</div>
+<div data-reveal="" class="blueprint sj-ayni" style="margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px 40px;align-items:center;padding:clamp(24px,3vw,40px)">
+<div style="display:flex;align-items:center;gap:20px"><img src="assets/pattern-ring.png" alt="" style="width:72px"><div><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Ayni · reciprocidad</span><h3 style="letter-spacing:-.02em;font-size:24px;margin:4px 0 0">Ficha de reciprocidad</h3></div></div>
+<p style="margin:0;font-size:16px;line-height:1.55;color:#424244">Publicamos qué recibe cada comunidad anfitriona, cómo se decidió y quién lo administra. La comunidad tiene poder de veto.</p>
+<a href="#contacto" class="btn btn-secondary" style="justify-self:start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver cómo funciona<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</div>
+</section>
+
+<section id="vive" data-screen-label="03 Vive" data-bg="dark" style="--color-text:#e9eef1;--color-divider:rgba(233,238,241,.22);color:#e9eef1;position:relative;overflow:hidden">
+<div style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px)">
+<div class="sj-vive-head">
+<div>
+<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#83b300;margin-bottom:24px" data-reveal="">03 — Vive · Momento Sunqu</div>
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.7vw,77px);line-height:1.04;margin:0;max-width:13ch;color:#e9eef1">No se compra. Se vive.</h2>
+</div>
+<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-vive-fig">
+</div>
+<div class="sj-cond-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px">
+<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4">
+<article data-reveal="" class="blueprint sj-cond" style="padding:28px 26px;display:flex;flex-direction:column;gap:14px;min-height:260px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:var(--font-heading);font-size:14px;letter-spacing:.1em;color:rgba(233,238,241,.6)">{{ c.n }}</span><img src="{{ c.icon }}" alt="" style="width:28px"></div>
+<h3 style="letter-spacing:-.02em;font-size:24px;line-height:1.12;margin:auto 0 0;color:#e9eef1">{{ c.title }}</h3>
+<p style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.82)">{{ c.body }}</p>
+</article>
+</sc-for>
+</div>
+<div class="sj-alt-wrap">
+<div class="sj-alt-intro">
+<div>
+<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">El Alma de los Andes · curva de altitud</span>
+<h3 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(32px,3.9vw,58px);line-height:1.07;margin:14px 0 0;color:#e9eef1">Empezamos 600 metros más abajo.</h3>
+</div>
+<p data-reveal="" style="font-size:17px;line-height:1.6;color:rgba(233,238,241,.85);max-width:46ch;margin:0">Entramos por el Valle Sagrado a 2.800 m, no por Cusco a 3.400 m. Queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza. <span style="color:#e9eef1">Toca cada día para ver dónde duermes.</span></p>
+</div>
+<figure data-reveal="" class="blueprint sj-alt" role="group" aria-label="Curva de altitud del journey El Alma de los Andes, día a día">
+<div class="sj-alt-bar">
+<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--sunqu"></i>Ruta Sunqu</span>
+<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Umbral del soroche · 3.400 m</span>
+<button type="button" class="sj-alt-toggle" onClick="{{ alt.toggleHab }}" aria-pressed="{{ alt.habPressed }}"><i class="sj-alt-key sj-alt-key--hab"></i>Ruta habitual: Cusco directo</button>
+</div>
+<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
+<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
+<svg width="100%" height="100%" viewBox="{{ alt.vb }}" aria-hidden="true" style="display:block">
+<defs><linearGradient id="sjAltFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#83b300" stopOpacity=".38"></stop><stop offset="1" stopColor="#83b300" stopOpacity="0"></stop></linearGradient></defs>
+<rect x="0" y="0" width="{{ alt.w }}" height="{{ alt.yTh }}" fill="rgba(223,95,12,.07)"></rect>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y4000 }}" y2="{{ alt.y4000 }}" stroke="rgba(233,238,241,.1)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y2000 }}" y2="{{ alt.y2000 }}" stroke="rgba(233,238,241,.1)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yBase }}" y2="{{ alt.yBase }}" stroke="rgba(233,238,241,.28)"></line>
+<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yTh }}" y2="{{ alt.yTh }}" stroke="#df5f0c" strokeWidth="1.5" strokeDasharray="6 6"></line>
+<polygon points="{{ alt.area }}" fill="url(#sjAltFill)"></polygon>
+<polyline points="{{ alt.hab }}" fill="none" stroke="rgba(233,238,241,.7)" strokeWidth="1.5" strokeDasharray="4 6" style="opacity:{{ alt.habOp }};transition:opacity .4s"></polyline>
+<line x1="{{ alt.gx }}" x2="{{ alt.gx }}" y1="{{ alt.gy }}" y2="{{ alt.yBase }}" stroke="rgba(244,167,0,.7)" strokeDasharray="2 4"></line>
+<polyline points="{{ alt.line }}" fill="none" stroke="#83b300" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"></polyline>
+</svg>
+<span class="sj-alt-y" style="top:{{ alt.y4000 }}px">4.000 m</span>
+<span class="sj-alt-y" style="top:{{ alt.y2000 }}px">2.000 m</span>
+<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
+<button type="button" class="sj-alt-pt" data-on="{{ pt.on }}" style="left:{{ pt.x }}px;top:{{ pt.y }}px" onClick="{{ pt.pick }}" onFocus="{{ pt.pick }}" aria-label="{{ pt.label }}" aria-pressed="{{ pt.on }}"><span></span></button>
+</sc-for>
+<div class="sj-alt-tip" style="left:{{ alt.tipX }}px;top:{{ alt.tipY }}px;transform:translate({{ alt.tipTx }},-100%)">{{ alt.selM }}</div>
+</div>
+</div>
+<div class="sj-alt-x" aria-hidden="true">
+<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
+<span data-on="{{ pt.on }}" style="left:{{ pt.x }}px"><b>{{ pt.d }}</b><i>{{ pt.short }}</i></span>
+</sc-for>
+</div>
+<div class="sj-alt-detail" aria-live="polite">
+<div class="sj-alt-dhead"><span class="sj-alt-dday">{{ alt.selD }}</span><span class="sj-alt-status" data-tone="{{ alt.tone }}">{{ alt.selStatus }}</span></div>
+<div class="sj-alt-dmain"><h4>{{ alt.selPlace }}</h4><span>{{ alt.selM }}</span></div>
+<p>{{ alt.selBody }}</p>
+<div class="sj-alt-nav"><button type="button" onClick="{{ alt.prev }}" aria-label="Día anterior"><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back"></button><button type="button" onClick="{{ alt.next }}" aria-label="Día siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso "></button></div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+
+<section id="ruta" data-map="" data-bg="dark" data-screen-label="Ruta" style="height:280vh;position:relative;color:#e9eef1">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
+<div class="sj-route-grid" style="max-width:1440px;height:100%;margin:0 auto;padding:80px clamp(20px,4vw,56px) 32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(24px,4vw,64px);align-items:center">
+<div class="sj-route-text" style="display:flex;flex-direction:column;gap:22px">
+<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#83b300">La ruta · de la costa a los Andes</span>
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,64px);line-height:1;margin:0;color:#e9eef1">Del mar a la montaña, sin prisa.</h2>
+<ol class="sj-stops" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7">
+<li style="display:grid;grid-template-columns:36px 1fr auto;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid rgba(233,238,241,.14);opacity:{{ st.op }};transition:opacity .4s">
+<span style="font-size:13px;color:{{ st.dot }}">{{ st.n }}</span><span style="font-family:var(--font-heading);font-size:clamp(18px,1.6vw,24px);color:#e9eef1">{{ st.name }}</span><span style="font-size:13px;color:rgba(233,238,241,.7)">{{ st.alt }}</span>
+</li>
+</sc-for>
+</ol>
+</div>
+<svg ref="{{ mapRef }}" class="sj-map" viewBox="0 0 600 720" style="width:100%;max-height:calc(100vh - 120px);display:block" role="img" aria-label="Mapa del Perú con la ruta Sunqu"></svg>
+</div>
+</div>
+</section>
+
+<section id="recuerda" data-bg="light" data-screen-label="04 Recuerda" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">04 — Recuerda</div>
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(30px,3.7vw,53px);max-width:15ch">El viaje empieza antes del vuelo y sigue después.</h2>
+<div data-stack="" class="sj-stack-bleed" style="height:300vh;position:relative;margin-top:clamp(24px,3vw,40px)">
+<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
+<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-sr1" data-sticker="-10" data-depth="150">
+<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-sr2" data-sticker="12" data-depth="170">
+<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-sr3" data-sticker="6" data-depth="-150">
+<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-sr4" data-sticker="-9" data-depth="-130">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,560px);background:{{ ph.bg }};color:{{ ph.fg }};border-radius:32px;padding:clamp(28px,4vw,48px) clamp(24px,4vw,56px) clamp(36px,5vw,64px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2vh,22px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
+<div style="width:min(62%,300px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden"><img src="{{ ph.photo }}" alt="{{ ph.title }}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ ph.kicker }}</span>
+<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(40px,5vw,76px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ ph.fg }}">{{ ph.title }}</h3>
+<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:36ch;text-wrap:pretty;color:{{ ph.fg }}">{{ ph.body }}</p>
+</article>
+</sc-for>
+</div>
+</div>
+<div data-reveal="" class="sj-words" style="margin-top:clamp(56px,7vw,96px);border-top:1px solid rgba(28,28,28,.16);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));column-gap:24px">
+<sc-for list="{{ words }}" as="w" hint-placeholder-count="3">
+<div style="padding:28px 24px 28px 0;border-bottom:1px solid rgba(28,28,28,.16)">
+<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5d5d60">Tus primeras palabras en quechua</span>
+<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(38px,3.8vw,58px);line-height:1;margin:10px 0 4px;color:{{ w.color }}">{{ w.word }}</p>
+<p style="margin:0;font-size:17px;color:#424244">{{ w.meaning }}</p>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px">
+<article data-reveal="" class="blueprint sj-market" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+<div class="duotone sj-market-img" style="position:relative;min-height:280px;overflow:hidden;border-right:1px solid rgba(28,28,28,.12)"><img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=1400&q=70" alt="Textil andino" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
+<div style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:center;gap:12px"><span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Marketplace</span><h3 style="letter-spacing:-.02em;font-size:24px;margin:0;line-height:1.12">Lo que te llevas tiene nombre.</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Textiles, cerámica, joyería y alimentos con la historia de quién los hizo, dónde y con qué técnica.</p></div>
+</article>
+<article data-reveal="" data-delay="120" class="blueprint" style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:18px;justify-content:space-between;background:#dde3e7">
+<img src="assets/pattern-cluster.png" alt="" style="width:78px">
+<h3 style="letter-spacing:-.02em;font-size:clamp(26px,2.5vw,37px);margin:0;line-height:1.12">Sunqu y tú, con la playlist que representa a la cultura.</h3>
+<a href="#" class="btn btn-secondary" style="align-self:flex-start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>Ir a la playlist</a>
+</article>
+</div>
+</section>
+
+<section id="blog" data-bg="light" data-screen-label="Blog" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
+<div><span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Diario Sunqu · Blog</span>
+<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:13ch">Historias antes del viaje.</h2></div>
+<a href="#" class="btn btn-secondary" style="border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver todo el blog<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</div>
+<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,40px)">
+<article data-reveal="" data-delay="0" style="display:flex;flex-direction:column;gap:18px">
+<a href="#" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=1000&q=70" alt="Cómo aclimatarte en los Andes sin perder el primer día" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
+<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Guía</span><span>12 sep 2026</span></div>
+<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Cómo aclimatarte en los Andes sin perder el primer día</h3>
+<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Por qué entramos por el Valle Sagrado y qué comer, beber y evitar las primeras 48 horas.</p>
+<a href="#" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</article>
+<article data-reveal="" data-delay="120" style="display:flex;flex-direction:column;gap:18px">
+<a href="#" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1000&q=70" alt="La picantería arequipeña, explicada por una picantera" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
+<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Sabor</span><span>28 ago 2026</span></div>
+<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">La picantería arequipeña, explicada por una picantera</h3>
+<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Chupe, rocoto relleno y chicha de guiñapo: la cocina que se resiste a desaparecer.</p>
+<a href="#" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</article>
+<article data-reveal="" data-delay="240" style="display:flex;flex-direction:column;gap:18px">
+<a href="#" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1000&q=70" alt="Ayni: qué recibe cada comunidad que te recibe" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
+<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Comunidad</span><span>09 ago 2026</span></div>
+<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Ayni: qué recibe cada comunidad que te recibe</h3>
+<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Nuestra ficha de reciprocidad, paso a paso, y quién decide cómo se usa.</p>
+<a href="#" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+</article>
+</div>
+</section>
+
+<section id="instagram" data-bg="light" data-screen-label="Instagram" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
+<div><span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · @sunqujourneys</span>
+<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:14ch">El Perú, contado por quienes lo viven.</h2></div>
+<a href="#" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
+</div>
+<div data-reveal="" class="sj-ig" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:clamp(10px,1.4vw,18px)">
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1535400255456-984241443b29?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1578362646678-a1b282e43ff8?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1730424508745-29ea708ae698?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
+</div>
+</section>
+
+<section id="contacto" data-bg="light" data-screen-label="Contacto" style="border-top:1px solid rgba(28,28,28,.16)">
+<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+<div>
+<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
+<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
+<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+<div><h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3><p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p></div>
+</li>
+</sc-for>
+</ol>
+</div>
+<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ submit }}" class="sj-form">
+<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+<div class="sj-form-row">
+<div class="field"><label for="f-name">Nombre</label><input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre"></div>
+<div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com"></div>
+</div>
+<div class="field"><label for="f-month">¿Cuándo te gustaría viajar?</label>
+<select id="f-month" name="mes" class="input"><option>Aún no lo sé</option><option>Enero – marzo</option><option>Abril – junio</option><option>Julio – septiembre</option><option>Octubre – diciembre</option></select></div>
+<fieldset class="field"><legend class="sj-label">¿Qué quieres sentir?</legend>
+<div class="sj-chips">
+<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
+<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
+</div></fieldset>
+<div class="field"><label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label><textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea></div>
+<div class="sj-form-foot">
+<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+</div>
+</form>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+<img src="assets/diamond-lime.png" alt="" style="width:56px">
+<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
+<a href="#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+</div>
+<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span><a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span><a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span><span>Lima, Perú</span></div>
+</div>
+</div>
+<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="#descubre" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Experiencias</a><a href="#blog" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="#" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
+<div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;conceptDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;historia&quot;,&quot;sabor&quot;,&quot;gente&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;heroVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, concept: null, gc: 0, sent: false, hero: 0, pct: 0, loaded: false, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
+  chartRef = React.createRef();
+  stripRef = React.createRef();
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  ALT = [
+    { d: 'D1', place: 'Lima', short: 'Lima', m: 154, status: 'Nivel del mar', body: 'Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa.' },
+    { d: 'D2', place: 'Valle Sagrado', short: 'Valle', m: 2800, status: '600 m bajo Cusco', body: 'Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche.' },
+    { d: 'D3', place: 'Valle Sagrado', short: 'Valle', m: 2800, status: 'Aclimatación', body: 'Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre.' },
+    { d: 'D4', place: 'Maras y Moray', short: 'Maras', m: 3300, status: 'Subes y vuelves a bajar', body: 'Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray.' },
+    { d: 'D5', place: 'Machu Picchu', short: 'M. Picchu', m: 2430, status: 'Bajo el umbral', body: 'Bajamos a la ciudadela por la mañana. Primero la piedra.' },
+    { d: 'D6', place: 'Comunidad', short: 'Comunidad', m: 3500, status: 'Ya aclimatado', body: 'Después, la gente: pachamanca cocinada bajo tierra con una familia quechua.' },
+    { d: 'D7', place: 'Cusco', short: 'Cusco', m: 3400, status: 'En el umbral, sin soroche', body: 'Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura.' },
+    { d: 'D8', place: 'Lima', short: 'Lima', m: 154, status: 'De vuelta a la costa', body: 'Regreso a Lima con una receta, una técnica y los nombres de quienes te recibieron.' },
+  ];
+  HAB = [154, 3400, 3400];
+  NAV = [['descubre', 'Descubre'], ['conecta', 'Conecta'], ['vive', 'Vive'], ['recuerda', 'Recuerda']];
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    this.setState({ menuOpen: open }, () => {
+      const el = open ? this.closeRef.current : this.burgerRef.current;
+      if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0);
+    });
+  }
+  gcRef = React.createRef();
+  mapRef = React.createRef();
+  STOPS = [['Lima','0 m',-77.03,-12.05],['Valle Sagrado','2.800 m',-72.12,-13.3],['Moray','3.500 m',-72.195,-13.33],['Machu Picchu','2.430 m',-72.545,-13.163],['Cusco','3.400 m',-71.97,-13.53],['Arequipa','2.335 m',-71.54,-16.41],['Colca','3.600 m',-71.88,-15.63]];
+  async drawMap() {
+    for (let i = 0; i < 80 && !(window.d3 && window.topojson); i++) await new Promise(r => setTimeout(r, 100));
+    const svg = this.mapRef.current; if (!svg || !window.d3) return;
+    const d3 = window.d3; const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(r => r.json());
+    const all = topojson.feature(world, world.objects.countries).features; const peru = all.find(f => f.id === '604'); if (!peru) return;
+    const proj = d3.geoMercator().fitExtent([[20, 20], [580, 700]], peru); const path = d3.geoPath(proj);
+    const pts = this.STOPS.map(s => proj([s[2], s[3]]));
+    const line = d3.line().curve(d3.curveCatmullRom.alpha(.5))(pts);
+    const others = all.filter(f => ['218', '170', '076', '068', '152'].includes(f.id)).map(f => path(f)).filter(Boolean).join('');
+    svg.innerHTML = `<defs><clipPath id="mc"><rect width="600" height="720"/></clipPath></defs><g clip-path="url(#mc)"><path d="${others}" fill="rgba(233,238,241,.04)" stroke="rgba(233,238,241,.12)" stroke-width=".6"/><path d="${path(peru)}" fill="rgba(131,179,0,.08)" stroke="rgba(233,238,241,.55)" stroke-width="1"/><path data-route d="${line}" fill="none" stroke="#f4a700" stroke-width="2.5" stroke-linecap="round"/>` + pts.map((p, i) => `<g data-stop="${i}" style="opacity:0;transition:opacity .4s"><circle cx="${p[0]}" cy="${p[1]}" r="9" fill="rgba(244,167,0,.25)"/><circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#f4a700"/><text x="${p[0] + (i === 3 ? -12 : 12)}" y="${p[1] + (i === 2 ? 16 : i === 1 ? -8 : 4)}" fill="#e9eef1" font-size="13" text-anchor="${i === 3 ? 'end' : 'start'}" font-family="Aeonik,Manrope,sans-serif">${this.STOPS[i][0]}</text></g>`).join('') + '</g>';
+    const r = svg.querySelector('[data-route]'); this.routeLen = r.getTotalLength(); r.style.strokeDasharray = this.routeLen; r.style.strokeDashoffset = this.routeLen;
+  }
+
+  componentDidMount() {
+    let p = 0; this.lt = setInterval(() => { p = Math.min(100, p + 7 + Math.random() * 12); this.setState({ pct: p }); if (p >= 100) { clearInterval(this.lt); setTimeout(() => this.setState({ loaded: true }), 250); } }, 110);
+    this.drawMap();
+    this.ht = setInterval(() => this.setState(s => ({ hero: (s.hero + 1) % 4 })), 5200);
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (this.state.menuOpen) this.setMenu(false);
+      if (this.state.langOpen) this.setState({ langOpen: false });
+    };
+    this.onResize = () => { if (window.innerWidth > 960 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    if (!this.motion) this.setState({ chartIn: true });
+    if (window.ResizeObserver && this.chartRef.current) {
+      this.ro = new ResizeObserver((es) => { const w = Math.round(es[0].contentRect.width); if (w && w !== this.state.chartW) this.setState({ chartW: w }); });
+      this.ro.observe(this.chartRef.current);
+    }
+    const root = document;
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        el.style.opacity = 1; el.style.transform = 'none'; el.style.clipPath = 'inset(0 0 0 0)';
+        this.io.unobserve(el);
+      }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        root.querySelectorAll('[data-reveal]:not([data-rv]),[data-clip]:not([data-rv])').forEach(el => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0);
+          const ease = 'cubic-bezier(.2,.7,.1,1)';
+          if (el.hasAttribute('data-clip')) {
+            el.style.clipPath = 'inset(10% 10% 10% 10%)';
+            el.style.transition = `clip-path 1.4s ${ease} ${d}ms`;
+          } else {
+            el.style.opacity = 0; el.style.transform = 'translateY(36px)';
+            el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          }
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => this.observe());
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    this.mx = {};
+    this.lastY = window.scrollY;
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      const dy = y - this.lastY; this.lastY = y;
+      const scrolled = y > 30;
+      if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      const waOn = y > vh * 0.55;
+      if (waOn !== this.state.waOn) this.setState({ waOn });
+      let dark = false;
+      root.querySelectorAll('[data-bg]').forEach(s => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) dark = s.getAttribute('data-bg') === 'dark'; });
+      if (dark !== this.state.dark) this.setState({ dark });
+      let nav = null;
+      this.NAV.forEach(([id]) => { const s = document.getElementById(id); if (!s) return; const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) nav = id; });
+      if (nav !== this.state.nav) this.setState({ nav });
+      root.querySelectorAll('[data-expand]').forEach(sec => {
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const m = sec.querySelector('[data-expand-media]'); const t = sec.querySelector('[data-expand-text]');
+        const e = 1 - Math.pow(1 - Math.min(1, p / 0.7), 3);
+        if (m) { m.style.clipPath = `inset(${(1 - e) * 22}% ${(1 - e) * 30}% round ${(1 - e) * 28}px)`; m.firstElementChild && (m.firstElementChild.style.transform = `scale(${1.25 - e * 0.25})`); }
+        if (t) { const q = Math.min(1, Math.max(0, (p - 0.55) / 0.3)); t.style.opacity = q; t.style.transform = `translateY(${(1 - q) * 40}px)`; }
+      });
+      const ms = root.querySelector('[data-map]');
+      if (ms && this.routeLen) {
+        const r = ms.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh) * 1.15));
+        const rt = ms.querySelector('[data-route]'); rt.style.strokeDashoffset = this.routeLen * (1 - p);
+        const n = this.STOPS.length; const idx = Math.min(n - 1, Math.floor(p * (n - 1) + 0.05));
+        ms.querySelectorAll('[data-stop]').forEach((g, i) => { g.style.opacity = i <= idx ? 1 : 0; });
+        if (idx !== this.state.mapIdx) this.setState({ mapIdx: idx });
+      }
+      root.querySelectorAll('[data-stack]').forEach(sec => {
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const cards = sec.querySelectorAll('[data-card]'); const n = cards.length; const rots = [-5, 4, -2, 3];
+        cards.forEach((c, i) => {
+          const t = i === 0 ? 1 : Math.min(1, Math.max(0, p * (n - 0.6) - (i - 1) - 0.2));
+          const e = 1 - Math.pow(1 - t, 3); const under = Math.min(1, Math.max(0, p * (n - 0.6) - i - 0.2));
+          c.style.zIndex = i + 1;
+          c.style.transform = `translate3d(${(i % 2 ? 1 : -1) * under * 18}px,${(1 - e) * 115}vh,0) rotate(${rots[i % 4] + (1 - e) * (i % 2 ? 14 : -14)}deg) scale(${1 - under * 0.04})`;
+        });
+        sec.querySelectorAll('[data-sticker]').forEach((st, k) => {
+          const rot = parseFloat(st.getAttribute('data-sticker')) || 0;
+          const q = this.motion ? p : 0; const depth = parseFloat(st.getAttribute('data-depth')) || 0;
+          st.style.transform = `translate3d(${((k % 2 ? -1 : 1) * q * 24).toFixed(1)}px,${(q * depth).toFixed(1)}px,0) rotate(${(rot + q * (k % 2 ? 10 : -10)).toFixed(2)}deg) scale(${(1 + q * 0.06).toFixed(3)})`;
+        });
+      });
+      root.querySelectorAll('[data-hscroll]').forEach(sec => {
+        const tr = sec.querySelector('[data-htrack]'); if (!tr) return;
+        const dist = Math.max(0, tr.scrollWidth - window.innerWidth);
+        const want = (dist + vh) + 'px'; if (sec.style.height !== want) sec.style.height = want;
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, dist)));
+        tr.style.transform = `translate3d(${-p * dist}px,0,0)`;
+        const bar = sec.querySelector('[data-hbar]'); if (bar) bar.style.transform = `scaleX(${p})`;
+      });
+      if (!this.state.chartIn && this.chartRef.current) { const cr = this.chartRef.current.getBoundingClientRect(); if (cr.top < vh * 0.85 && cr.bottom > 0) this.setState({ chartIn: true }); }
+      const g = this.gcRef.current;
+      if (g) {
+        const r = g.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const i = p < 0.31 ? 0 : p < 0.67 ? 1 : 2;
+        if (i !== this.state.gc) this.setState({ gc: i });
+        const seg = (a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
+        const io = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const z = Math.exp(Math.log(2.9) + (Math.log(1.52) - Math.log(2.9)) * io(seg(0.18, 0.42)) + (0 - Math.log(1.52)) * io(seg(0.56, 0.8)));
+        const stg = g.querySelector('[data-gc-stage]'); if (stg) stg.style.setProperty('--z', z.toFixed(4));
+        const orb = g.querySelector('[data-gc-orbit]'); if (orb) orb.style.transform = `rotate(${(p * 150).toFixed(2)}deg)`;
+      }
+      if (this.motion) {
+        root.querySelectorAll('[data-marquee]').forEach((el, k) => {
+          const sp = parseFloat(el.getAttribute('data-marquee')) || 1;
+          const w = el.scrollWidth / 2;
+          let x = (this.mx[k] || 0) - (0.6 + Math.min(8, Math.abs(dy) * 0.25)) * sp;
+          if (x <= -w) x += w; if (x > 0) x -= w;
+          this.mx[k] = x; el.style.transform = `translate3d(${x}px,0,0)`;
+        });
+        root.querySelectorAll('[data-parallax]').forEach(el => {
+          const s = parseFloat(el.getAttribute('data-parallax')) || 0;
+          const r = el.parentElement.getBoundingClientRect();
+          const c = r.top + r.height / 2 - vh / 2;
+          el.style.transform = `translate3d(0,${(c * s).toFixed(1)}px,0)`;
+        });
+        root.querySelectorAll('[data-highlight]').forEach(el => {
+          const r = el.getBoundingClientRect();
+          const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / (r.height + vh * 0.3)));
+          const pc = (p * 100).toFixed(1);
+          el.style.color = 'transparent';
+          el.style.backgroundImage = `linear-gradient(90deg,#1c1c1c ${pc}%,rgba(28,28,28,.16) ${pc}%)`;
+          el.style.webkitBackgroundClip = 'text'; el.style.backgroundClip = 'text';
+        });
+      }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearInterval(this.lt); clearInterval(this.ht);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    document.documentElement.style.overflow = '';
+    this.io && this.io.disconnect();
+    this.ro && this.ro.disconnect();
+    this.mo && this.mo.disconnect();
+  }
+
+  renderVals() {
+    const T = '#736d47', dim = 'rgba(28,28,28,.16)';
+    const concept = this.state.concept ?? this.props.conceptDefault ?? 'todo';
+    const all = [
+      { id: 'alma', img: 'https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=1400&q=70', c: ['historia', 'gente'], title: 'El Alma de los Andes', region: 'Valle Sagrado · Cusco · Machu Picchu', days: '8 días', alt: '2.800 m', price: 'Desde USD 4.200', icon: 'assets/diamond-teal.png', ph: 'Foto — Valle Sagrado al atardecer', why: 'Los Andes no son ruinas y paisaje: son una cultura viva que se conoce a través de quienes la sostienen.', moment: 'Tu primera noche en el Valle Sagrado, cuando entiendes por qué llegaste ahí y no a Cusco.' },
+      { id: 'sabor', img: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'gente'], title: 'El Perú que se Saborea', region: 'Arequipa · Colca', days: '10 días', alt: '2.335 m', price: 'Desde USD 5.400', icon: 'assets/diamond-orange.png', ph: 'Foto — picantería arequipeña', why: 'La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.', moment: 'Cocinar en la picantería junto a la picantera, y llevarte su receta.' },
+      { id: 'profundo', img: 'https://images.unsplash.com/photo-1532996152552-eaffc4edfc1a?auto=format&fit=crop&w=1400&q=70', c: ['historia', 'gente'], title: 'Perú Profundo', region: 'Machu Picchu · comunidades', days: '9 días', alt: '2.430 m', price: 'Desde USD 6.800', icon: 'assets/diamond-lime.png', ph: 'Foto — comunidad andina', why: 'El monumento se entiende al revés: primero la piedra, después la gente que desciende de quienes la pusieron ahí.', moment: 'El regreso a la comunidad después de Machu Picchu, cuando descubres que lo que recordarás no es la piedra.' },
+      { id: 'origen', img: 'https://images.unsplash.com/photo-1632913582499-381c7c798787?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'historia'], title: 'Sunqu Origen', region: 'Lima · Valle Sagrado · Cusco', days: '9 días', alt: '3.500 m', price: 'Journey insignia', icon: 'assets/diamond-yellow.png', ph: 'Foto — Moray o salineras de Maras', why: 'Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.', moment: 'La pachamanca del sexto día, cocinada bajo tierra con una familia quechua.' },
+      { id: 'corto', img: 'https://images.unsplash.com/photo-1535400875775-0269e7a919af?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'gente'], title: 'Módulo gastronómico', region: 'Escapada corta', days: '3–4 días', alt: '2.335 m', price: 'USD 600 – 900', icon: 'assets/diamond-olive.png', ph: 'Foto — mercado y producto local', why: 'Vive un Momento Sunqu antes de comprometerte con un Journey completo.', moment: 'El mismo encuentro con nombre propio que luego forma parte de un Journey.' },
+    ];
+    const journeys = concept === 'todo' ? all : all.filter(j => j.c.includes(concept));
+    const concepts = [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'El sabor'], ['gente', 'La gente']].map(([id, label]) => ({
+      label, bg: id === concept ? '#e9eef1' : 'transparent', color: id === concept ? '#1c1c1c' : '#e9eef1', pressed: id === concept ? 'true' : 'false',
+      onClick: () => { this.setState({ concept: id }); const s = this.stripRef.current; const sec = document.getElementById('descubre'); sec && window.scrollTo({ top: sec.offsetTop, behavior: 'smooth' }); },
+    }));
+    const gi = this.state.gc;
+    const ring = (i) => ({ b: gi === i ? T : dim, bg: gi === i ? 'rgba(115,109,71,.09)' : 'transparent', l: gi === i ? T : '#7a7a7d' });
+    const rw = ring(0), rh = ring(1), rt = ring(2);
+    const gc = {
+      whyDim: gi === 0 ? .08 : .55, whatDim: gi === 2 ? .12 : .6, howDim: gi === 1 ? .12 : .58, whyBorder: rw.b, whyBg: gi === 0 ? 'rgba(115,109,71,.14)' : 'rgba(233,238,241,1)', whyLabel: rw.l,
+      howBorder: rh.b, howBg: gi === 1 ? 'rgba(115,109,71,.12)' : 'rgba(233,238,241,1)', howLabel: rh.l,
+      whatBorder: rt.b, whatBg: gi === 2 ? 'rgba(115,109,71,.1)' : 'rgba(233,238,241,1)', whatLabel: rt.l,
+      o0: gi === 0 ? 1 : 0, o1: gi === 1 ? 1 : 0, o2: gi === 2 ? 1 : 0,
+      y0: gi === 0 ? 0 : gi > 0 ? -24 : 24, y1: gi === 1 ? 0 : gi > 1 ? -24 : 24, y2: gi === 2 ? 0 : 24,
+      bar0: gi >= 0 ? T : dim, bar1: gi >= 1 ? T : dim, bar2: gi >= 2 ? T : dim,
+    };
+    const fi = this.state.form ?? 0;
+    const U = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&q=70`;
+    const forms = [
+      ['Sunqu Journeys', 'Viajes de 8 a 10 días con anfitriones', '1567597243073-2d274aabecec'],
+      ['Sunqu Private', 'Experiencias diseñadas a tu medida', '1526697675318-89790adec369'],
+      ['Sunqu Collective', 'Tejedoras, picanteras, guías y familias', '1730424508745-29ea708ae698'],
+      ['Sunqu Marketplace', 'Lo que te llevas tiene nombre', '1568805647297-df963b524678'],
+    ].map(([title, sub, id], i) => ({
+      title, sub, img: U(id), op: i === fi ? 1 : 0, sc: i === fi ? 1 : 1.08,
+      x: i === fi ? 16 : 0, color: i === fi ? T : '#1c1c1c',
+      btnBg: i === fi ? T : 'transparent', btnFg: i === fi ? '#e9eef1' : '#1c1c1c', iso: i === fi ? 'assets/diamond-lime.png' : 'assets/diamond-olive.png',
+      onEnter: () => this.setState({ form: i }),
+    }));
+    const hs = [['1590835192370-3941b97e93fd','Valle Sagrado · 2.800 m'],['1568805778796-96b66708d6e0','Chinchero · telar de cintura'],['1535399831218-d5bd36d1a6b3','Lima · cocina peruana'],['1532996152552-eaffc4edfc1a','Machu Picchu · 2.430 m']];
+    const hi = this.state.hero;
+    const heroSlides = hs.map(([id], i) => ({ src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2000&q=72`, op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
+    const dark = this.state.dark;
+    const ALT = this.ALT, na = ALT.length;
+    const W = Math.max(280, this.state.chartW || 900), small = W < 560;
+    const H = small ? Math.round(Math.max(280, Math.min(360, W * 0.95))) : Math.round(Math.min(430, Math.max(300, W * 0.32)));
+    const padX = small ? 20 : 44, padT = 56, padB = 10;
+    const yOf = (m) => +(padT + (1 - m / 4200) * (H - padT - padB)).toFixed(1);
+    const xOf = (i) => +(padX + i * (W - 2 * padX) / (na - 1)).toFixed(1);
+    const ai = Math.min(na - 1, Math.max(0, this.state.altIdx ?? 1));
+    const P = ALT.map((a, i) => [xOf(i), yOf(a.m)]);
+    const fmtM = (m) => String(m).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' m';
+    const alt = {
+      w: W, h: H, vb: `0 0 ${W} ${H}`, y4000: yOf(4000), y2000: yOf(2000), yBase: yOf(0), yTh: yOf(3400),
+      line: P.map((q) => q.join(',')).join(' '),
+      area: `${P[0][0]},${yOf(0)} ` + P.map((q) => q.join(',')).join(' ') + ` ${P[na - 1][0]},${yOf(0)}`,
+      hab: this.HAB.map((m, i) => `${xOf(i)},${yOf(m)}`).join(' '),
+      habOp: this.state.habOn ? 1 : 0, habPressed: this.state.habOn ? 'true' : 'false',
+      toggleHab: () => this.setState((st) => ({ habOn: !st.habOn })),
+      gx: P[ai][0], gy: P[ai][1], clip: this.state.chartIn ? '0%' : '100%',
+      tipX: P[ai][0], tipY: P[ai][1], tipTx: ai === 0 ? '-14px' : ai === na - 1 ? 'calc(-100% + 14px)' : '-50%',
+      pts: ALT.map((a, i) => ({ x: P[i][0], y: P[i][1], d: a.d, short: a.short, on: i === ai ? 'true' : 'false', label: `${a.d}, ${a.place}, ${fmtM(a.m)}`, pick: () => { if (i !== this.state.altIdx) this.setState({ altIdx: i }); } })),
+      selD: 'Día ' + (ai + 1), selPlace: ALT[ai].place, selM: fmtM(ALT[ai].m), selStatus: ALT[ai].status, selBody: ALT[ai].body,
+      tone: ALT[ai].m >= 3400 ? 'high' : ALT[ai].m < 500 ? 'sea' : 'ok',
+      prev: () => this.setState((st) => ({ altIdx: ((st.altIdx ?? 1) - 1 + na) % na })),
+      next: () => this.setState((st) => ({ altIdx: ((st.altIdx ?? 1) + 1) % na })),
+      move: (e) => { const r = e.currentTarget.getBoundingClientRect(); const x = e.clientX - r.left; let best = 0, bd = Infinity; P.forEach((q, i) => { const d = Math.abs(q[0] - x); if (d < bd) { bd = d; best = i; } }); if (best !== this.state.altIdx) this.setState({ altIdx: best }); },
+    };
+    return {
+      alt, chartRef: this.chartRef,
+      mapRef: this.mapRef, stops: this.STOPS.map((s, i) => ({ n: String(i + 1).padStart(2, '0'), name: s[0], alt: s[1], op: i <= (this.state.mapIdx ?? 0) ? 1 : .35, dot: i <= (this.state.mapIdx ?? 0) ? '#f4a700' : 'rgba(233,238,241,.6)' })),
+      heroSlides, heroCaption: hs[hi][1], heroVideo: this.props.heroVideo || '', hasVideo: !!this.props.heroVideo,
+      loaderOp: this.state.loaded ? 0 : 1, loaderY: this.state.loaded ? '-100%' : '0', loaderPe: this.state.loaded ? 'none' : 'auto', loadPct: this.state.pct + '%',
+      pageBg: dark ? '#1c1c1c' : '#e9eef1', logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1, navFg: dark ? '#e9eef1' : '#1c1c1c',
+      forms,
+      langOpen: !!this.state.langOpen, langCode: (this.state.lang || 'es').toUpperCase(),
+      openLang: () => this.setState({ langOpen: true }), closeLang: () => this.setState({ langOpen: false }), stop: (e) => e.stopPropagation(),
+      langs: [['es', 'Español'], ['en', 'English'], ['pt', 'Português']].map(([code, name]) => { const on = (this.state.lang || 'es') === code; return { code: code.toUpperCase(), name, bg: on ? '#736d47' : 'transparent', fg: on ? '#e9eef1' : '#1c1c1c', border: on ? '#736d47' : 'rgba(28,28,28,.18)', pressed: on ? 'true' : 'false', pick: () => this.setState({ lang: code, langOpen: false }), set: () => this.setState({ lang: code }) }; }),
+      waCls: this.state.waOn ? 'is-on' : '',
+      gcTabs: [['01', 'Por qué', 0.08], ['02', 'Cómo', 0.49], ['03', 'Qué', 0.9]].map(([n, label, f], i) => ({
+        n, label, on: gi === i ? 'true' : 'false', state: gi === i ? 'on' : gi > i ? 'done' : 'off',
+        go: () => { const sec = this.gcRef.current; if (!sec) return; const top = sec.getBoundingClientRect().top + window.scrollY; window.scrollTo({ top: top + f * (sec.offsetHeight - window.innerHeight), behavior: 'smooth' }); },
+      })),
+      navLinks: this.NAV.map(([id, label]) => ({ href: '#' + id, label, current: this.state.nav === id ? 'true' : 'false' })),
+      menuLinks: this.NAV.map(([id, label], i) => ({ href: '#' + id, label, n: String(i + 1).padStart(2, '0') })),
+      headerCls: this.state.scrolled ? 'is-scrolled' : '',
+      menuCls: this.state.menuOpen ? 'is-open' : '',
+      menuExpanded: this.state.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef,
+      toggleMenu: () => this.setMenu(!this.state.menuOpen),
+      closeMenu: () => this.setMenu(false),
+      showGrid: this.props.showGrid ?? false,
+      navBg: !this.state.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !this.state.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      gcRef: this.gcRef, stripRef: this.stripRef, gc,
+      journeys, concepts,
+      journeyCount: String(journeys.length).padStart(2, '0') + ' journeys',
+      prev: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: -420, behavior: 'smooth' }),
+      next: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: 420, behavior: 'smooth' }),
+      principles: [
+        { bg: '#1c1c1c', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1567597243073-2d274aabecec?auto=format&fit=crop&w=800&q=70', n: '01', layer: 'Selección', title: 'Curamos, no acumulamos', q: '¿Es la experiencia correcta, o solo una más disponible?', icon: 'assets/diamond-orange.png' },
+        { bg: '#83b300', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805647297-df963b524678?auto=format&fit=crop&w=800&q=70', n: '02', layer: 'Ejecución', title: 'Contamos historias', q: 'Recibes contexto y significado, no solo acceso.', icon: 'assets/diamond-yellow.png' },
+        { bg: '#f4a700', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=800&q=70', n: '03', layer: 'Selección', title: 'Conectamos con personas', q: 'Detrás de cada experiencia hay un anfitrión con nombre propio.', icon: 'assets/diamond-teal.png' },
+        { bg: '#df5f0c', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=800&q=70', n: '04', layer: 'Ejecución', title: 'Te hacemos participante', q: 'Haces algo con las manos. No solo miras.', icon: 'assets/diamond-lime.png' },
+        { bg: '#736d47', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=800&q=70', n: '05', layer: 'Ejecución', title: 'Personalizamos', q: 'Cada viaje se siente diseñado para ti.', icon: 'assets/diamond-olive.png' },
+        { bg: '#48725E', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=800&q=70', n: '06', layer: 'Ejecución', title: 'Antes, durante y después', q: 'La relación empieza antes del vuelo y sigue después del regreso.', icon: 'assets/diamond-teal.png' },
+      ],
+      hosts: [
+        { id: 'tejedora', img: 'https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1400&q=70', role: 'Tejedora', place: 'Chinchero, Cusco', teach: 'teñido natural y telar de cintura.', ph: 'Retrato — tejedora en su telar' },
+        { id: 'picantera', img: 'https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=1400&q=70', role: 'Picantera', place: 'Arequipa', teach: 'un plato de picantería, y te llevas la receta.', ph: 'Retrato — picantera en su cocina' },
+        { id: 'familia', img: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=1400&q=70', role: 'Familia anfitriona', place: 'Valle Sagrado', teach: 'la pachamanca, cocinada bajo tierra.', ph: 'Retrato — familia anfitriona' },
+      ],
+      conditions: [
+        { n: '01', title: 'Tiene nombre propio', body: 'Conoces a la persona y su historia. Nunca es folclore anónimo.', icon: 'assets/diamond-orange.png' },
+        { n: '02', title: 'Tú haces algo', body: 'Participas con las manos: cocinas, tejes, siembras. No es una demostración.', icon: 'assets/diamond-yellow.png' },
+        { n: '03', title: 'No se compra por separado', body: 'No lo encontrarás en ninguna plataforma de reservas. Solo existe dentro del viaje.', icon: 'assets/diamond-lime.png' },
+        { n: '04', title: 'Te llevas algo', body: 'Un objeto, una receta, una técnica, una palabra en quechua. Un vínculo.', icon: 'assets/diamond-olive.png' },
+      ],
+      phases: [
+        { bg: '#1c1c1c', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=800&q=70', kicker: 'Antes', title: 'Kit de preparación', body: 'Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.', img: 'assets/pattern-pair.png' },
+        { bg: '#83b300', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1593460915132-fcb729cc4597?auto=format&fit=crop&w=800&q=70', kicker: 'Durante', title: 'Acompañamiento', body: 'Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.', img: 'assets/pattern-flower.png' },
+        { bg: '#f4a700', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=800&q=70', kicker: 'Después', title: 'Diario del viaje', body: 'Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.', img: 'assets/pattern-steps.png' },
+      ],
+      words: [
+        { word: 'Sunqu', meaning: 'Corazón', color: '#736d47' },
+        { word: 'Añay', meaning: 'Gracias', color: '#df5f0c' },
+        { word: 'Ayni', meaning: 'Reciprocidad', color: '#766d44' },
+      ],
+      steps: [
+        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
+        { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
+        { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
+      ],
+      notSent: !this.state.sent, sent: this.state.sent,
+      submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+    };
+  }
+}
+</script>
+</body>
+</html>
