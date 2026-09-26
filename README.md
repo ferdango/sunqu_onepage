@@ -2,6 +2,9 @@
 
 **Web publicada:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz).
 `index.html` es la copia publicada de `Sunqu Journeys v2.dc.html`: al editar el prototipo, copia el archivo a `index.html` y haz push.
+
+**Estructura de cada página.** El HTML está indentado con tabs y cada bloque principal (header, menú lateral, secciones, footer, modales) lleva un comentario `<!-- Sección #id · nombre -->`. Los estilos viven aparte, minificados, en `css/<página>.min.css` (`home.min.css` lo comparten `index.html` y `Sunqu Journeys v2.dc.html`) y se enlazan desde el `<head>`; las rutas a `fonts/` y `assets/` dentro del CSS son relativas a `css/` (`../fonts/…`). La lógica sigue al final de cada archivo, en `<script type="text/x-dc">` (clase `Component`).
+Importante al editar el markup: indenta solo con tabs y saltos de línea. El runtime descarta los espacios en blanco sin el carácter espacio, pero un espacio entre dos etiquetas se renderiza como texto.
 `descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos viven en `JOURNEYS` y `EXPS` dentro del archivo.
 `recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Las reseñas actuales son de ejemplo (`REVIEWS`) y los precios de `PRODUCTS` son de referencia.
 `blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen sus textos de `blog-data.js`: para publicar un artículo nuevo basta con agregarlo ahí.
@@ -61,7 +64,7 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 15. **Blog "Diario Sunqu"** — 3 artículos: imagen 4:3 radio 20px (zoom en hover), tag categoría pill, fecha, título, extracto, "Leer artículo →".
 16. **Instagram** — grilla de 6 posts cuadrados radio 18px, overlay oscuro + ícono IG en hover, CTA "Síguenos".
 17. **Contacto** — 3 pasos + formulario (nombre, email, mes, radio "qué quieres sentir", mensaje). Submit → estado de éxito "Añay. Gracias."
-18. **Footer** `#2b271b` — cierre "Viaja al corazón del Perú." + CTA lima; contacto (email, teléfono, oficina); fila logo / links (Inicio, Sobre Sunqu, Experiencias, Blog, FAQ, Legales) / redes circulares 48px (YouTube, Instagram, Facebook, TikTok; hover lima); copyright + "Libro de reclamaciones".
+18. **Footer** `#2b271b` — cierre "Viaja al corazón del Perú." + CTA lima; contacto (email, teléfono, oficina); fila logo / links (Inicio, Sobre Sunqu, Descubre, Recuerda, Diario Sunqu, FAQ, Legales) / redes circulares 48px (YouTube, Instagram, Facebook, TikTok; hover lima); copyright + "Libro de reclamaciones". Desde 1280px, bajo los contactos, aparece el arte `.sj-foot-art` (SVG inline "del mar a la montaña": sol sobre el Pacífico, cordillera con nevados, andenes, cóndores y una ruta punteada que sube hasta el isotipo); se anima al entrar en pantalla (script `data-foot-art`) y respeta `prefers-reduced-motion`. Es igual en todas las páginas.
 
 ## Interactions & Behavior
 - **Fondo de página**: cada sección tiene `data-bg="light|dark"`; la que cruza el centro del viewport define el fondo (`#e9eef1`/`#1c1c1c`, transición .9s) y los colores del header.
@@ -82,6 +85,7 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 ## Files
 - `Sunqu Journeys v2.dc.html` — prototipo completo (markup + lógica)
 - `support.js` — runtime necesario solo para ver el prototipo
+- `css/` — hojas de estilo minificadas, una por página
 - `assets/`, `fonts/`
 
 ## Pendientes / datos placeholder

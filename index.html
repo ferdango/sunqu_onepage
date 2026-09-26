@@ -1,1066 +1,915 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-<title>Sunqu Journeys — El corazón del Perú</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
-<style>
-@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Regular.ttf) format("truetype");font-weight:300 400;font-style:normal;font-display:swap}
-@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Medium.ttf) format("truetype");font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:Aeonik;src:url(fonts/Aeonik-Bold.ttf) format("truetype");font-weight:600 800;font-style:normal;font-display:swap}
-@font-face{font-family:Aeonik;src:url(fonts/Aeonik-RegularItalic.ttf) format("truetype");font-weight:300 500;font-style:italic;font-display:swap}
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/home.min.css">
+		<script src="./support.js"></script>
+	</head>
+	<body>
+		<x-dc>
+			<helmet>
+				<title>Sunqu Journeys — El corazón del Perú</title>
+				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
+				<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+			</helmet>
+			<div style="--font-heading:'Aeonik','Manrope',system-ui,sans-serif;--font-body:'Aeonik','Manrope',system-ui,sans-serif;--font-heading-weight:600;--color-bg:#e9eef1;--color-text:#1c1c1c;--color-divider:rgba(28,28,28,.16);--color-accent:#736d47;--color-accent-600:#5e5939;--color-accent-700:#4a462d;--color-accent-100:#efece2;--color-accent-800:#736d47;position:relative;background:{{ pageBg }};transition:background-color .9s ease;color:#1c1c1c;font-family:var(--font-body)">
+				<div aria-hidden="true" style="position:fixed;inset:0;z-index:100;background:#736d47;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;opacity:{{ loaderOp }};transform:translateY({{ loaderY }});pointer-events:{{ loaderPe }};transition:opacity .6s ease .5s,transform 1s cubic-bezier(.7,0,.2,1)">
+					<div class="sj-ld-logo" role="img" aria-label="Sunqu">
+						<span class="sj-ld-l" style="--l:0%;--r:84.9%;--d:1.12s"></span>
+						<span class="sj-ld-l" style="--l:15.1%;--r:70.14%;--d:1.2s"></span>
+						<span class="sj-ld-l" style="--l:29.86%;--r:55.15%;--d:1.28s"></span>
+						<span class="sj-ld-l" style="--l:44.85%;--r:39.75%;--d:1.36s"></span>
+						<span class="sj-ld-l" style="--l:60.25%;--r:23.1%;--d:1.44s"></span>
+						<span class="sj-ld-iso"></span>
+					</div>
+					<div class="sj-ld-bar" style="width:min(56vw,360px);height:2px;background:rgba(233,238,241,.25)">
+						<div style="height:100%;width:{{ loadPct }};background:#e9eef1;transition:width .25s linear"></div>
+					</div>
+					<span class="sj-ld-tag" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#e9eef1">Viaja al corazón del Perú</span>
+				</div>
+				<sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
+					<div style="position:fixed;inset:0;z-index:0;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);padding:0 clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+						<div style="border-left:1px solid rgba(28,28,28,.06)"></div>
+						<div style="border-left:1px solid rgba(28,28,28,.06)"></div>
+						<div style="border-left:1px solid rgba(28,28,28,.06)"></div>
+						<div style="border-left:1px solid rgba(28,28,28,.06);border-right:1px solid rgba(28,28,28,.06)"></div>
+					</div>
+				</sc-if>
 
-/* ══ Sunqu — base (reemplaza al design system externo que faltaba) ══ */
-:root{--sj-ease:cubic-bezier(.2,.7,.1,1);--sj-gutter:clamp(20px,4vw,56px);--sj-line:rgba(28,28,28,.12);--sj-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23736d47'/%3E%3C/svg%3E");--sj-band-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='16' viewBox='0 0 110 16'%3E%3Crect x='6' y='3' width='10' height='10' rx='2.6' transform='rotate(45 11 8)' fill='%23df5f0c'/%3E%3Crect x='28' y='3' width='10' height='10' rx='2.6' transform='rotate(45 33 8)' fill='%23f4a700'/%3E%3Crect x='50' y='3' width='10' height='10' rx='2.6' transform='rotate(45 55 8)' fill='%2348725E'/%3E%3Crect x='72' y='3' width='10' height='10' rx='2.6' transform='rotate(45 77 8)' fill='%2383b300'/%3E%3Crect x='94' y='3' width='10' height='10' rx='2.6' transform='rotate(45 99 8)' fill='%23e9eef1'/%3E%3C/svg%3E")}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;font-family:Aeonik,Manrope,system-ui,sans-serif;font-size:16px;line-height:1.55;background:#e9eef1;color:#1c1c1c;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-h1,h2,h3,h4,h5,h6{font-family:var(--font-heading,Aeonik,Manrope,system-ui,sans-serif);font-weight:600;line-height:1.1;letter-spacing:-.015em;margin:0 0 8px}
-h1,h2,h3{text-wrap:balance}
-p{margin:0 0 12px}
-img,svg,video{display:block;max-width:100%}
-figure{margin:0}
-a{color:#736d47;text-underline-offset:3px}
-a:hover{color:#4a462d}
-button,input,select,textarea{font:inherit;color:inherit}
-:focus{outline:none}
-:focus-visible{outline:2px solid #736d47;outline-offset:3px}
-[data-bg="dark"] :focus-visible,.sj-drawer :focus-visible,footer :focus-visible{outline-color:#f4a700}
-::selection{background:rgba(115,109,71,.3)}
-section[id]{scroll-margin-top:64px}
+				<!-- Header -->
+				<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+					<nav class="sj-nav" aria-label="Principal">
+						<a href="#inicio" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio">
+							<img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}">
+							<img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}">
+						</a>
+						<ul class="sj-links">
+							<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+								<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+							</sc-for>
+						</ul>
+						<div class="sj-actions">
+							<button type="button" class="sj-lang" onClick="{{ openLang }}" aria-label="Cambiar idioma"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>{{ langCode }}</button>
+							<a href="#contacto" class="btn btn-primary sj-cta">Diseña tu viaje</a>
+							<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú">
+								<span></span>
+								<span></span>
+							</button>
+						</div>
+					</nav>
+				</header>
+				<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
 
-/* Eyebrow con rombo — el símbolo de la marca como viñeta */
-.sj-eyebrow{display:inline-flex !important;align-items:center;gap:10px}
-.sj-eyebrow::before{content:"";width:7px;height:7px;flex:none;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+				<!-- Modal · Menú -->
+				<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
+					<div class="sj-drawer-top">
+						<img src="assets/logo-light.png" alt="Sunqu Journeys">
+						<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M18 6 6 18"></path>
+								<path d="m6 6 12 12"></path>
+							</svg>
+						</button>
+					</div>
+					<div>
+						<div class="sj-drawer-kicker sj-eyebrow">Viaja al corazón del Perú</div>
 
-/* Franja andina — cadena de rombos en los colores secundarios */
-.sj-band{height:14px;background:var(--sj-band) repeat-x center/auto 100%}
-.sj-band--light{background-image:var(--sj-band-light)}
+						<!-- Menú lateral (móvil) -->
+						<nav class="sj-drawer-nav" aria-label="Menú principal">
+							<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+								<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link">
+									<span class="sj-drawer-n">{{ m.n }}</span>
+									<span>{{ m.label }}</span>
+									<img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg">
+								</a>
+							</sc-for>
+						</nav>
+					</div>
+					<div class="sj-drawer-sub">
+						<a href="#sunqu" onClick="{{ closeMenu }}">Sobre Sunqu</a>
+						<a href="#formas" onClick="{{ closeMenu }}">Formas de viajar</a>
+						<a href="#blog" onClick="{{ closeMenu }}">Diario Sunqu</a>
+						<a href="#contacto" onClick="{{ closeMenu }}">Contacto</a>
+					</div>
+					<div class="sj-drawer-foot">
+						<a href="#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+						<div class="sj-drawer-row">
+							<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
+							<div class="sj-seg" role="group" aria-label="Idioma">
+								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
+								</sc-for>
+							</div>
+						</div>
+						<div class="sj-band sj-band--light" aria-hidden="true"></div>
+					</div>
+				</aside>
+				<a class="sj-wa {{ waCls }}" href="https://wa.me/51966461384?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+					</svg>
+					<span class="sj-wa-label">¿Hablamos?</span>
+				</a>
+				<sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+					<div class="sj-lm-back" onClick="{{ closeLang }}">
 
-/* ── Botones ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:14px;line-height:1.2;color:var(--color-text);background:transparent;border:1px solid rgba(28,28,28,.22);padding:12px 20px;border-radius:999px;white-space:nowrap;transition:background-color .3s,color .3s,border-color .3s}
-.btn-primary{background:var(--color-accent);border-color:var(--color-accent);color:#e9eef1}
-.btn-primary:hover{background:var(--color-accent-600);border-color:var(--color-accent-600);color:#e9eef1}
-.btn-secondary:hover{background:rgba(28,28,28,.05)}
-.btn .sj-arrow{transition:transform .35s var(--sj-ease)}
-.btn:hover .sj-arrow{transform:translateX(4px)}
+						<!-- Modal -->
+						<div class="sj-lm" role="dialog" aria-modal="true" aria-labelledby="sj-lm-t" onClick="{{ stop }}">
+							<img src="assets/pattern-steps.png" alt="" class="sj-lm-art" aria-hidden="true">
+							<div class="sj-lm-head">
+								<div><span class="sj-eyebrow sj-lm-k">Idioma · Language · Idioma</span><h3 id="sj-lm-t" class="sj-lm-t">Elige tu idioma</h3></div>
+								<button type="button" class="sj-lm-x" onClick="{{ closeLang }}" aria-label="Cerrar">
+									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M18 6 6 18"></path>
+										<path d="m6 6 12 12"></path>
+									</svg>
+								</button>
+							</div>
+							<div class="sj-lm-list" role="radiogroup" aria-label="Idiomas disponibles">
+								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+									<button type="button" class="sj-lm-opt" role="radio" aria-checked="{{ l.pressed }}" onClick="{{ l.pick }}">
+										<span class="sj-lm-iso"><img src="{{ l.icon }}" alt=""></span>
+										<span class="sj-lm-name"><span class="sj-lm-n">{{ l.name }}</span><span class="sj-lm-g">{{ l.hello }}</span></span>
+										<span class="sj-lm-code">{{ l.code }}</span>
+									</button>
+								</sc-for>
+							</div>
+							<p class="sj-lm-foot"><img src="assets/diamond-lime.png" alt="">Sunqu significa «corazón» en quechua.</p>
+						</div>
+					</div>
+				</sc-if>
 
-/* ── Header ── */
-.sj-header{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);transition:background-color .35s,border-color .35s,color .35s}
-.sj-nav{max-width:1440px;margin:0 auto;height:76px;padding:0 var(--sj-gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;transition:height .35s var(--sj-ease)}
-.sj-header.is-scrolled .sj-nav{height:64px}
-.sj-logo{position:relative;display:block;width:116px;height:30px;justify-self:start}
-.sj-logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:left center;transition:opacity .3s}
-.sj-links{display:flex;align-items:center;gap:clamp(22px,2.6vw,40px);list-style:none;margin:0;padding:0}
-.sj-link{position:relative;display:block;padding:8px 0;color:inherit;text-decoration:none;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;opacity:.78;transition:opacity .25s}
-.sj-link::after{content:"";position:absolute;left:0;right:0;bottom:3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s var(--sj-ease)}
-.sj-link:hover,.sj-link[aria-current="true"]{opacity:1;color:inherit}
-.sj-link:hover::after,.sj-link[aria-current="true"]::after{transform:scaleX(1);transform-origin:left}
-.sj-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px}
-.sj-lang{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;cursor:pointer;transition:border-color .25s,background-color .25s}
-.sj-lang:hover{border-color:currentColor;background:color-mix(in srgb,currentColor 8%,transparent)}
-.sj-cta{height:40px;padding:0 20px;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
-.sj-burger{display:none;position:relative;width:44px;height:44px;flex:none;border-radius:50%;border:1px solid color-mix(in srgb,currentColor 32%,transparent);background:transparent;color:inherit;cursor:pointer;align-items:center;justify-content:center;transition:border-color .25s,background-color .25s}
-.sj-burger:hover{border-color:currentColor}
-.sj-burger span{position:absolute;left:13px;right:13px;top:50%;height:1.5px;margin-top:-.75px;border-radius:2px;background:currentColor;transition:transform .45s var(--sj-ease)}
-.sj-burger span:nth-child(1){transform:translateY(-4px)}
-.sj-burger span:nth-child(2){transform:translateY(4px)}
+				<!-- Contenido principal -->
+				<main style="position:relative;z-index:1">
 
-/* ── Menú lateral (móvil / tablet) ── */
-.sj-scrim{position:fixed;inset:0;z-index:70;background:rgba(20,20,18,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .45s ease}
-.sj-scrim.is-open{opacity:1;pointer-events:auto}
-.sj-drawer{position:fixed;top:0;right:0;z-index:80;width:min(100%,420px);height:100vh;height:100dvh;display:flex;flex-direction:column;gap:28px;padding:12px clamp(20px,5vw,32px) 0;background:#736d47;color:#fff;overflow-y:auto;overscroll-behavior:contain;transform:translateX(100%);visibility:hidden;box-shadow:-24px 0 80px rgba(0,0,0,.28);transition:transform .5s cubic-bezier(.7,0,.2,1),visibility 0s linear .5s}
-.sj-drawer.is-open{transform:none;visibility:visible;transition:transform .65s var(--sj-ease),visibility 0s}
-.sj-drawer-top{display:flex;align-items:center;justify-content:space-between;min-height:52px}
-.sj-drawer-top img{height:28px;width:auto}
-.sj-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .25s}
-.sj-close:hover{background:rgba(255,255,255,.12)}
-.sj-drawer-kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:12px}
-.sj-drawer-nav{display:flex;flex-direction:column;border-top:1px solid rgba(255,255,255,.22)}
-.sj-drawer-link{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:8px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font-family:var(--font-heading);font-weight:600;font-size:clamp(30px,8.5vw,40px);line-height:1;letter-spacing:-.02em;opacity:0;transform:translateX(28px);transition:opacity .4s ease,transform .6s var(--sj-ease)}
-.sj-drawer-link:hover{color:#fff}
-.sj-drawer.is-open .sj-drawer-link{opacity:1;transform:none}
-.sj-drawer.is-open .sj-drawer-link:nth-child(1){transition-delay:.12s}
-.sj-drawer.is-open .sj-drawer-link:nth-child(2){transition-delay:.17s}
-.sj-drawer.is-open .sj-drawer-link:nth-child(3){transition-delay:.22s}
-.sj-drawer.is-open .sj-drawer-link:nth-child(4){transition-delay:.27s}
-.sj-drawer-n{align-self:start;padding-top:5px;font-size:13px;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.78)}
-.sj-drawer-link svg{opacity:.75;transition:transform .35s var(--sj-ease)}
-.sj-drawer-link:hover svg{transform:translate(3px,-3px);opacity:1}
-.sj-drawer-sub{display:flex;flex-wrap:wrap;gap:10px 24px}
-.sj-drawer-sub a{color:#fff;text-decoration:none;font-size:16px;border-bottom:1px solid transparent;transition:border-color .25s}
-.sj-drawer-sub a:hover{color:#fff;border-color:#fff}
-.sj-drawer-foot{margin-top:auto;display:flex;flex-direction:column;gap:18px}
-.sj-drawer-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.sj-drawer-contact{display:flex;flex-direction:column;gap:2px;font-size:15px}
-.sj-drawer-contact a{color:#fff;text-decoration:none}
-.sj-drawer-cta{width:100%;background:#83b300;border-color:#83b300;color:#1c1c1c;font-size:15px;letter-spacing:.06em;text-transform:uppercase;padding:16px 22px}
-.sj-drawer-cta:hover{background:#e9eef1;border-color:#e9eef1;color:#1c1c1c}
-.sj-drawer .sj-band{margin:4px calc(-1 * clamp(20px,5vw,32px)) 0}
-.sj-seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;border:1px solid rgba(255,255,255,.35)}
-.sj-seg-btn{min-width:44px;height:36px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:#fff;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.08em;cursor:pointer;transition:background-color .25s,color .25s}
-.sj-seg-btn[aria-pressed="true"]{background:#fff;color:#1c1c1c}
+					<!-- Sección #inicio · Hero -->
+					<section id="inicio" class="sj-hero" data-screen-label="Hero" data-bg="dark" style="position:relative;height:100vh;min-height:640px;overflow:hidden;color:#e9eef1">
+						<div data-parallax="0.25" style="position:absolute;inset:-6% 0">
+							<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
+								<img src="{{ s.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
+							</sc-for>
+							<sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
+								<video src="{{ heroVideo }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+							</sc-if>
+						</div>
+						<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,.45) 0%,rgba(28,28,28,.05) 35%,rgba(28,28,28,.8) 100%);pointer-events:none"></div>
+						<div style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(24px,3vw,40px)">
+							<h1 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(46px,9vw,150px);line-height:.98;letter-spacing:-.035em;margin:0;max-width:10ch;color:#e9eef1">
+								<span data-reveal="" data-delay="2900" style="display:block">El Perú no es</span>
+								<span data-reveal="" data-delay="3020" style="display:block">un destino.</span>
+								<span data-reveal="" data-delay="3140" style="display:block;color:#f4a700">Es una relación.</span>
+							</h1>
+							<div class="sj-hero-row" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(233,238,241,.3);padding-top:22px">
+								<p data-reveal="" data-delay="3260" style="font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:42ch;margin:0;color:rgba(233,238,241,.9)">Viaja al corazón del Perú: viajes a medida con anfitriones que tienen nombre propio.</p>
+								<div data-reveal="" data-delay="3340" class="sj-hero-meta" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+									<span class="sj-hero-cap" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.8)">{{ heroCaption }}</span>
+									<div style="display:flex;gap:6px">
+										<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4">
+											<span style="width:28px;height:2px;background:{{ s.bar }};transition:background .6s"></span>
+										</sc-for>
+									</div>
+									<a href="#descubre" class="btn btn-primary" style="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c;font-size:16px;padding:14px 22px;letter-spacing:.04em;text-transform:uppercase;border-radius:999px" style-hover="background:#f4a700;border-color:#f4a700;color:#1c1c1c">Descubre los journeys<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+								</div>
+							</div>
+						</div>
+					</section>
 
-/* ── Tarjetas: borde fino, sin marcas de plano ── */
-.blueprint{position:relative;border:1px solid color-mix(in srgb,var(--color-text,#1c1c1c) 12%,transparent);border-radius:24px;background:rgba(255,255,255,.4);overflow:hidden}
-.blueprint>.corner{display:none}
-article.blueprint::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid #736d47;opacity:0;pointer-events:none;transition:opacity .45s ease}
-article.blueprint:hover::after{opacity:.6}
-#vive .blueprint{background:rgba(233,238,241,.035)}
-#vive article.blueprint::after{border-color:#83b300}
-.duotone{position:relative;overflow:hidden}
-.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;background:#736d47;mix-blend-mode:color;opacity:.85;transition:opacity .8s var(--sj-ease)}
-.duotone img{transition:transform 1.2s var(--sj-ease)}
-article:hover .duotone::after{opacity:0}
-article:hover .duotone img{transform:scale(1.04)}
+					<!-- Sección #sunqu · Detrás de Sunqu -->
+					<section id="sunqu" data-bg="light" data-screen-label="Detrás de Sunqu" style="padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+						<div class="sj-sunqu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(24px,4vw,56px)">
+							<div class="sj-sunqu-aside" style="display:flex;flex-direction:column;gap:20px">
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Detrás de Sunqu</span>
+								<img data-reveal="" data-delay="100" src="assets/pattern-pair.png" alt="" style="width:92px">
+							</div>
+							<div class="sj-sunqu-body" style="grid-column:span 3;min-width:min(100%,560px)">
+								<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(24px,3vw,46px);line-height:1.22;letter-spacing:-.01em;margin:0;text-wrap:pretty">
+									<span data-highlight="" style="color:#1c1c1c">Creemos que el Perú se ha vendido como destino cuando en realidad es una relación. La mayoría de los viajes premium terminan en fotografías; los nuestros terminan en vínculos que siguen vivos después del vuelo de regreso.</span>
+								</p>
+								<div class="sj-sunqu-cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,3vw,48px);margin-top:clamp(40px,5vw,72px)">
+									<p data-reveal="" style="font-size:17px;line-height:1.6;margin:0;max-width:48ch;text-wrap:pretty;color:#424244">Vivimos los viajes con corazón de ayer y mirada de hoy; como un artesano que trabaja hasta conseguir la perfección en cada proyecto. Con dedicación creamos experiencias exclusivas, únicas y a medida.</p>
+									<div class="sj-swap2">
+										<div class="sj-swap2-head" data-reveal="" data-delay="80"><span>Lo que dejamos</span><span></span><span>Lo que construimos</span></div>
+										<div class="sj-swap2-row" data-reveal="" data-delay="160">
+											<span class="sj-swap2-from">Destino</span>
+											<span class="sj-sr">, se convierte en,</span>
+											<img src="assets/diamond-olive.png" alt="" class="sj-iso sj-swap2-iso">
+											<span class="sj-swap2-to">Relación</span>
+										</div>
+										<div class="sj-swap2-row" data-reveal="" data-delay="240">
+											<span class="sj-swap2-from">Fotografía</span>
+											<span class="sj-sr">, se convierte en,</span>
+											<img src="assets/diamond-lime.png" alt="" class="sj-iso sj-swap2-iso">
+											<span class="sj-swap2-to">Vínculo</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 
-/* ── Formulario ── */
-.sj-form-card{padding:clamp(30px,3.4vw,48px) clamp(22px,3vw,44px) clamp(24px,3vw,40px) !important;background:rgba(255,255,255,.55)}
-.sj-form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
-.sj-form{display:flex;flex-direction:column;gap:22px}
-.sj-form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px 16px}
-.field{display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:0;border:0}
-.field>label,.sj-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0;font-size:14px;font-weight:500;color:#2b2b2d}
-fieldset.field>legend{margin-bottom:10px}
-.sj-optional{font-size:12px;font-weight:400;color:#7a7a7d}
-.input{display:block;width:100%;min-height:52px;padding:14px 16px;font-size:16px;line-height:1.4;color:#1c1c1c;background:rgba(255,255,255,.75);border:1px solid rgba(28,28,28,.14);border-radius:14px;-webkit-appearance:none;appearance:none;transition:border-color .25s,box-shadow .25s,background-color .25s}
-.input::placeholder{color:#8a8a8d;opacity:1}
-.input:hover{border-color:rgba(28,28,28,.3)}
-.input:focus,.input:focus-visible{outline:none;border-color:#736d47;background:#fff;box-shadow:0 0 0 4px rgba(115,109,71,.15)}
-select.input{padding-right:46px;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23736d47' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:16px}
-textarea.input{min-height:132px;resize:vertical}
-.sj-chips{display:flex;flex-wrap:wrap;gap:10px}
-.radio{position:relative;display:inline-flex;align-items:center;gap:10px;padding:11px 18px 11px 14px;border:1px solid rgba(28,28,28,.16);border-radius:999px;background:rgba(255,255,255,.55);font-size:15px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:background-color .25s,border-color .25s,color .25s}
-.radio input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
-.radio .dot{width:16px;height:16px;flex:none;border-radius:50%;border:1.5px solid rgba(28,28,28,.32);transition:all .25s}
-.radio:hover{border-color:rgba(28,28,28,.38)}
-.radio:has(input:checked){background:#736d47;border-color:#736d47;color:#fff}
-.radio input:checked+.dot{border-color:#fff;background:#fff;box-shadow:inset 0 0 0 4px #736d47}
-.radio:has(input:focus-visible){outline:2px solid #736d47;outline-offset:3px}
-.sj-form-foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;padding-top:6px}
-.sj-submit{padding:16px 26px;font-size:15px;letter-spacing:.06em;text-transform:uppercase}
-.sj-form-note{margin:0;font-size:14px;line-height:1.45;color:#5d5d60;max-width:30ch}
+					<!-- Sección #circulo · Círculo Dorado -->
+					<section id="circulo" data-bg="light" ref="{{ gcRef }}" class="sj-gc-sec" data-screen-label="Círculo Dorado" style="height:340vh;position:relative;border-top:1px solid rgba(28,28,28,.12)">
+						<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden">
+							<div class="sj-gc-wrap">
+								<div class="sj-gc-stage-wrap">
+									<svg class="sj-gc-orbit" data-gc-orbit="" viewBox="0 0 200 200" aria-hidden="true">
+										<defs><path id="sjOrbitPath" d="M100,100 m-93,0 a93,93 0 1,1 186,0 a93,93 0 1,1 -186,0"></path></defs>
+										<text>
+											<textPath href="#sjOrbitPath" startOffset="0" textLength="580" lengthAdjust="spacing">POR QUÉ · CÓMO · QUÉ · SUNQU · VIAJA AL CORAZÓN DEL PERÚ · POR QUÉ · CÓMO · QUÉ · SUNQU · </textPath>
+										</text>
+									</svg>
+									<div class="sj-gc-stage" data-gc-stage="" style="--z:2.9">
+										<div class="sj-gc-ring sj-gc-what" style="background-image:url(https://images.unsplash.com/photo-1532996152552-eaffc4edfc1a?auto=format&fit=crop&w=1400&q=72)">
+											<i class="sj-gc-dim" style="opacity:{{ gc.whatDim }}"></i>
+										</div>
+										<div class="sj-gc-ring sj-gc-how" style="background-image:url(https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1400&q=72)">
+											<i class="sj-gc-dim" style="opacity:{{ gc.howDim }}"></i>
+										</div>
+										<div class="sj-gc-ring sj-gc-why" style="background-image:url(https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=1400&q=72)">
+											<i class="sj-gc-dim" style="opacity:{{ gc.whyDim }}"></i>
+											<span class="sj-gc-isow"><i class="sj-gc-iso"></i></span>
+										</div>
+										<span class="sj-gc-label sj-gc-l-what">WHAT</span>
+										<span class="sj-gc-label sj-gc-l-how">HOW</span>
+										<span class="sj-gc-label sj-gc-l-why">WHY</span>
+									</div>
+								</div>
+								<div class="sj-gc-text">
+									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">El Círculo Dorado de Sunqu</span>
+									<div class="sj-gc-tabs" role="group" aria-label="Pasos del Círculo Dorado">
+										<sc-for list="{{ gcTabs }}" as="t" hint-placeholder-count="3">
+											<button type="button" class="sj-gc-tab" data-state="{{ t.state }}" aria-pressed="{{ t.on }}" onClick="{{ t.go }}"><b>{{ t.n }}</b>{{ t.label }}</button>
+										</sc-for>
+									</div>
+									<div style="display:grid">
+										<div style="grid-area:1/1;opacity:{{ gc.o0 }};transform:translateY({{ gc.y0 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+											<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Conectar a las personas con el corazón del Perú.</h2>
+											<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">No describe un producto ni un destino. Es lo que permanece aunque cambien los viajes, la app o las rutas: que cada encuentro termine en un vínculo, no en una foto.</p>
+										</div>
+										<div style="grid-area:1/1;opacity:{{ gc.o1 }};transform:translateY({{ gc.y1 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+											<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Seis principios, un solo filtro.</h2>
+											<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Curamos, contamos historias, conectamos con personas, te convertimos en participante, personalizamos y te acompañamos antes, durante y después.</p>
+										</div>
+										<div style="grid-area:1/1;opacity:{{ gc.o2 }};transform:translateY({{ gc.y2 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
+											<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Journeys, Private y Collective.</h2>
+											<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Viajes de 8 a 10 días, experiencias a medida y una red de anfitriones, chefs, guías y comunidades. Después llegarán el Marketplace y la App.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 
-/* ── Utilidades de layout ── */
-.sj-hero{height:100vh !important;height:100svh !important}
-.sj-sticky{height:100vh !important;height:100svh !important}
-.sj-sunqu-grid{grid-template-columns:minmax(0,1fr) minmax(0,3fr) !important}
-.sj-sunqu-body{grid-column:auto !important;min-width:0 !important}
-.sj-ayni{grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto !important}
-.sj-cond-grid{grid-template-columns:repeat(4,minmax(0,1fr)) !important}
-.sj-cond{min-height:0 !important}
-.sj-cond h3{margin:clamp(28px,4vw,56px) 0 0 !important}
-.sj-contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) !important;align-items:start}
-.sj-carousel{scrollbar-width:none}
-.sj-carousel::-webkit-scrollbar{display:none}
-@media (min-width:760px){.sj-grid-3{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+					<!-- Sección #principios · Principios -->
+					<section id="principios" data-bg="light" data-screen-label="Principios" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+						<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
+							<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,4.0vw,62px);line-height:1.07;margin:0;text-wrap:balance">Curamos, no acumulamos.</h2>
+							<div data-reveal="" data-delay="120" style="border-left:2px solid #736d47;padding-left:20px">
+								<p style="font-family:var(--font-heading);font-size:clamp(22px,2vw,28px);line-height:1.2;margin:0 0 6px">¿Esto ayuda a conectar al viajero con el corazón del Perú?</p>
+								<p style="margin:0;color:#5d5d60;font-size:15px">Si la respuesta es no, no pertenece a Sunqu. Cada destino, anfitrión y experiencia pasa por esta pregunta.</p>
+							</div>
+						</div>
+						<div data-stack="" class="sj-stack sj-stack-bleed" style="height:520vh;position:relative">
+							<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
+								<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-st1" data-sticker="-12" data-depth="150">
+								<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-st2" data-sticker="10" data-depth="190">
+								<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-st3" data-sticker="8" data-depth="-160">
+								<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-st4" data-sticker="-8" data-depth="-130">
+								<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-sticker sj-st5" data-sticker="18" data-depth="70">
+								<img src="assets/pattern-pair.png" alt="" aria-hidden="true" class="sj-sticker sj-st6" data-sticker="-16" data-depth="-70">
+								<sc-for list="{{ principles }}" as="p" hint-placeholder-count="6">
+									<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,540px);background:{{ p.bg }};color:{{ p.fg }};border-radius:32px;padding:clamp(28px,4vw,44px) clamp(24px,4vw,52px) clamp(34px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(12px,1.8vh,20px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
+										<div style="width:min(56%,270px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden">
+											<img src="{{ p.photo }}" alt="{{ p.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+										</div>
+										<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ p.n }} · {{ p.layer }}</span>
+										<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,4.4vw,64px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ p.fg }};text-wrap:balance">{{ p.title }}</h3>
+										<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:34ch;text-wrap:pretty;color:{{ p.fg }}">{{ p.q }}</p>
+									</article>
+								</sc-for>
+							</div>
+						</div>
+					</section>
 
-/* Ruta: mapa a pantalla completa con cámara que sigue el recorrido */
-.sj-route{isolation:isolate}
-.sj-map{position:absolute;inset:0;z-index:-2;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease}
-.sj-map.is-ready{opacity:1}
-.sj-route-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(28,28,28,.94) 0,rgba(28,28,28,.78) 28%,rgba(28,28,28,0) 50%)}
-.sj-route-in{position:relative;height:100%;max-width:1440px;margin:0 auto;padding:96px clamp(20px,4vw,56px) 40px;box-sizing:border-box;display:flex;align-items:center}
-.sj-route-text{width:min(100%,440px);display:flex;flex-direction:column;gap:22px}
-.sj-route-t{margin:0;font-size:clamp(32px,4vw,64px);line-height:1;letter-spacing:-.03em;color:#e9eef1}
-.sj-stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.sj-stop{display:grid;grid-template-columns:36px 1fr auto;align-items:baseline;gap:12px;padding:10px 0;border-top:1px solid rgba(233,238,241,.14);opacity:.35;transition:opacity .4s}
-.sj-stop.is-on{opacity:1}
-.sj-stop-n{font-size:13px;color:rgba(233,238,241,.6);transition:color .3s}
-.sj-stop.is-on .sj-stop-n{color:#f4a700}
-.sj-stop-name{font-family:var(--font-heading);font-size:clamp(18px,1.6vw,24px);color:#e9eef1;transition:color .3s}
-.sj-stop.is-cur .sj-stop-name{color:#f4a700}
-.sj-stop-alt{font-size:13px;color:rgba(233,238,241,.7)}
-.sj-route-now{display:none}
-/* Formas de viajar: acordeón en móvil (la imagen de cada opción aparece bajo su fila) */
-.sj-formas-panel{display:none}
-@media (max-width:900px){
-  .sj-formas-media{display:none !important}
-  .sj-forma{scroll-margin-top:84px}
-  .sj-formas-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--sj-ease)}
-  .sj-formas-panel>div{overflow:hidden;min-height:0}
-  .sj-forma.is-on .sj-formas-panel{grid-template-rows:1fr}
-  .sj-formas-inline{aspect-ratio:4/3;margin:2px 0 14px;border-radius:18px;overflow:hidden;background:#dde3e7}
-  .sj-formas-inline img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);opacity:0;transition:transform 1.2s var(--sj-ease),opacity .6s ease}
-  .sj-forma.is-on .sj-formas-inline img{transform:none;opacity:1}
-  .sj-formas-list .sj-formas-more{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;padding:0 0 2px !important;border-bottom:1px solid #1c1c1c;color:#1c1c1c;text-decoration:none;font-size:15px}
-}
-/* Loader: primero el isotipo (entra, late como un corazón y se ubica), después las letras */
-.sj-ld-logo{position:relative;width:min(56vw,360px);aspect-ratio:1688/420}
-.sj-ld-l,.sj-ld-iso{position:absolute;inset:0;background:#e9eef1;-webkit-mask:url(assets/logo-mask.png) center/contain no-repeat;mask:url(assets/logo-mask.png) center/contain no-repeat}
-.sj-ld-l{clip-path:inset(-10% var(--r) -10% var(--l));opacity:0;transform:translateY(38%);animation:sjLdL .7s cubic-bezier(.2,.7,.1,1) var(--d) forwards}
-.sj-ld-iso{clip-path:inset(-10% 0 -10% 76.9%);transform-origin:89.3% 50%;opacity:0;animation:sjLdIso 1.55s cubic-bezier(.2,.7,.1,1) .1s forwards}
-@keyframes sjLdIso{
-  0%{opacity:0;transform:translateX(-39.3%) scale(.25) rotate(-120deg)}
-  30%{opacity:1;transform:translateX(-39.3%) scale(1.18) rotate(10deg)}
-  40%{transform:translateX(-39.3%) scale(1) rotate(0)}
-  48%{transform:translateX(-39.3%) scale(1.14)}
-  56%{transform:translateX(-39.3%) scale(1)}
-  62%{transform:translateX(-39.3%) scale(1.08)}
-  70%{transform:translateX(-39.3%) scale(1)}
-  100%{opacity:1;transform:none}
-}
-@keyframes sjLdL{to{opacity:1;transform:none}}
-.sj-ld-bar,.sj-ld-tag{opacity:0;animation:sjLdFade .8s ease 1.7s forwards}
-@keyframes sjLdFade{to{opacity:1}}
-@media (prefers-reduced-motion:reduce){.sj-ld-l,.sj-ld-iso,.sj-ld-bar,.sj-ld-tag{animation:none !important;opacity:1 !important;transform:none !important}}
-/* Modal de idioma con elementos del manual de marca */
-.sj-lm-back{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(28,28,28,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:sjLmFade .35s ease both}
-.sj-lm{position:relative;isolation:isolate;overflow:hidden;width:min(100%,460px);display:flex;flex-direction:column;gap:22px;padding:clamp(34px,4.4vw,44px) clamp(22px,4vw,36px) clamp(22px,3vw,30px);border-radius:28px;background:#e9eef1;color:#1c1c1c;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:sjLmIn .55s cubic-bezier(.2,.7,.1,1) both}
-.sj-lm::before{content:"";position:absolute;left:0;right:0;top:0;height:10px;background:var(--sj-band) repeat-x left center/auto 100%}
-.sj-lm-art{position:absolute;right:-60px;bottom:-96px;z-index:-1;width:230px;height:auto;opacity:.2;transform:rotate(-8deg)}
-.sj-lm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.sj-lm-k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47}
-.sj-lm-t{margin:10px 0 0;font-size:30px;letter-spacing:-.02em;line-height:1.05}
-.sj-lm-x{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(28,28,28,.2);background:transparent;color:#1c1c1c;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .25s,border-color .25s}
-.sj-lm-x:hover{background:rgba(28,28,28,.06);border-color:#1c1c1c}
-.sj-lm-list{display:flex;flex-direction:column;gap:10px}
-.sj-lm-opt{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;padding:12px 18px 12px 12px;border-radius:18px;border:1px solid rgba(28,28,28,.16);background:rgba(255,255,255,.62);color:#1c1c1c;font:inherit;text-align:left;cursor:pointer;opacity:0;transform:translateY(12px);animation:sjLmOpt .5s cubic-bezier(.2,.7,.1,1) forwards;transition:background-color .25s,border-color .25s,color .25s}
-.sj-lm-opt:nth-child(1){animation-delay:.12s}
-.sj-lm-opt:nth-child(2){animation-delay:.2s}
-.sj-lm-opt:nth-child(3){animation-delay:.28s}
-.sj-lm-opt:hover{border-color:#736d47;background:#fff}
-.sj-lm-opt[aria-checked="true"]{background:#736d47;border-color:#736d47;color:#e9eef1}
-.sj-lm-iso{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(115,109,71,.1);transition:background-color .25s}
-.sj-lm-opt[aria-checked="true"] .sj-lm-iso{background:rgba(233,238,241,.16)}
-.sj-lm-iso img{width:20px;height:auto;transition:transform .45s cubic-bezier(.2,.7,.1,1)}
-.sj-lm-opt:hover .sj-lm-iso img,.sj-lm-opt[aria-checked="true"] .sj-lm-iso img{transform:scale(1.15)}
-.sj-lm-n{display:block;font-family:var(--font-heading);font-weight:500;font-size:18px;line-height:1.2}
-.sj-lm-g{display:block;font-size:13px;color:#5d5d60;transition:color .25s}
-.sj-lm-opt[aria-checked="true"] .sj-lm-g{color:rgba(233,238,241,.75)}
-.sj-lm-code{font-size:13px;letter-spacing:.1em;opacity:.8}
-.sj-lm-foot{display:flex;align-items:center;gap:10px;margin:0;padding-top:16px;border-top:1px solid rgba(28,28,28,.12);font-size:13.5px;color:#5d5d60}
-.sj-lm-foot img{width:16px;height:auto}
-@keyframes sjLmFade{from{opacity:0}to{opacity:1}}
-@keyframes sjLmIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes sjLmOpt{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.sj-lm-back,.sj-lm,.sj-lm-opt{animation:none !important;opacity:1 !important;transform:none !important}}
-@media (max-width:1200px){
-  .sj-sunqu-cols{grid-template-columns:1fr !important}
-}
-@media (max-width:1100px){
-  /* Ruta en tablet y móvil: título arriba, parada actual abajo */
-  .sj-route-shade{background:linear-gradient(180deg,rgba(28,28,28,.94) 0,rgba(28,28,28,.6) 22%,rgba(28,28,28,0) 40%,rgba(28,28,28,0) 66%,rgba(28,28,28,.9) 100%)}
-  .sj-route-in{flex-direction:column;align-items:stretch;justify-content:space-between;padding:84px clamp(20px,4vw,56px) calc(24px + env(safe-area-inset-bottom,0px))}
-  .sj-route-text{width:100%;gap:10px}
-  .sj-route-t{font-size:clamp(28px,6vw,46px)}
-  .sj-stops{display:none}
-  .sj-route-now{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:6px 14px;width:min(100%,440px);padding:14px 18px 16px;border-radius:20px;background:rgba(28,28,28,.74);border:1px solid rgba(233,238,241,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  .sj-route-now-iso{width:26px;height:auto}
-  .sj-route-now-n{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#f4a700}
-  .sj-route-now-name{display:block;font-family:var(--font-heading);font-weight:600;font-size:22px;line-height:1.15;color:#e9eef1}
-  .sj-route-dots{grid-column:1/-1;display:flex;gap:6px;margin-top:6px}
-  .sj-route-dots i{flex:1;height:3px;border-radius:2px;background:rgba(233,238,241,.2);transition:background-color .4s}
-  .sj-route-dots i.is-on{background:#f4a700}
-  .sj-cond-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
-  .sj-market{grid-template-columns:1fr !important}
-  .sj-market-img{min-height:240px !important;border-right:0 !important;border-bottom:1px solid rgba(28,28,28,.12)}
-  .sj-ayni{grid-template-columns:1fr !important}
-}
-@media (max-width:960px){
-  .sj-nav{grid-template-columns:1fr auto;height:64px}
-  .sj-header.is-scrolled .sj-nav{height:60px}
-  .sj-links,.sj-lang,.sj-cta{display:none}
-  .sj-burger{display:inline-flex}
-  .sj-contact-grid{grid-template-columns:1fr !important}
-  .sj-sunqu-grid{grid-template-columns:1fr !important}
-  .sj-sunqu-aside{flex-direction:row !important;align-items:center;justify-content:space-between}
-  .sj-sunqu-aside img{width:64px !important}
-  .sj-foot-contact{grid-template-columns:1fr 1fr !important;gap:20px !important}
-  .sj-foot-contact>div:first-child{grid-column:1/-1}
-}
-@media (max-width:759px){
-  .sj-route-now{width:calc(100% - 76px)}
-  /* Hero */
-  .sj-hero h1{font-size:clamp(40px,11.5vw,60px) !important;max-width:none !important}
-  .sj-hero-row{flex-direction:column;align-items:stretch !important;gap:20px !important;padding-top:18px !important}
-  .sj-hero-meta{justify-content:space-between;gap:14px !important}
-  .sj-hero-meta .btn{width:100%}
-  .sj-hero-cap{display:none}
-  /* Detrás de Sunqu */
-  /* Círculo dorado */
-  /* Principios / fases apiladas */
-  .sj-stack{height:440vh !important}
-  /* Formas de viajar */
-  .sj-formas-media{aspect-ratio:4/3 !important;border-radius:20px !important}
-  .sj-formas-list a{padding:18px 0 !important}
-  .sj-formas-list a>span:last-child{width:40px !important;height:40px !important}
-  .sj-formas-list .sj-forma>a>span:first-child{transform:none !important}
-  .sj-forma>a>span:last-child img{transition:transform .45s var(--sj-ease)}
-  .sj-forma.is-on>a>span:last-child img{transform:rotate(90deg)}
-  /* Descubre (scroll horizontal) */
-  .sj-h-sticky{padding-top:72px !important;gap:16px !important}
-  .sj-h-head h2{font-size:30px !important}
-  .sj-filters{border:0 !important;padding:0 !important;gap:8px !important;flex-wrap:nowrap !important;overflow-x:auto;width:calc(100% + 2 * var(--sj-gutter));margin:0 calc(-1 * var(--sj-gutter));padding:0 var(--sj-gutter) !important;scrollbar-width:none}
-  .sj-filters::-webkit-scrollbar{display:none}
-  .sj-filters button{flex:none;border:1px solid rgba(233,238,241,.3) !important;font-size:13px !important;padding:9px 14px !important}
-  .sj-jimg{height:min(30vh,240px) !important}
-  .sj-jcard h3{font-size:22px !important}
-  .sj-jwhy{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-  .sj-jprice{font-size:16px !important}
-  .sj-jlink{font-size:12px !important}
-  /* Carruseles con snap (anfitriones, blog) */
-  .sj-carousel{display:flex !important;gap:14px !important;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x pan-y;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--sj-gutter));padding:4px var(--sj-gutter) 8px;scroll-padding:0 var(--sj-gutter)}
-  .sj-carousel>*{flex:0 0 min(82%,340px);scroll-snap-align:start}
-  /* Vive */
-  .sj-cond-grid{gap:14px !important}
-  .sj-cond{min-height:0 !important;padding:22px !important}
-  .sj-cond h3{margin-top:22px !important;font-size:22px !important}
-  /* Recuerda */
-  .sj-words>div{padding:22px 0 !important}
-  /* Instagram */
-  .sj-ig{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:6px !important}
-  .sj-ig>a{border-radius:12px !important}
-  /* Contacto */
-  .sj-steps li{grid-template-columns:44px 1fr !important;gap:12px !important}
-  .sj-steps li>span{font-size:28px !important}
-  .sj-submit{width:100%}
-  .sj-form-note{max-width:none;text-align:center;width:100%}
-  /* Footer */
-  .sj-foot-row{flex-direction:column;align-items:flex-start !important}
-}
-@media (max-width:599px){
-  .sj-cond-grid{grid-template-columns:1fr !important;gap:10px !important}
-  /* Condiciones del Momento Sunqu: filas compactas (icono y número a la izquierda) */
-  .sj-cond{display:grid !important;grid-template-columns:40px minmax(0,1fr);column-gap:14px;row-gap:4px;align-items:start;padding:18px 18px 18px 16px !important;min-height:0 !important}
-  .sj-cond>div{grid-column:1;grid-row:1/span 2;flex-direction:column-reverse !important;justify-content:flex-start !important;align-items:center !important;gap:8px}
-  .sj-cond>div>img{width:26px !important}
-  .sj-cond>div>span{font-size:12px !important}
-  .sj-cond>h3{grid-column:2;grid-row:1;margin:1px 0 0 !important;font-size:19px !important}
-  .sj-cond>p{grid-column:2;grid-row:2;font-size:14px !important}
-}
-@media (max-width:759px) and (max-height:700px){
-  .sj-jimg{height:150px !important}
-  .sj-h-head h2{font-size:26px !important}
-  .sj-h-sticky{padding-top:68px !important;gap:12px !important}
-}
-@media (max-width:520px){
-  .sj-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-  .sj-chips .radio{justify-content:center;padding:12px 6px;font-size:14px}
-  .sj-chips .radio .dot{display:none}
-}
-/* ── Isotipo de marca como flecha ── */
-.sj-iso{display:inline-block !important;height:1.05em;width:auto;max-width:none;flex:none;vertical-align:-.12em;transition:transform .35s var(--sj-ease)}
-.sj-iso--lg{height:26px}
-.sj-iso--back{transform:scaleX(-1)}
-a:hover .sj-iso,button:hover .sj-iso{transform:translateX(4px)}
-button:hover .sj-iso--back{transform:translateX(-4px) scaleX(-1)}
+					<!-- Sección #formas · Formas de viajar -->
+					<section id="formas" data-bg="light" data-screen-label="Formas de viajar" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+						<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(32px,4vw,56px)">Formas de viajar con Sunqu</h2>
+						<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,80px);align-items:start">
+							<div data-clip="" class="sj-formas-media" style="position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#dde3e7">
+								<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
+									<img src="{{ f.img }}" alt="{{ f.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ f.op }};transform:scale({{ f.sc }});transition:opacity .6s,transform 1.2s cubic-bezier(.2,.7,.1,1)">
+								</sc-for>
+							</div>
+							<ul class="sj-formas-list" style="list-style:none;margin:0;padding:0;border-top:1px solid rgba(28,28,28,.16)">
+								<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
+									<li class="sj-forma {{ f.cls }}" onMouseEnter="{{ f.onEnter }}" style="border-bottom:1px solid rgba(28,28,28,.16)">
+										<a href="{{ f.href }}" onClick="{{ f.onTap }}" aria-expanded="{{ f.open }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:clamp(18px,2.2vw,30px) 0;text-decoration:none;color:#1c1c1c">
+											<span style="display:flex;flex-direction:column;gap:6px;transform:translateX({{ f.x }}px);transition:transform .5s cubic-bezier(.2,.7,.1,1)">
+												<span style="font-family:var(--font-heading);font-weight:600;font-size:clamp(28px,3.6vw,54px);line-height:1;letter-spacing:-.02em;color:{{ f.color }};transition:color .4s">{{ f.title }}</span>
+												<span style="font-size:16px;color:#5d5d60">{{ f.sub }}</span>
+											</span>
+											<span style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:{{ f.btnBg }};color:{{ f.btnFg }};transition:all .4s">
+												<img src="{{ f.iso }}" alt="" class="sj-iso">
+											</span>
+										</a>
+										<div class="sj-formas-panel">
+											<div>
+												<div class="sj-formas-inline"><img src="{{ f.img }}" alt="{{ f.title }}" loading="lazy"></div>
+												<a href="{{ f.href }}" class="sj-formas-more">{{ f.cta }}<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+											</div>
+										</div>
+									</li>
+								</sc-for>
+							</ul>
+						</div>
+					</section>
 
-/* ── Vive: figura grande, sin recortes ── */
-.sj-vive-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:clamp(30px,3.7vw,53px)}
-.sj-vive-fig{flex:none;width:clamp(220px,25vw,380px);height:auto;animation:sj-float 8s ease-in-out infinite}
-@keyframes sj-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+					<!-- Sección · Expandir -->
+					<section data-expand="" data-bg="dark" data-screen-label="Expandir" style="height:260vh;position:relative">
+						<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
+							<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
+								<img src="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&fit=crop&w=2000&q=72" alt="Dos mujeres quechuas miran la ciudad desde la montaña" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
+								<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,0) 40%,rgba(28,28,28,.75))"></div>
+							</div>
+							<div data-expand-text="" style="position:absolute;left:0;right:0;bottom:0;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(36px,6vh,72px);color:#e9eef1;opacity:0">
+								<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#f4a700">Perú Profundo</span>
+								<h2 style="font-size:clamp(36px,6vw,104px);line-height:1;letter-spacing:-.03em;margin:14px 0 0;max-width:13ch;color:#e9eef1">Primero la piedra. Después, la gente.</h2>
+							</div>
+						</div>
+					</section>
 
-/* ── Stickers inmersivos detrás de las tarjetas apiladas ── */
-.sj-stack-bleed{margin-inline:calc(-1 * var(--sj-gutter))}
-.sj-sticker{position:absolute;z-index:0;height:auto;pointer-events:none;will-change:transform;filter:drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(0 24px 40px rgba(28,28,28,.2))}
-.sj-st1{left:3%;top:7%;width:clamp(210px,25vw,420px)}
-.sj-st2{right:3%;top:5%;width:clamp(220px,26vw,440px)}
-.sj-st3{left:6%;bottom:4%;width:clamp(200px,23vw,390px)}
-.sj-st4{right:5%;bottom:5%;width:clamp(210px,24vw,400px)}
-.sj-st5{left:21%;top:42%;width:clamp(150px,16vw,280px)}
-.sj-st6{right:21%;top:47%;width:clamp(150px,16vw,280px)}
-.sj-sr1{left:4%;top:8%;width:clamp(200px,23vw,380px)}
-.sj-sr2{right:4%;top:6%;width:clamp(210px,24vw,400px)}
-.sj-sr3{left:7%;bottom:5%;width:clamp(190px,21vw,360px)}
-.sj-sr4{right:6%;bottom:6%;width:clamp(200px,22vw,370px)}
+					<!-- Sección #descubre · 01 Descubre -->
+					<section id="descubre" data-hscroll="" data-bg="dark" data-screen-label="01 Descubre" style="position:relative;height:300vh;color:#e9eef1">
+						<div class="sj-sticky sj-h-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3vh,36px);padding-top:64px;box-sizing:border-box">
+							<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap" class="sj-h-head">
+								<div>
+									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">01 — Descubre · {{ journeyCount }}</span>
+									<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4.4vw,72px);line-height:1;margin:10px 0 0;max-width:13ch;color:#e9eef1">¿Cómo quieres sentir el Perú?</h2>
+								</div>
+								<div class="sj-filters" role="group" aria-label="Filtrar journeys" style="display:flex;border:1px solid rgba(233,238,241,.3);border-radius:999px;padding:4px;flex-wrap:wrap;gap:2px">
+									<sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
+										<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="border:0;border-radius:999px;font-family:var(--font-heading);font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;background:{{ c.bg }};color:{{ c.color }};cursor:pointer;transition:background .3s">{{ c.label }}</button>
+									</sc-for>
+								</div>
+							</div>
+							<div data-htrack="" ref="{{ stripRef }}" style="display:flex;gap:24px;width:max-content;padding:0 max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));will-change:transform">
+								<sc-for list="{{ journeys }}" as="j" hint-placeholder-count="3">
+									<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
+										<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
+											<img src="{{ j.img }}" alt="{{ j.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+											<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ j.alt }}</span>
+											<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ j.days }}</span>
+										</div>
+										<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1">
+											<span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.65)">{{ j.region }}</span>
+											<h3 style="letter-spacing:-.02em;font-size:26px;line-height:1.08;margin:0;color:#e9eef1">{{ j.title }}</h3>
+											<p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ j.why }}</p>
+											<div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
+												<span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ j.price }}</span>
+												<a href="{{ j.href }}" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+											</div>
+										</div>
+									</article>
+								</sc-for>
+							</div>
+							<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box">
+								<div style="height:2px;background:rgba(233,238,241,.18)">
+									<div data-hbar="" style="height:100%;background:#f4a700;transform-origin:left;transform:scaleX(0)"></div>
+								</div>
+							</div>
+						</div>
+					</section>
 
-/* ── Curva de altitud interactiva ── */
-.sj-alt-wrap{margin-top:clamp(80px,10vw,140px);display:flex;flex-direction:column;gap:clamp(28px,3.4vw,44px)}
-.sj-alt-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px clamp(32px,5vw,72px);align-items:end}
-.sj-alt{padding:clamp(18px,2.4vw,32px) !important}
-.sj-alt-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-bottom:10px;font-size:13px;color:rgba(233,238,241,.78)}
-.sj-alt-leg{display:inline-flex;align-items:center;gap:8px}
-.sj-alt-key{display:inline-block;width:22px;height:0;border-top:3px solid #83b300;border-radius:2px}
-.sj-alt-key--th{border-top:2px dashed #df5f0c}
-.sj-alt-key--hab{border-top:2px dashed rgba(233,238,241,.8)}
-.sj-alt-toggle{display:inline-flex;align-items:center;gap:8px;margin-left:auto;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(233,238,241,.25);background:transparent;color:rgba(233,238,241,.7);font-size:13px;cursor:pointer;transition:background-color .25s,border-color .25s,color .25s}
-.sj-alt-toggle:hover{border-color:rgba(233,238,241,.5)}
-.sj-alt-toggle[aria-pressed="true"]{background:rgba(233,238,241,.1);border-color:rgba(233,238,241,.45);color:#e9eef1}
-.sj-alt-toggle[aria-pressed="false"] .sj-alt-key--hab{opacity:.35}
-.sj-alt-plot{position:relative;touch-action:pan-y;cursor:crosshair;-webkit-user-select:none;user-select:none}
-.sj-alt-reveal{position:absolute;inset:0;transition:clip-path 1.8s var(--sj-ease)}
-.sj-alt-y{position:absolute;left:0;transform:translateY(calc(-100% - 4px));font-size:12px;color:rgba(233,238,241,.55);pointer-events:none}
-.sj-alt-pt{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;padding:0;border:0;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:left .4s var(--sj-ease),top .4s var(--sj-ease)}
-.sj-alt-pt span{width:12px;height:12px;border-radius:50%;background:#e9eef1;box-shadow:0 0 0 4px #1c1c1c;transition:transform .3s var(--sj-ease),background-color .3s,box-shadow .3s}
-.sj-alt-pt:hover span{transform:scale(1.3)}
-.sj-alt-pt[data-on="true"] span{background:#f4a700;transform:scale(1.45);box-shadow:0 0 0 4px #1c1c1c,0 0 0 11px rgba(244,167,0,.22)}
-.sj-alt-tip{position:absolute;margin-top:-18px;padding:6px 11px;border-radius:10px;background:#f4a700;color:#1c1c1c;font-family:var(--font-heading);font-weight:600;font-size:15px;line-height:1.2;white-space:nowrap;pointer-events:none;transition:left .4s var(--sj-ease),top .4s var(--sj-ease)}
-.sj-alt-x{position:relative;height:46px;margin-top:8px}
-.sj-alt-x>span{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:rgba(233,238,241,.5);white-space:nowrap;transition:color .3s}
-.sj-alt-x b{font-weight:500;font-size:13px;color:rgba(233,238,241,.8);transition:color .3s}
-.sj-alt-x i{font-style:normal}
-.sj-alt-x>span[data-on="true"],.sj-alt-x>span[data-on="true"] b{color:#f4a700}
-.sj-alt-detail{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr) auto;grid-template-areas:"head body nav" "main body nav";gap:6px clamp(20px,3vw,40px);align-items:center;margin-top:10px;padding-top:22px;border-top:1px solid rgba(233,238,241,.12)}
-.sj-alt-dhead{grid-area:head;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sj-alt-dday{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)}
-.sj-alt-status{font-size:12px;line-height:1.3;padding:4px 10px;border-radius:999px;border:1px solid currentColor;color:#83b300}
-.sj-alt-status[data-tone="high"]{color:#f4a700}
-.sj-alt-status[data-tone="sea"]{color:rgba(233,238,241,.75)}
-.sj-alt-dmain{grid-area:main;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.sj-alt-dmain h4{margin:0;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.02em;color:#e9eef1}
-.sj-alt-dmain>span{font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,2.2vw,30px);color:#f4a700}
-.sj-alt-detail p{grid-area:body;margin:0;font-size:16px;line-height:1.55;color:rgba(233,238,241,.85);max-width:52ch}
-.sj-alt-nav{grid-area:nav;display:flex;gap:8px}
-.sj-alt-nav button{width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.25);background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .25s,background-color .25s}
-.sj-alt-nav button:hover{border-color:#83b300;background:rgba(131,179,0,.1)}
-.sj-alt-nav .sj-iso{height:18px}
-@media (max-width:900px){.sj-alt-intro{grid-template-columns:1fr}}
-@media (max-width:759px){
-  .sj-stack-card{width:min(80vw,540px) !important}
-  .sj-st1,.sj-sr1{left:2%;top:9%;width:44vw}
-  .sj-st2,.sj-sr2{right:2%;top:8%;width:44vw}
-  .sj-st3,.sj-sr3{left:3%;bottom:7%;width:42vw}
-  .sj-st4,.sj-sr4{right:2%;bottom:8%;width:44vw}
-  .sj-st5{left:1%;top:44%;width:28vw}
-  .sj-st6{right:1%;top:50%;width:28vw}
-  .sj-alt-x i{display:none}
-  .sj-alt-toggle{margin-left:0}
-  .sj-alt-detail{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"head nav" "main nav" "body body";row-gap:8px}
-  .sj-alt-detail p{margin-top:6px;font-size:15px}
-}
-@media (max-width:640px){
-  .sj-vive-head{flex-direction:column-reverse;align-items:stretch;gap:24px}
-  .sj-vive-fig{align-self:flex-end;width:min(60vw,280px)}
-}
-/* ── Círculo Dorado: zoom tipo iris (WHY → HOW → WHAT) ── */
-.sj-gc-wrap{max-width:1440px;width:100%;margin:0 auto;padding:88px var(--sj-gutter) 36px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,96px);align-items:center}
-.sj-gc-stage-wrap{position:relative;width:min(70vh,100%);width:min(70svh,100%);aspect-ratio:1;margin:0 auto}
-.sj-gc-stage-wrap::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 40px 90px rgba(28,28,28,.28),0 0 0 1px rgba(28,28,28,.08)}
-.sj-gc-orbit{position:absolute;left:-8%;top:-8%;width:116%;height:116%;max-width:none;overflow:visible;fill:#736d47;font-family:var(--font-heading);font-weight:500;font-size:7px;letter-spacing:.3em;pointer-events:none;will-change:transform}
-.sj-gc-stage{position:absolute;inset:0;border-radius:50%;overflow:hidden;clip-path:circle(50%);background:#1c1c1c}
-.sj-gc-ring{position:absolute;left:50%;top:50%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background-position:center;background-size:cover;box-shadow:0 0 0 1.5px rgba(233,238,241,.6),0 0 60px rgba(0,0,0,.45)}
-.sj-gc-what{width:calc(100% * var(--z));box-shadow:none}
-.sj-gc-how{width:calc(68% * var(--z))}
-.sj-gc-why{width:calc(36% * var(--z));display:flex;align-items:center;justify-content:center}
-.sj-gc-dim{position:absolute;inset:0;border-radius:50%;background:#1c1c1c;transition:opacity .7s ease;pointer-events:none}
-.sj-gc-isow{position:relative;width:calc(24% / var(--z));margin-bottom:6%;filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
-.sj-gc-iso{display:block;width:100%;aspect-ratio:.856;background:#fff;-webkit-mask:url(assets/diamond-teal.png) center/contain no-repeat;mask:url(assets/diamond-teal.png) center/contain no-repeat}
-.sj-gc-label{position:absolute;left:50%;transform:translate(-50%,-50%);font-family:var(--font-heading);font-weight:500;font-size:clamp(12px,1.1vw,15px);letter-spacing:.2em;color:#fff;white-space:nowrap;text-shadow:0 1px 12px rgba(0,0,0,.55);pointer-events:none}
-.sj-gc-l-what{top:calc(50% - (100% + 68%) * var(--z) / 4)}
-.sj-gc-l-how{top:calc(50% - (68% + 36%) * var(--z) / 4)}
-.sj-gc-l-why{top:calc(50% + 36% * var(--z) * .3)}
-.sj-gc-text{display:flex;flex-direction:column;gap:28px}
-.sj-gc-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.sj-gc-tab{position:relative;display:flex;align-items:baseline;gap:8px;padding:14px 0 0;border:0;background:transparent;color:#7a7a7d;font-family:var(--font-heading);font-weight:500;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-align:left;cursor:pointer;transition:color .3s}
-.sj-gc-tab::before,.sj-gc-tab::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;border-radius:2px;background:rgba(28,28,28,.14)}
-.sj-gc-tab::after{background:#736d47;transform:scaleX(0);transform-origin:left;transition:transform .6s var(--sj-ease)}
-.sj-gc-tab b{font-weight:500;color:#b0b0b3;transition:color .3s}
-.sj-gc-tab:hover{color:#1c1c1c}
-.sj-gc-tab[data-state="done"]::after,.sj-gc-tab[data-state="on"]::after{transform:scaleX(1)}
-.sj-gc-tab[data-state="on"]{color:#1c1c1c}
-.sj-gc-tab[data-state="on"] b{color:#736d47}
+					<!-- Sección #conecta · 02 Conecta -->
+					<section id="conecta" data-bg="light" data-screen-label="02 Conecta" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">02 — Conecta · Sunqu Collective</div>
+						<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
+							<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0">Viajas con personas, no con proveedores.</h2>
+							<p data-reveal="" data-delay="120" style="font-size:18px;line-height:1.55;margin:0;max-width:44ch;color:#424244;text-wrap:pretty">Detrás de cada Journey hay alguien con nombre propio. No «una familia quechua», sino Rosa, y su historia. Te presentamos a quienes te reciben antes de que llegues.</p>
+						</div>
+						<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px">
+							<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="3">
+								<article data-reveal="" class="blueprint" style="display:flex;flex-direction:column">
+									<div data-clip="" class="duotone" style="position:relative;aspect-ratio:3/3.4;overflow:hidden">
+										<img src="{{ h.img }}" alt="{{ h.ph }}" style="width:100%;height:100%;object-fit:cover;display:block">
+									</div>
+									<div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px">
+										<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+											<h3 style="letter-spacing:-.02em;font-size:22px;margin:0">{{ h.role }}</h3>
+											<span style="font-size:13px;color:#5d5d60">{{ h.place }}</span>
+										</div>
+										<p style="margin:0;font-size:15px;color:#424244;line-height:1.5"><strong style="font-weight:500;color:#736d47">Te enseña · </strong>{{ h.teach }}</p>
+									</div>
+								</article>
+							</sc-for>
+						</div>
+						<div data-reveal="" class="blueprint sj-ayni" style="margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px 40px;align-items:center;padding:clamp(24px,3vw,40px)">
+							<div style="display:flex;align-items:center;gap:20px">
+								<img src="assets/pattern-ring.png" alt="" style="width:72px">
+								<div>
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Ayni · reciprocidad</span>
+									<h3 style="letter-spacing:-.02em;font-size:24px;margin:4px 0 0">Ficha de reciprocidad</h3>
+								</div>
+							</div>
+							<p style="margin:0;font-size:16px;line-height:1.55;color:#424244">Publicamos qué recibe cada comunidad anfitriona, cómo se decidió y quién lo administra. La comunidad tiene poder de veto.</p>
+							<a href="#contacto" class="btn btn-secondary" style="justify-self:start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver cómo funciona<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+						</div>
+					</section>
 
-/* ── Detrás de Sunqu: lista mínima ── */
-.sj-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.sj-swap2{display:flex;flex-direction:column;max-width:560px}
-.sj-swap2-head,.sj-swap2-row{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);align-items:center;gap:12px}
-.sj-swap2-head{padding-bottom:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7a7a7d}
-.sj-swap2-row{padding:18px 0;border-top:1px solid rgba(28,28,28,.12)}
-.sj-swap2-row:last-child{border-bottom:1px solid rgba(28,28,28,.12)}
-.sj-swap2-from{font-size:clamp(19px,1.9vw,24px);color:#8a8a8d;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(28,28,28,.4)}
-.sj-swap2-to{font-family:var(--font-heading);font-weight:600;font-size:clamp(22px,2.2vw,30px);letter-spacing:-.015em;color:#1c1c1c}
-.sj-swap2-iso{height:20px !important;justify-self:center}
-.sj-swap2-row:hover .sj-swap2-iso{transform:translateX(5px)}
+					<!-- Sección #vive · 03 Vive -->
+					<section id="vive" data-screen-label="03 Vive" data-bg="dark" style="--color-text:#e9eef1;--color-divider:rgba(233,238,241,.22);color:#e9eef1;position:relative;overflow:hidden">
+						<div style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px)">
+							<div class="sj-vive-head">
+								<div>
+									<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#83b300;margin-bottom:24px" data-reveal="">03 — Vive · Momento Sunqu</div>
+									<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.7vw,77px);line-height:1.04;margin:0;max-width:13ch;color:#e9eef1">No se compra. Se vive.</h2>
+								</div>
+								<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-vive-fig">
+							</div>
+							<div class="sj-cond-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px">
+								<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4">
+									<article data-reveal="" class="blueprint sj-cond" style="padding:28px 26px;display:flex;flex-direction:column;gap:14px;min-height:260px">
+										<div style="display:flex;justify-content:space-between;align-items:center">
+											<span style="font-family:var(--font-heading);font-size:14px;letter-spacing:.1em;color:rgba(233,238,241,.6)">{{ c.n }}</span>
+											<img src="{{ c.icon }}" alt="" style="width:28px">
+										</div>
+										<h3 style="letter-spacing:-.02em;font-size:24px;line-height:1.12;margin:auto 0 0;color:#e9eef1">{{ c.title }}</h3>
+										<p style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.82)">{{ c.body }}</p>
+									</article>
+								</sc-for>
+							</div>
+							<div class="sj-alt-wrap">
+								<div class="sj-alt-intro">
+									<div>
+										<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">El Alma de los Andes · curva de altitud</span>
+										<h3 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(32px,3.9vw,58px);line-height:1.07;margin:14px 0 0;color:#e9eef1">Empezamos 600 metros más abajo.</h3>
+									</div>
+									<p data-reveal="" style="font-size:17px;line-height:1.6;color:rgba(233,238,241,.85);max-width:46ch;margin:0">Entramos por el Valle Sagrado a 2.800 m, no por Cusco a 3.400 m. Queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza. <span style="color:#e9eef1">Toca cada día para ver dónde duermes.</span></p>
+								</div>
+								<figure data-reveal="" class="blueprint sj-alt" role="group" aria-label="Curva de altitud del journey El Alma de los Andes, día a día">
+									<div class="sj-alt-bar">
+										<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--sunqu"></i>Ruta Sunqu</span>
+										<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Umbral del soroche · 3.400 m</span>
+										<button type="button" class="sj-alt-toggle" onClick="{{ alt.toggleHab }}" aria-pressed="{{ alt.habPressed }}"><i class="sj-alt-key sj-alt-key--hab"></i>Ruta habitual: Cusco directo</button>
+									</div>
+									<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
+										<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
+											<svg width="100%" height="100%" viewBox="{{ alt.vb }}" aria-hidden="true" style="display:block">
+												<defs>
+													<linearGradient id="sjAltFill" x1="0" y1="0" x2="0" y2="1">
+														<stop offset="0" stopColor="#83b300" stopOpacity=".38"></stop>
+														<stop offset="1" stopColor="#83b300" stopOpacity="0"></stop>
+													</linearGradient>
+												</defs>
+												<rect x="0" y="0" width="{{ alt.w }}" height="{{ alt.yTh }}" fill="rgba(223,95,12,.07)"></rect>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y4000 }}" y2="{{ alt.y4000 }}" stroke="rgba(233,238,241,.1)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y2000 }}" y2="{{ alt.y2000 }}" stroke="rgba(233,238,241,.1)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yBase }}" y2="{{ alt.yBase }}" stroke="rgba(233,238,241,.28)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yTh }}" y2="{{ alt.yTh }}" stroke="#df5f0c" strokeWidth="1.5" strokeDasharray="6 6"></line>
+												<polygon points="{{ alt.area }}" fill="url(#sjAltFill)"></polygon>
+												<polyline points="{{ alt.hab }}" fill="none" stroke="rgba(233,238,241,.7)" strokeWidth="1.5" strokeDasharray="4 6" style="opacity:{{ alt.habOp }};transition:opacity .4s"></polyline>
+												<line x1="{{ alt.gx }}" x2="{{ alt.gx }}" y1="{{ alt.gy }}" y2="{{ alt.yBase }}" stroke="rgba(244,167,0,.7)" strokeDasharray="2 4"></line>
+												<polyline points="{{ alt.line }}" fill="none" stroke="#83b300" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"></polyline>
+											</svg>
+											<span class="sj-alt-y" style="top:{{ alt.y4000 }}px">4.000 m</span>
+											<span class="sj-alt-y" style="top:{{ alt.y2000 }}px">2.000 m</span>
+											<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
+												<button type="button" class="sj-alt-pt" data-on="{{ pt.on }}" style="left:{{ pt.x }}px;top:{{ pt.y }}px" onClick="{{ pt.pick }}" onFocus="{{ pt.pick }}" aria-label="{{ pt.label }}" aria-pressed="{{ pt.on }}">
+													<span></span>
+												</button>
+											</sc-for>
+											<div class="sj-alt-tip" style="left:{{ alt.tipX }}px;top:{{ alt.tipY }}px;transform:translate({{ alt.tipTx }},-100%)">{{ alt.selM }}</div>
+										</div>
+									</div>
+									<div class="sj-alt-x" aria-hidden="true">
+										<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
+											<span data-on="{{ pt.on }}" style="left:{{ pt.x }}px"><b>{{ pt.d }}</b><i>{{ pt.short }}</i></span>
+										</sc-for>
+									</div>
+									<div class="sj-alt-detail" aria-live="polite">
+										<div class="sj-alt-dhead">
+											<span class="sj-alt-dday">{{ alt.selD }}</span>
+											<span class="sj-alt-status" data-tone="{{ alt.tone }}">{{ alt.selStatus }}</span>
+										</div>
+										<div class="sj-alt-dmain"><h4>{{ alt.selPlace }}</h4><span>{{ alt.selM }}</span></div>
+										<p>{{ alt.selBody }}</p>
+										<div class="sj-alt-nav">
+											<button type="button" onClick="{{ alt.prev }}" aria-label="Día anterior">
+												<img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back">
+											</button>
+											<button type="button" onClick="{{ alt.next }}" aria-label="Día siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso "></button>
+										</div>
+									</div>
+								</figure>
+							</div>
+						</div>
+					</section>
 
-/* ── WhatsApp flotante ── */
-.sj-wa{position:fixed;right:clamp(16px,2.4vw,28px);bottom:calc(clamp(16px,2.4vw,28px) + env(safe-area-inset-bottom,0px));z-index:65;display:inline-flex;align-items:center;height:60px;min-width:60px;padding:0 16px;border-radius:999px;background:#25D366;color:#fff;text-decoration:none;box-shadow:0 14px 34px rgba(0,0,0,.24);opacity:0;visibility:hidden;transform:translateY(18px) scale(.9);transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),visibility 0s linear .45s}
-.sj-wa.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .45s var(--sj-ease),transform .45s var(--sj-ease),visibility 0s}
-.sj-wa::before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(37,211,102,.5);animation:sj-wa-pulse 2.6s ease-out infinite;pointer-events:none}
-@keyframes sj-wa-pulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%,100%{box-shadow:0 0 0 16px rgba(37,211,102,0)}}
-.sj-wa:hover,.sj-wa:focus-visible{color:#fff;transform:translateY(-3px)}
-.sj-wa svg{width:28px;height:28px;flex:none}
-.sj-wa-label{max-width:0;overflow:hidden;white-space:nowrap;font-family:var(--font-heading);font-weight:500;font-size:15px;transition:max-width .45s var(--sj-ease),margin .45s var(--sj-ease)}
-.sj-wa:hover .sj-wa-label,.sj-wa:focus-visible .sj-wa-label{max-width:120px;margin-left:10px}
-@media (max-width:960px){
-  .sj-gc-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
-  .sj-gc-stage-wrap{width:min(54svh,100%)}
-}
-@media (max-width:759px){
-  .sj-gc-sec{height:300vh !important}
-  .sj-gc-wrap{grid-template-columns:1fr;padding:80px var(--sj-gutter) 20px;gap:30px;align-content:center}
-  .sj-gc-stage-wrap{width:min(44svh,80vw)}
-  .sj-gc-text{gap:16px}
-  .sj-gc-text h2{font-size:26px !important;margin:0 0 10px !important}
-  .sj-gc-text p{font-size:15px !important}
-  .sj-gc-tab{font-size:12px;letter-spacing:.08em}
-  .sj-wa{height:56px;min-width:56px;padding:0 14px}
-}
-@media (max-width:759px) and (max-height:700px){
-  .sj-gc-stage-wrap{width:min(36svh,66vw)}
-  .sj-gc-text h2{font-size:22px !important}
-  .sj-gc-text p{font-size:14px !important}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .sj-wa::before{animation:none}
-  .sj-vive-fig{animation:none}
-  .sj-alt-reveal,.sj-alt-pt,.sj-alt-tip{transition:none !important}
-  .sj-drawer,.sj-drawer.is-open,.sj-drawer-link,.sj-scrim{transition:none !important}
-}
-</style>
-</helmet>
-<div style="--font-heading:'Aeonik','Manrope',system-ui,sans-serif;--font-body:'Aeonik','Manrope',system-ui,sans-serif;--font-heading-weight:600;--color-bg:#e9eef1;--color-text:#1c1c1c;--color-divider:rgba(28,28,28,.16);--color-accent:#736d47;--color-accent-600:#5e5939;--color-accent-700:#4a462d;--color-accent-100:#efece2;--color-accent-800:#736d47;position:relative;background:{{ pageBg }};transition:background-color .9s ease;color:#1c1c1c;font-family:var(--font-body)">
+					<!-- Sección #ruta · Ruta -->
+					<section id="ruta" data-map="" data-bg="dark" data-screen-label="Ruta" style="height:300vh;position:relative;color:#e9eef1">
+						<div class="sj-sticky sj-route" style="position:sticky;top:0;height:100vh;overflow:hidden">
+							<svg ref="{{ mapRef }}" class="sj-map" role="img" aria-label="Mapa del Perú con la ruta Sunqu, de Lima al Colca"></svg>
+							<div class="sj-route-shade" aria-hidden="true"></div>
+							<div class="sj-route-in">
+								<div class="sj-route-text">
+									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#83b300">La ruta · de la costa a los Andes</span>
+									<h2 class="sj-route-t">Del mar a la montaña, sin prisa.</h2>
+									<ol class="sj-stops">
+										<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7">
+											<li class="sj-stop {{ st.cls }}">
+												<span class="sj-stop-n">{{ st.n }}</span>
+												<span class="sj-stop-name">{{ st.name }}</span>
+												<span class="sj-stop-alt">{{ st.alt }}</span>
+											</li>
+										</sc-for>
+									</ol>
+								</div>
+								<div class="sj-route-now" aria-live="polite">
+									<img src="assets/diamond-lime.png" alt="" class="sj-route-now-iso">
+									<div><span class="sj-route-now-n">{{ stopNow.n }} · {{ stopNow.alt }}</span><span class="sj-route-now-name">{{ stopNow.name }}</span></div>
+									<div class="sj-route-dots" aria-hidden="true">
+										<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7"><i class="{{ st.cls }}"></i></sc-for>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 
-<div aria-hidden="true" style="position:fixed;inset:0;z-index:100;background:#736d47;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;opacity:{{ loaderOp }};transform:translateY({{ loaderY }});pointer-events:{{ loaderPe }};transition:opacity .6s ease .5s,transform 1s cubic-bezier(.7,0,.2,1)">
-<div class="sj-ld-logo" role="img" aria-label="Sunqu">
-<span class="sj-ld-l" style="--l:0%;--r:84.9%;--d:1.12s"></span><span class="sj-ld-l" style="--l:15.1%;--r:70.14%;--d:1.2s"></span><span class="sj-ld-l" style="--l:29.86%;--r:55.15%;--d:1.28s"></span><span class="sj-ld-l" style="--l:44.85%;--r:39.75%;--d:1.36s"></span><span class="sj-ld-l" style="--l:60.25%;--r:23.1%;--d:1.44s"></span>
-<span class="sj-ld-iso"></span>
-</div>
-<div class="sj-ld-bar" style="width:min(56vw,360px);height:2px;background:rgba(233,238,241,.25)"><div style="height:100%;width:{{ loadPct }};background:#e9eef1;transition:width .25s linear"></div></div>
-<span class="sj-ld-tag" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#e9eef1">Viaja al corazón del Perú</span>
-</div>
-<sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
-<div style="position:fixed;inset:0;z-index:0;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);padding:0 clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
-<div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06)"></div><div style="border-left:1px solid rgba(28,28,28,.06);border-right:1px solid rgba(28,28,28,.06)"></div>
-</div>
-</sc-if>
+					<!-- Sección #recuerda · 04 Recuerda -->
+					<section id="recuerda" data-bg="light" data-screen-label="04 Recuerda" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
+						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">04 — Recuerda</div>
+						<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(30px,3.7vw,53px);max-width:15ch">El viaje empieza antes del vuelo y sigue después.</h2>
+						<div data-stack="" class="sj-stack-bleed" style="height:300vh;position:relative;margin-top:clamp(24px,3vw,40px)">
+							<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
+								<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-sr1" data-sticker="-10" data-depth="150">
+								<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-sr2" data-sticker="12" data-depth="170">
+								<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-sr3" data-sticker="6" data-depth="-150">
+								<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-sr4" data-sticker="-9" data-depth="-130">
+								<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+									<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,560px);background:{{ ph.bg }};color:{{ ph.fg }};border-radius:32px;padding:clamp(28px,4vw,48px) clamp(24px,4vw,56px) clamp(36px,5vw,64px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2vh,22px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
+										<div style="width:min(62%,300px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden">
+											<img src="{{ ph.photo }}" alt="{{ ph.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+										</div>
+										<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ ph.kicker }}</span>
+										<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(40px,5vw,76px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ ph.fg }}">{{ ph.title }}</h3>
+										<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:36ch;text-wrap:pretty;color:{{ ph.fg }}">{{ ph.body }}</p>
+									</article>
+								</sc-for>
+							</div>
+						</div>
+						<div data-reveal="" class="sj-words" style="margin-top:clamp(56px,7vw,96px);border-top:1px solid rgba(28,28,28,.16);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));column-gap:24px">
+							<sc-for list="{{ words }}" as="w" hint-placeholder-count="3">
+								<div style="padding:28px 24px 28px 0;border-bottom:1px solid rgba(28,28,28,.16)">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5d5d60">Tus primeras palabras en quechua</span>
+									<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(38px,3.8vw,58px);line-height:1;margin:10px 0 4px;color:{{ w.color }}">{{ w.word }}</p>
+									<p style="margin:0;font-size:17px;color:#424244">{{ w.meaning }}</p>
+								</div>
+							</sc-for>
+						</div>
+						<div style="margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px">
+							<article data-reveal="" class="blueprint sj-market" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+								<div class="duotone sj-market-img" style="position:relative;min-height:280px;overflow:hidden;border-right:1px solid rgba(28,28,28,.12)">
+									<img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=1400&q=70" alt="Textil andino" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+								</div>
+								<div style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:center;gap:12px">
+									<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Marketplace</span>
+									<h3 style="letter-spacing:-.02em;font-size:24px;margin:0;line-height:1.12">Lo que te llevas tiene nombre.</h3>
+									<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Textiles, cerámica, joyería y alimentos con la historia de quién los hizo, dónde y con qué técnica.</p>
+								</div>
+							</article>
+							<article data-reveal="" data-delay="120" class="blueprint" style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:18px;justify-content:space-between;background:#dde3e7">
+								<img src="assets/pattern-cluster.png" alt="" style="width:78px">
+								<h3 style="letter-spacing:-.02em;font-size:clamp(26px,2.5vw,37px);margin:0;line-height:1.12">Sunqu y tú, con la playlist que representa a la cultura.</h3>
+								<a href="#" class="btn btn-secondary" style="align-self:flex-start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>Ir a la playlist</a>
+							</article>
+						</div>
+					</section>
 
-<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
-<nav class="sj-nav" aria-label="Principal">
-<a href="#inicio" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio"><img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}"><img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}"></a>
-<ul class="sj-links">
-<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
-<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
-</sc-for>
-</ul>
-<div class="sj-actions">
-<button type="button" class="sj-lang" onClick="{{ openLang }}" aria-label="Cambiar idioma"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>{{ langCode }}</button>
-<a href="#contacto" class="btn btn-primary sj-cta">Diseña tu viaje</a>
-<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú"><span></span><span></span></button>
-</div>
-</nav>
-</header>
+					<!-- Sección #blog · Blog -->
+					<section id="blog" data-bg="light" data-screen-label="Blog" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+						<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
+							<div>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Diario Sunqu · Blog</span>
+								<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:13ch">Historias antes del viaje.</h2>
+							</div>
+							<a href="blog.html" class="btn btn-secondary" style="border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver todo el blog<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+						</div>
+						<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,40px)">
+							<article data-reveal="" data-delay="0" style="display:flex;flex-direction:column;gap:18px">
+								<a href="articulo.html?a=aclimatarte-en-los-andes" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
+									<img src="https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=1000&q=70" alt="Cómo aclimatarte en los Andes sin perder el primer día" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+								</a>
+								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
+									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Guía</span>
+									<span>12 sep 2026</span>
+								</div>
+								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Cómo aclimatarte en los Andes sin perder el primer día</h3>
+								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Por qué entramos por el Valle Sagrado y qué comer, beber y evitar las primeras 48 horas.</p>
+								<a href="articulo.html?a=aclimatarte-en-los-andes" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+							</article>
+							<article data-reveal="" data-delay="120" style="display:flex;flex-direction:column;gap:18px">
+								<a href="articulo.html?a=la-picanteria-arequipena" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
+									<img src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1000&q=70" alt="La picantería arequipeña, explicada por una picantera" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+								</a>
+								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
+									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Sabor</span>
+									<span>28 ago 2026</span>
+								</div>
+								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">La picantería arequipeña, explicada por una picantera</h3>
+								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Chupe, rocoto relleno y chicha de guiñapo: la cocina que se resiste a desaparecer.</p>
+								<a href="articulo.html?a=la-picanteria-arequipena" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+							</article>
+							<article data-reveal="" data-delay="240" style="display:flex;flex-direction:column;gap:18px">
+								<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
+									<img src="https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1000&q=70" alt="Ayni: qué recibe cada comunidad que te recibe" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+								</a>
+								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
+									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Comunidad</span>
+									<span>09 ago 2026</span>
+								</div>
+								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Ayni: qué recibe cada comunidad que te recibe</h3>
+								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Nuestra ficha de reciprocidad, paso a paso, y quién decide cómo se usa.</p>
+								<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+							</article>
+						</div>
+					</section>
 
-<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
-<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
-<div class="sj-drawer-top">
-<img src="assets/logo-light.png" alt="Sunqu Journeys">
-<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
-</div>
-<div>
-<div class="sj-drawer-kicker sj-eyebrow">Viaja al corazón del Perú</div>
-<nav class="sj-drawer-nav" aria-label="Menú principal">
-<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
-<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link"><span class="sj-drawer-n">{{ m.n }}</span><span>{{ m.label }}</span><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg"></a>
-</sc-for>
-</nav>
-</div>
-<div class="sj-drawer-sub">
-<a href="#sunqu" onClick="{{ closeMenu }}">Sobre Sunqu</a><a href="#formas" onClick="{{ closeMenu }}">Formas de viajar</a><a href="#blog" onClick="{{ closeMenu }}">Blog</a><a href="#contacto" onClick="{{ closeMenu }}">Contacto</a>
-</div>
-<div class="sj-drawer-foot">
-<a href="#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
-<div class="sj-drawer-row">
-<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
-<div class="sj-seg" role="group" aria-label="Idioma">
-<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
-<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
-</sc-for>
-</div>
-</div>
-<div class="sj-band sj-band--light" aria-hidden="true"></div>
-</div>
-</aside>
+					<!-- Sección #instagram · Instagram -->
+					<section id="instagram" data-bg="light" data-screen-label="Instagram" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
+						<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
+							<div>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · @sunqujourneys</span>
+								<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:14ch">El Perú, contado por quienes lo viven.</h2>
+							</div>
+							<a href="#" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
+						</div>
+						<div data-reveal="" class="sj-ig" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:clamp(10px,1.4vw,18px)">
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1535400255456-984241443b29?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1578362646678-a1b282e43ff8?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1730424508745-29ea708ae698?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+								<img src="https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</span>
+							</a>
+						</div>
+					</section>
 
-<a class="sj-wa {{ waCls }}" href="https://wa.me/51966461384?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg><span class="sj-wa-label">¿Hablamos?</span></a>
-<sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
-<div class="sj-lm-back" onClick="{{ closeLang }}">
-<div class="sj-lm" role="dialog" aria-modal="true" aria-labelledby="sj-lm-t" onClick="{{ stop }}">
-<img src="assets/pattern-steps.png" alt="" class="sj-lm-art" aria-hidden="true">
-<div class="sj-lm-head">
-<div><span class="sj-eyebrow sj-lm-k">Idioma · Language · Idioma</span><h3 id="sj-lm-t" class="sj-lm-t">Elige tu idioma</h3></div>
-<button type="button" class="sj-lm-x" onClick="{{ closeLang }}" aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
-</div>
-<div class="sj-lm-list" role="radiogroup" aria-label="Idiomas disponibles">
-<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
-<button type="button" class="sj-lm-opt" role="radio" aria-checked="{{ l.pressed }}" onClick="{{ l.pick }}"><span class="sj-lm-iso"><img src="{{ l.icon }}" alt=""></span><span class="sj-lm-name"><span class="sj-lm-n">{{ l.name }}</span><span class="sj-lm-g">{{ l.hello }}</span></span><span class="sj-lm-code">{{ l.code }}</span></button>
-</sc-for>
-</div>
-<p class="sj-lm-foot"><img src="assets/diamond-lime.png" alt="">Sunqu significa «corazón» en quechua.</p>
-</div>
-</div>
-</sc-if>
+					<!-- Sección #contacto · Contacto -->
+					<section id="contacto" data-bg="light" data-screen-label="Contacto" style="border-top:1px solid rgba(28,28,28,.16)">
+						<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+							<div>
+								<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
+								<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+									<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+										<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
+											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+											<div>
+												<h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3>
+												<p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p>
+											</div>
+										</li>
+									</sc-for>
+								</ol>
+							</div>
+							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+								<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+									<form onSubmit="{{ submit }}" class="sj-form">
+										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-name">Nombre</label>
+												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre">
+											</div>
+											<div class="field">
+												<label for="f-mail">Email</label>
+												<input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com">
+											</div>
+										</div>
+										<div class="field">
+											<label for="f-month">¿Cuándo te gustaría viajar?</label>
+											<select id="f-month" name="mes" class="input">
+												<option>Aún no lo sé</option>
+												<option>Enero – marzo</option>
+												<option>Abril – junio</option>
+												<option>Julio – septiembre</option>
+												<option>Octubre – diciembre</option>
+											</select>
+										</div>
+										<fieldset class="field">
+											<legend class="sj-label">¿Qué quieres sentir?</legend>
+											<div class="sj-chips">
+												<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
+												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+												<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
+											</div>
+										</fieldset>
+										<div class="field">
+											<label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label>
+											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea>
+										</div>
+										<div class="sj-form-foot">
+											<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+										</div>
+									</form>
+								</sc-if>
+								<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+									<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+										<img src="assets/diamond-lime.png" alt="" style="width:56px">
+										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+									</div>
+								</sc-if>
+							</div>
+						</div>
+					</section>
+				</main>
 
-<main style="position:relative;z-index:1">
-
-<section id="inicio" class="sj-hero" data-screen-label="Hero" data-bg="dark" style="position:relative;height:100vh;min-height:640px;overflow:hidden;color:#e9eef1">
-<div data-parallax="0.25" style="position:absolute;inset:-6% 0">
-<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
-<img src="{{ s.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
-</sc-for>
-<sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}"><video src="{{ heroVideo }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video></sc-if>
-</div>
-<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,.45) 0%,rgba(28,28,28,.05) 35%,rgba(28,28,28,.8) 100%);pointer-events:none"></div>
-<div style="position:relative;height:100%;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:flex-end;gap:clamp(24px,3vw,40px)">
-<h1 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(46px,9vw,150px);line-height:.98;letter-spacing:-.035em;margin:0;max-width:10ch;color:#e9eef1">
-<span data-reveal="" data-delay="2900" style="display:block">El Perú no es</span>
-<span data-reveal="" data-delay="3020" style="display:block">un destino.</span>
-<span data-reveal="" data-delay="3140" style="display:block;color:#f4a700">Es una relación.</span>
-</h1>
-<div class="sj-hero-row" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(233,238,241,.3);padding-top:22px">
-<p data-reveal="" data-delay="3260" style="font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:42ch;margin:0;color:rgba(233,238,241,.9)">Viaja al corazón del Perú: viajes a medida con anfitriones que tienen nombre propio.</p>
-<div data-reveal="" data-delay="3340" class="sj-hero-meta" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-<span class="sj-hero-cap" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.8)">{{ heroCaption }}</span>
-<div style="display:flex;gap:6px"><sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><span style="width:28px;height:2px;background:{{ s.bar }};transition:background .6s"></span></sc-for></div>
-<a href="#descubre" class="btn btn-primary" style="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c;font-size:16px;padding:14px 22px;letter-spacing:.04em;text-transform:uppercase;border-radius:999px" style-hover="background:#f4a700;border-color:#f4a700;color:#1c1c1c">Descubre los journeys<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</div>
-</div>
-</div>
-</section>
-
-
-<section id="sunqu" data-bg="light" data-screen-label="Detrás de Sunqu" style="padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
-<div class="sj-sunqu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(24px,4vw,56px)">
-<div class="sj-sunqu-aside" style="display:flex;flex-direction:column;gap:20px">
-<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Detrás de Sunqu</span>
-<img data-reveal="" data-delay="100" src="assets/pattern-pair.png" alt="" style="width:92px">
-</div>
-<div class="sj-sunqu-body" style="grid-column:span 3;min-width:min(100%,560px)">
-<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(24px,3vw,46px);line-height:1.22;letter-spacing:-.01em;margin:0;text-wrap:pretty"><span data-highlight="" style="color:#1c1c1c">Creemos que el Perú se ha vendido como destino cuando en realidad es una relación. La mayoría de los viajes premium terminan en fotografías; los nuestros terminan en vínculos que siguen vivos después del vuelo de regreso.</span></p>
-<div class="sj-sunqu-cols" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(24px,3vw,48px);margin-top:clamp(40px,5vw,72px)">
-<p data-reveal="" style="font-size:17px;line-height:1.6;margin:0;max-width:48ch;text-wrap:pretty;color:#424244">Vivimos los viajes con corazón de ayer y mirada de hoy; como un artesano que trabaja hasta conseguir la perfección en cada proyecto. Con dedicación creamos experiencias exclusivas, únicas y a medida.</p>
-<div class="sj-swap2">
-<div class="sj-swap2-head" data-reveal="" data-delay="80"><span>Lo que dejamos</span><span></span><span>Lo que construimos</span></div>
-<div class="sj-swap2-row" data-reveal="" data-delay="160"><span class="sj-swap2-from">Destino</span><span class="sj-sr">, se convierte en,</span><img src="assets/diamond-olive.png" alt="" class="sj-iso sj-swap2-iso"><span class="sj-swap2-to">Relación</span></div>
-<div class="sj-swap2-row" data-reveal="" data-delay="240"><span class="sj-swap2-from">Fotografía</span><span class="sj-sr">, se convierte en,</span><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-swap2-iso"><span class="sj-swap2-to">Vínculo</span></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="circulo" data-bg="light" ref="{{ gcRef }}" class="sj-gc-sec" data-screen-label="Círculo Dorado" style="height:340vh;position:relative;border-top:1px solid rgba(28,28,28,.12)">
-<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden">
-<div class="sj-gc-wrap">
-<div class="sj-gc-stage-wrap">
-<svg class="sj-gc-orbit" data-gc-orbit="" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sjOrbitPath" d="M100,100 m-93,0 a93,93 0 1,1 186,0 a93,93 0 1,1 -186,0"></path></defs><text><textPath href="#sjOrbitPath" startOffset="0" textLength="580" lengthAdjust="spacing">POR QUÉ · CÓMO · QUÉ · SUNQU · VIAJA AL CORAZÓN DEL PERÚ · POR QUÉ · CÓMO · QUÉ · SUNQU · </textPath></text></svg>
-<div class="sj-gc-stage" data-gc-stage="" style="--z:2.9">
-<div class="sj-gc-ring sj-gc-what" style="background-image:url(https://images.unsplash.com/photo-1532996152552-eaffc4edfc1a?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.whatDim }}"></i></div>
-<div class="sj-gc-ring sj-gc-how" style="background-image:url(https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.howDim }}"></i></div>
-<div class="sj-gc-ring sj-gc-why" style="background-image:url(https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=1400&q=72)"><i class="sj-gc-dim" style="opacity:{{ gc.whyDim }}"></i><span class="sj-gc-isow"><i class="sj-gc-iso"></i></span></div>
-<span class="sj-gc-label sj-gc-l-what">WHAT</span>
-<span class="sj-gc-label sj-gc-l-how">HOW</span>
-<span class="sj-gc-label sj-gc-l-why">WHY</span>
-</div>
-</div>
-<div class="sj-gc-text">
-<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">El Círculo Dorado de Sunqu</span>
-<div class="sj-gc-tabs" role="group" aria-label="Pasos del Círculo Dorado">
-<sc-for list="{{ gcTabs }}" as="t" hint-placeholder-count="3">
-<button type="button" class="sj-gc-tab" data-state="{{ t.state }}" aria-pressed="{{ t.on }}" onClick="{{ t.go }}"><b>{{ t.n }}</b>{{ t.label }}</button>
-</sc-for>
-</div>
-<div style="display:grid">
-<div style="grid-area:1/1;opacity:{{ gc.o0 }};transform:translateY({{ gc.y0 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
-<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Conectar a las personas con el corazón del Perú.</h2>
-<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">No describe un producto ni un destino. Es lo que permanece aunque cambien los viajes, la app o las rutas: que cada encuentro termine en un vínculo, no en una foto.</p>
-</div>
-<div style="grid-area:1/1;opacity:{{ gc.o1 }};transform:translateY({{ gc.y1 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
-<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Seis principios, un solo filtro.</h2>
-<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Curamos, contamos historias, conectamos con personas, te convertimos en participante, personalizamos y te acompañamos antes, durante y después.</p>
-</div>
-<div style="grid-area:1/1;opacity:{{ gc.o2 }};transform:translateY({{ gc.y2 }}px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1);pointer-events:none">
-<h2 style="letter-spacing:-.025em;font-size:clamp(30px,3.8vw,60px);line-height:1.06;margin:0 0 18px;text-wrap:balance">Journeys, Private y Collective.</h2>
-<p style="font-size:17px;line-height:1.6;max-width:44ch;color:#424244;margin:0">Viajes de 8 a 10 días, experiencias a medida y una red de anfitriones, chefs, guías y comunidades. Después llegarán el Marketplace y la App.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="principios" data-bg="light" data-screen-label="Principios" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,4.0vw,62px);line-height:1.07;margin:0;text-wrap:balance">Curamos, no acumulamos.</h2>
-<div data-reveal="" data-delay="120" style="border-left:2px solid #736d47;padding-left:20px">
-<p style="font-family:var(--font-heading);font-size:clamp(22px,2vw,28px);line-height:1.2;margin:0 0 6px">¿Esto ayuda a conectar al viajero con el corazón del Perú?</p>
-<p style="margin:0;color:#5d5d60;font-size:15px">Si la respuesta es no, no pertenece a Sunqu. Cada destino, anfitrión y experiencia pasa por esta pregunta.</p>
-</div>
-</div>
-<div data-stack="" class="sj-stack sj-stack-bleed" style="height:520vh;position:relative">
-<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
-<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-st1" data-sticker="-12" data-depth="150">
-<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-st2" data-sticker="10" data-depth="190">
-<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-st3" data-sticker="8" data-depth="-160">
-<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-st4" data-sticker="-8" data-depth="-130">
-<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-sticker sj-st5" data-sticker="18" data-depth="70">
-<img src="assets/pattern-pair.png" alt="" aria-hidden="true" class="sj-sticker sj-st6" data-sticker="-16" data-depth="-70">
-<sc-for list="{{ principles }}" as="p" hint-placeholder-count="6">
-<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,540px);background:{{ p.bg }};color:{{ p.fg }};border-radius:32px;padding:clamp(28px,4vw,44px) clamp(24px,4vw,52px) clamp(34px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(12px,1.8vh,20px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
-<div style="width:min(56%,270px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden"><img src="{{ p.photo }}" alt="{{ p.title }}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ p.n }} · {{ p.layer }}</span>
-<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,4.4vw,64px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ p.fg }};text-wrap:balance">{{ p.title }}</h3>
-<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:34ch;text-wrap:pretty;color:{{ p.fg }}">{{ p.q }}</p>
-</article>
-</sc-for>
-</div>
-</div>
-</section>
-
-<section id="formas" data-bg="light" data-screen-label="Formas de viajar" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(32px,4vw,56px)">Formas de viajar con Sunqu</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,80px);align-items:start">
-<div data-clip="" class="sj-formas-media" style="position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#dde3e7">
-<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
-<img src="{{ f.img }}" alt="{{ f.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ f.op }};transform:scale({{ f.sc }});transition:opacity .6s,transform 1.2s cubic-bezier(.2,.7,.1,1)">
-</sc-for>
-</div>
-<ul class="sj-formas-list" style="list-style:none;margin:0;padding:0;border-top:1px solid rgba(28,28,28,.16)">
-<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
-<li class="sj-forma {{ f.cls }}" onMouseEnter="{{ f.onEnter }}" style="border-bottom:1px solid rgba(28,28,28,.16)">
-<a href="{{ f.href }}" onClick="{{ f.onTap }}" aria-expanded="{{ f.open }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:clamp(18px,2.2vw,30px) 0;text-decoration:none;color:#1c1c1c">
-<span style="display:flex;flex-direction:column;gap:6px;transform:translateX({{ f.x }}px);transition:transform .5s cubic-bezier(.2,.7,.1,1)">
-<span style="font-family:var(--font-heading);font-weight:600;font-size:clamp(28px,3.6vw,54px);line-height:1;letter-spacing:-.02em;color:{{ f.color }};transition:color .4s">{{ f.title }}</span>
-<span style="font-size:16px;color:#5d5d60">{{ f.sub }}</span>
-</span>
-<span style="width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:{{ f.btnBg }};color:{{ f.btnFg }};transition:all .4s"><img src="{{ f.iso }}" alt="" class="sj-iso"></span>
-</a>
-<div class="sj-formas-panel"><div><div class="sj-formas-inline"><img src="{{ f.img }}" alt="{{ f.title }}" loading="lazy"></div><a href="{{ f.href }}" class="sj-formas-more">{{ f.cta }}<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a></div></div>
-</li>
-</sc-for>
-</ul>
-</div>
-</section>
-
-<section data-expand="" data-bg="dark" data-screen-label="Expandir" style="height:260vh;position:relative">
-<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
-<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
-<img src="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&fit=crop&w=2000&q=72" alt="Dos mujeres quechuas miran la ciudad desde la montaña" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
-<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,0) 40%,rgba(28,28,28,.75))"></div>
-</div>
-<div data-expand-text="" style="position:absolute;left:0;right:0;bottom:0;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(36px,6vh,72px);color:#e9eef1;opacity:0">
-<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#f4a700">Perú Profundo</span>
-<h2 style="font-size:clamp(36px,6vw,104px);line-height:1;letter-spacing:-.03em;margin:14px 0 0;max-width:13ch;color:#e9eef1">Primero la piedra. Después, la gente.</h2>
-</div>
-</div>
-</section>
-
-<section id="descubre" data-hscroll="" data-bg="dark" data-screen-label="01 Descubre" style="position:relative;height:300vh;color:#e9eef1">
-<div class="sj-sticky sj-h-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3vh,36px);padding-top:64px;box-sizing:border-box">
-<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap" class="sj-h-head">
-<div><span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">01 — Descubre · {{ journeyCount }}</span>
-<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4.4vw,72px);line-height:1;margin:10px 0 0;max-width:13ch;color:#e9eef1">¿Cómo quieres sentir el Perú?</h2></div>
-<div class="sj-filters" role="group" aria-label="Filtrar journeys" style="display:flex;border:1px solid rgba(233,238,241,.3);border-radius:999px;padding:4px;flex-wrap:wrap;gap:2px">
-<sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
-<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="border:0;border-radius:999px;font-family:var(--font-heading);font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;background:{{ c.bg }};color:{{ c.color }};cursor:pointer;transition:background .3s">{{ c.label }}</button>
-</sc-for>
-</div>
-</div>
-<div data-htrack="" ref="{{ stripRef }}" style="display:flex;gap:24px;width:max-content;padding:0 max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));will-change:transform">
-<sc-for list="{{ journeys }}" as="j" hint-placeholder-count="3">
-<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
-<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
-<img src="{{ j.img }}" alt="{{ j.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
-<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ j.alt }}</span>
-<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ j.days }}</span>
-</div>
-<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1">
-<span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.65)">{{ j.region }}</span>
-<h3 style="letter-spacing:-.02em;font-size:26px;line-height:1.08;margin:0;color:#e9eef1">{{ j.title }}</h3>
-<p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ j.why }}</p>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
-<span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ j.price }}</span>
-<a href="{{ j.href }}" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Ver journey<img src="assets/diamond-yellow.png" alt="" class="sj-iso"></a>
-</div>
-</div>
-</article>
-</sc-for>
-</div>
-<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box"><div style="height:2px;background:rgba(233,238,241,.18)"><div data-hbar="" style="height:100%;background:#f4a700;transform-origin:left;transform:scaleX(0)"></div></div></div>
-</div>
-</section>
-
-<section id="conecta" data-bg="light" data-screen-label="02 Conecta" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
-<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">02 — Conecta · Sunqu Collective</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0">Viajas con personas, no con proveedores.</h2>
-<p data-reveal="" data-delay="120" style="font-size:18px;line-height:1.55;margin:0;max-width:44ch;color:#424244;text-wrap:pretty">Detrás de cada Journey hay alguien con nombre propio. No «una familia quechua», sino Rosa, y su historia. Te presentamos a quienes te reciben antes de que llegues.</p>
-</div>
-<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px">
-<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="3">
-<article data-reveal="" class="blueprint" style="display:flex;flex-direction:column">
-<div data-clip="" class="duotone" style="position:relative;aspect-ratio:3/3.4;overflow:hidden">
-<img src="{{ h.img }}" alt="{{ h.ph }}" style="width:100%;height:100%;object-fit:cover;display:block">
-</div>
-<div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="letter-spacing:-.02em;font-size:22px;margin:0">{{ h.role }}</h3><span style="font-size:13px;color:#5d5d60">{{ h.place }}</span></div>
-<p style="margin:0;font-size:15px;color:#424244;line-height:1.5"><strong style="font-weight:500;color:#736d47">Te enseña · </strong>{{ h.teach }}</p>
-</div>
-</article>
-</sc-for>
-</div>
-<div data-reveal="" class="blueprint sj-ayni" style="margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:24px 40px;align-items:center;padding:clamp(24px,3vw,40px)">
-<div style="display:flex;align-items:center;gap:20px"><img src="assets/pattern-ring.png" alt="" style="width:72px"><div><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Ayni · reciprocidad</span><h3 style="letter-spacing:-.02em;font-size:24px;margin:4px 0 0">Ficha de reciprocidad</h3></div></div>
-<p style="margin:0;font-size:16px;line-height:1.55;color:#424244">Publicamos qué recibe cada comunidad anfitriona, cómo se decidió y quién lo administra. La comunidad tiene poder de veto.</p>
-<a href="#contacto" class="btn btn-secondary" style="justify-self:start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver cómo funciona<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</div>
-</section>
-
-<section id="vive" data-screen-label="03 Vive" data-bg="dark" style="--color-text:#e9eef1;--color-divider:rgba(233,238,241,.22);color:#e9eef1;position:relative;overflow:hidden">
-<div style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px)">
-<div class="sj-vive-head">
-<div>
-<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#83b300;margin-bottom:24px" data-reveal="">03 — Vive · Momento Sunqu</div>
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.7vw,77px);line-height:1.04;margin:0;max-width:13ch;color:#e9eef1">No se compra. Se vive.</h2>
-</div>
-<img src="assets/pattern-weave.png" alt="" aria-hidden="true" class="sj-vive-fig">
-</div>
-<div class="sj-cond-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px">
-<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4">
-<article data-reveal="" class="blueprint sj-cond" style="padding:28px 26px;display:flex;flex-direction:column;gap:14px;min-height:260px">
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:var(--font-heading);font-size:14px;letter-spacing:.1em;color:rgba(233,238,241,.6)">{{ c.n }}</span><img src="{{ c.icon }}" alt="" style="width:28px"></div>
-<h3 style="letter-spacing:-.02em;font-size:24px;line-height:1.12;margin:auto 0 0;color:#e9eef1">{{ c.title }}</h3>
-<p style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.82)">{{ c.body }}</p>
-</article>
-</sc-for>
-</div>
-<div class="sj-alt-wrap">
-<div class="sj-alt-intro">
-<div>
-<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">El Alma de los Andes · curva de altitud</span>
-<h3 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(32px,3.9vw,58px);line-height:1.07;margin:14px 0 0;color:#e9eef1">Empezamos 600 metros más abajo.</h3>
-</div>
-<p data-reveal="" style="font-size:17px;line-height:1.6;color:rgba(233,238,241,.85);max-width:46ch;margin:0">Entramos por el Valle Sagrado a 2.800 m, no por Cusco a 3.400 m. Queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza. <span style="color:#e9eef1">Toca cada día para ver dónde duermes.</span></p>
-</div>
-<figure data-reveal="" class="blueprint sj-alt" role="group" aria-label="Curva de altitud del journey El Alma de los Andes, día a día">
-<div class="sj-alt-bar">
-<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--sunqu"></i>Ruta Sunqu</span>
-<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Umbral del soroche · 3.400 m</span>
-<button type="button" class="sj-alt-toggle" onClick="{{ alt.toggleHab }}" aria-pressed="{{ alt.habPressed }}"><i class="sj-alt-key sj-alt-key--hab"></i>Ruta habitual: Cusco directo</button>
-</div>
-<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
-<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
-<svg width="100%" height="100%" viewBox="{{ alt.vb }}" aria-hidden="true" style="display:block">
-<defs><linearGradient id="sjAltFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#83b300" stopOpacity=".38"></stop><stop offset="1" stopColor="#83b300" stopOpacity="0"></stop></linearGradient></defs>
-<rect x="0" y="0" width="{{ alt.w }}" height="{{ alt.yTh }}" fill="rgba(223,95,12,.07)"></rect>
-<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y4000 }}" y2="{{ alt.y4000 }}" stroke="rgba(233,238,241,.1)"></line>
-<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y2000 }}" y2="{{ alt.y2000 }}" stroke="rgba(233,238,241,.1)"></line>
-<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yBase }}" y2="{{ alt.yBase }}" stroke="rgba(233,238,241,.28)"></line>
-<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yTh }}" y2="{{ alt.yTh }}" stroke="#df5f0c" strokeWidth="1.5" strokeDasharray="6 6"></line>
-<polygon points="{{ alt.area }}" fill="url(#sjAltFill)"></polygon>
-<polyline points="{{ alt.hab }}" fill="none" stroke="rgba(233,238,241,.7)" strokeWidth="1.5" strokeDasharray="4 6" style="opacity:{{ alt.habOp }};transition:opacity .4s"></polyline>
-<line x1="{{ alt.gx }}" x2="{{ alt.gx }}" y1="{{ alt.gy }}" y2="{{ alt.yBase }}" stroke="rgba(244,167,0,.7)" strokeDasharray="2 4"></line>
-<polyline points="{{ alt.line }}" fill="none" stroke="#83b300" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"></polyline>
-</svg>
-<span class="sj-alt-y" style="top:{{ alt.y4000 }}px">4.000 m</span>
-<span class="sj-alt-y" style="top:{{ alt.y2000 }}px">2.000 m</span>
-<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
-<button type="button" class="sj-alt-pt" data-on="{{ pt.on }}" style="left:{{ pt.x }}px;top:{{ pt.y }}px" onClick="{{ pt.pick }}" onFocus="{{ pt.pick }}" aria-label="{{ pt.label }}" aria-pressed="{{ pt.on }}"><span></span></button>
-</sc-for>
-<div class="sj-alt-tip" style="left:{{ alt.tipX }}px;top:{{ alt.tipY }}px;transform:translate({{ alt.tipTx }},-100%)">{{ alt.selM }}</div>
-</div>
-</div>
-<div class="sj-alt-x" aria-hidden="true">
-<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
-<span data-on="{{ pt.on }}" style="left:{{ pt.x }}px"><b>{{ pt.d }}</b><i>{{ pt.short }}</i></span>
-</sc-for>
-</div>
-<div class="sj-alt-detail" aria-live="polite">
-<div class="sj-alt-dhead"><span class="sj-alt-dday">{{ alt.selD }}</span><span class="sj-alt-status" data-tone="{{ alt.tone }}">{{ alt.selStatus }}</span></div>
-<div class="sj-alt-dmain"><h4>{{ alt.selPlace }}</h4><span>{{ alt.selM }}</span></div>
-<p>{{ alt.selBody }}</p>
-<div class="sj-alt-nav"><button type="button" onClick="{{ alt.prev }}" aria-label="Día anterior"><img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back"></button><button type="button" onClick="{{ alt.next }}" aria-label="Día siguiente"><img src="assets/diamond-lime.png" alt="" class="sj-iso "></button></div>
-</div>
-</figure>
-</div>
-</div>
-</section>
-
-<section id="ruta" data-map="" data-bg="dark" data-screen-label="Ruta" style="height:300vh;position:relative;color:#e9eef1">
-<div class="sj-sticky sj-route" style="position:sticky;top:0;height:100vh;overflow:hidden">
-<svg ref="{{ mapRef }}" class="sj-map" role="img" aria-label="Mapa del Perú con la ruta Sunqu, de Lima al Colca"></svg>
-<div class="sj-route-shade" aria-hidden="true"></div>
-<div class="sj-route-in">
-<div class="sj-route-text">
-<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#83b300">La ruta · de la costa a los Andes</span>
-<h2 class="sj-route-t">Del mar a la montaña, sin prisa.</h2>
-<ol class="sj-stops">
-<sc-for list="{{ stops }}" as="st" hint-placeholder-count="7"><li class="sj-stop {{ st.cls }}"><span class="sj-stop-n">{{ st.n }}</span><span class="sj-stop-name">{{ st.name }}</span><span class="sj-stop-alt">{{ st.alt }}</span></li></sc-for>
-</ol>
-</div>
-<div class="sj-route-now" aria-live="polite">
-<img src="assets/diamond-lime.png" alt="" class="sj-route-now-iso">
-<div><span class="sj-route-now-n">{{ stopNow.n }} · {{ stopNow.alt }}</span><span class="sj-route-now-name">{{ stopNow.name }}</span></div>
-<div class="sj-route-dots" aria-hidden="true"><sc-for list="{{ stops }}" as="st" hint-placeholder-count="7"><i class="{{ st.cls }}"></i></sc-for></div>
-</div>
-</div>
-</div>
-</section>
-
-<section id="recuerda" data-bg="light" data-screen-label="04 Recuerda" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
-<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">04 — Recuerda</div>
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(30px,3.7vw,53px);max-width:15ch">El viaje empieza antes del vuelo y sigue después.</h2>
-<div data-stack="" class="sj-stack-bleed" style="height:300vh;position:relative;margin-top:clamp(24px,3vw,40px)">
-<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
-<img src="assets/pattern-cluster.png" alt="" aria-hidden="true" class="sj-sticker sj-sr1" data-sticker="-10" data-depth="150">
-<img src="assets/pattern-flower.png" alt="" aria-hidden="true" class="sj-sticker sj-sr2" data-sticker="12" data-depth="170">
-<img src="assets/pattern-steps.png" alt="" aria-hidden="true" class="sj-sticker sj-sr3" data-sticker="6" data-depth="-150">
-<img src="assets/pattern-ring.png" alt="" aria-hidden="true" class="sj-sticker sj-sr4" data-sticker="-9" data-depth="-130">
-<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
-<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,560px);background:{{ ph.bg }};color:{{ ph.fg }};border-radius:32px;padding:clamp(28px,4vw,48px) clamp(24px,4vw,56px) clamp(36px,5vw,64px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2vh,22px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
-<div style="width:min(62%,300px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden"><img src="{{ ph.photo }}" alt="{{ ph.title }}" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ ph.kicker }}</span>
-<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(40px,5vw,76px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ ph.fg }}">{{ ph.title }}</h3>
-<p style="margin:0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;max-width:36ch;text-wrap:pretty;color:{{ ph.fg }}">{{ ph.body }}</p>
-</article>
-</sc-for>
-</div>
-</div>
-<div data-reveal="" class="sj-words" style="margin-top:clamp(56px,7vw,96px);border-top:1px solid rgba(28,28,28,.16);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));column-gap:24px">
-<sc-for list="{{ words }}" as="w" hint-placeholder-count="3">
-<div style="padding:28px 24px 28px 0;border-bottom:1px solid rgba(28,28,28,.16)">
-<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5d5d60">Tus primeras palabras en quechua</span>
-<p style="font-family:var(--font-heading);font-weight:600;font-size:clamp(38px,3.8vw,58px);line-height:1;margin:10px 0 4px;color:{{ w.color }}">{{ w.word }}</p>
-<p style="margin:0;font-size:17px;color:#424244">{{ w.meaning }}</p>
-</div>
-</sc-for>
-</div>
-<div style="margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px">
-<article data-reveal="" class="blueprint sj-market" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
-<div class="duotone sj-market-img" style="position:relative;min-height:280px;overflow:hidden;border-right:1px solid rgba(28,28,28,.12)"><img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=1400&q=70" alt="Textil andino" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>
-<div style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:center;gap:12px"><span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Marketplace</span><h3 style="letter-spacing:-.02em;font-size:24px;margin:0;line-height:1.12">Lo que te llevas tiene nombre.</h3><p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Textiles, cerámica, joyería y alimentos con la historia de quién los hizo, dónde y con qué técnica.</p></div>
-</article>
-<article data-reveal="" data-delay="120" class="blueprint" style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:18px;justify-content:space-between;background:#dde3e7">
-<img src="assets/pattern-cluster.png" alt="" style="width:78px">
-<h3 style="letter-spacing:-.02em;font-size:clamp(26px,2.5vw,37px);margin:0;line-height:1.12">Sunqu y tú, con la playlist que representa a la cultura.</h3>
-<a href="#" class="btn btn-secondary" style="align-self:flex-start;font-size:14px;text-transform:uppercase;letter-spacing:.06em;padding:13px 22px;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>Ir a la playlist</a>
-</article>
-</div>
-</section>
-
-<section id="blog" data-bg="light" data-screen-label="Blog" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
-<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
-<div><span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Diario Sunqu · Blog</span>
-<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:13ch">Historias antes del viaje.</h2></div>
-<a href="blog.html" class="btn btn-secondary" style="border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver todo el blog<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</div>
-<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,40px)">
-<article data-reveal="" data-delay="0" style="display:flex;flex-direction:column;gap:18px">
-<a href="articulo.html?a=aclimatarte-en-los-andes" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=1000&q=70" alt="Cómo aclimatarte en los Andes sin perder el primer día" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
-<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Guía</span><span>12 sep 2026</span></div>
-<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Cómo aclimatarte en los Andes sin perder el primer día</h3>
-<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Por qué entramos por el Valle Sagrado y qué comer, beber y evitar las primeras 48 horas.</p>
-<a href="articulo.html?a=aclimatarte-en-los-andes" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</article>
-<article data-reveal="" data-delay="120" style="display:flex;flex-direction:column;gap:18px">
-<a href="articulo.html?a=la-picanteria-arequipena" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1000&q=70" alt="La picantería arequipeña, explicada por una picantera" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
-<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Sabor</span><span>28 ago 2026</span></div>
-<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">La picantería arequipeña, explicada por una picantera</h3>
-<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Chupe, rocoto relleno y chicha de guiñapo: la cocina que se resiste a desaparecer.</p>
-<a href="articulo.html?a=la-picanteria-arequipena" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</article>
-<article data-reveal="" data-delay="240" style="display:flex;flex-direction:column;gap:18px">
-<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden"><img src="https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1000&q=70" alt="Ayni: qué recibe cada comunidad que te recibe" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)"></a>
-<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60"><span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Comunidad</span><span>09 ago 2026</span></div>
-<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Ayni: qué recibe cada comunidad que te recibe</h3>
-<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Nuestra ficha de reciprocidad, paso a paso, y quién decide cómo se usa.</p>
-<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-</article>
-</div>
-</section>
-
-<section id="instagram" data-bg="light" data-screen-label="Instagram" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
-<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
-<div><span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · @sunqujourneys</span>
-<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:14ch">El Perú, contado por quienes lo viven.</h2></div>
-<a href="#" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
-</div>
-<div data-reveal="" class="sj-ig" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:clamp(10px,1.4vw,18px)">
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1535400255456-984241443b29?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1578362646678-a1b282e43ff8?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1730424508745-29ea708ae698?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1"><img src="https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></span></a>
-</div>
-</section>
-
-<section id="contacto" data-bg="light" data-screen-label="Contacto" style="border-top:1px solid rgba(28,28,28,.16)">
-<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
-<div>
-<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">¿Quieres conocer el Perú y ser parte de su historia?</h2>
-<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
-<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
-<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
-<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
-<div><h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3><p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p></div>
-</li>
-</sc-for>
-</ol>
-</div>
-<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
-<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
-<form onSubmit="{{ submit }}" class="sj-form">
-<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
-<div class="sj-form-row">
-<div class="field"><label for="f-name">Nombre</label><input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre"></div>
-<div class="field"><label for="f-mail">Email</label><input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com"></div>
-</div>
-<div class="field"><label for="f-month">¿Cuándo te gustaría viajar?</label>
-<select id="f-month" name="mes" class="input"><option>Aún no lo sé</option><option>Enero – marzo</option><option>Abril – junio</option><option>Julio – septiembre</option><option>Octubre – diciembre</option></select></div>
-<fieldset class="field"><legend class="sj-label">¿Qué quieres sentir?</legend>
-<div class="sj-chips">
-<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
-<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
-<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
-</div></fieldset>
-<div class="field"><label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label><textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea></div>
-<div class="sj-form-foot">
-<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
-<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
-</div>
-</form>
-</sc-if>
-<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
-<img src="assets/diamond-lime.png" alt="" style="width:56px">
-<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
-<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
-</div>
-</sc-if>
-</div>
-</div>
-</section>
-
-</main>
-
-<footer style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
-<div class="sj-band" aria-hidden="true" style="height:12px"></div>
-<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
-<div style="display:flex;flex-direction:column;gap:20px">
-<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
-<a href="#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
-</div>
-<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span><a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span><a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span><span>Lima, Perú</span></div>
-</div>
-</div>
-<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
-<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
-<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap"><a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a><a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a><a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a><a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a><a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Blog</a><a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a><a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a></nav>
-<div style="display:flex;gap:10px"><a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg></a><a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle></svg></a><a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3a5 5 0 0 0 5 5"></path><path d="M16 3v11a5 5 0 1 1-5-5"></path></svg></a></div>
-</div>
-<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
-<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span><span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
-<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
-</div>
-</div>
-</footer>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;conceptDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;historia&quot;,&quot;sabor&quot;,&quot;gente&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;heroVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+				<!-- Footer -->
+				<footer style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+					<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+					<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+						<div class="sj-foot-top" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+							<div class="sj-foot-art" aria-hidden="true">
+								<svg viewBox="0 0 860 172" preserveAspectRatio="xMidYMax meet" focusable="false">
+									<defs>
+										<mask id="faRouteM" maskUnits="userSpaceOnUse" x="0" y="-40" width="860" height="220">
+											<path class="fa-draw" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" pathLength="1" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+										</mask>
+										<clipPath id="faClip"><rect x="-20" y="-80" width="900" height="252"/></clipPath>
+										<clipPath id="faSunC"><rect x="0" y="-80" width="240" height="217"/></clipPath>
+									</defs>
+									<g clip-path="url(#faClip)">
+										<g clip-path="url(#faSunC)">
+											<g class="fa-l fa-sun">
+												<circle cx="96" cy="136" r="36" fill="#f4a700"/>
+												<circle class="fa-halo" cx="96" cy="136" r="50" fill="none" stroke="#f4a700" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>
+											</g>
+										</g>
+										<g class="fa-l fa-sea">
+											<path class="fa-wave fa-wave0" d="M34,143 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="18 10" stroke-dashoffset="0"/>
+											<path class="fa-wave fa-wave1" d="M8,152 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="12 12" stroke-dashoffset="9"/>
+											<path class="fa-wave fa-wave0" d="M48,161 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="22 9" stroke-dashoffset="4"/>
+											<path class="fa-wave fa-wave1" d="M20,170 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 13" stroke-dashoffset="14"/>
+											<path d="M73,143 H119" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M81,152 H111" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M87,161 H105" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M92,170 H100" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+										</g>
+										<g class="fa-l fa-back">
+											<path d="M262,172 L338,114 L378,134 L462,44 L544,108 L606,70 L690,140 L764,92 L846,166 L846,172 Z" fill="#736d47" stroke="#736d47" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M441.4,66 L452,60 L461,68 L472,60 L480.6,59 L462,44 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M593.4,80 L602,78 L610,84 L619,80 L606,70 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="10" stroke-linejoin="round"/>
+											<path d="M754,99 L762,97 L770,102 L774,100 L764,92 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="9" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-mid">
+											<path d="M300,172 L372,130 L404,146 L500,96 L576,150 L650,110 L724,160 L790,126 L838,170 L838,172 Z" fill="#48725E" stroke="#48725E" stroke-width="12" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-dunes"><path d="M214,172 C236,152 262,148 288,160 C306,150 330,150 352,172 Z" fill="#5e5939"/></g>
+										<g class="fa-l fa-front">
+											<clipPath id="faHillC"><path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z"/></clipPath>
+											<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z" fill="#83b300"/>
+											<g clip-path="url(#faHillC)">
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 9)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 18)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 27)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+											</g>
+										</g>
+										<path class="fa-route" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" fill="none" stroke="#e9eef1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5 8" mask="url(#faRouteM)"/>
+										<g class="fa-stop fa-stop1"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(226 164) rotate(45)" fill="#f4a700"/></g>
+										<g class="fa-stop fa-stop2"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(392 122) rotate(45)" fill="#df5f0c"/></g>
+										<g class="fa-heart"><g class="fa-heart-in"><image href="assets/diamond-lime.png" x="446" y="-9" width="32" height="37.4"/></g></g>
+										<g class="fa-condor">
+											<path d="M604,30 Q612,22 621,32 Q630,22 638,30" fill="none" stroke="#e9eef1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-condor fa-condor2">
+											<path d="M660,15 Q666,10 672.5,17.5 Q679,10 685,15" fill="none" stroke="#e9eef1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+										</g>
+									</g>
+								</svg>
+							</div>
+							<div style="display:flex;flex-direction:column;gap:20px">
+								<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
+								<a href="#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+							</div>
+							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span>
+									<a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span>
+									<a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span>
+									<span>Lima, Perú</span>
+								</div>
+							</div>
+						</div>
+						<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+							<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
+								<a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
+								<a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a>
+								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
+								<a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
+								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
+							</nav>
+							<div style="display:flex;gap:10px">
+								<a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+										<path d="m10 15 5-3-5-3z"></path>
+									</svg>
+								</a>
+								<a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</a>
+								<a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+									</svg>
+								</a>
+								<a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M16 3a5 5 0 0 0 5 5"></path>
+										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
+									</svg>
+								</a>
+							</div>
+						</div>
+						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
+							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</x-dc>
+		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;conceptDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;historia&quot;,&quot;sabor&quot;,&quot;gente&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;heroVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
   state = { scrolled: false, concept: null, gc: 0, sent: false, hero: 0, pct: 0, loaded: false, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
   chartRef = React.createRef();
@@ -1482,6 +1331,19 @@ class Component extends DCLogic {
     };
   }
 }
-</script>
-</body>
+		</script>
+		<script data-foot-art>
+(function(){
+  var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n = 0, t = setInterval(function(){
+    var a = document.querySelector('.sj-foot-art');
+    if (!a && ++n < 80) return; clearInterval(t);
+    if (!a || rm || !('IntersectionObserver' in window)) return;
+    a.classList.add('is-armed');
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { a.classList.add('is-in'); io.disconnect(); } }); }, { threshold: .35 });
+    io.observe(a);
+  }, 250);
+})();
+		</script>
+	</body>
 </html>
