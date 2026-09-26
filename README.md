@@ -5,6 +5,7 @@
 `descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos viven en `JOURNEYS` y `EXPS` dentro del archivo.
 `recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Las reseñas actuales son de ejemplo (`REVIEWS`) y los precios de `PRODUCTS` son de referencia.
 `blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen sus textos de `blog-data.js`: para publicar un artículo nuevo basta con agregarlo ahí.
+`terminos.html` (Términos y condiciones, enlazado desde «Legales» del footer) y `reclamaciones.html` (Libro de reclamaciones virtual, enlazado desde el footer; header solo con el logo). El libro necesita un backend o servicio de correo para registrar y enviar cada hoja; el RUC y la dirección se completan en `CO`.
 `journey.html?j=<id>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Todo su contenido vive en el objeto `J` y en `PLAN` (consejos, notas y temporada) dentro del propio archivo.
 
 ## Overview
