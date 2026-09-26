@@ -383,6 +383,27 @@
 											<label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label>
 											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea>
 										</div>
+										<div class="sj-attach {{ attach.cls }}">
+											<label class="sj-switch">
+												<input type="checkbox" role="switch" checked="{{ attach.on }}" disabled="{{ attach.none }}" onChange="{{ attach.toggle }}" aria-describedby="sj-attach-d">
+												<span class="sj-switch-track" aria-hidden="true"><span class="sj-switch-thumb"></span></span>
+												<span class="sj-attach-t">Adjuntar mis guardados<span class="sj-attach-n {{ attach.nCls }}">{{ attach.count }}</span></span>
+											</label>
+											<sc-if value="{{ attach.none }}" hint-placeholder-val="{{ false }}">
+												<p id="sj-attach-d" class="sj-attach-d">Aún no tienes guardados. <a href="{{ attach.exploreHref }}">Explora journeys y experiencias</a> y guárdalos para adjuntarlos aquí.</p>
+											</sc-if>
+											<sc-if value="{{ attach.some }}" hint-placeholder-val="{{ true }}">
+												<p id="sj-attach-d" class="sj-attach-d">{{ attach.desc }}</p>
+											</sc-if>
+											<sc-if value="{{ attach.on }}" hint-placeholder-val="{{ false }}">
+												<ul class="sj-attach-list" aria-label="Guardados que se adjuntan">
+													<sc-for list="{{ attach.items }}" as="it" hint-placeholder-count="3">
+														<li><img src="assets/diamond-lime.png" alt="">{{ it.t }}<small>{{ it.k }}</small></li>
+													</sc-for>
+												</ul>
+											</sc-if>
+											<input type="hidden" name="guardados" value="{{ attach.value }}">
+										</div>
 										<div class="sj-form-foot">
 											<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
 											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
@@ -394,6 +415,9 @@
 										<img src="assets/diamond-lime.png" alt="" style="width:56px">
 										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
 										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+										<sc-if value="{{ sentFavOn }}" hint-placeholder-val="{{ false }}">
+											<p class="sj-attach-ok"><img src="assets/diamond-lime.png" alt="">{{ sentFavText }}</p>
+										</sc-if>
 									</div>
 								</sc-if>
 							</div>
@@ -532,7 +556,7 @@
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false };
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false, sentFav: 0, attachFav: true };
   burgerRef = React.createRef();
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
@@ -573,9 +597,9 @@ class Component extends DCLogic {
     if (!!this.state.menuOpen === open) return;
     this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
   }
-  toggleFav(key) {
+  toggleFav(key, title) {
     this.setState((s) => {
-      const fav = { ...s.fav }; if (fav[key]) delete fav[key]; else fav[key] = 1;
+      const fav = { ...s.fav }; if (fav[key]) delete fav[key]; else fav[key] = { t: title, k: key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' };
       try { window.localStorage.setItem('sunqu-fav', JSON.stringify(fav)); } catch (e) {}
       return { fav, favOnly: s.favOnly && Object.keys(fav).length > 0 };
     });
@@ -583,11 +607,38 @@ class Component extends DCLogic {
   goTo(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: this.motion ? 'smooth' : 'auto' }); }
   goPage(i) { this.setState({ page: Math.max(0, i) }, () => this.goTo('experiencias')); }
 
+  // Guardados (localStorage 'sunqu-fav', los crea Descubre) que se pueden adjuntar al formulario.
+  readFav() {
+    try { const f = JSON.parse(window.localStorage.getItem('sunqu-fav') || '{}'); return f && typeof f === 'object' ? f : {}; } catch (e) { return {}; }
+  }
+  attachVals(exploreHref) {
+    const st = this.state;
+    const items = Object.entries(st.fav || {}).map(([key, v]) => {
+      const k = key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia';
+      return { t: v && typeof v === 'object' && v.t ? v.t : (k === 'Journey' ? 'Journey guardado' : 'Experiencia guardada'), k };
+    });
+    const n = items.length, on = n > 0 && st.attachFav !== false;
+    const what = n === 1 ? 'tu guardado' : `tus ${n} guardados`;
+    return {
+      cls: n === 0 ? 'is-none' : on ? 'is-on' : '', on, none: n === 0, some: n > 0,
+      count: String(n), nCls: n ? '' : 'is-zero', items, exploreHref,
+      toggle: (e) => this.setState({ attachFav: e.target.checked }),
+      desc: on ? `Tu Travel Advisor recibirá ${what} junto a esta solicitud.` : 'Tus guardados no se enviarán con esta solicitud.',
+      value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
+    };
+  }
   componentDidMount() {
     this.pageTitle = 'Descubre · Catálogo — Sunqu Journeys';
     document.title = this.pageTitle;
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-    try { const f = JSON.parse(window.localStorage.getItem('sunqu-fav') || '{}'); if (f && typeof f === 'object') this.setState({ fav: f }); } catch (e) {}
+    try {
+      // Guardados antiguos (valor 1): se completan con título y tipo.
+      const f = this.readFav(), names = {};
+      this.JOURNEYS.forEach((j) => { names['j-' + j.id] = j.title; }); this.EXPS.forEach((x, i) => { names['e-' + i] = x.t; });
+      Object.keys(f).forEach((k) => { if (!f[k] || typeof f[k] !== 'object') { if (names[k]) f[k] = { t: names[k], k: k.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' }; else delete f[k]; } });
+      window.localStorage.setItem('sunqu-fav', JSON.stringify(f));
+      this.setState({ fav: f });
+    } catch (e) {}
     try { const q = new URLSearchParams(window.location.search).get('q'); if (q) this.setState({ q }); } catch (e) {}
     this.onKey = (e) => { if (e.key === 'Escape') { if (this.state.menuOpen) this.setMenu(false); else if (this.state.filtersOpen) this.setState({ filtersOpen: false }); } };
     this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
@@ -646,7 +697,7 @@ class Component extends DCLogic {
     const month = st.from ? day(st.from).getMonth() : -1;
     const win = st.from && st.to ? Math.round((day(st.to) - day(st.from)) / 864e5) + 1 : 0;
     const pax = st.pax, paxWord = pax === 1 ? 'viajero' : 'viajeros';
-    const favOf = (key, label) => ({ favOn: st.fav[key] ? 'true' : 'false', favLabel: (st.fav[key] ? 'Quitar de guardados: ' : 'Guardar: ') + label, toggleFav: () => this.toggleFav(key) });
+    const favOf = (key, label) => ({ favOn: st.fav[key] ? 'true' : 'false', favLabel: (st.fav[key] ? 'Quitar de guardados: ' : 'Guardar: ') + label, toggleFav: () => this.toggleFav(key, label) });
     const listMode = st.view === 'list';
 
     const journeys = this.JOURNEYS.map((j) => ({ ...j, key: 'j-' + j.id, hay: [j.title, j.region, j.why, j.kicker, j.kw, ...j.c.map((c) => CL[c]), ...j.dest.map((d) => DL[d])].join(' ') })).filter(ok).map((j, i) => {
@@ -733,7 +784,9 @@ class Component extends DCLogic {
         { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
         { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
       ],
-      notSent: !st.sent, sent: st.sent, submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      notSent: !st.sent, sent: st.sent, attach: this.attachVals('#journeys'),
+      sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${st.sentFav} guardados a la solicitud.`,
+      submit: (e) => { e.preventDefault(); const a = this.attachVals(''); this.setState({ sent: true, sentFav: a.on ? a.items.length : 0 }); },
     };
   }
 }

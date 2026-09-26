@@ -698,6 +698,27 @@
 											<label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label>
 											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea>
 										</div>
+										<div class="sj-attach {{ attach.cls }}">
+											<label class="sj-switch">
+												<input type="checkbox" role="switch" checked="{{ attach.on }}" disabled="{{ attach.none }}" onChange="{{ attach.toggle }}" aria-describedby="sj-attach-d">
+												<span class="sj-switch-track" aria-hidden="true"><span class="sj-switch-thumb"></span></span>
+												<span class="sj-attach-t">Adjuntar mis guardados<span class="sj-attach-n {{ attach.nCls }}">{{ attach.count }}</span></span>
+											</label>
+											<sc-if value="{{ attach.none }}" hint-placeholder-val="{{ false }}">
+												<p id="sj-attach-d" class="sj-attach-d">Aún no tienes guardados. <a href="{{ attach.exploreHref }}">Explora journeys y experiencias</a> y guárdalos para adjuntarlos aquí.</p>
+											</sc-if>
+											<sc-if value="{{ attach.some }}" hint-placeholder-val="{{ true }}">
+												<p id="sj-attach-d" class="sj-attach-d">{{ attach.desc }}</p>
+											</sc-if>
+											<sc-if value="{{ attach.on }}" hint-placeholder-val="{{ false }}">
+												<ul class="sj-attach-list" aria-label="Guardados que se adjuntan">
+													<sc-for list="{{ attach.items }}" as="it" hint-placeholder-count="3">
+														<li><img src="assets/diamond-lime.png" alt="">{{ it.t }}<small>{{ it.k }}</small></li>
+													</sc-for>
+												</ul>
+											</sc-if>
+											<input type="hidden" name="guardados" value="{{ attach.value }}">
+										</div>
 										<div class="sj-form-foot">
 											<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
 											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
@@ -709,6 +730,9 @@
 										<img src="assets/diamond-lime.png" alt="" style="width:56px">
 										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
 										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
+										<sc-if value="{{ sentFavOn }}" hint-placeholder-val="{{ false }}">
+											<p class="sj-attach-ok"><img src="assets/diamond-lime.png" alt="">{{ sentFavText }}</p>
+										</sc-if>
 									</div>
 								</sc-if>
 							</div>
@@ -847,7 +871,7 @@
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, barOn: false, nav: null, hero: 0, reel: false, reelIdx: 0, reelTick: 0, day: 0, altIdx: 0, chartW: 0, chartIn: false, lb: -1, sent: false, concept: 'todo' };
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, barOn: false, nav: null, hero: 0, reel: false, reelIdx: 0, reelTick: 0, day: 0, altIdx: 0, chartW: 0, chartIn: false, lb: -1, sent: false, sentFav: 0, fav: {}, attachFav: true, concept: 'todo' };
   burgerRef = React.createRef();
   closeRef = React.createRef();
   stripRef = React.createRef();
@@ -1015,7 +1039,30 @@ class Component extends DCLogic {
   stepLb(d) { const n = this.GAL.length; this.setState((s) => ({ lb: (s.lb + d + n) % n })); }
   scrollTrack(ref, dir) { const t = ref.current; if (!t) return; const c = t.firstElementChild; t.scrollBy({ left: dir * (c ? c.getBoundingClientRect().width + 24 : 320), behavior: 'smooth' }); }
 
+  // Guardados (localStorage 'sunqu-fav', los crea Descubre) que se pueden adjuntar al formulario.
+  readFav() {
+    try { const f = JSON.parse(window.localStorage.getItem('sunqu-fav') || '{}'); return f && typeof f === 'object' ? f : {}; } catch (e) { return {}; }
+  }
+  attachVals(exploreHref) {
+    const st = this.state;
+    const items = Object.entries(st.fav || {}).map(([key, v]) => {
+      const k = key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia';
+      return { t: v && typeof v === 'object' && v.t ? v.t : (k === 'Journey' ? 'Journey guardado' : 'Experiencia guardada'), k };
+    });
+    const n = items.length, on = n > 0 && st.attachFav !== false;
+    const what = n === 1 ? 'tu guardado' : `tus ${n} guardados`;
+    return {
+      cls: n === 0 ? 'is-none' : on ? 'is-on' : '', on, none: n === 0, some: n > 0,
+      count: String(n), nCls: n ? '' : 'is-zero', items, exploreHref,
+      toggle: (e) => this.setState({ attachFav: e.target.checked }),
+      desc: on ? `Tu Travel Advisor recibirá ${what} junto a esta solicitud.` : 'Tus guardados no se enviarán con esta solicitud.',
+      value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
+    };
+  }
   componentDidMount() {
+    this.setState({ fav: this.readFav() });
+    this.onStorage = (e) => { if (e.key === 'sunqu-fav') this.setState({ fav: this.readFav() }); };
+    window.addEventListener('storage', this.onStorage);
     const j = this.J[this.jid];
     this.pageTitle = j.title + ' — Sunqu Journeys';
     document.title = this.pageTitle;
@@ -1093,6 +1140,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     cancelAnimationFrame(this.raf); clearInterval(this.ht); clearInterval(this.rt);
+    window.removeEventListener('storage', this.onStorage);
     window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
     this.io && this.io.disconnect(); this.mo && this.mo.disconnect(); this.ro && this.ro.disconnect();
     document.body.style.overflow = '';
@@ -1181,7 +1229,9 @@ class Component extends DCLogic {
         { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
         { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
       ],
-      notSent: !st.sent, sent: st.sent, submit: (e) => { e.preventDefault(); this.setState({ sent: true }); },
+      notSent: !st.sent, sent: st.sent, attach: this.attachVals('descubre.html'),
+      sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${st.sentFav} guardados a la solicitud.`,
+      submit: (e) => { e.preventDefault(); const a = this.attachVals(''); this.setState({ sent: true, sentFav: a.on ? a.items.length : 0 }); },
     };
   }
 }
