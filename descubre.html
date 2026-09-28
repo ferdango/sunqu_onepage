@@ -153,6 +153,10 @@
 									<button type="button" class="dc-clear {{ clearCls }}" onClick="{{ clearAll }}">Limpiar todo</button>
 								</div>
 								<div class="dc-tools">
+									<button type="button" class="dc-tbtn dc-help" onClick="{{ onbStart }}" aria-label="Cómo usar Descubre">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.3-2.5 3.8"></path><path d="M12 17.2h.01"></path></svg>
+										<span class="dc-help-lbl">Cómo funciona</span>
+									</button>
 									<button type="button" class="dc-tbtn" onClick="{{ toggleFavOnly }}" aria-pressed="{{ favOnlyOn }}">
 										<img src="assets/diamond-orange.png" alt="">
 										<span class="dc-fav-lbl">Guardados</span>
@@ -552,11 +556,44 @@
 						</div>
 					</div>
 				</footer>
+				<!-- Onboarding de Descubre -->
+				<sc-if value="{{ onb.open }}" hint-placeholder-val="{{ false }}">
+					<div class="dc-onb {{ onb.cls }}" role="dialog" aria-modal="true" aria-labelledby="dc-onb-t" aria-describedby="dc-onb-p">
+						<div class="dc-onb-block" data-s="t" onClick="{{ onb.nudge }}"></div>
+						<div class="dc-onb-block" data-s="r" onClick="{{ onb.nudge }}"></div>
+						<div class="dc-onb-block" data-s="b" onClick="{{ onb.nudge }}"></div>
+						<div class="dc-onb-block" data-s="l" onClick="{{ onb.nudge }}"></div>
+						<div class="dc-onb-spot" aria-hidden="true"></div>
+						<div class="dc-onb-card">
+							<sc-if value="{{ onb.intro }}" hint-placeholder-val="{{ true }}">
+								<div class="dc-onb-art" aria-hidden="true"><img src="assets/pattern-steps.png" alt=""><img src="assets/diamond-lime.png" alt="" class="dc-onb-art-iso"></div>
+							</sc-if>
+							<div class="dc-onb-top">
+								<span class="dc-onb-k">{{ onb.kicker }}</span>
+								<button type="button" class="dc-onb-skip" onClick="{{ onb.skip }}">Saltar</button>
+							</div>
+							<h3 id="dc-onb-t" class="dc-onb-t">{{ onb.title }}</h3>
+							<p id="dc-onb-p" class="dc-onb-p">{{ onb.text }}</p>
+							<sc-if value="{{ onb.tryDone }}" hint-placeholder-val="{{ false }}">
+								<p class="dc-onb-ok" role="status"><img src="assets/diamond-orange.png" alt="">{{ onb.tryText }}</p>
+							</sc-if>
+							<div class="dc-onb-foot">
+								<div class="dc-onb-dots" aria-hidden="true">
+									<sc-for list="{{ onb.dots }}" as="d" hint-placeholder-count="5">
+										<i class="{{ d.cls }}"></i>
+									</sc-for>
+								</div>
+								<button type="button" class="dc-onb-prev" onClick="{{ onb.prev }}">{{ onb.prevLabel }}</button>
+								<button type="button" class="btn btn-primary dc-onb-next" onClick="{{ onb.next }}">{{ onb.nextLabel }}<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+							</div>
+						</div>
+					</div>
+				</sc-if>
 			</div>
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false, sentFav: 0, attachFav: true };
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false, onb: false, onbStep: 0, onbFav0: 0, onbNudge: false, sentFav: 0, attachFav: true };
   burgerRef = React.createRef();
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
@@ -627,6 +664,84 @@ class Component extends DCLogic {
       value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
     };
   }
+  // ── Onboarding: cómo buscar y cómo guardar. Se muestra la primera vez (localStorage 'sunqu-onb-descubre').
+  ONB = [
+    { k: 'Bienvenido a Descubre', t: 'Encuentra y guarda tu próximo viaje', p: 'Te mostramos en cinco pasos cómo buscar una experiencia, afinar los resultados y guardar lo que te gusta.' },
+    { k: 'Buscar', t: 'Escribe lo que buscas', p: 'Un lugar, una emoción o una actividad: «Cusco», «tejido», «cocina». Los journeys y experiencias se filtran mientras escribes.', target: ['.dc-kw'] },
+    { k: 'Buscar', t: 'Tus fechas y tus viajeros', p: 'Con tus fechas te decimos qué journeys están en su mejor época y si te alcanzan los días. Con los viajeros calculamos el precio total.', target: ['.dc-dates', '.dc-pax'] },
+    { k: 'Afinar', t: 'Filtra por lo que quieres sentir', p: 'La historia, el sabor o la gente; también por destino y duración. Cada filtro activo aparece como etiqueta y se quita con un toque.', target: ['.dc-toolbar-in > .dc-tbtn'] },
+    { k: 'Guardar', t: 'Guarda lo que te gusta', p: 'Toca el isotipo de cualquier journey o experiencia para guardarlo; tócalo otra vez para quitarlo. Pruébalo ahora.', target: ['.dc-j .dc-fav', '.dc-fav'], try: true },
+    { k: 'Guardar', t: 'Tus guardados, siempre a mano', p: 'Aquí ves solo lo que guardaste. Y al diseñar tu viaje puedes adjuntarlos al formulario para que tu Travel Advisor los tenga en cuenta.', target: ['.dc-tools .dc-tbtn:not(.dc-help)'] },
+  ];
+  onbTargets(step) {
+    if (!step.target) return [];
+    const els = step.target.map((q) => document.querySelector(q)).filter((el) => el && el.getClientRects().length);
+    return step.target.length > 1 && step.try ? els.slice(0, 1) : els;
+  }
+  onbStart() {
+    this.setState({ onb: true, onbStep: 0, filtersOpen: false, menuOpen: false }, () => { this.lock(); this.onbLoop(); this.onbFocus(); });
+  }
+  onbGo(i) {
+    if (i >= this.ONB.length) return this.onbEnd();
+    if (i < 0) return;
+    this.setState({ onbStep: i, onbFav0: Object.keys(this.state.fav).length, onbNudge: false }, () => {
+      const els = this.onbTargets(this.ONB[i]);
+      if (els[0]) els[0].scrollIntoView({ block: 'center', behavior: this.motion ? 'smooth' : 'auto' });
+      this.onbAnimT = Date.now();
+      this.onbFocus();
+    });
+  }
+  onbEnd() {
+    try { window.localStorage.setItem('sunqu-onb-descubre', '1'); } catch (e) {}
+    cancelAnimationFrame(this.onbRaf);
+    this.setState({ onb: false }, () => { const b = document.querySelector('.dc-help'); if (b) b.focus({ preventScroll: true }); });
+  }
+  onbFocus() { setTimeout(() => { const b = document.querySelector('.dc-onb-next'); if (b) b.focus({ preventScroll: true }); }, 60); }
+  onbLoop() {
+    // Coloca el foco y la tarjeta sobre el elemento del paso (también mientras se hace scroll).
+    const frame = () => {
+      if (!this.state.onb) return;
+      const root = document.querySelector('.dc-onb');
+      if (root) {
+        const vw = window.innerWidth, vh = window.innerHeight, spot = root.querySelector('.dc-onb-spot'), card = root.querySelector('.dc-onb-card');
+        const blocks = {}; root.querySelectorAll('.dc-onb-block').forEach((b) => { blocks[b.getAttribute('data-s')] = b; });
+        const els = this.onbTargets(this.ONB[this.state.onbStep]);
+        const box = (b, x, y, w, h) => { b.style.transform = `translate(${x}px,${y}px)`; b.style.width = Math.max(0, w) + 'px'; b.style.height = Math.max(0, h) + 'px'; };
+        root.classList.toggle('is-anim', Date.now() - (this.onbAnimT || 0) < 650);
+        if (!els.length) {
+          box(blocks.t, 0, 0, vw, vh); box(blocks.r, 0, 0, 0, 0); box(blocks.b, 0, 0, 0, 0); box(blocks.l, 0, 0, 0, 0);
+          box(spot, vw / 2, vh / 2, 0, 0); spot.style.opacity = 0;
+          card.style.transform = `translate(${Math.round((vw - card.offsetWidth) / 2)}px,${Math.round((vh - card.offsetHeight) / 2)}px)`;
+          card.setAttribute('data-side', 'none');
+        } else {
+          let l = Infinity, t = Infinity, r = -Infinity, btm = -Infinity;
+          els.forEach((el) => { const q = el.getBoundingClientRect(); l = Math.min(l, q.left); t = Math.min(t, q.top); r = Math.max(r, q.right); btm = Math.max(btm, q.bottom); });
+          const pad = 8, x = l - pad, y = t - pad, w = r - l + pad * 2, h = btm - t + pad * 2;
+          box(spot, x, y, w, h); spot.style.opacity = 1;
+          box(blocks.t, 0, 0, vw, y); box(blocks.b, 0, y + h, vw, vh - y - h); box(blocks.l, 0, y, x, h); box(blocks.r, x + w, y, vw - x - w, h);
+          const cw = card.offsetWidth, ch = card.offsetHeight, gap = 16;
+          let cx, cy, side;
+          if (vw < 600) {
+            cx = (vw - cw) / 2; side = y + h / 2 < vh * 0.52 ? 'below' : 'above';
+            cy = side === 'below' ? Math.max(y + h + gap, vh - ch - 12) : Math.min(y - gap - ch, 12 + 64);
+            if (side === 'below' && cy + ch > vh - 8) cy = vh - ch - 12;
+            if (side === 'above' && cy < 8) cy = 8;
+          } else {
+            side = y + h + gap + ch < vh - 12 ? 'below' : 'above';
+            cy = side === 'below' ? y + h + gap : Math.max(76, y - gap - ch);
+            cx = Math.min(Math.max(16, x + w / 2 - cw / 2), vw - cw - 16);
+          }
+          card.style.transform = `translate(${Math.round(cx)}px,${Math.round(cy)}px)`;
+          card.style.setProperty('--ax', Math.round(Math.min(Math.max(28, x + w / 2 - cx), cw - 28)) + 'px');
+          card.setAttribute('data-side', side);
+        }
+      }
+      this.onbRaf = requestAnimationFrame(frame);
+    };
+    cancelAnimationFrame(this.onbRaf);
+    this.onbRaf = requestAnimationFrame(frame);
+  }
+
   componentDidMount() {
     this.pageTitle = 'Descubre · Catálogo — Sunqu Journeys';
     document.title = this.pageTitle;
@@ -640,7 +755,12 @@ class Component extends DCLogic {
       this.setState({ fav: f });
     } catch (e) {}
     try { const q = new URLSearchParams(window.location.search).get('q'); if (q) this.setState({ q }); } catch (e) {}
-    this.onKey = (e) => { if (e.key === 'Escape') { if (this.state.menuOpen) this.setMenu(false); else if (this.state.filtersOpen) this.setState({ filtersOpen: false }); } };
+    this.onKey = (e) => {
+      if (this.state.onb) { if (e.key === 'Escape') this.onbEnd(); else if (e.key === 'ArrowRight') this.onbGo(this.state.onbStep + 1); else if (e.key === 'ArrowLeft') this.onbGo(this.state.onbStep - 1); return; }
+      if (e.key === 'Escape') { if (this.state.menuOpen) this.setMenu(false); else if (this.state.filtersOpen) this.setState({ filtersOpen: false }); }
+    };
+    let seen = false; try { seen = window.localStorage.getItem('sunqu-onb-descubre') === '1'; } catch (e) {}
+    if (!seen) this.onbAuto = setTimeout(() => { if (!this.state.menuOpen) this.onbStart(); }, 1600);
     this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
     window.addEventListener('keydown', this.onKey);
     window.addEventListener('resize', this.onResize);
@@ -673,7 +793,7 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.raf);
+    cancelAnimationFrame(this.raf); cancelAnimationFrame(this.onbRaf); clearTimeout(this.onbAuto); clearTimeout(this.onbNudgeT);
     window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
     this.io && this.io.disconnect(); this.mo && this.mo.disconnect();
     document.body.style.overflow = '';
@@ -785,6 +905,20 @@ class Component extends DCLogic {
         { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
       ],
       notSent: !st.sent, sent: st.sent, attach: this.attachVals('#journeys'),
+      onbStart: () => { clearTimeout(this.onbAuto); this.onbStart(); },
+      onb: (() => {
+        const S = this.ONB, i = st.onbStep, stp = S[i], last = i === S.length - 1, n = Object.keys(st.fav).length;
+        return {
+          open: !!st.onb, intro: i === 0, cls: (i === 0 ? 'is-intro' : '') + (st.onbNudge ? ' is-nudge' : ''),
+          kicker: i === 0 ? stp.k : `Paso ${i} de ${S.length - 1} · ${stp.k}`, title: stp.t, text: stp.p,
+          tryDone: !!stp.try && n !== st.onbFav0,
+          tryText: n > st.onbFav0 ? '¡Guardado! Lo encontrarás en Guardados.' : 'Quitado de tus guardados.',
+          dots: S.slice(1).map((_, k) => ({ cls: k + 1 === i ? 'is-on' : k + 1 < i ? 'is-done' : '' })),
+          prevLabel: i === 0 ? 'Ahora no' : 'Atrás', nextLabel: i === 0 ? 'Empezar' : last ? 'Listo' : 'Siguiente',
+          next: () => this.onbGo(i + 1), prev: () => (i === 0 ? this.onbEnd() : this.onbGo(i - 1)), skip: () => this.onbEnd(),
+          nudge: () => { this.setState({ onbNudge: true }); clearTimeout(this.onbNudgeT); this.onbNudgeT = setTimeout(() => this.setState({ onbNudge: false }), 500); },
+        };
+      })(),
       sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${st.sentFav} guardados a la solicitud.`,
       submit: (e) => { e.preventDefault(); const a = this.attachVals(''); this.setState({ sent: true, sentFav: a.on ? a.items.length : 0 }); },
     };

@@ -15,19 +15,19 @@
 				<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 			</helmet>
 			<div style="--font-heading:'Aeonik','Manrope',system-ui,sans-serif;--font-body:'Aeonik','Manrope',system-ui,sans-serif;--font-heading-weight:600;--color-bg:#e9eef1;--color-text:#1c1c1c;--color-divider:rgba(28,28,28,.16);--color-accent:#736d47;--color-accent-600:#5e5939;--color-accent-700:#4a462d;--color-accent-100:#efece2;--color-accent-800:#736d47;position:relative;background:{{ pageBg }};transition:background-color .9s ease;color:#1c1c1c;font-family:var(--font-body)">
-				<div aria-hidden="true" style="position:fixed;inset:0;z-index:100;background:#736d47;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;opacity:{{ loaderOp }};transform:translateY({{ loaderY }});pointer-events:{{ loaderPe }};transition:opacity .6s ease .5s,transform 1s cubic-bezier(.7,0,.2,1)">
-					<div class="sj-ld-logo" role="img" aria-label="Sunqu">
-						<span class="sj-ld-l" style="--l:0%;--r:84.9%;--d:1.12s"></span>
-						<span class="sj-ld-l" style="--l:15.1%;--r:70.14%;--d:1.2s"></span>
-						<span class="sj-ld-l" style="--l:29.86%;--r:55.15%;--d:1.28s"></span>
-						<span class="sj-ld-l" style="--l:44.85%;--r:39.75%;--d:1.36s"></span>
-						<span class="sj-ld-l" style="--l:60.25%;--r:23.1%;--d:1.44s"></span>
-						<span class="sj-ld-iso"></span>
+				<!-- Pantalla de carga -->
+				<div class="sj-ld {{ loaderCls }}" aria-hidden="true">
+					<div class="sj-ld-center">
+						<div class="sj-ld-logo" role="img" aria-label="Sunqu">
+							<span class="sj-ld-l" style="--l:0%;--r:84.9%;--d:1.12s"></span>
+							<span class="sj-ld-l" style="--l:15.1%;--r:70.14%;--d:1.2s"></span>
+							<span class="sj-ld-l" style="--l:29.86%;--r:55.15%;--d:1.28s"></span>
+							<span class="sj-ld-l" style="--l:44.85%;--r:39.75%;--d:1.36s"></span>
+							<span class="sj-ld-l" style="--l:60.25%;--r:23.1%;--d:1.44s"></span>
+							<span class="sj-ld-iso"></span>
+						</div>
+						<span class="sj-ld-tag">Viaja al corazón del Perú</span>
 					</div>
-					<div class="sj-ld-bar" style="width:min(56vw,360px);height:2px;background:rgba(233,238,241,.25)">
-						<div style="height:100%;width:{{ loadPct }};background:#e9eef1;transition:width .25s linear"></div>
-					</div>
-					<span class="sj-ld-tag" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#e9eef1">Viaja al corazón del Perú</span>
 				</div>
 				<sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
 					<div style="position:fixed;inset:0;z-index:0;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr);padding:0 clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
@@ -935,7 +935,7 @@
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;conceptDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;historia&quot;,&quot;sabor&quot;,&quot;gente&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;heroVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, concept: null, gc: 0, sent: false, sentFav: 0, fav: {}, attachFav: true, hero: 0, pct: 0, loaded: false, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
+  state = { scrolled: false, concept: null, gc: 0, sent: false, sentFav: 0, fav: {}, attachFav: true, hero: 0, loaded: false, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
   chartRef = React.createRef();
   stripRef = React.createRef();
   burgerRef = React.createRef();
@@ -1082,11 +1082,30 @@ class Component extends DCLogic {
       value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
     };
   }
+  ldExit() {
+    const ld = document.querySelector('.sj-ld'), iso = ld && ld.querySelector('.sj-ld-iso');
+    const canMask = !!(window.CSS && CSS.supports && 'registerProperty' in CSS && (CSS.supports('mask-composite', 'exclude') || CSS.supports('-webkit-mask-composite', 'xor')));
+    const mode = !this.motion ? 'is-fade' : canMask && iso ? 'is-out' : 'is-slide';
+    if (mode === 'is-out') {
+      // El agujero con forma de isotipo nace sobre el corazón del logo y crece hasta cubrir la pantalla.
+      const r = iso.getBoundingClientRect(), w = r.width * 0.231;
+      ld.style.setProperty('--hx', (r.left + r.width * 0.8845) + 'px');
+      ld.style.setProperty('--hy', (r.top + r.height * 0.5) + 'px');
+      ld.style.setProperty('--hs0', (w * 0.55) + 'px');
+      ld.style.setProperty('--hs1', (Math.hypot(window.innerWidth, window.innerHeight) * 7) + 'px');
+      void ld.offsetWidth;
+    }
+    requestAnimationFrame(() => {
+      this.setState({ ldMode: mode, loaded: true });
+      this.ldT = setTimeout(() => this.setState({ ldGone: true }), mode === 'is-out' ? 1700 : 1300);
+    });
+  }
   componentDidMount() {
     this.setState({ fav: this.readFav() });
     this.onStorage = (e) => { if (e.key === 'sunqu-fav') this.setState({ fav: this.readFav() }); };
     window.addEventListener('storage', this.onStorage);
-    let p = 0; const t0 = Date.now(); this.lt = setInterval(() => { p = Math.min(100, p + 5 + Math.random() * 9); this.setState({ pct: p }); if (p >= 100) { clearInterval(this.lt); setTimeout(() => this.setState({ loaded: true }), Math.max(250, 2400 - (Date.now() - t0))); } }, 110);
+    // Pantalla de carga: el logo se anima (~2.2 s) y luego sale "al corazón".
+    this.ldT = setTimeout(() => this.ldExit(), 2350);
     this.drawMap();
     this.ht = setInterval(() => this.setState(s => ({ hero: (s.hero + 1) % 4 })), 5200);
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -1219,7 +1238,7 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
-    cancelAnimationFrame(this.raf); clearInterval(this.lt); clearInterval(this.ht);
+    cancelAnimationFrame(this.raf); clearInterval(this.ht); clearTimeout(this.ldT);
     window.removeEventListener('storage', this.onStorage);
     window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
     document.body.style.overflow = '';
@@ -1313,7 +1332,7 @@ class Component extends DCLogic {
       mapRef: this.mapRef, stops: this.STOPS.map((s, i) => { const m = this.state.mapIdx ?? 0; return { n: String(i + 1).padStart(2, '0'), name: s[0], alt: s[1], cls: (i <= m ? 'is-on' : '') + (i === m ? ' is-cur' : '') }; }),
       stopNow: (() => { const m = this.state.mapIdx ?? 0, st = this.STOPS[m]; return { n: String(m + 1).padStart(2, '0'), name: st[0], alt: st[1] }; })(),
       heroSlides, heroCaption: hs[hi][1], heroVideo: this.props.heroVideo || '', hasVideo: !!this.props.heroVideo,
-      loaderOp: this.state.loaded ? 0 : 1, loaderY: this.state.loaded ? '-100%' : '0', loaderPe: this.state.loaded ? 'none' : 'auto', loadPct: this.state.pct + '%',
+      loaderCls: this.state.ldGone ? (this.state.ldMode || '') + ' is-gone' : this.state.loaded ? this.state.ldMode || 'is-fade' : '',
       pageBg: dark ? '#1c1c1c' : '#e9eef1', logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1, navFg: dark ? '#e9eef1' : '#1c1c1c',
       forms,
       langOpen: !!this.state.langOpen, langCode: (this.state.lang || 'es').toUpperCase(),
