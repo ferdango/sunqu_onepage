@@ -1,0 +1,353 @@
+{
+  "_info": "Colecciones de la portada (index.html). Los journeys, anfitriones y artículos del Diario salen de sus propios archivos. En WordPress: Sunqu › Inicio.",
+  "heroSlides": [
+    {
+      "img": "1590835192370-3941b97e93fd",
+      "caption": "Valle Sagrado · 2.800 m"
+    },
+    {
+      "img": "1568805778796-96b66708d6e0",
+      "caption": "Chinchero · telar de cintura"
+    },
+    {
+      "img": "1535399831218-d5bd36d1a6b3",
+      "caption": "Lima · cocina peruana"
+    },
+    {
+      "img": "1532996152552-eaffc4edfc1a",
+      "caption": "Machu Picchu · 2.430 m"
+    }
+  ],
+  "principios": [
+    {
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "n": "01",
+      "layer": "Selección",
+      "title": "Curamos, no acumulamos",
+      "q": "¿Es la experiencia correcta, o solo una más disponible?",
+      "icon": "assets/diamond-orange.png",
+      "photo": "1567597243073-2d274aabecec"
+    },
+    {
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "n": "02",
+      "layer": "Ejecución",
+      "title": "Contamos historias",
+      "q": "Recibes contexto y significado, no solo acceso.",
+      "icon": "assets/diamond-yellow.png",
+      "photo": "1568805647297-df963b524678"
+    },
+    {
+      "bg": "#f4a700",
+      "fg": "#1c1c1c",
+      "n": "03",
+      "layer": "Selección",
+      "title": "Conectamos con personas",
+      "q": "Detrás de cada experiencia hay un anfitrión con nombre propio.",
+      "icon": "assets/diamond-teal.png",
+      "photo": "1566793772361-1d5d9cefbd12"
+    },
+    {
+      "bg": "#df5f0c",
+      "fg": "#1c1c1c",
+      "n": "04",
+      "layer": "Ejecución",
+      "title": "Te hacemos participante",
+      "q": "Haces algo con las manos. No solo miras.",
+      "icon": "assets/diamond-lime.png",
+      "photo": "1568805778796-96b66708d6e0"
+    },
+    {
+      "bg": "#736d47",
+      "fg": "#e9eef1",
+      "n": "05",
+      "layer": "Ejecución",
+      "title": "Personalizamos",
+      "q": "Cada viaje se siente diseñado para ti.",
+      "icon": "assets/diamond-olive.png",
+      "photo": "1526697675318-89790adec369"
+    },
+    {
+      "bg": "#48725E",
+      "fg": "#e9eef1",
+      "n": "06",
+      "layer": "Ejecución",
+      "title": "Antes, durante y después",
+      "q": "La relación empieza antes del vuelo y sigue después del regreso.",
+      "icon": "assets/diamond-teal.png",
+      "photo": "1730423284218-a8a7e9422ebf"
+    }
+  ],
+  "formas": [
+    {
+      "title": "Sunqu Journeys",
+      "sub": "Viajes de 8 a 10 días con anfitriones",
+      "img": "1567597243073-2d274aabecec",
+      "href": "descubre.html",
+      "cta": "Ver los journeys"
+    },
+    {
+      "title": "Sunqu Private",
+      "sub": "Experiencias diseñadas a tu medida",
+      "img": "1526697675318-89790adec369",
+      "href": "#contacto",
+      "cta": "Diseñar mi viaje"
+    },
+    {
+      "title": "Sunqu Collective",
+      "sub": "Tejedoras, picanteras, guías y familias",
+      "img": "1730424508745-29ea708ae698",
+      "href": "#conecta",
+      "cta": "Conocer a los anfitriones"
+    },
+    {
+      "title": "Sunqu Marketplace",
+      "sub": "Lo que te llevas tiene nombre",
+      "img": "1568805647297-df963b524678",
+      "href": "recuerda.html#tienda",
+      "cta": "Ir a la tienda"
+    }
+  ],
+  "condiciones": [
+    {
+      "n": "01",
+      "title": "Tiene nombre propio",
+      "body": "Conoces a la persona y su historia. Nunca es folclore anónimo.",
+      "icon": "assets/diamond-orange.png"
+    },
+    {
+      "n": "02",
+      "title": "Tú haces algo",
+      "body": "Participas con las manos: cocinas, tejes, siembras. No es una demostración.",
+      "icon": "assets/diamond-yellow.png"
+    },
+    {
+      "n": "03",
+      "title": "No se compra por separado",
+      "body": "No lo encontrarás en ninguna plataforma de reservas. Solo existe dentro del viaje.",
+      "icon": "assets/diamond-lime.png"
+    },
+    {
+      "n": "04",
+      "title": "Te llevas algo",
+      "body": "Un objeto, una receta, una técnica, una palabra en quechua. Un vínculo.",
+      "icon": "assets/diamond-olive.png"
+    }
+  ],
+  "altitud": {
+    "dias": [
+      {
+        "d": "D1",
+        "place": "Lima",
+        "short": "Lima",
+        "m": 154,
+        "status": "Nivel del mar",
+        "body": "Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa."
+      },
+      {
+        "d": "D2",
+        "place": "Valle Sagrado",
+        "short": "Valle",
+        "m": 2800,
+        "status": "600 m bajo Cusco",
+        "body": "Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche."
+      },
+      {
+        "d": "D3",
+        "place": "Valle Sagrado",
+        "short": "Valle",
+        "m": 2800,
+        "status": "Aclimatación",
+        "body": "Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre."
+      },
+      {
+        "d": "D4",
+        "place": "Maras y Moray",
+        "short": "Maras",
+        "m": 3300,
+        "status": "Subes y vuelves a bajar",
+        "body": "Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray."
+      },
+      {
+        "d": "D5",
+        "place": "Machu Picchu",
+        "short": "M. Picchu",
+        "m": 2430,
+        "status": "Bajo el umbral",
+        "body": "Bajamos a la ciudadela por la mañana. Primero la piedra."
+      },
+      {
+        "d": "D6",
+        "place": "Comunidad",
+        "short": "Comunidad",
+        "m": 3500,
+        "status": "Ya aclimatado",
+        "body": "Después, la gente: pachamanca cocinada bajo tierra con una familia quechua."
+      },
+      {
+        "d": "D7",
+        "place": "Cusco",
+        "short": "Cusco",
+        "m": 3400,
+        "status": "En el umbral, sin soroche",
+        "body": "Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura."
+      },
+      {
+        "d": "D8",
+        "place": "Lima",
+        "short": "Lima",
+        "m": 154,
+        "status": "De vuelta a la costa",
+        "body": "Regreso a Lima con una receta, una técnica y los nombres de quienes te recibieron."
+      }
+    ],
+    "habitual": [
+      154,
+      3400,
+      3400
+    ]
+  },
+  "ruta": [
+    {
+      "name": "Lima",
+      "alt": "0 m",
+      "lon": -77.03,
+      "lat": -12.05
+    },
+    {
+      "name": "Valle Sagrado",
+      "alt": "2.800 m",
+      "lon": -72.12,
+      "lat": -13.3
+    },
+    {
+      "name": "Moray",
+      "alt": "3.500 m",
+      "lon": -72.195,
+      "lat": -13.33
+    },
+    {
+      "name": "Machu Picchu",
+      "alt": "2.430 m",
+      "lon": -72.545,
+      "lat": -13.163
+    },
+    {
+      "name": "Cusco",
+      "alt": "3.400 m",
+      "lon": -71.97,
+      "lat": -13.53
+    },
+    {
+      "name": "Arequipa",
+      "alt": "2.335 m",
+      "lon": -71.54,
+      "lat": -16.41
+    },
+    {
+      "name": "Colca",
+      "alt": "3.600 m",
+      "lon": -71.88,
+      "lat": -15.63
+    }
+  ],
+  "fases": [
+    {
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "kicker": "Antes",
+      "title": "Kit de preparación",
+      "body": "Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.",
+      "img": "assets/pattern-pair.png",
+      "photo": "1541637593725-923467404d17"
+    },
+    {
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "kicker": "Durante",
+      "title": "Acompañamiento",
+      "body": "Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.",
+      "img": "assets/pattern-flower.png",
+      "photo": "1593460915132-fcb729cc4597"
+    },
+    {
+      "bg": "#f4a700",
+      "fg": "#1c1c1c",
+      "kicker": "Después",
+      "title": "Diario del viaje",
+      "body": "Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.",
+      "img": "assets/pattern-steps.png",
+      "photo": "1568805778734-f0a5a77d7272"
+    }
+  ],
+  "palabras": [
+    {
+      "word": "Sunqu",
+      "meaning": "Corazón",
+      "color": "#736d47"
+    },
+    {
+      "word": "Añay",
+      "meaning": "Gracias",
+      "color": "#df5f0c"
+    },
+    {
+      "word": "Ayni",
+      "meaning": "Reciprocidad",
+      "color": "#766d44"
+    }
+  ],
+  "pasos": [
+    {
+      "n": "01",
+      "title": "Elige cómo sentir el Perú",
+      "body": "La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo."
+    },
+    {
+      "n": "02",
+      "title": "Diseñamos contigo",
+      "body": "Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día."
+    },
+    {
+      "n": "03",
+      "title": "Te acompañamos siempre",
+      "body": "Antes de volar, durante cada jornada y después de volver a casa."
+    }
+  ],
+  "anfitriones": [
+    "tejedora",
+    "picantera",
+    "familia"
+  ],
+  "instagram": [
+    {
+      "img": "1526697675318-89790adec369",
+      "href": "#"
+    },
+    {
+      "img": "1568805778734-f0a5a77d7272",
+      "href": "#"
+    },
+    {
+      "img": "1535400255456-984241443b29",
+      "href": "#"
+    },
+    {
+      "img": "1578362646678-a1b282e43ff8",
+      "href": "#"
+    },
+    {
+      "img": "1730424508745-29ea708ae698",
+      "href": "#"
+    },
+    {
+      "img": "1559160671-cc23bc25eb94",
+      "href": "#"
+    }
+  ],
+  "diario": {
+    "cantidad": 3
+  }
+}

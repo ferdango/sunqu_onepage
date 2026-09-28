@@ -1,0 +1,164 @@
+{
+  "_info": "Textos legales. terminos: secciones de terminos.html (id = ancla). En WordPress: Sunqu › Legales.",
+  "terminos": {
+    "secciones": [
+      {
+        "id": "contratacion",
+        "h": "Términos y condiciones generales de contratación: Sunqu Journeys",
+        "blocks": [
+          {
+            "p": "Sunqu Journeys Perú S.A.C. («Sunqu») diseña y opera journeys, escapadas y experiencias en el Perú, y vende productos de la Tienda Sunqu. Estos términos regulan el uso de este sitio web y la contratación de cualquiera de esos servicios o productos."
+          },
+          {
+            "p": "Al confirmar una reserva o una compra, aceptas estos términos junto con nuestra política de protección de datos personales. Si viajas en grupo, quien reserva acepta estos términos en nombre de todos los viajeros incluidos en la reserva."
+          }
+        ]
+      },
+      {
+        "id": "reservas",
+        "h": "Reservas y confirmación",
+        "blocks": [
+          {
+            "p": "Cada viaje se diseña con un Travel Advisor. La reserva queda confirmada cuando recibes por escrito el itinerario, el precio final y el comprobante de tu primer pago."
+          },
+          {
+            "ul": [
+              {
+                "b": "Precios publicados.",
+                "t": "Los precios «desde» de este sitio son referenciales, por persona, hasta la confirmación escrita."
+              },
+              {
+                "b": "Datos de los viajeros.",
+                "t": "Los nombres deben coincidir con el documento de viaje; un error puede impedir el embarque o el ingreso a un sitio."
+              },
+              {
+                "b": "Documentos.",
+                "t": "Cada viajero es responsable de contar con pasaporte vigente y las visas que exija su nacionalidad."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pagos",
+        "h": "Medios de pago",
+        "blocks": [
+          {
+            "p": "Los precios se expresan en dólares americanos (USD), salvo que se indique otra moneda. Incluyen solo lo detallado en el itinerario confirmado."
+          },
+          {
+            "p": "Aceptamos tarjetas de crédito y débito Visa, Mastercard y American Express, PayPal y transferencia bancaria a nombre de Sunqu Journeys Perú S.A.C. Los pagos con tarjeta se procesan en pasarelas seguras: Sunqu no almacena los datos de tu tarjeta."
+          },
+          {
+            "p": "El calendario de pagos (depósito y saldo) figura en tu confirmación de reserva."
+          }
+        ]
+      },
+      {
+        "id": "cancelaciones",
+        "h": "Cancelación de una reserva y modificaciones",
+        "blocks": [
+          {
+            "p": "Para aplazar, modificar o cancelar tu viaje, escríbenos a hola@sunqujourneys.com o por WhatsApp al +51 966 461 384. La fecha de tu mensaje es la que cuenta para los plazos."
+          },
+          {
+            "ul": [
+              {
+                "b": "Aplazamiento.",
+                "t": "Puedes aplazar sin coste hasta 20 días antes de la salida, sujeto a la disponibilidad de anfitriones y proveedores."
+              },
+              {
+                "b": "Cancelación con más de 20 días.",
+                "t": "Te devolvemos lo pagado, descontando los gastos no reembolsables ya incurridos (vuelos, trenes, entradas a Machu Picchu) y el cargo administrativo indicado en tu confirmación."
+              },
+              {
+                "b": "Cancelación con 20 días o menos, o no presentación.",
+                "t": "El importe no es reembolsable; te ayudamos a reprogramar según la disponibilidad de anfitriones y proveedores."
+              },
+              {
+                "b": "Proveedores con políticas propias.",
+                "t": "Aerolíneas, trenes y algunos hoteles aplican sus propias condiciones, que te informamos al reservar."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cambios",
+        "h": "Cambios por parte de Sunqu",
+        "blocks": [
+          {
+            "p": "El clima, los cierres de sitios, las huelgas o cualquier causa de fuerza mayor pueden obligarnos a modificar el itinerario. En ese caso te ofrecemos una alternativa de valor equivalente o la devolución de los servicios no prestados."
+          }
+        ]
+      },
+      {
+        "id": "salud",
+        "h": "Salud, altitud y seguro de viaje",
+        "blocks": [
+          {
+            "p": "Publicamos la altitud de cada día del itinerario y diseñamos la aclimatación, pero cada viajero debe consultar a su médico antes de viajar a zonas de altura."
+          },
+          {
+            "p": "Recomendamos contratar un seguro de viaje con cobertura médica y de evacuación durante todo el viaje."
+          }
+        ]
+      },
+      {
+        "id": "comunidades",
+        "h": "Comunidades anfitrionas y conducta",
+        "blocks": [
+          {
+            "p": "Viajamos con comunidades, no por ellas. Pedimos respetar sus normas, preguntar antes de fotografiar a las personas y seguir las indicaciones de tus anfitriones."
+          },
+          {
+            "p": "Sunqu puede dar por terminados los servicios de un viajero cuya conducta ponga en riesgo a otras personas o dañe la relación con una comunidad, sin derecho a reembolso de los servicios no utilizados."
+          }
+        ]
+      },
+      {
+        "id": "tienda",
+        "h": "Tienda Sunqu",
+        "blocks": [
+          {
+            "p": "Las compras de la Tienda Sunqu se confirman por WhatsApp, donde coordinamos el pago y la entrega: durante tu viaje, en tu hotel o por envío. Los cambios de talla están sujetos a disponibilidad."
+          }
+        ]
+      },
+      {
+        "id": "datos",
+        "h": "Protección de datos personales",
+        "blocks": [
+          {
+            "p": "Tratamos tus datos conforme a la Ley N° 29733, Ley de Protección de Datos Personales, y su reglamento. Los usamos para diseñar y operar tu viaje, atender tus consultas y reclamos y, solo si lo autorizas, enviarte novedades."
+          },
+          {
+            "p": "Puedes ejercer tus derechos de acceso, rectificación, cancelación y oposición escribiendo a hola@sunqujourneys.com."
+          }
+        ]
+      },
+      {
+        "id": "reclamaciones",
+        "h": "Libro de reclamaciones",
+        "blocks": [
+          {
+            "p": "Conforme a la Ley N° 29571, Código de Protección y Defensa del Consumidor, ponemos a tu disposición un Libro de reclamaciones virtual. Respondemos cada reclamo o queja en un plazo máximo de 15 días hábiles."
+          },
+          {
+            "link": "reclamaciones.html",
+            "label": "Ir al Libro de reclamaciones"
+          }
+        ]
+      },
+      {
+        "id": "ley",
+        "h": "Legislación aplicable",
+        "blocks": [
+          {
+            "p": "Estos términos se rigen por las leyes de la República del Perú. Cualquier controversia se someterá a las autoridades competentes de Lima, sin perjuicio de tu derecho a acudir al INDECOPI."
+          }
+        ]
+      }
+    ]
+  }
+}

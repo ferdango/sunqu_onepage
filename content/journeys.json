@@ -1,0 +1,771 @@
+{
+  "_info": "Journeys. Cada journey tiene datos base y cuatro bloques: ficha (journey.html), plan (consejos, notas y temporada), catalogo (tarjeta de descubre.html) e inicio (tarjeta de la portada). En WordPress: tipo de contenido «Journeys». principios y galeria son comunes a todas las fichas.",
+  "items": [
+    {
+      "slug": "alma",
+      "title": "El Alma de los Andes",
+      "c": [
+        "historia",
+        "gente"
+      ],
+      "days": "8 días",
+      "alt": "2.800 m",
+      "ficha": {
+        "momentAlt": "Valle Sagrado al atardecer",
+        "kicker": "Journey · La historia · La gente",
+        "price": "Desde USD 4.200",
+        "priceShort": "USD 4.200",
+        "priceKicker": "Desde · por persona",
+        "priceNote": "por persona · precio desde",
+        "altLabel": "Altitud de entrada",
+        "region": "Valle Sagrado · Cusco · Machu Picchu",
+        "route": [
+          "Lima",
+          "Valle Sagrado",
+          "Maras y Moray",
+          "Machu Picchu",
+          "Cusco"
+        ],
+        "card": "1559160671-cc23bc25eb94",
+        "why": "Los Andes no son ruinas y paisaje: son una cultura que sigue viva y que se puede conocer a través de quienes la sostienen.",
+        "what": "Journey de 8 días con entrada por el Valle Sagrado a 2.800 m en lugar de Cusco a 3.400 m.",
+        "whatLong": "Un journey de 8 días que entra por el Valle Sagrado a 2.800 m en lugar de Cusco a 3.400 m.",
+        "storyTitle": "Empezamos 600 metros más abajo.",
+        "story": [
+          "La decisión de empezar en el Valle Sagrado parece logística, pero es la expresión más concreta de cómo acompañamos: el cuidado empieza antes de que el viaje empiece.",
+          "Tratamos el soroche como una variable de diseño, no como una advertencia en letra pequeña. Empezamos 600 metros más abajo porque queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza."
+        ],
+        "moment": "La primera noche en el Valle Sagrado, cuando entiendes por qué llegaste ahí y no a Cusco.",
+        "how": "06",
+        "howText": "El cuidado empieza en la web y en el itinerario: por eso publicamos el precio, la altitud y el nombre de tus anfitriones antes de que tengas que preguntar.",
+        "hosts": [
+          "tejedora",
+          "familia"
+        ],
+        "mp": "alma",
+        "vivTitle": "Ocho días, sin prisa.",
+        "vivText": "Toca cada día para ver qué vives. La altitud sube de a poco para que el cuerpo se adapte.",
+        "chartTitle": "La altitud es parte del diseño.",
+        "chartText": "La curva comunica el cuidado antes de que tengas que preguntar por él: entramos por el Valle Sagrado a 2.800 m y llegamos a Cusco, en el umbral del soroche, al final.",
+        "itin": [
+          {
+            "t": "Lima",
+            "m": 154,
+            "stage": "",
+            "body": "Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa."
+          },
+          {
+            "t": "Valle Sagrado",
+            "m": 2800,
+            "stage": "",
+            "body": "Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche."
+          },
+          {
+            "t": "Valle Sagrado",
+            "m": 2800,
+            "stage": "",
+            "body": "Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre."
+          },
+          {
+            "t": "Maras y Moray",
+            "m": 3300,
+            "stage": "",
+            "body": "Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray."
+          },
+          {
+            "t": "Machu Picchu",
+            "m": 2430,
+            "stage": "",
+            "body": "Bajamos a la ciudadela. Primero la piedra."
+          },
+          {
+            "t": "Comunidad",
+            "m": 3500,
+            "stage": "",
+            "body": "Después, la gente: la pachamanca, cocinada bajo tierra con una familia anfitriona."
+          },
+          {
+            "t": "Cusco",
+            "m": 3400,
+            "stage": "",
+            "body": "Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura."
+          },
+          {
+            "t": "Lima",
+            "m": 154,
+            "stage": "",
+            "body": "Regreso a Lima con los nombres de quienes te recibieron."
+          }
+        ],
+        "momentImg": "1590835192370-3941b97e93fd",
+        "slides": [
+          {
+            "img": "1590835192370-3941b97e93fd",
+            "caption": "Valle Sagrado · 2.800 m"
+          },
+          {
+            "img": "1568805778796-96b66708d6e0",
+            "caption": "Chinchero · telar de cintura"
+          },
+          {
+            "img": "1532996152552-eaffc4edfc1a",
+            "caption": "Machu Picchu · 2.430 m"
+          },
+          {
+            "img": "1730423284218-a8a7e9422ebf",
+            "caption": "Valle Sagrado · familia anfitriona"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Los primeros días en el Valle Sagrado son para aclimatarte: camina despacio, bebe mucha agua y prueba el mate de coca.",
+          "Viste en capas: en los Andes el sol del mediodía calienta, pero de noche la temperatura se acerca a 0 °C.",
+          "Lee tu kit de preparación antes de volar: ahí están tus primeras palabras en quechua y los nombres de tus anfitriones."
+        ],
+        "access": "Incluye caminatas cortas por terreno irregular y en altura.",
+        "season": {
+          "text": "De mayo a septiembre es la temporada seca de los Andes: cielos despejados, días templados y noches frías. Abril y octubre son meses de transición, con el valle todavía verde y menos viajeros.",
+          "clima": "Seco y soleado",
+          "temp": "Día 20 °C · noche 3 °C",
+          "cal": "De mayo a septiembre",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 2,
+        "kicker": "Journey · 8 días sin prisa",
+        "why": "Los Andes no son ruinas y paisaje: son una cultura que sigue viva.",
+        "region": "Valle Sagrado · Cusco · Machu Picchu",
+        "dest": [
+          "cusco",
+          "machu"
+        ],
+        "dur": "journey",
+        "price": 4200,
+        "kw": "tejedora telar chinchero maras moray aclimatacion soroche",
+        "imagenes": [
+          "1590835192370-3941b97e93fd",
+          "1568805778796-96b66708d6e0"
+        ]
+      },
+      "inicio": {
+        "region": "Valle Sagrado · Cusco · Machu Picchu",
+        "price": "Desde USD 4.200",
+        "icon": "assets/diamond-teal.png",
+        "ph": "Foto — Valle Sagrado al atardecer",
+        "why": "Los Andes no son ruinas y paisaje: son una cultura viva que se conoce a través de quienes la sostienen.",
+        "moment": "Tu primera noche en el Valle Sagrado, cuando entiendes por qué llegaste ahí y no a Cusco.",
+        "img": "1559160671-cc23bc25eb94"
+      }
+    },
+    {
+      "slug": "sabor",
+      "title": "El Perú que se Saborea",
+      "c": [
+        "sabor",
+        "gente"
+      ],
+      "days": "10 días",
+      "alt": "2.335 m",
+      "ficha": {
+        "momentAlt": "Plato de picantería",
+        "kicker": "Journey · El sabor · La gente",
+        "price": "Desde USD 5.400",
+        "priceShort": "USD 5.400",
+        "priceKicker": "Desde · por persona",
+        "priceNote": "por persona · precio desde",
+        "altLabel": "Altitud de Arequipa",
+        "region": "Arequipa · Colca",
+        "route": [
+          "Arequipa",
+          "Valle del Colca"
+        ],
+        "card": "1535399831218-d5bd36d1a6b3",
+        "why": "La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.",
+        "what": "Journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.",
+        "whatLong": "Un journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.",
+        "storyTitle": "Elegir el destino correcto, no el obvio.",
+        "story": [
+          "Arequipa no se eligió porque sea mejor que Cusco, sino porque la picantería arequipeña es un formato culinario con anfitriona de nombre propio: algo que un restaurante de autor no ofrece.",
+          "Por eso el viaje se construye fuera de la ruta de siempre. Curar con disciplina es elegir el lugar donde la cocina todavía tiene nombre y apellido."
+        ],
+        "moment": "La picantería, con la picantera nombrada y tú cocinando con ella. Te llevas la receta.",
+        "how": "01",
+        "howText": "Curar es elegir una experiencia y renunciar a otras diez. Aquí significa que la picantería no es una parada gastronómica: es el centro del viaje, con una persona que te enseña.",
+        "hosts": [
+          "picantera"
+        ],
+        "mp": null,
+        "vivTitle": "Diez días, del mercado a la cocina.",
+        "vivText": "La picantería es el centro del viaje: ahí cocinas con la picantera y te llevas su receta.",
+        "itin": null,
+        "momentImg": "1535399831218-d5bd36d1a6b3",
+        "slides": [
+          {
+            "img": "1535399831218-d5bd36d1a6b3",
+            "caption": "Arequipa · picantería"
+          },
+          {
+            "img": "1535400875775-0269e7a919af",
+            "caption": "Mercado y producto local"
+          },
+          {
+            "img": "1566793772361-1d5d9cefbd12",
+            "caption": "Cocina con nombre propio"
+          },
+          {
+            "img": "1541637593725-923467404d17",
+            "caption": "Paisaje andino"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Llega con hambre y sin prisa: en Arequipa la picantería se vive al mediodía, como lo hacen los arequipeños.",
+          "El Colca está más alto que Arequipa: subimos por etapas y te enviamos el plan de aclimatación antes de salir.",
+          "Lleva protector solar, gafas de sol y una capa abrigadora: el sol de altura es intenso y las noches, frías."
+        ],
+        "access": "En el Colca hay miradores y caminatas por terreno irregular a más de 3.600 m.",
+        "season": {
+          "text": "Arequipa tiene sol casi todo el año. De mayo a octubre el Colca está seco y el cielo, despejado: la mejor época para ver al cóndor. De enero a marzo llueve en la sierra.",
+          "clima": "Soleado y seco",
+          "temp": "Día 22 °C · noche 5 °C",
+          "cal": "De mayo a octubre",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 3,
+        "kicker": "Journey · Fuera de la ruta de siempre",
+        "why": "La comida es el registro más honesto de una cultura.",
+        "region": "Arequipa · Colca",
+        "dest": [
+          "arequipa"
+        ],
+        "dur": "journey",
+        "price": 5400,
+        "kw": "picanteria picantera condor colca cocina",
+        "imagenes": [
+          "1535399831218-d5bd36d1a6b3",
+          "1566793772361-1d5d9cefbd12"
+        ]
+      },
+      "inicio": {
+        "region": "Arequipa · Colca",
+        "price": "Desde USD 5.400",
+        "icon": "assets/diamond-orange.png",
+        "ph": "Foto — picantería arequipeña",
+        "why": "La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.",
+        "moment": "Cocinar en la picantería junto a la picantera, y llevarte su receta.",
+        "img": "1535399831218-d5bd36d1a6b3"
+      }
+    },
+    {
+      "slug": "profundo",
+      "title": "Perú Profundo",
+      "c": [
+        "historia",
+        "gente"
+      ],
+      "days": "9 días",
+      "alt": "2.430 m",
+      "ficha": {
+        "momentAlt": "Comunidad anfitriona",
+        "kicker": "Journey · La historia · La gente",
+        "price": "Desde USD 6.800",
+        "priceShort": "USD 6.800",
+        "priceKicker": "Desde · por persona",
+        "priceNote": "por persona · precio desde",
+        "altLabel": "Altitud de Machu Picchu",
+        "region": "Machu Picchu · comunidades",
+        "route": [
+          "Machu Picchu",
+          "Comunidades andinas"
+        ],
+        "card": "1532996152552-eaffc4edfc1a",
+        "why": "El monumento se entiende al revés: primero la piedra, después la gente que desciende de quienes la pusieron ahí.",
+        "what": "Journey de 9 días con Machu Picchu al inicio e inmersión comunitaria después.",
+        "whatLong": "Un journey de 9 días con Machu Picchu al inicio y la inmersión comunitaria después.",
+        "storyTitle": "Machu Picchu es la premisa, no el clímax.",
+        "story": [
+          "La estructura del itinerario es en sí misma la historia que se cuenta. Cuando Machu Picchu es el clímax, todo lo anterior se vuelve preparación y todo lo posterior, anticlímax.",
+          "Aquí Machu Picchu va al principio. Es la premisa, y los días siguientes son el argumento: la gente que desciende de quienes pusieron la piedra."
+        ],
+        "moment": "El regreso a la comunidad después de Machu Picchu, cuando descubres que lo que recordarás no es la piedra.",
+        "how": "02",
+        "howText": "Contar historias no es añadir un guía: es ordenar el viaje para que tenga sentido. El orden de los días es el relato.",
+        "hosts": [
+          "familia"
+        ],
+        "mp": "profundo",
+        "ayniNote": "En este viaje la ficha de reciprocidad es un requisito, no un extra.",
+        "vivTitle": "Primero la piedra, después la gente.",
+        "vivText": "Machu Picchu abre el viaje; la inmersión comunitaria es lo que viene después, y lo que recordarás.",
+        "itin": null,
+        "momentImg": "1730423284218-a8a7e9422ebf",
+        "slides": [
+          {
+            "img": "1532996152552-eaffc4edfc1a",
+            "caption": "Machu Picchu · 2.430 m"
+          },
+          {
+            "img": "1730423284218-a8a7e9422ebf",
+            "caption": "Comunidad anfitriona"
+          },
+          {
+            "img": "1566793772361-1d5d9cefbd12",
+            "caption": "Comunidades andinas"
+          },
+          {
+            "img": "1590835192370-3941b97e93fd",
+            "caption": "Valle Sagrado"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Confirma tu fecha con tiempo: las entradas a Machu Picchu tienen cupo diario y nosotros las gestionamos por ti.",
+          "En la comunidad, pregunta antes de fotografiar a alguien: en este viaje la relación va antes que la foto.",
+          "Lleva calzado con buen agarre y ropa en capas: hay escaleras de piedra y el clima cambia en pocas horas."
+        ],
+        "access": "Machu Picchu y las comunidades tienen escaleras de piedra y caminos irregulares.",
+        "season": {
+          "text": "De mayo a septiembre, temporada seca: días claros en Machu Picchu y caminos firmes para llegar a las comunidades. Es temporada alta, así que reservamos las entradas con tiempo.",
+          "clima": "Seco, con mañanas de neblina",
+          "temp": "Día 22 °C · noche 4 °C",
+          "cal": "De mayo a septiembre",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 4,
+        "kicker": "Journey · Primero la piedra",
+        "why": "Primero la piedra, después la gente que desciende de quienes la pusieron ahí.",
+        "region": "Machu Picchu · comunidades",
+        "dest": [
+          "machu",
+          "cusco"
+        ],
+        "dur": "journey",
+        "price": 6800,
+        "kw": "comunidad comunidades ayni reciprocidad",
+        "imagenes": [
+          "1532996152552-eaffc4edfc1a",
+          "1730424508745-29ea708ae698"
+        ]
+      },
+      "inicio": {
+        "region": "Machu Picchu · comunidades",
+        "price": "Desde USD 6.800",
+        "icon": "assets/diamond-lime.png",
+        "ph": "Foto — comunidad andina",
+        "why": "El monumento se entiende al revés: primero la piedra, después la gente que desciende de quienes la pusieron ahí.",
+        "moment": "El regreso a la comunidad después de Machu Picchu, cuando descubres que lo que recordarás no es la piedra.",
+        "img": "1532996152552-eaffc4edfc1a"
+      }
+    },
+    {
+      "slug": "origen",
+      "title": "Sunqu Origen",
+      "c": [
+        "sabor",
+        "historia"
+      ],
+      "days": "9 días",
+      "alt": "3.500 m",
+      "ficha": {
+        "momentAlt": "Familia anfitriona",
+        "sub": "Del mercado a la montaña",
+        "kicker": "Journey insignia · El sabor · La historia",
+        "price": "Journey insignia",
+        "priceShort": "Journey insignia",
+        "priceKicker": "Precio a consultar",
+        "priceNote": "precio a consultar con tu Travel Advisor",
+        "altLabel": "Altitud máxima",
+        "region": "Lima · Valle Sagrado · Cusco",
+        "route": [
+          "Lima",
+          "Valle Sagrado",
+          "Moray y Maras",
+          "Machu Picchu",
+          "Cusco"
+        ],
+        "card": "1632913582499-381c7c798787",
+        "why": "Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
+        "what": "Journey insignia de 9 días: del plato terminado en Lima a la tierra y la familia en los Andes.",
+        "whatLong": "Un journey insignia de 9 días que empieza en el plato terminado, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia.",
+        "storyTitle": "El orden de los días no se puede alterar.",
+        "story": [
+          "El itinerario sigue el ingrediente en reversa. Empieza en el plato terminado en Lima, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia, en la pachamanca del día 6.",
+          "Por eso el orden de los días no se puede cambiar sin destruir el viaje: cada etapa prepara la siguiente."
+        ],
+        "moment": "La pachamanca del día 6, cocinada bajo tierra con una familia quechua.",
+        "how": "or",
+        "howText": "Del plato terminado al origen del ingrediente: así se vive la gastronomía en Sunqu. No es un tour de restaurantes, es un camino de vuelta a la tierra.",
+        "hosts": [
+          "familia"
+        ],
+        "mp": "origen",
+        "vivTitle": "Nueve días, del plato a la tierra.",
+        "vivText": "Cada día lleva un título que cuenta la historia. Toca un día para ver qué vives.",
+        "chartTitle": "Del nivel del mar a 3.500 m, sin prisa.",
+        "chartText": "Subimos por etapas: primero el Valle Sagrado a 2.800 m, después la técnica de la altura en Moray. Toca un punto de la curva para ver cada día.",
+        "itin": [
+          {
+            "t": "El plato terminado",
+            "m": 160,
+            "stage": "DESCUBRE",
+            "body": "Llegada a Lima. Cena en Central o Kjolle: el punto de llegada de todo lo que se verá después."
+          },
+          {
+            "t": "Dónde empieza el mercado",
+            "m": 160,
+            "stage": "VIVE",
+            "body": "Mercado N.º 1 de Surquillo con un cocinero anfitrión. Compras y cocinas."
+          },
+          {
+            "t": "Subir despacio",
+            "m": 2800,
+            "stage": "CONECTA",
+            "body": "Vuelo a Cusco y traslado directo al Valle Sagrado. Tarde de aclimatación."
+          },
+          {
+            "t": "La técnica de la altura",
+            "m": 3500,
+            "stage": "VIVE",
+            "body": "MIL Centro y Moray: los andenes como laboratorio agrícola inca."
+          },
+          {
+            "t": "La sal que viene de la montaña",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Salineras de Maras con una familia salinera. Machu Picchu."
+          },
+          {
+            "t": "La tierra",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Pachamanca con una familia quechua. El Momento Sunqu del viaje."
+          },
+          {
+            "t": "El mercado de los Andes",
+            "m": 3400,
+            "stage": "VIVE",
+            "body": "Mercado San Pedro y Chicha por Gastón Acurio, en Cusco."
+          },
+          {
+            "t": "Lo que se lleva",
+            "m": 3400,
+            "stage": "RECUERDA",
+            "body": "Cusco libre. Cierre con los anfitriones y entrega del recuerdo."
+          },
+          {
+            "t": "Regreso",
+            "m": 160,
+            "stage": "RECUERDA",
+            "body": "Traslado a Lima y salida internacional."
+          }
+        ],
+        "momentImg": "1730423284218-a8a7e9422ebf",
+        "slides": [
+          {
+            "img": "1535399831218-d5bd36d1a6b3",
+            "caption": "Lima · el plato terminado"
+          },
+          {
+            "img": "1535400875775-0269e7a919af",
+            "caption": "Dónde empieza el mercado"
+          },
+          {
+            "img": "1632913582499-381c7c798787",
+            "caption": "Moray y Maras · 3.500 m"
+          },
+          {
+            "img": "1730423284218-a8a7e9422ebf",
+            "caption": "Día 6 · la tierra"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "La cena del día 1 en Central o Kjolle se reserva con meses de anticipación: la gestionamos en cuanto confirmas tu fecha.",
+          "No te saltes la tarde de aclimatación del día 3: al día siguiente subes a 3.500 m en Moray.",
+          "Deja espacio en la maleta: la sal de Maras es el recuerdo que casi todos se llevan a casa."
+        ],
+        "access": "Moray, Maras y Machu Picchu tienen escaleras de piedra y terreno irregular.",
+        "season": {
+          "text": "Lima y los Andes tienen estaciones opuestas. De mayo a septiembre la sierra está seca y, después de la cosecha, los mercados andinos están en su mejor momento; Lima, en cambio, amanece gris y fresca.",
+          "clima": "Costa gris, sierra soleada",
+          "temp": "De 3 °C a 20 °C",
+          "cal": "De mayo a septiembre",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 1,
+        "kicker": "Journey insignia · Del mercado a la montaña",
+        "why": "Seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
+        "region": "Lima · Valle Sagrado · Cusco",
+        "dest": [
+          "lima",
+          "cusco",
+          "machu"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Precio por adulto",
+        "kw": "mercado surquillo central kjolle moray maras mil pachamanca machu picchu",
+        "imagenes": [
+          "1632913582499-381c7c798787",
+          "1730423284218-a8a7e9422ebf"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Valle Sagrado · Cusco",
+        "price": "Journey insignia",
+        "icon": "assets/diamond-yellow.png",
+        "ph": "Foto — Moray o salineras de Maras",
+        "why": "Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
+        "moment": "La pachamanca del sexto día, cocinada bajo tierra con una familia quechua.",
+        "img": "1632913582499-381c7c798787"
+      }
+    },
+    {
+      "slug": "corto",
+      "title": "Módulo gastronómico",
+      "c": [
+        "sabor",
+        "gente"
+      ],
+      "days": "3–4 días",
+      "alt": "2.335 m",
+      "ficha": {
+        "momentAlt": "Mercado y producto local",
+        "kicker": "Escapada corta · El sabor · La gente",
+        "price": "USD 600 – 900",
+        "priceShort": "USD 600 – 900",
+        "priceKicker": "Escapada corta",
+        "priceNote": "por persona · rango de precio",
+        "altLabel": "Altitud",
+        "region": "Escapada corta",
+        "route": [
+          "Módulo autónomo",
+          "3 a 4 días"
+        ],
+        "card": "1535400875775-0269e7a919af",
+        "why": "Que puedas vivir un Momento Sunqu antes de comprometerte con un Journey completo.",
+        "what": "Módulo autónomo de 3 a 4 días, que se reserva por separado.",
+        "whatLong": "Un módulo autónomo de 3 a 4 días que se reserva por separado.",
+        "storyTitle": "La puerta de entrada a Sunqu.",
+        "story": [
+          "Es la forma de vivir un Momento Sunqu antes de comprometerte con un Journey completo: el mismo encuentro con nombre propio, en tres o cuatro días.",
+          "También es donde validamos personalmente a cada anfitrión antes de integrarlo en un viaje largo. Si funciona aquí, forma parte de un Journey."
+        ],
+        "moment": "El mismo encuentro con nombre propio que luego forma parte de un Journey.",
+        "how": "01",
+        "howText": "Curamos, también en su vertiente de validación: cada experiencia se prueba personalmente antes de venderse en un viaje largo.",
+        "hosts": [
+          "picantera"
+        ],
+        "mp": null,
+        "vivTitle": "Tres o cuatro días, un encuentro.",
+        "vivText": "Un Momento Sunqu completo, pensado para vivirlo por separado o antes de un Journey.",
+        "itin": null,
+        "momentImg": "1535400875775-0269e7a919af",
+        "slides": [
+          {
+            "img": "1535400875775-0269e7a919af",
+            "caption": "Mercado y producto local"
+          },
+          {
+            "img": "1535399831218-d5bd36d1a6b3",
+            "caption": "Picantería"
+          },
+          {
+            "img": "1566793772361-1d5d9cefbd12",
+            "caption": "Anfitrionas con nombre propio"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Úsalo como primer contacto: si después quieres un Journey completo, tu Travel Advisor parte de lo que viviste aquí.",
+          "Se combina bien antes o después de otro viaje por el Perú: dinos tus fechas y lo encajamos.",
+          "Ven con hambre y ganas de cocinar: aquí no solo pruebas, te llevas la receta."
+        ],
+        "access": "Casi todo ocurre en cocinas y mercados, con poca caminata.",
+        "season": {
+          "text": "Es una escapada de cocina y mercado, así que funciona todo el año. Arequipa tiene sol casi todos los días; de enero a marzo llueve en la sierra, pero la cocina no cambia.",
+          "clima": "Sol casi todo el año",
+          "temp": "Día 22 °C · noche 9 °C",
+          "cal": "Todo el año",
+          "months": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 5,
+        "kicker": "Escapada corta · La puerta de entrada",
+        "why": "Vive un Momento Sunqu antes de comprometerte con un Journey completo.",
+        "region": "Arequipa · escapada",
+        "dest": [
+          "arequipa"
+        ],
+        "dur": "escapada",
+        "price": 600,
+        "priceMax": 900,
+        "kw": "picanteria picantera cocina receta corto",
+        "imagenes": [
+          "1535400875775-0269e7a919af",
+          "1535400255456-984241443b29"
+        ]
+      },
+      "inicio": {
+        "region": "Escapada corta",
+        "price": "USD 600 – 900",
+        "icon": "assets/diamond-olive.png",
+        "ph": "Foto — mercado y producto local",
+        "why": "Vive un Momento Sunqu antes de comprometerte con un Journey completo.",
+        "moment": "El mismo encuentro con nombre propio que luego forma parte de un Journey.",
+        "img": "1535400875775-0269e7a919af"
+      }
+    }
+  ],
+  "principios": [
+    {
+      "id": "01",
+      "kicker": "01 · Selección",
+      "title": "Curamos, no acumulamos",
+      "q": "¿Es la experiencia correcta, o solo una más disponible?",
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "photo": "1567597243073-2d274aabecec"
+    },
+    {
+      "id": "02",
+      "kicker": "02 · Ejecución",
+      "title": "Contamos historias",
+      "q": "¿Recibes contexto y significado, no solo acceso?",
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "photo": "1568805647297-df963b524678"
+    },
+    {
+      "id": "06",
+      "kicker": "06 · Ejecución",
+      "title": "Antes, durante y después",
+      "q": "¿La relación empieza antes del vuelo y sigue después?",
+      "bg": "#48725E",
+      "fg": "#e9eef1",
+      "photo": "1730423284218-a8a7e9422ebf"
+    },
+    {
+      "id": "or",
+      "kicker": "Cómo se vive",
+      "title": "Del plato al origen",
+      "q": "¿De dónde viene lo que tienes en el plato?",
+      "bg": "#df5f0c",
+      "fg": "#1c1c1c",
+      "photo": "1632913582499-381c7c798787"
+    }
+  ],
+  "galeria": [
+    {
+      "img": "1526697675318-89790adec369",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1568805778734-f0a5a77d7272",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1535400255456-984241443b29",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1578362646678-a1b282e43ff8",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1730424508745-29ea708ae698",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1559160671-cc23bc25eb94",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1567597243073-2d274aabecec",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1568805647297-df963b524678",
+      "ratio": "3/4"
+    }
+  ]
+}

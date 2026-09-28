@@ -1,0 +1,71 @@
+# Entorno local de Sunqu: WordPress (CMS) + base de datos + WP-CLI + la web estática leyendo de WordPress.
+#
+#   ./setup.sh                      instala todo, importa content/*.json y verifica
+#   http://localhost:8080/wp-admin  panel de WordPress (usuario y clave en .env)
+#   http://localhost:8081           la web, leyendo el contenido desde WordPress
+#   docker compose run --rm cli …   cualquier comando de WP-CLI (p. ej. «sunqu exportar --dir=/var/www/front/content»)
+name: sunqu
+
+x-db-env: &db-env
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${DB_NAME:-sunqu}
+  WORDPRESS_DB_USER: ${DB_USER:-sunqu}
+  WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-sunqu}
+
+x-wp-volumes: &wp-volumes
+  - wp:/var/www/html
+  - ./sunqu-cms:/var/www/html/wp-content/plugins/sunqu-cms
+  - ./sunqu-headless:/var/www/html/wp-content/themes/sunqu-headless
+  - ..:/var/www/front          # la web: content/*.json y assets/ para importar
+
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-sunqu}
+      MARIADB_USER: ${DB_USER:-sunqu}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-sunqu}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-sunqu-root}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      retries: 30
+
+  wordpress:
+    image: wordpress:6-php8.3-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      <<: *db-env
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_ENVIRONMENT_TYPE', 'local');
+    volumes: *wp-volumes
+
+  cli:
+    image: wordpress:cli-php8.3
+    profiles: ["tools"]
+    user: "33:33"               # mismo usuario que el contenedor de WordPress (www-data)
+    depends_on:
+      - wordpress
+    environment:
+      <<: *db-env
+      HOME: /tmp
+    volumes: *wp-volumes
+    entrypoint: ["wp"]
+
+  web:
+    image: nginx:alpine
+    ports:
+      - "${WEB_PORT:-8081}:80"
+    volumes:
+      - ..:/usr/share/nginx/html:ro
+      - ./local/sunqu-config.js:/usr/share/nginx/html/js/sunqu-config.js:ro
+
+volumes:
+  db:
+  wp:

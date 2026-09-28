@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/descubre.min.css">
-		<script src="./support.js"></script>
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-config.js"></script>
+		<script src="js/sunqu-content.js" data-page="descubre"></script>
 	</head>
 	<body>
 		<x-dc>
@@ -72,7 +74,7 @@
 					<div class="sj-drawer-foot">
 						<a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
 						<div class="sj-drawer-row">
-							<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
 							<div class="sj-seg" role="group" aria-label="Idioma">
 								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
 									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
@@ -408,8 +410,9 @@
 											</sc-if>
 											<input type="hidden" name="guardados" value="{{ attach.value }}">
 										</div>
+										<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
 										<div class="sj-form-foot">
-											<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
 											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
 										</div>
 									</form>
@@ -499,15 +502,15 @@
 							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span>
-									<a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span>
-									<a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span>
-									<span>Lima, Perú</span>
+									<span>{{ site.office }}</span>
 								</div>
 							</div>
 						</div>
@@ -523,25 +526,25 @@
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
 							</nav>
 							<div style="display:flex;gap:10px">
-								<a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
 										<path d="m10 15 5-3-5-3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
 										<circle cx="12" cy="12" r="4"></circle>
 										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
 									</svg>
 								</a>
-								<a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M16 3a5 5 0 0 0 5 5"></path>
 										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
@@ -598,36 +601,13 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
   MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  CL = { historia: 'La historia', sabor: 'El sabor', gente: 'La gente' };
-  CI = { historia: 'assets/diamond-orange.png', sabor: 'assets/diamond-yellow.png', gente: 'assets/diamond-lime.png' };
-  DL = { cusco: 'Cusco y Valle Sagrado', machu: 'Machu Picchu', arequipa: 'Arequipa y Colca', lima: 'Lima', titicaca: 'Lago Titicaca' };
-  RL = { exp: 'Experiencias de un día', escapada: 'Escapadas · 3–4 días', journey: 'Journeys · 8–10 días' };
+  CL = SunquView.CL;
+  CI = SunquView.CI;
+  DL = SunquView.DL;
+  RL = SunquView.RL;
   // Journeys: mismos datos que journey.html (J y PLAN). months: 0 lluvias · 1 buena · 2 ideal (ene → dic)
-  JOURNEYS = [
-    { id: 'origen', kicker: 'Journey insignia · Del mercado a la montaña', title: 'Sunqu Origen', why: 'Seguimos el ingrediente en reversa, del plato terminado hasta la tierra.', region: 'Lima · Valle Sagrado · Cusco', dest: ['lima', 'cusco', 'machu'], days: '9 días', dur: 'journey', alt: '3.500 m', c: ['sabor', 'historia'], img: ['1632913582499-381c7c798787', '1730423284218-a8a7e9422ebf'], price: 0, priceKicker: 'Precio por adulto', kw: 'mercado surquillo central kjolle moray maras mil pachamanca machu picchu', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
-    { id: 'alma', kicker: 'Journey · 8 días sin prisa', title: 'El Alma de los Andes', why: 'Los Andes no son ruinas y paisaje: son una cultura que sigue viva.', region: 'Valle Sagrado · Cusco · Machu Picchu', dest: ['cusco', 'machu'], days: '8 días', dur: 'journey', alt: '2.800 m', c: ['historia', 'gente'], img: ['1590835192370-3941b97e93fd', '1568805778796-96b66708d6e0'], price: 4200, kw: 'tejedora telar chinchero maras moray aclimatacion soroche', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
-    { id: 'sabor', kicker: 'Journey · Fuera de la ruta de siempre', title: 'El Perú que se Saborea', why: 'La comida es el registro más honesto de una cultura.', region: 'Arequipa · Colca', dest: ['arequipa'], days: '10 días', dur: 'journey', alt: '2.335 m', c: ['sabor', 'gente'], img: ['1535399831218-d5bd36d1a6b3', '1566793772361-1d5d9cefbd12'], price: 5400, kw: 'picanteria picantera condor colca cocina', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1] },
-    { id: 'profundo', kicker: 'Journey · Primero la piedra', title: 'Perú Profundo', why: 'Primero la piedra, después la gente que desciende de quienes la pusieron ahí.', region: 'Machu Picchu · comunidades', dest: ['machu', 'cusco'], days: '9 días', dur: 'journey', alt: '2.430 m', c: ['historia', 'gente'], img: ['1532996152552-eaffc4edfc1a', '1730424508745-29ea708ae698'], price: 6800, kw: 'comunidad comunidades ayni reciprocidad', months: [0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 1, 0] },
-    { id: 'corto', kicker: 'Escapada corta · La puerta de entrada', title: 'Módulo gastronómico', why: 'Vive un Momento Sunqu antes de comprometerte con un Journey completo.', region: 'Arequipa · escapada', dest: ['arequipa'], days: '3–4 días', dur: 'escapada', alt: '2.335 m', c: ['sabor', 'gente'], img: ['1535400875775-0269e7a919af', '1535400255456-984241443b29'], price: 600, priceMax: 900, kw: 'picanteria picantera cocina receta corto', months: [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2] },
-  ];
-  EXPS = [
-    { t: 'Telar de cintura con una tejedora', place: 'Chinchero, Cusco', dest: 'cusco', img: '1568805778796-96b66708d6e0', alt: '3.762 m', dur: 'Medio día', c: ['gente', 'historia'] },
-    { t: 'Pachamanca con una familia quechua', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1593460915132-fcb729cc4597', alt: '2.870 m', dur: 'Día completo', c: ['sabor', 'gente'] },
-    { t: 'Picantería arequipeña con la picantera', place: 'Arequipa', dest: 'arequipa', img: '1535400875775-0269e7a919af', alt: '2.335 m', dur: 'Medio día', c: ['sabor', 'gente'] },
-    { t: 'Machu Picchu: primero la piedra', place: 'Machu Picchu, Cusco', dest: 'machu', img: '1567597243073-2d274aabecec', alt: '2.430 m', dur: 'Día completo', c: ['historia'] },
-    { t: 'San Blas y sus talleres, a pie', place: 'Cusco', dest: 'cusco', img: '1526697675318-89790adec369', alt: '3.400 m', dur: 'Medio día', c: ['historia', 'gente'] },
-    { t: 'Islas flotantes de los Uros', place: 'Lago Titicaca, Puno', dest: 'titicaca', img: 'assets/catalogo/uros-islas.jpg', alt: '3.812 m', dur: 'Día completo', c: ['gente', 'historia'] },
-    { t: 'Ceviche con un cocinero en Surquillo', place: 'Lima', dest: 'lima', img: '1535399831218-d5bd36d1a6b3', alt: '154 m', dur: 'Medio día', c: ['sabor'] },
-    { t: 'Arequipa, la ciudad blanca', place: 'Arequipa', dest: 'arequipa', img: 'assets/catalogo/arequipa.jpg', alt: '2.335 m', dur: 'Medio día', c: ['historia'] },
-    { t: 'Maíces nativos en la chacra', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1632913582499-381c7c798787', alt: '2.870 m', dur: 'Medio día', c: ['sabor'] },
-    { t: 'Balsa de totora en el Titicaca', place: 'Lago Titicaca, Puno', dest: 'titicaca', img: 'assets/catalogo/uros-balsa.jpg', alt: '3.812 m', dur: 'Medio día', c: ['gente'] },
-    { t: 'La Lima de los balcones', place: 'Centro de Lima', dest: 'lima', img: '1568805647297-df963b524678', alt: '154 m', dur: 'Medio día', c: ['historia'] },
-    { t: 'Vinicunca con una familia alpaquera', place: 'Cusco', dest: 'cusco', img: '1578362646678-a1b282e43ff8', alt: '5.036 m', dur: 'Día completo', c: ['gente'] },
-    { t: 'Anticuchos y choclo, Lima de noche', place: 'Barranco, Lima', dest: 'lima', img: '1535400255456-984241443b29', alt: '154 m', dur: 'Noche', c: ['sabor'] },
-    { t: 'Cusco desde el mirador, con artesanas', place: 'Cusco', dest: 'cusco', img: '1783660107893-aa8554a9bc39', alt: '3.400 m', dur: 'Medio día', c: ['gente'] },
-    { t: 'El Urubamba y el Valle Sagrado', place: 'Valle Sagrado, Cusco', dest: 'cusco', img: '1541637593725-923467404d17', alt: '2.870 m', dur: 'Día completo', c: ['historia'] },
-    { t: 'Las pampas de Chinchero al atardecer', place: 'Chinchero, Cusco', dest: 'cusco', img: '1559160671-cc23bc25eb94', alt: '3.762 m', dur: 'Medio día', c: ['historia'] },
-  ];
+  JOURNEYS = SunquView.JOURNEYS;
+  EXPS = SunquView.EXPS;
 
   lock() { document.body.style.overflow = this.state.menuOpen ? 'hidden' : ''; }
   setMenu(open) {
@@ -748,8 +728,10 @@ class Component extends DCLogic {
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     try {
       // Guardados antiguos (valor 1): se completan con título y tipo.
-      const f = this.readFav(), names = {};
-      this.JOURNEYS.forEach((j) => { names['j-' + j.id] = j.title; }); this.EXPS.forEach((x, i) => { names['e-' + i] = x.t; });
+      const f = this.readFav(), names = {}, legacy = {};
+      this.JOURNEYS.forEach((j) => { names['j-' + j.id] = j.title; }); this.EXPS.forEach((x, i) => { names['e-' + x.slug] = x.t; legacy['e-' + i] = 'e-' + x.slug; });
+      // Guardados de experiencias con la clave antigua (e-<posición>) → e-<slug>.
+      Object.keys(f).forEach((k) => { if (legacy[k] && !f[legacy[k]]) { f[legacy[k]] = f[k]; delete f[k]; } });
       Object.keys(f).forEach((k) => { if (!f[k] || typeof f[k] !== 'object') { if (names[k]) f[k] = { t: names[k], k: k.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' }; else delete f[k]; } });
       window.localStorage.setItem('sunqu-fav', JSON.stringify(f));
       this.setState({ fav: f });
@@ -801,7 +783,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const st = this.state, dark = st.dark, CL = this.CL, CI = this.CI, DL = this.DL, RL = this.RL;
-    const U = (id, w) => id.indexOf('assets/') === 0 ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`;
+    const U = (id, w) => SunquContent.img(id, w, 72);
     const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
     const words = norm(st.q).trim().split(/\s+/).filter(Boolean);
     const num = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -839,7 +821,7 @@ class Component extends DCLogic {
       };
     });
 
-    const exAll = this.EXPS.map((e, i) => ({ ...e, durLabel: e.dur, key: 'e-' + i, dest: [e.dest], dur: 'exp', hay: [e.t, e.place, DL[e.dest], ...e.c.map((c) => CL[c])].join(' ') })).filter(ok);
+    const exAll = this.EXPS.map((e, i) => ({ ...e, durLabel: e.dur, key: 'e-' + e.slug, dest: [e.dest], dur: 'exp', hay: [e.t, e.place, DL[e.dest], ...e.c.map((c) => CL[c])].join(' ') })).filter(ok);
     const per = 8, nPages = Math.max(1, Math.ceil(exAll.length / per)), page = Math.min(st.page, nPages - 1);
     const exps = exAll.slice(page * per, page * per + per).map((e) => ({ t: e.t, place: e.place, img: U(e.img, 800), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
 
@@ -857,6 +839,8 @@ class Component extends DCLogic {
     const today = new Date(); const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
 
     return {
+      sending: !!this.state.sending, sendError: this.state.sendError || '',
+      site: SunquView.site,
       pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
       headerCls: st.scrolled ? 'is-scrolled' : '',
       navFg: dark ? '#e9eef1' : '#1c1c1c',
@@ -869,7 +853,7 @@ class Component extends DCLogic {
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,
       toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
-      waCls: st.waOn ? 'is-on' : '', waHref: 'https://wa.me/51966461384?text=' + encodeURIComponent('Hola Sunqu, quiero ayuda para elegir mi viaje'),
+      waCls: st.waOn ? 'is-on' : '', waHref: SunquView.site.waLink('Hola Sunqu, quiero ayuda para elegir mi viaje'),
 
       q: st.q, from: st.from, to: st.to, minDate: iso(today), minTo: st.from || iso(today),
       setQ: (e) => this.setState({ q: e.target.value, page: 0 }),
@@ -920,7 +904,15 @@ class Component extends DCLogic {
         };
       })(),
       sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${st.sentFav} guardados a la solicitud.`,
-      submit: (e) => { e.preventDefault(); const a = this.attachVals(''); this.setState({ sent: true, sentFav: a.on ? a.items.length : 0 }); },
+      submit: (e) => {
+        e.preventDefault();
+        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.page };
+        this.setState({ sending: true, sendError: '' });
+        SunquContent.enviar('solicitud', datos).then(
+          () => this.setState({ sent: true, sending: false, sentFav: a.on ? a.items.length : 0 }),
+          () => this.setState({ sending: false, sendError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.' })
+        );
+      },
     };
   }
 }

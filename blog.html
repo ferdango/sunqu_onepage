@@ -4,8 +4,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/blog.min.css">
-		<script src="./blog-data.js"></script>
-		<script src="./support.js"></script>
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-config.js"></script>
+		<script src="js/sunqu-content.js" data-page="blog"></script>
 	</head>
 	<body>
 		<x-dc>
@@ -73,7 +74,7 @@
 					<div class="sj-drawer-foot">
 						<a href="index.html#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
 						<div class="sj-drawer-row">
-							<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
 							<div class="sj-seg" role="group" aria-label="Idioma">
 								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
 									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
@@ -194,15 +195,15 @@
 							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span>
-									<a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span>
-									<a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span>
-									<span>Lima, Perú</span>
+									<span>{{ site.office }}</span>
 								</div>
 							</div>
 						</div>
@@ -218,25 +219,25 @@
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
 							</nav>
 							<div style="display:flex;gap:10px">
-								<a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
 										<path d="m10 15 5-3-5-3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
 										<circle cx="12" cy="12" r="4"></circle>
 										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
 									</svg>
 								</a>
-								<a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M16 3a5 5 0 0 0 5 5"></path>
 										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
@@ -260,8 +261,8 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
   MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  CATS = window.SUNQU_CATS || {};
-  POSTS = (window.SUNQU_POSTS || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+  CATS = SunquView.CATS;
+  POSTS = (SunquView.POSTS || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
   U(id, w) { return /^(assets\/|https?:)/.test(id) ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`; }
   fdate(iso) { const [y, m, d] = iso.split('-'); return `${d} ${this.MON[+m - 1]} ${y}`; }
   card(p, pickCat) {
@@ -330,7 +331,7 @@ class Component extends DCLogic {
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,
       toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
-      waCls: st.waOn ? 'is-on' : '', waHref: 'https://wa.me/51966461384?text=' + encodeURIComponent(waText),
+      waCls: st.waOn ? 'is-on' : '', waHref: SunquView.site.waLink(waText),
     };
   }
   componentDidMount() {
@@ -347,6 +348,7 @@ class Component extends DCLogic {
     const tabs = [['todas', 'Todas', this.POSTS.length], ...Object.keys(this.CATS).map((k) => [k, this.CATS[k], this.POSTS.filter((p) => p.cat === k).length])]
       .filter((t) => t[2] > 0).map(([k, label, n]) => ({ label, n: String(n), on: st.cat === k ? 'true' : 'false', pick: () => pick(k) }));
     return {
+      site: SunquView.site,
       ...this.shellVals('Hola Sunqu, leí el blog y quiero saber más de sus viajes'),
       tabs, posts: shown.map((p) => this.card(p, pick)), noPosts: list.length === 0,
       moreCls: list.length > st.shown ? '' : 'is-hidden', moreN: String(Math.max(0, list.length - st.shown)),

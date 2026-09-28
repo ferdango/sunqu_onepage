@@ -1,0 +1,202 @@
+{
+  "_info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias».",
+  "items": [
+    {
+      "slug": "telar-de-cintura-con-una-tejedora",
+      "t": "Telar de cintura con una tejedora",
+      "place": "Chinchero, Cusco",
+      "dest": "cusco",
+      "img": "1568805778796-96b66708d6e0",
+      "alt": "3.762 m",
+      "dur": "Medio día",
+      "c": [
+        "gente",
+        "historia"
+      ]
+    },
+    {
+      "slug": "pachamanca-con-una-familia-quechua",
+      "t": "Pachamanca con una familia quechua",
+      "place": "Valle Sagrado, Cusco",
+      "dest": "cusco",
+      "img": "1593460915132-fcb729cc4597",
+      "alt": "2.870 m",
+      "dur": "Día completo",
+      "c": [
+        "sabor",
+        "gente"
+      ]
+    },
+    {
+      "slug": "picanteria-arequipena-con-la-picantera",
+      "t": "Picantería arequipeña con la picantera",
+      "place": "Arequipa",
+      "dest": "arequipa",
+      "img": "1535400875775-0269e7a919af",
+      "alt": "2.335 m",
+      "dur": "Medio día",
+      "c": [
+        "sabor",
+        "gente"
+      ]
+    },
+    {
+      "slug": "machu-picchu-primero-la-piedra",
+      "t": "Machu Picchu: primero la piedra",
+      "place": "Machu Picchu, Cusco",
+      "dest": "machu",
+      "img": "1567597243073-2d274aabecec",
+      "alt": "2.430 m",
+      "dur": "Día completo",
+      "c": [
+        "historia"
+      ]
+    },
+    {
+      "slug": "san-blas-y-sus-talleres-a-pie",
+      "t": "San Blas y sus talleres, a pie",
+      "place": "Cusco",
+      "dest": "cusco",
+      "img": "1526697675318-89790adec369",
+      "alt": "3.400 m",
+      "dur": "Medio día",
+      "c": [
+        "historia",
+        "gente"
+      ]
+    },
+    {
+      "slug": "islas-flotantes-de-los-uros",
+      "t": "Islas flotantes de los Uros",
+      "place": "Lago Titicaca, Puno",
+      "dest": "titicaca",
+      "img": "assets/catalogo/uros-islas.jpg",
+      "alt": "3.812 m",
+      "dur": "Día completo",
+      "c": [
+        "gente",
+        "historia"
+      ]
+    },
+    {
+      "slug": "ceviche-con-un-cocinero-en-surquillo",
+      "t": "Ceviche con un cocinero en Surquillo",
+      "place": "Lima",
+      "dest": "lima",
+      "img": "1535399831218-d5bd36d1a6b3",
+      "alt": "154 m",
+      "dur": "Medio día",
+      "c": [
+        "sabor"
+      ]
+    },
+    {
+      "slug": "arequipa-la-ciudad-blanca",
+      "t": "Arequipa, la ciudad blanca",
+      "place": "Arequipa",
+      "dest": "arequipa",
+      "img": "assets/catalogo/arequipa.jpg",
+      "alt": "2.335 m",
+      "dur": "Medio día",
+      "c": [
+        "historia"
+      ]
+    },
+    {
+      "slug": "maices-nativos-en-la-chacra",
+      "t": "Maíces nativos en la chacra",
+      "place": "Valle Sagrado, Cusco",
+      "dest": "cusco",
+      "img": "1632913582499-381c7c798787",
+      "alt": "2.870 m",
+      "dur": "Medio día",
+      "c": [
+        "sabor"
+      ]
+    },
+    {
+      "slug": "balsa-de-totora-en-el-titicaca",
+      "t": "Balsa de totora en el Titicaca",
+      "place": "Lago Titicaca, Puno",
+      "dest": "titicaca",
+      "img": "assets/catalogo/uros-balsa.jpg",
+      "alt": "3.812 m",
+      "dur": "Medio día",
+      "c": [
+        "gente"
+      ]
+    },
+    {
+      "slug": "la-lima-de-los-balcones",
+      "t": "La Lima de los balcones",
+      "place": "Centro de Lima",
+      "dest": "lima",
+      "img": "1568805647297-df963b524678",
+      "alt": "154 m",
+      "dur": "Medio día",
+      "c": [
+        "historia"
+      ]
+    },
+    {
+      "slug": "vinicunca-con-una-familia-alpaquera",
+      "t": "Vinicunca con una familia alpaquera",
+      "place": "Cusco",
+      "dest": "cusco",
+      "img": "1578362646678-a1b282e43ff8",
+      "alt": "5.036 m",
+      "dur": "Día completo",
+      "c": [
+        "gente"
+      ]
+    },
+    {
+      "slug": "anticuchos-y-choclo-lima-de-noche",
+      "t": "Anticuchos y choclo, Lima de noche",
+      "place": "Barranco, Lima",
+      "dest": "lima",
+      "img": "1535400255456-984241443b29",
+      "alt": "154 m",
+      "dur": "Noche",
+      "c": [
+        "sabor"
+      ]
+    },
+    {
+      "slug": "cusco-desde-el-mirador-con-artesanas",
+      "t": "Cusco desde el mirador, con artesanas",
+      "place": "Cusco",
+      "dest": "cusco",
+      "img": "1783660107893-aa8554a9bc39",
+      "alt": "3.400 m",
+      "dur": "Medio día",
+      "c": [
+        "gente"
+      ]
+    },
+    {
+      "slug": "el-urubamba-y-el-valle-sagrado",
+      "t": "El Urubamba y el Valle Sagrado",
+      "place": "Valle Sagrado, Cusco",
+      "dest": "cusco",
+      "img": "1541637593725-923467404d17",
+      "alt": "2.870 m",
+      "dur": "Día completo",
+      "c": [
+        "historia"
+      ]
+    },
+    {
+      "slug": "las-pampas-de-chinchero-al-atardecer",
+      "t": "Las pampas de Chinchero al atardecer",
+      "place": "Chinchero, Cusco",
+      "dest": "cusco",
+      "img": "1559160671-cc23bc25eb94",
+      "alt": "3.762 m",
+      "dur": "Medio día",
+      "c": [
+        "historia"
+      ]
+    }
+  ]
+}

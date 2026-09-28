@@ -1,0 +1,1423 @@
+{
+ "_info": "Modelo de contenido de Sunqu Journeys. Generado por wordpress/tools/generar-schema.py desde content/*.json: no lo edites a mano.",
+ "secciones": {
+  "sitio": {
+   "tipo": "ajustes",
+   "id": "sunqu_sitio",
+   "titulo": "Sitio",
+   "orden": 1,
+   "info": "Ajustes globales del sitio: contacto, redes, empresa y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+   "campos": [
+    {
+     "name": "contacto",
+     "label": "Contacto",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "email",
+       "label": "Correo",
+       "type": "text"
+      },
+      {
+       "name": "telefono",
+       "label": "Teléfono (como se muestra)",
+       "type": "text"
+      },
+      {
+       "name": "telefonoHref",
+       "label": "Teléfono para enlace (solo dígitos y +)",
+       "type": "text"
+      },
+      {
+       "name": "oficina",
+       "label": "Oficina",
+       "type": "text"
+      },
+      {
+       "name": "whatsapp",
+       "label": "WhatsApp · número internacional sin + (ej. 51966461384)",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "redes",
+     "label": "Redes sociales",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "youtube",
+       "label": "YouTube (URL)",
+       "type": "text"
+      },
+      {
+       "name": "instagram",
+       "label": "Instagram",
+       "type": "text"
+      },
+      {
+       "name": "facebook",
+       "label": "Facebook (URL)",
+       "type": "text"
+      },
+      {
+       "name": "tiktok",
+       "label": "TikTok (URL)",
+       "type": "text"
+      },
+      {
+       "name": "instagramUsuario",
+       "label": "Usuario de Instagram (@…)",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "empresa",
+     "label": "Empresa (Libro de reclamaciones)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "name",
+       "label": "Nombre",
+       "type": "text"
+      },
+      {
+       "name": "ruc",
+       "label": "RUC",
+       "type": "text"
+      },
+      {
+       "name": "address",
+       "label": "Dirección",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "conceptos",
+     "label": "Conceptos (qué quieres sentir)",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "slug",
+       "label": "Identificador (slug)",
+       "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+       "type": "text"
+      },
+      {
+       "name": "label",
+       "label": "Etiqueta",
+       "type": "text"
+      },
+      {
+       "name": "icon",
+       "label": "Isotipo",
+       "type": "select",
+       "choices": {
+        "assets/diamond-orange.png": "Orange",
+        "assets/diamond-yellow.png": "Yellow",
+        "assets/diamond-lime.png": "Lime",
+        "assets/diamond-olive.png": "Olive",
+        "assets/diamond-teal.png": "Teal"
+       }
+      }
+     ]
+    },
+    {
+     "name": "destinos",
+     "label": "Destinos",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "slug",
+       "label": "Identificador (slug)",
+       "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+       "type": "text"
+      },
+      {
+       "name": "label",
+       "label": "Etiqueta",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "duraciones",
+     "label": "Tipos de duración",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "slug",
+       "label": "Identificador (slug)",
+       "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+       "type": "text"
+      },
+      {
+       "name": "label",
+       "label": "Etiqueta",
+       "type": "text"
+      }
+     ]
+    }
+   ]
+  },
+  "inicio": {
+   "tipo": "ajustes",
+   "id": "sunqu_inicio",
+   "titulo": "Inicio (portada)",
+   "orden": 2,
+   "info": "Colecciones de la portada (index.html). Los journeys, anfitriones y artículos del Diario salen de sus propios archivos. En WordPress: Sunqu › Inicio.",
+   "campos": [
+    {
+     "name": "heroSlides",
+     "label": "Hero · fotos en rotación",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "img",
+       "label": "Imagen",
+       "ayuda": "Sube la imagen o elige una de la biblioteca.",
+       "type": "imagen"
+      },
+      {
+       "name": "caption",
+       "label": "Pie de foto",
+       "type": "textarea"
+      }
+     ]
+    },
+    {
+     "name": "principios",
+     "label": "Principios",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "bg",
+       "label": "Color de fondo",
+       "type": "color"
+      },
+      {
+       "name": "fg",
+       "label": "Color del texto",
+       "type": "color"
+      },
+      {
+       "name": "n",
+       "label": "Número",
+       "type": "text"
+      },
+      {
+       "name": "layer",
+       "label": "Capa",
+       "type": "text"
+      },
+      {
+       "name": "title",
+       "label": "Título",
+       "type": "text"
+      },
+      {
+       "name": "q",
+       "label": "Pregunta o frase",
+       "type": "textarea"
+      },
+      {
+       "name": "icon",
+       "label": "Isotipo",
+       "type": "select",
+       "choices": {
+        "assets/diamond-orange.png": "Orange",
+        "assets/diamond-yellow.png": "Yellow",
+        "assets/diamond-lime.png": "Lime",
+        "assets/diamond-olive.png": "Olive",
+        "assets/diamond-teal.png": "Teal"
+       }
+      },
+      {
+       "name": "photo",
+       "label": "Foto",
+       "type": "imagen"
+      }
+     ]
+    },
+    {
+     "name": "formas",
+     "label": "Formas de viajar",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "title",
+       "label": "Título",
+       "type": "text"
+      },
+      {
+       "name": "sub",
+       "label": "Subtítulo",
+       "type": "text"
+      },
+      {
+       "name": "img",
+       "label": "Imagen",
+       "ayuda": "Sube la imagen o elige una de la biblioteca.",
+       "type": "imagen"
+      },
+      {
+       "name": "href",
+       "label": "Enlace",
+       "type": "text"
+      },
+      {
+       "name": "cta",
+       "label": "Texto del botón",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "condiciones",
+     "label": "Momento Sunqu · condiciones",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "n",
+       "label": "Número",
+       "type": "text"
+      },
+      {
+       "name": "title",
+       "label": "Título",
+       "type": "text"
+      },
+      {
+       "name": "body",
+       "label": "Texto",
+       "type": "textarea"
+      },
+      {
+       "name": "icon",
+       "label": "Isotipo",
+       "type": "select",
+       "choices": {
+        "assets/diamond-orange.png": "Orange",
+        "assets/diamond-yellow.png": "Yellow",
+        "assets/diamond-lime.png": "Lime",
+        "assets/diamond-olive.png": "Olive",
+        "assets/diamond-teal.png": "Teal"
+       }
+      }
+     ]
+    },
+    {
+     "name": "altitud",
+     "label": "Curva de altitud (journey insignia)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "dias",
+       "label": "Días",
+       "type": "repeater",
+       "sub_fields": [
+        {
+         "name": "d",
+         "label": "Día (D1…)",
+         "type": "text"
+        },
+        {
+         "name": "place",
+         "label": "Lugar",
+         "type": "text"
+        },
+        {
+         "name": "short",
+         "label": "Nombre corto",
+         "type": "text"
+        },
+        {
+         "name": "m",
+         "label": "Altitud (m)",
+         "type": "number"
+        },
+        {
+         "name": "status",
+         "label": "Estado",
+         "type": "textarea"
+        },
+        {
+         "name": "body",
+         "label": "Texto",
+         "type": "textarea"
+        }
+       ]
+      },
+      {
+       "name": "habitual",
+       "label": "Altitudes de referencia (m)",
+       "type": "lista",
+       "item": "number"
+      }
+     ]
+    },
+    {
+     "name": "ruta",
+     "label": "Mapa de la ruta · paradas",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "name",
+       "label": "Nombre",
+       "type": "text"
+      },
+      {
+       "name": "alt",
+       "label": "Altitud",
+       "type": "text"
+      },
+      {
+       "name": "lon",
+       "label": "Longitud",
+       "type": "number",
+       "decimal": true
+      },
+      {
+       "name": "lat",
+       "label": "Latitud",
+       "type": "number",
+       "decimal": true
+      }
+     ]
+    },
+    {
+     "name": "fases",
+     "label": "Antes, durante y después",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "bg",
+       "label": "Color de fondo",
+       "type": "color"
+      },
+      {
+       "name": "fg",
+       "label": "Color del texto",
+       "type": "color"
+      },
+      {
+       "name": "kicker",
+       "label": "Antetítulo",
+       "type": "text"
+      },
+      {
+       "name": "title",
+       "label": "Título",
+       "type": "text"
+      },
+      {
+       "name": "body",
+       "label": "Texto",
+       "type": "textarea"
+      },
+      {
+       "name": "img",
+       "label": "Patrón",
+       "ayuda": "Sube la imagen o elige una de la biblioteca.",
+       "type": "select",
+       "choices": {
+        "assets/pattern-pair.png": "Pair",
+        "assets/pattern-flower.png": "Flower",
+        "assets/pattern-steps.png": "Steps",
+        "assets/pattern-cluster.png": "Cluster",
+        "assets/pattern-ring.png": "Ring",
+        "assets/pattern-weave.png": "Weave"
+       }
+      },
+      {
+       "name": "photo",
+       "label": "Foto",
+       "type": "imagen"
+      }
+     ]
+    },
+    {
+     "name": "palabras",
+     "label": "Palabras en quechua",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "word",
+       "label": "Palabra",
+       "type": "text"
+      },
+      {
+       "name": "meaning",
+       "label": "Significado",
+       "type": "text"
+      },
+      {
+       "name": "color",
+       "label": "Color",
+       "type": "color"
+      }
+     ]
+    },
+    {
+     "name": "pasos",
+     "label": "Cómo diseñamos tu viaje · pasos",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "n",
+       "label": "Número",
+       "type": "text"
+      },
+      {
+       "name": "title",
+       "label": "Título",
+       "type": "text"
+      },
+      {
+       "name": "body",
+       "label": "Texto",
+       "type": "textarea"
+      }
+     ]
+    },
+    {
+     "name": "anfitriones",
+     "label": "Anfitriones destacados",
+     "type": "relacion",
+     "coleccion": "anfitriones"
+    },
+    {
+     "name": "instagram",
+     "label": "Instagram",
+     "type": "repeater",
+     "sub_fields": [
+      {
+       "name": "img",
+       "label": "Imagen",
+       "ayuda": "Sube la imagen o elige una de la biblioteca.",
+       "type": "imagen"
+      },
+      {
+       "name": "href",
+       "label": "Enlace",
+       "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "diario",
+     "label": "Diario en la portada",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "cantidad",
+       "label": "Artículos a mostrar",
+       "type": "number"
+      }
+     ]
+    }
+   ]
+  },
+  "journeys": {
+   "tipo": "coleccion",
+   "post_type": "sunqu_journey",
+   "singular": "Journey",
+   "plural": "Journeys",
+   "icono": "dashicons-location-alt",
+   "slug": "slug",
+   "titulo_item": "title",
+   "ajustes": {
+    "id": "sunqu_journeys",
+    "titulo": "Journeys · común",
+    "campos": [
+     {
+      "name": "principios",
+      "label": "Principios",
+      "type": "repeater",
+      "sub_fields": [
+       {
+        "name": "id",
+        "label": "Identificador",
+        "type": "text"
+       },
+       {
+        "name": "kicker",
+        "label": "Antetítulo",
+        "type": "text"
+       },
+       {
+        "name": "title",
+        "label": "Título",
+        "type": "text"
+       },
+       {
+        "name": "q",
+        "label": "Pregunta o frase",
+        "type": "textarea"
+       },
+       {
+        "name": "bg",
+        "label": "Color de fondo",
+        "type": "color"
+       },
+       {
+        "name": "fg",
+        "label": "Color del texto",
+        "type": "color"
+       },
+       {
+        "name": "photo",
+        "label": "Foto",
+        "type": "imagen"
+       }
+      ]
+     },
+     {
+      "name": "galeria",
+      "label": "Galería «Recuerda»",
+      "type": "repeater",
+      "sub_fields": [
+       {
+        "name": "img",
+        "label": "Imagen",
+        "ayuda": "Sube la imagen o elige una de la biblioteca.",
+        "type": "imagen"
+       },
+       {
+        "name": "ratio",
+        "label": "Proporción (3/4, 4/3)",
+        "type": "text"
+       }
+      ]
+     }
+    ]
+   },
+   "orden": 3,
+   "info": "Journeys. Cada journey tiene datos base y cuatro bloques: ficha (journey.html), plan (consejos, notas y temporada), catalogo (tarjeta de descubre.html) e inicio (tarjeta de la portada). En WordPress: tipo de contenido «Journeys». principios y galeria son comunes a todas las fichas.",
+   "campos": [
+    {
+     "name": "c",
+     "label": "Conceptos",
+     "type": "checkbox",
+     "opciones_de": "sitio:conceptos"
+    },
+    {
+     "name": "days",
+     "label": "Duración (texto)",
+     "type": "text"
+    },
+    {
+     "name": "alt",
+     "label": "Altitud",
+     "type": "text"
+    },
+    {
+     "name": "ficha",
+     "label": "Ficha del journey (journey.html)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "momentAlt",
+       "label": "Momento Sunqu · texto alternativo",
+       "type": "text"
+      },
+      {
+       "name": "kicker",
+       "label": "Antetítulo",
+       "type": "text"
+      },
+      {
+       "name": "price",
+       "label": "Precio",
+       "type": "text"
+      },
+      {
+       "name": "priceShort",
+       "label": "Precio corto",
+       "type": "text"
+      },
+      {
+       "name": "priceKicker",
+       "label": "Antetítulo del precio",
+       "type": "text"
+      },
+      {
+       "name": "priceNote",
+       "label": "Nota del precio",
+       "type": "text"
+      },
+      {
+       "name": "altLabel",
+       "label": "Etiqueta de la altitud",
+       "type": "text"
+      },
+      {
+       "name": "region",
+       "label": "Región",
+       "type": "text"
+      },
+      {
+       "name": "route",
+       "label": "Ruta (paradas)",
+       "type": "lista",
+       "item": "text"
+      },
+      {
+       "name": "card",
+       "label": "Imagen de tarjeta (otros journeys)",
+       "type": "imagen"
+      },
+      {
+       "name": "why",
+       "label": "Por qué",
+       "type": "textarea"
+      },
+      {
+       "name": "what",
+       "label": "Qué es",
+       "type": "textarea"
+      },
+      {
+       "name": "whatLong",
+       "label": "Qué es (versión larga)",
+       "type": "textarea"
+      },
+      {
+       "name": "storyTitle",
+       "label": "Historia · título",
+       "type": "textarea"
+      },
+      {
+       "name": "story",
+       "label": "Historia · párrafos",
+       "type": "lista",
+       "item": "textarea"
+      },
+      {
+       "name": "moment",
+       "label": "Momento Sunqu",
+       "type": "textarea"
+      },
+      {
+       "name": "how",
+       "label": "Principio que lo guía",
+       "ayuda": "Uno de los principios de «Journeys · común».",
+       "type": "select",
+       "opciones_de": "journeys:principios"
+      },
+      {
+       "name": "howText",
+       "label": "Cómo se vive · texto",
+       "type": "textarea"
+      },
+      {
+       "name": "hosts",
+       "label": "Anfitriones",
+       "type": "relacion",
+       "coleccion": "anfitriones"
+      },
+      {
+       "name": "mp",
+       "label": "Variante del Momento Sunqu",
+       "ayuda": "alma, profundo u origen: qué foto de Momento Sunqu usa la ficha. Vacío = ninguna.",
+       "nulo": true,
+       "type": "text"
+      },
+      {
+       "name": "vivTitle",
+       "label": "Día a día · título",
+       "type": "text"
+      },
+      {
+       "name": "vivText",
+       "label": "Día a día · texto",
+       "type": "textarea"
+      },
+      {
+       "name": "chartTitle",
+       "label": "Altitud · título",
+       "type": "text",
+       "opcional": true
+      },
+      {
+       "name": "chartText",
+       "label": "Altitud · texto",
+       "type": "textarea",
+       "opcional": true
+      },
+      {
+       "name": "itin",
+       "label": "Itinerario día a día",
+       "nulo": true,
+       "type": "repeater",
+       "sub_fields": [
+        {
+         "name": "t",
+         "label": "Título",
+         "type": "text"
+        },
+        {
+         "name": "m",
+         "label": "Altitud (m)",
+         "type": "number"
+        },
+        {
+         "name": "stage",
+         "label": "Etapa (DESCUBRE, VIVE…)",
+         "type": "text"
+        },
+        {
+         "name": "body",
+         "label": "Texto",
+         "type": "textarea"
+        }
+       ]
+      },
+      {
+       "name": "momentImg",
+       "label": "Momento Sunqu · foto",
+       "type": "imagen"
+      },
+      {
+       "name": "slides",
+       "label": "Galería del hero",
+       "type": "repeater",
+       "sub_fields": [
+        {
+         "name": "img",
+         "label": "Imagen",
+         "ayuda": "Sube la imagen o elige una de la biblioteca.",
+         "type": "imagen"
+        },
+        {
+         "name": "caption",
+         "label": "Pie de foto",
+         "type": "textarea"
+        }
+       ]
+      },
+      {
+       "name": "ayniNote",
+       "label": "Nota de reciprocidad",
+       "type": "text",
+       "opcional": true
+      },
+      {
+       "name": "sub",
+       "label": "Subtítulo",
+       "type": "text",
+       "opcional": true
+      }
+     ]
+    },
+    {
+     "name": "plan",
+     "label": "Planifica (consejos, notas y temporada)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "tips",
+       "label": "Consejos Sunqu",
+       "type": "lista",
+       "item": "textarea"
+      },
+      {
+       "name": "access",
+       "label": "Nota de accesibilidad",
+       "type": "textarea"
+      },
+      {
+       "name": "season",
+       "label": "Temporada",
+       "type": "group",
+       "sub_fields": [
+        {
+         "name": "text",
+         "label": "Texto",
+         "type": "textarea"
+        },
+        {
+         "name": "clima",
+         "label": "Clima",
+         "type": "text"
+        },
+        {
+         "name": "temp",
+         "label": "Temperatura",
+         "type": "text"
+        },
+        {
+         "name": "cal",
+         "label": "Calendario",
+         "type": "text"
+        },
+        {
+         "name": "months",
+         "label": "Meses (ene → dic)",
+         "ayuda": "0 = temporada de lluvias · 1 = buena · 2 = ideal",
+         "type": "meses"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "catalogo",
+     "label": "Tarjeta del catálogo (descubre.html)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "orden",
+       "label": "Orden",
+       "ayuda": "Orden en el catálogo de Descubre (1 = primero).",
+       "type": "number"
+      },
+      {
+       "name": "kicker",
+       "label": "Antetítulo",
+       "type": "text"
+      },
+      {
+       "name": "why",
+       "label": "Por qué",
+       "type": "textarea"
+      },
+      {
+       "name": "region",
+       "label": "Región",
+       "type": "text"
+      },
+      {
+       "name": "dest",
+       "label": "Destinos",
+       "type": "checkbox",
+       "opciones_de": "sitio:destinos"
+      },
+      {
+       "name": "dur",
+       "label": "Duración",
+       "type": "select",
+       "opciones_de": "sitio:duraciones"
+      },
+      {
+       "name": "price",
+       "label": "Precio",
+       "type": "number"
+      },
+      {
+       "name": "kw",
+       "label": "Palabras clave de búsqueda",
+       "ayuda": "Separadas por espacios. Ayudan al buscador de Descubre.",
+       "type": "text"
+      },
+      {
+       "name": "imagenes",
+       "label": "Imágenes",
+       "type": "lista",
+       "item": "imagen"
+      },
+      {
+       "name": "priceKicker",
+       "label": "Antetítulo del precio",
+       "type": "text",
+       "opcional": true
+      },
+      {
+       "name": "priceMax",
+       "label": "Precio hasta (USD)",
+       "type": "number",
+       "opcional": true
+      }
+     ]
+    },
+    {
+     "name": "inicio",
+     "label": "Tarjeta de la portada",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "region",
+       "label": "Región",
+       "type": "text"
+      },
+      {
+       "name": "price",
+       "label": "Precio",
+       "type": "text"
+      },
+      {
+       "name": "icon",
+       "label": "Isotipo",
+       "type": "select",
+       "choices": {
+        "assets/diamond-orange.png": "Orange",
+        "assets/diamond-yellow.png": "Yellow",
+        "assets/diamond-lime.png": "Lime",
+        "assets/diamond-olive.png": "Olive",
+        "assets/diamond-teal.png": "Teal"
+       }
+      },
+      {
+       "name": "ph",
+       "label": "Texto alternativo de la foto",
+       "type": "text"
+      },
+      {
+       "name": "why",
+       "label": "Por qué",
+       "type": "textarea"
+      },
+      {
+       "name": "moment",
+       "label": "Momento Sunqu",
+       "type": "textarea"
+      },
+      {
+       "name": "img",
+       "label": "Imagen",
+       "ayuda": "Sube la imagen o elige una de la biblioteca.",
+       "type": "imagen"
+      }
+     ]
+    }
+   ]
+  },
+  "anfitriones": {
+   "tipo": "coleccion",
+   "post_type": "sunqu_anfitrion",
+   "singular": "Anfitrión",
+   "plural": "Anfitriones",
+   "icono": "dashicons-groups",
+   "slug": "slug",
+   "titulo_item": "role",
+   "orden": 4,
+   "info": "Anfitriones (Sunqu Collective). Los usan la portada (Conecta) y la ficha de cada journey. En WordPress: tipo de contenido «Anfitriones».",
+   "campos": [
+    {
+     "name": "place",
+     "label": "Lugar",
+     "type": "text"
+    },
+    {
+     "name": "teach",
+     "label": "Te enseña…",
+     "type": "textarea"
+    },
+    {
+     "name": "img",
+     "label": "Imagen",
+     "ayuda": "Sube la imagen o elige una de la biblioteca.",
+     "type": "imagen"
+    },
+    {
+     "name": "alt",
+     "label": "Texto alternativo de la foto",
+     "type": "text"
+    },
+    {
+     "name": "altInicio",
+     "label": "Texto alternativo en la portada",
+     "type": "text"
+    }
+   ]
+  },
+  "experiencias": {
+   "tipo": "coleccion",
+   "post_type": "sunqu_experiencia",
+   "singular": "Experiencia",
+   "plural": "Experiencias",
+   "icono": "dashicons-palmtree",
+   "slug": "slug",
+   "titulo_item": "t",
+   "orden": 5,
+   "info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias».",
+   "campos": [
+    {
+     "name": "place",
+     "label": "Lugar",
+     "type": "text"
+    },
+    {
+     "name": "dest",
+     "label": "Destinos",
+     "type": "select",
+     "opciones_de": "sitio:destinos"
+    },
+    {
+     "name": "img",
+     "label": "Imagen",
+     "ayuda": "Sube la imagen o elige una de la biblioteca.",
+     "type": "imagen"
+    },
+    {
+     "name": "alt",
+     "label": "Altitud",
+     "type": "text"
+    },
+    {
+     "name": "dur",
+     "label": "Duración",
+     "type": "text"
+    },
+    {
+     "name": "c",
+     "label": "Conceptos",
+     "type": "checkbox",
+     "opciones_de": "sitio:conceptos"
+    }
+   ]
+  },
+  "resenas": {
+   "tipo": "coleccion",
+   "post_type": "sunqu_resena",
+   "singular": "Reseña",
+   "plural": "Reseñas",
+   "icono": "dashicons-format-quote",
+   "slug": "id",
+   "titulo_item": "name",
+   "ajustes": {
+    "id": "sunqu_resenas",
+    "titulo": "Reseñas · temas y plataformas",
+    "campos": [
+     {
+      "name": "temas",
+      "label": "Temas",
+      "type": "repeater",
+      "sub_fields": [
+       {
+        "name": "slug",
+        "label": "Identificador (slug)",
+        "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+        "type": "text"
+       },
+       {
+        "name": "label",
+        "label": "Etiqueta",
+        "type": "text"
+       },
+       {
+        "name": "one",
+        "label": "Etiqueta en singular",
+        "type": "text"
+       },
+       {
+        "name": "icon",
+        "label": "Isotipo",
+        "type": "select",
+        "choices": {
+         "assets/diamond-orange.png": "Orange",
+         "assets/diamond-yellow.png": "Yellow",
+         "assets/diamond-lime.png": "Lime",
+         "assets/diamond-olive.png": "Olive",
+         "assets/diamond-teal.png": "Teal"
+        }
+       }
+      ]
+     },
+     {
+      "name": "plataformas",
+      "label": "Plataformas",
+      "type": "repeater",
+      "sub_fields": [
+       {
+        "name": "slug",
+        "label": "Identificador (slug)",
+        "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+        "type": "text"
+       },
+       {
+        "name": "label",
+        "label": "Etiqueta",
+        "type": "text"
+       }
+      ]
+     }
+    ]
+   },
+   "orden": 6,
+   "info": "Reseñas de viajeros (recuerda.html). sample: true muestra la etiqueta «Ejemplo». Si url apunta a un post de Instagram o TikTok, se muestra su embed oficial. En WordPress: tipo de contenido «Reseñas».",
+   "campos": [
+    {
+     "name": "sample",
+     "label": "Es un ejemplo (muestra la etiqueta)",
+     "ayuda": "Actívalo en reseñas de muestra; desactívalo en reseñas reales.",
+     "type": "true_false"
+    },
+    {
+     "name": "kind",
+     "label": "Tipo",
+     "type": "select",
+     "choices": {
+      "video": "Video",
+      "photo": "Foto",
+      "comment": "Comentario"
+     }
+    },
+    {
+     "name": "plat",
+     "label": "Plataforma",
+     "type": "select",
+     "opciones_de": "resenas:plataformas"
+    },
+    {
+     "name": "country",
+     "label": "País",
+     "type": "text"
+    },
+    {
+     "name": "when",
+     "label": "Cuándo",
+     "type": "text"
+    },
+    {
+     "name": "topic",
+     "label": "Tema",
+     "type": "select",
+     "opciones_de": "resenas:temas"
+    },
+    {
+     "name": "what",
+     "label": "Qué vivió o compró",
+     "type": "textarea"
+    },
+    {
+     "name": "caption",
+     "label": "Pie de foto",
+     "type": "textarea"
+    },
+    {
+     "name": "video",
+     "label": "Video (mp4 vertical)",
+     "type": "archivo",
+     "opcional": true
+    },
+    {
+     "name": "poster",
+     "label": "Portada del video",
+     "type": "imagen",
+     "opcional": true
+    },
+    {
+     "name": "dur",
+     "label": "Duración del video",
+     "type": "text",
+     "opcional": true
+    },
+    {
+     "name": "likes",
+     "label": "Me gusta",
+     "type": "text",
+     "opcional": true
+    },
+    {
+     "name": "url",
+     "label": "Enlace al post (Instagram o TikTok)",
+     "ayuda": "Si pegas el enlace de un post público, la web muestra el embed oficial.",
+     "type": "text"
+    },
+    {
+     "name": "stars",
+     "label": "Estrellas (1–5)",
+     "type": "number",
+     "opcional": true
+    },
+    {
+     "name": "photos",
+     "label": "Fotos",
+     "type": "lista",
+     "item": "imagen",
+     "opcional": true
+    }
+   ]
+  },
+  "productos": {
+   "tipo": "coleccion",
+   "post_type": "sunqu_producto",
+   "singular": "Producto",
+   "plural": "Productos (tienda)",
+   "icono": "dashicons-cart",
+   "slug": "id",
+   "titulo_item": "name",
+   "ajustes": {
+    "id": "sunqu_productos",
+    "titulo": "Tienda · categorías",
+    "campos": [
+     {
+      "name": "categorias",
+      "label": "Categorías",
+      "type": "repeater",
+      "sub_fields": [
+       {
+        "name": "slug",
+        "label": "Identificador (slug)",
+        "ayuda": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
+        "type": "text"
+       },
+       {
+        "name": "label",
+        "label": "Etiqueta",
+        "type": "text"
+       }
+      ]
+     }
+    ]
+   },
+   "orden": 7,
+   "info": "Tienda de merch (recuerda.html#tienda). Precios en USD. En WordPress: tipo de contenido «Productos».",
+   "campos": [
+    {
+     "name": "cat",
+     "label": "Categoría",
+     "type": "select",
+     "opciones_de": "productos:categorias"
+    },
+    {
+     "name": "price",
+     "label": "Precio",
+     "type": "number"
+    },
+    {
+     "name": "img",
+     "label": "Imagen",
+     "ayuda": "Sube la imagen o elige una de la biblioteca.",
+     "type": "imagen"
+    },
+    {
+     "name": "desc",
+     "label": "Descripción",
+     "type": "textarea"
+    },
+    {
+     "name": "sizes",
+     "label": "Tallas",
+     "type": "lista",
+     "item": "text"
+    },
+    {
+     "name": "tag",
+     "label": "Etiqueta",
+     "type": "text"
+    },
+    {
+     "name": "pos",
+     "label": "Encuadre de la foto (CSS object-position)",
+     "type": "text"
+    }
+   ]
+  },
+  "diario": {
+   "tipo": "entradas",
+   "orden": 8,
+   "info": "Diario Sunqu (blog.html y articulo.html; la portada muestra los 3 más recientes). En WordPress: Entradas y Categorías nativas; el cuerpo de cada artículo se edita en el editor de bloques.",
+   "campos": [
+    {
+     "name": "read",
+     "label": "Minutos de lectura",
+     "type": "number"
+    },
+    {
+     "name": "author",
+     "label": "Autor",
+     "type": "text"
+    },
+    {
+     "name": "role",
+     "label": "Rol",
+     "type": "text"
+    },
+    {
+     "name": "lead",
+     "label": "Entradilla",
+     "type": "textarea"
+    }
+   ],
+   "nativos": {
+    "slug": "post_name",
+    "title": "post_title",
+    "date": "post_date",
+    "excerpt": "post_excerpt",
+    "img": "imagen destacada",
+    "cat": "categoría",
+    "sections": "cuerpo (editor de bloques)"
+   }
+  },
+  "legales": {
+   "tipo": "ajustes",
+   "id": "sunqu_legales",
+   "titulo": "Legales",
+   "orden": 9,
+   "info": "Textos legales. terminos: secciones de terminos.html (id = ancla). En WordPress: Sunqu › Legales.",
+   "campos": [
+    {
+     "name": "terminos",
+     "label": "Términos y condiciones",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "secciones",
+       "label": "Secciones",
+       "type": "repeater",
+       "sub_fields": [
+        {
+         "name": "id",
+         "label": "Identificador",
+         "type": "text"
+        },
+        {
+         "name": "h",
+         "label": "Título de la sección",
+         "type": "text"
+        },
+        {
+         "name": "blocks",
+         "label": "Bloques",
+         "type": "repeater",
+         "sub_fields": [
+          {
+           "name": "p",
+           "label": "Párrafo",
+           "type": "textarea",
+           "opcional": true
+          },
+          {
+           "name": "ul",
+           "label": "Lista",
+           "type": "repeater",
+           "sub_fields": [
+            {
+             "name": "b",
+             "label": "Negrita",
+             "type": "text"
+            },
+            {
+             "name": "t",
+             "label": "Título",
+             "type": "textarea"
+            }
+           ],
+           "opcional": true
+          },
+          {
+           "name": "link",
+           "label": "Enlace",
+           "type": "text",
+           "opcional": true
+          },
+          {
+           "name": "label",
+           "label": "Etiqueta",
+           "type": "text",
+           "opcional": true
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

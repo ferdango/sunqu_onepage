@@ -1,16 +1,18 @@
 # Handoff: Sunqu Journeys — One-page (v2)
 
 **Web publicada:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz).
+
+> **Contenido y WordPress →** [`docs/WORDPRESS.md`](docs/WORDPRESS.md). Todo el contenido vive en `content/*.json` y la web lo carga con `js/sunqu-content.js`. Si `js/sunqu-config.js` tiene la URL de un WordPress con el plugin `wordpress/sunqu-cms`, lo lee desde ahí (API `/wp-json/sunqu/v1/contenido`) y le envía los formularios. Entorno local listo: `cd wordpress && ./setup.sh`.
 `index.html` es la copia publicada de `Sunqu Journeys v2.dc.html`: al editar el prototipo, copia el archivo a `index.html` y haz push.
 
 **Estructura de cada página.** El HTML está indentado con tabs y cada bloque principal (header, menú lateral, secciones, footer, modales) lleva un comentario `<!-- Sección #id · nombre -->`. Los estilos viven aparte, minificados, en `css/<página>.min.css` (`home.min.css` lo comparten `index.html` y `Sunqu Journeys v2.dc.html`) y se enlazan desde el `<head>`; las rutas a `fonts/` y `assets/` dentro del CSS son relativas a `css/` (`../fonts/…`). La lógica sigue al final de cada archivo, en `<script type="text/x-dc">` (clase `Component`).
 Importante al editar el markup: indenta solo con tabs y saltos de línea. El runtime descarta los espacios en blanco sin el carácter espacio, pero un espacio entre dos etiquetas se renderiza como texto.
-`descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos viven en `JOURNEYS` y `EXPS` dentro del archivo. Los guardados se almacenan en `localStorage['sunqu-fav']` como `{ clave: { t: título, k: 'Journey'|'Experiencia' } }`; el formulario «Diseña tu viaje» (inicio, journey y descubre) los lee y ofrece un interruptor «Adjuntar mis guardados» que los envía en el campo oculto `guardados`.
-La primera visita a Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fechas y viajeros, filtros, guardar y Guardados); se relanza con el botón «Cómo funciona» de la barra y se marca como visto en `localStorage['sunqu-onb-descubre']`. Los pasos viven en `ONB` dentro del archivo.
-`recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Las reseñas actuales son de ejemplo (`REVIEWS`) y los precios de `PRODUCTS` son de referencia.
-`blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen sus textos de `blog-data.js`: para publicar un artículo nuevo basta con agregarlo ahí.
-`terminos.html` (Términos y condiciones, enlazado desde «Legales» del footer) y `reclamaciones.html` (Libro de reclamaciones virtual, enlazado desde el footer; header solo con el logo). El libro necesita un backend o servicio de correo para registrar y enviar cada hoja; el RUC y la dirección se completan en `CO`.
-`journey.html?j=<id>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Todo su contenido vive en el objeto `J` y en `PLAN` (consejos, notas y temporada) dentro del propio archivo.
+`descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos vienen de `content/journeys.json` (bloque `catalogo`) y `content/experiencias.json`. Los guardados se almacenan en `localStorage['sunqu-fav']` como `{ clave: { t: título, k: 'Journey'|'Experiencia' } }`; el formulario «Diseña tu viaje» (inicio, journey y descubre) los lee y ofrece un interruptor «Adjuntar mis guardados» que los envía en el campo oculto `guardados`.
+La primera visita a Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fechas y viajeros, filtros, guardar y Guardados); se relanza con el botón «Cómo funciona» de la barra y se marca como visto en `localStorage['sunqu-onb-descubre']`. Los pasos del tour viven en `ONB` dentro del archivo.
+`recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Reseñas en `content/resenas.json` (las actuales son de ejemplo) y tienda en `content/productos.json` (precios de referencia).
+`blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen los artículos de `content/diario.json` (en WordPress: Entradas y Categorías).
+`terminos.html` (Términos y condiciones, enlazado desde «Legales» del footer) y `reclamaciones.html` (Libro de reclamaciones virtual, enlazado desde el footer; header solo con el logo). El libro necesita un backend o servicio de correo para registrar y enviar cada hoja; el RUC y la dirección se completan en `content/sitio.json › empresa` (WordPress: Sunqu › Sitio). Con WordPress conectado, cada hoja se registra en Sunqu › Libro de reclamaciones y se envía por correo.
+`journey.html?j=<slug>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Su contenido viene de `content/journeys.json` (bloques `ficha` y `plan`), `content/anfitriones.json` y los `principios`/`galeria` comunes del mismo archivo.
 
 ## Overview
 Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idioma base: español (selector ES/EN/PT preparado).
@@ -85,7 +87,9 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 
 ## Files
 - `Sunqu Journeys v2.dc.html` — prototipo completo (markup + lógica)
-- `support.js` — runtime necesario solo para ver el prototipo
+- `support.js` — runtime de las plantillas (lo arranca `js/sunqu-content.js` cuando el contenido está listo)
+- `content/` — contenido de toda la web (JSON) · `js/sunqu-config.js` y `js/sunqu-content.js` — conexión con WordPress y capa de contenido
+- `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema · `docs/WORDPRESS.md` — manual de integración
 - `css/` — hojas de estilo minificadas, una por página
 - `assets/`, `fonts/`
 

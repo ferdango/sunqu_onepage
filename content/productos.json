@@ -1,0 +1,121 @@
+{
+  "_info": "Tienda de merch (recuerda.html#tienda). Precios en USD. En WordPress: tipo de contenido «Productos».",
+  "categorias": [
+    {
+      "slug": "todo",
+      "label": "Todo"
+    },
+    {
+      "slug": "ropa",
+      "label": "Ropa"
+    },
+    {
+      "slug": "accesorios",
+      "label": "Accesorios"
+    },
+    {
+      "slug": "papeleria",
+      "label": "Papelería y arte"
+    }
+  ],
+  "items": [
+    {
+      "id": "polo",
+      "name": "Polo Sunqu · Flor andina",
+      "cat": "ropa",
+      "price": 24,
+      "img": "assets/merch/polo.jpg",
+      "desc": "Algodón peinado con el patrón andino de la marca.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Ropa",
+      "pos": "center"
+    },
+    {
+      "id": "gorra",
+      "name": "Gorra Sunqu",
+      "cat": "ropa",
+      "price": 18,
+      "img": "assets/merch/gorra.jpg",
+      "desc": "Gris, con el isotipo bordado al frente.",
+      "sizes": [],
+      "tag": "Talla única",
+      "pos": "center 35%"
+    },
+    {
+      "id": "chaleco",
+      "name": "Chaleco acolchado Sunqu",
+      "cat": "ropa",
+      "price": 59,
+      "img": "assets/merch/chaleco.jpg",
+      "desc": "Liviano y abrigador para las noches andinas.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Ropa",
+      "pos": "center 30%"
+    },
+    {
+      "id": "bolso",
+      "name": "Bolso bandolera Sunqu",
+      "cat": "accesorios",
+      "price": 34,
+      "img": "assets/merch/bolso.jpg",
+      "desc": "Verde bosque, con bolsillos al frente para el día a día.",
+      "sizes": [],
+      "tag": "Accesorio",
+      "pos": "center"
+    },
+    {
+      "id": "llaveros",
+      "name": "Llaveros Sunqu · set de 2",
+      "cat": "accesorios",
+      "price": 9,
+      "img": "assets/merch/llaveros.jpg",
+      "desc": "Metal esmaltado, en blanco y lima.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "pines",
+      "name": "Pines Sunqu · set de 4",
+      "cat": "accesorios",
+      "price": 12,
+      "img": "assets/merch/pines.jpg",
+      "desc": "Los símbolos de la marca, para la mochila o la casaca.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "lapiceros",
+      "name": "Lapiceros Sunqu · set de 6",
+      "cat": "papeleria",
+      "price": 14,
+      "img": "assets/merch/lapiceros.jpg",
+      "desc": "Uno por cada color de la paleta Sunqu.",
+      "sizes": [],
+      "tag": "Papelería",
+      "pos": "center"
+    },
+    {
+      "id": "poster",
+      "name": "Póster Sunqu · Símbolos",
+      "cat": "papeleria",
+      "price": 22,
+      "img": "assets/merch/poster.jpg",
+      "desc": "Impresión A2 en papel mate.",
+      "sizes": [],
+      "tag": "Arte",
+      "pos": "center"
+    }
+  ]
+}

@@ -4,7 +4,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/home.min.css">
-		<script src="./support.js"></script>
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-config.js"></script>
+		<script src="js/sunqu-content.js" data-page="home"></script>
 	</head>
 	<body>
 		<x-dc>
@@ -96,7 +98,7 @@
 					<div class="sj-drawer-foot">
 						<a href="#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
 						<div class="sj-drawer-row">
-							<div class="sj-drawer-contact"><a href="mailto:hola@sunqujourneys.com">hola@sunqujourneys.com</a><a href="tel:+51000000000">+51 000 000 000</a></div>
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
 							<div class="sj-seg" role="group" aria-label="Idioma">
 								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
 									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
@@ -106,7 +108,7 @@
 						<div class="sj-band sj-band--light" aria-hidden="true"></div>
 					</div>
 				</aside>
-				<a class="sj-wa {{ waCls }}" href="https://wa.me/51966461384?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="https://wa.me/{{ site.wa }}?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -597,42 +599,20 @@
 							<a href="blog.html" class="btn btn-secondary" style="border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver todo el blog<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
 						</div>
 						<div class="sj-grid-3 sj-carousel" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,3vw,40px)">
-							<article data-reveal="" data-delay="0" style="display:flex;flex-direction:column;gap:18px">
-								<a href="articulo.html?a=aclimatarte-en-los-andes" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
-									<img src="https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=1000&q=70" alt="Cómo aclimatarte en los Andes sin perder el primer día" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
-								</a>
-								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
-									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Guía</span>
-									<span>12 sep 2026</span>
-								</div>
-								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Cómo aclimatarte en los Andes sin perder el primer día</h3>
-								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Por qué entramos por el Valle Sagrado y qué comer, beber y evitar las primeras 48 horas.</p>
-								<a href="articulo.html?a=aclimatarte-en-los-andes" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-							</article>
-							<article data-reveal="" data-delay="120" style="display:flex;flex-direction:column;gap:18px">
-								<a href="articulo.html?a=la-picanteria-arequipena" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
-									<img src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1000&q=70" alt="La picantería arequipeña, explicada por una picantera" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
-								</a>
-								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
-									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Sabor</span>
-									<span>28 ago 2026</span>
-								</div>
-								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">La picantería arequipeña, explicada por una picantera</h3>
-								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Chupe, rocoto relleno y chicha de guiñapo: la cocina que se resiste a desaparecer.</p>
-								<a href="articulo.html?a=la-picanteria-arequipena" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-							</article>
-							<article data-reveal="" data-delay="240" style="display:flex;flex-direction:column;gap:18px">
-								<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
-									<img src="https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1000&q=70" alt="Ayni: qué recibe cada comunidad que te recibe" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
-								</a>
-								<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
-									<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">Comunidad</span>
-									<span>09 ago 2026</span>
-								</div>
-								<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">Ayni: qué recibe cada comunidad que te recibe</h3>
-								<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Nuestra ficha de reciprocidad, paso a paso, y quién decide cómo se usa.</p>
-								<a href="articulo.html?a=ayni-ficha-de-reciprocidad" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
-							</article>
+							<sc-for list="{{ blogCards }}" as="b" hint-placeholder-count="3">
+								<article data-reveal="" data-delay="{{ b.delay }}" style="display:flex;flex-direction:column;gap:18px">
+									<a href="{{ b.href }}" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
+										<img src="{{ b.img }}" alt="{{ b.title }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+									</a>
+									<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
+										<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">{{ b.cat }}</span>
+										<span>{{ b.date }}</span>
+									</div>
+									<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">{{ b.title }}</h3>
+									<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">{{ b.excerpt }}</p>
+									<a href="{{ b.href }}" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+								</article>
+							</sc-for>
 						</div>
 					</section>
 
@@ -640,72 +620,24 @@
 					<section id="instagram" data-bg="light" data-screen-label="Instagram" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
 						<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
 							<div>
-								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · @sunqujourneys</span>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · {{ site.igUser }}</span>
 								<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:14ch">El Perú, contado por quienes lo viven.</h2>
 							</div>
-							<a href="#" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
+							<a href="{{ site.instagram }}" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
 						</div>
 						<div data-reveal="" class="sj-ig" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:clamp(10px,1.4vw,18px)">
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1535400255456-984241443b29?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1578362646678-a1b282e43ff8?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1730424508745-29ea708ae698?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
-							<a href="#" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-								<img src="https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=700&h=700&q=70" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
-								<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
-									<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
-										<circle cx="12" cy="12" r="4"></circle>
-										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
-									</svg>
-								</span>
-							</a>
+							<sc-for list="{{ instagram }}" as="g" hint-placeholder-count="6">
+								<a href="{{ g.href }}" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
+									<img src="{{ g.img }}" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+									<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
+										<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+											<circle cx="12" cy="12" r="4"></circle>
+											<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+										</svg>
+									</span>
+								</a>
+							</sc-for>
 						</div>
 					</section>
 
@@ -783,8 +715,9 @@
 											</sc-if>
 											<input type="hidden" name="guardados" value="{{ attach.value }}">
 										</div>
+										<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
 										<div class="sj-form-foot">
-											<button type="submit" class="btn btn-primary sj-submit">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
 											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
 										</div>
 									</form>
@@ -874,15 +807,15 @@
 							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span>
-									<a href="mailto:hola@sunqujourneys.com" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">hola@sunqujourneys.com</a>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span>
-									<a href="tel:+51000000000" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">+51 000 000 000</a>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
 								</div>
 								<div style="display:flex;flex-direction:column;gap:6px">
 									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span>
-									<span>Lima, Perú</span>
+									<span>{{ site.office }}</span>
 								</div>
 							</div>
 						</div>
@@ -898,25 +831,25 @@
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
 							</nav>
 							<div style="display:flex;gap:10px">
-								<a href="#" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
 										<path d="m10 15 5-3-5-3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
 										<circle cx="12" cy="12" r="4"></circle>
 										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
 									</svg>
 								</a>
-								<a href="#" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
 									</svg>
 								</a>
-								<a href="#" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
 									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 										<path d="M16 3a5 5 0 0 0 5 5"></path>
 										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
@@ -940,17 +873,8 @@ class Component extends DCLogic {
   stripRef = React.createRef();
   burgerRef = React.createRef();
   closeRef = React.createRef();
-  ALT = [
-    { d: 'D1', place: 'Lima', short: 'Lima', m: 154, status: 'Nivel del mar', body: 'Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa.' },
-    { d: 'D2', place: 'Valle Sagrado', short: 'Valle', m: 2800, status: '600 m bajo Cusco', body: 'Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche.' },
-    { d: 'D3', place: 'Valle Sagrado', short: 'Valle', m: 2800, status: 'Aclimatación', body: 'Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre.' },
-    { d: 'D4', place: 'Maras y Moray', short: 'Maras', m: 3300, status: 'Subes y vuelves a bajar', body: 'Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray.' },
-    { d: 'D5', place: 'Machu Picchu', short: 'M. Picchu', m: 2430, status: 'Bajo el umbral', body: 'Bajamos a la ciudadela por la mañana. Primero la piedra.' },
-    { d: 'D6', place: 'Comunidad', short: 'Comunidad', m: 3500, status: 'Ya aclimatado', body: 'Después, la gente: pachamanca cocinada bajo tierra con una familia quechua.' },
-    { d: 'D7', place: 'Cusco', short: 'Cusco', m: 3400, status: 'En el umbral, sin soroche', body: 'Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura.' },
-    { d: 'D8', place: 'Lima', short: 'Lima', m: 154, status: 'De vuelta a la costa', body: 'Regreso a Lima con una receta, una técnica y los nombres de quienes te recibieron.' },
-  ];
-  HAB = [154, 3400, 3400];
+  ALT = SunquView.ALT;
+  HAB = SunquView.HAB;
   NAV = [['descubre', 'Descubre'], ['conecta', 'Conecta'], ['vive', 'Vive'], ['recuerda', 'Recuerda']];
   PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
   setMenu(open) {
@@ -963,7 +887,7 @@ class Component extends DCLogic {
   }
   gcRef = React.createRef();
   mapRef = React.createRef();
-  STOPS = [['Lima','0 m',-77.03,-12.05],['Valle Sagrado','2.800 m',-72.12,-13.3],['Moray','3.500 m',-72.195,-13.33],['Machu Picchu','2.430 m',-72.545,-13.163],['Cusco','3.400 m',-71.97,-13.53],['Arequipa','2.335 m',-71.54,-16.41],['Colca','3.600 m',-71.88,-15.63]];
+  STOPS = SunquView.STOPS;
   async drawMap() {
     for (let i = 0; i < 80 && !(window.d3 && window.topojson); i++) await new Promise(r => setTimeout(r, 100));
     const svg = this.mapRef.current; if (!svg || !window.d3) return;
@@ -1250,13 +1174,7 @@ class Component extends DCLogic {
   renderVals() {
     const T = '#736d47', dim = 'rgba(28,28,28,.16)';
     const concept = this.state.concept ?? this.props.conceptDefault ?? 'todo';
-    const all = [
-      { id: 'alma', img: 'https://images.unsplash.com/photo-1559160671-cc23bc25eb94?auto=format&fit=crop&w=1400&q=70', c: ['historia', 'gente'], title: 'El Alma de los Andes', region: 'Valle Sagrado · Cusco · Machu Picchu', days: '8 días', alt: '2.800 m', price: 'Desde USD 4.200', icon: 'assets/diamond-teal.png', ph: 'Foto — Valle Sagrado al atardecer', why: 'Los Andes no son ruinas y paisaje: son una cultura viva que se conoce a través de quienes la sostienen.', moment: 'Tu primera noche en el Valle Sagrado, cuando entiendes por qué llegaste ahí y no a Cusco.' },
-      { id: 'sabor', img: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'gente'], title: 'El Perú que se Saborea', region: 'Arequipa · Colca', days: '10 días', alt: '2.335 m', price: 'Desde USD 5.400', icon: 'assets/diamond-orange.png', ph: 'Foto — picantería arequipeña', why: 'La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.', moment: 'Cocinar en la picantería junto a la picantera, y llevarte su receta.' },
-      { id: 'profundo', img: 'https://images.unsplash.com/photo-1532996152552-eaffc4edfc1a?auto=format&fit=crop&w=1400&q=70', c: ['historia', 'gente'], title: 'Perú Profundo', region: 'Machu Picchu · comunidades', days: '9 días', alt: '2.430 m', price: 'Desde USD 6.800', icon: 'assets/diamond-lime.png', ph: 'Foto — comunidad andina', why: 'El monumento se entiende al revés: primero la piedra, después la gente que desciende de quienes la pusieron ahí.', moment: 'El regreso a la comunidad después de Machu Picchu, cuando descubres que lo que recordarás no es la piedra.' },
-      { id: 'origen', img: 'https://images.unsplash.com/photo-1632913582499-381c7c798787?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'historia'], title: 'Sunqu Origen', region: 'Lima · Valle Sagrado · Cusco', days: '9 días', alt: '3.500 m', price: 'Journey insignia', icon: 'assets/diamond-yellow.png', ph: 'Foto — Moray o salineras de Maras', why: 'Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.', moment: 'La pachamanca del sexto día, cocinada bajo tierra con una familia quechua.' },
-      { id: 'corto', img: 'https://images.unsplash.com/photo-1535400875775-0269e7a919af?auto=format&fit=crop&w=1400&q=70', c: ['sabor', 'gente'], title: 'Módulo gastronómico', region: 'Escapada corta', days: '3–4 días', alt: '2.335 m', price: 'USD 600 – 900', icon: 'assets/diamond-olive.png', ph: 'Foto — mercado y producto local', why: 'Vive un Momento Sunqu antes de comprometerte con un Journey completo.', moment: 'El mismo encuentro con nombre propio que luego forma parte de un Journey.' },
-    ];
+    const all = SunquView.journeys.map((j) => ({ ...j }));
     all.forEach(j => { j.href = 'journey.html?j=' + j.id; });
     const journeys = concept === 'todo' ? all : all.filter(j => j.c.includes(concept));
     const concepts = [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'El sabor'], ['gente', 'La gente']].map(([id, label]) => ({
@@ -1276,13 +1194,8 @@ class Component extends DCLogic {
     };
     const fi = this.state.form ?? 0;
     const U = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&q=70`;
-    const FORM_LINKS = [['descubre.html', 'Ver los journeys'], ['#contacto', 'Diseñar mi viaje'], ['#conecta', 'Conocer a los anfitriones'], ['recuerda.html#tienda', 'Ir a la tienda']];
-    const forms = [
-      ['Sunqu Journeys', 'Viajes de 8 a 10 días con anfitriones', '1567597243073-2d274aabecec'],
-      ['Sunqu Private', 'Experiencias diseñadas a tu medida', '1526697675318-89790adec369'],
-      ['Sunqu Collective', 'Tejedoras, picanteras, guías y familias', '1730424508745-29ea708ae698'],
-      ['Sunqu Marketplace', 'Lo que te llevas tiene nombre', '1568805647297-df963b524678'],
-    ].map(([title, sub, id], i) => ({
+    const FORM_LINKS = SunquView.FORM_LINKS;
+    const forms = SunquView.forms.map(([title, sub, id], i) => ({
       title, sub, img: U(id), op: i === fi ? 1 : 0, sc: i === fi ? 1 : 1.08,
       x: i === fi ? 16 : 0, color: i === fi ? T : '#1c1c1c',
       btnBg: i === fi ? T : 'transparent', btnFg: i === fi ? '#e9eef1' : '#1c1c1c', iso: i === fi ? 'assets/diamond-lime.png' : 'assets/diamond-olive.png',
@@ -1298,7 +1211,7 @@ class Component extends DCLogic {
         }
       },
     }));
-    const hs = [['1590835192370-3941b97e93fd','Valle Sagrado · 2.800 m'],['1568805778796-96b66708d6e0','Chinchero · telar de cintura'],['1535399831218-d5bd36d1a6b3','Lima · cocina peruana'],['1532996152552-eaffc4edfc1a','Machu Picchu · 2.430 m']];
+    const hs = SunquView.hs;
     const hi = this.state.hero;
     const heroSlides = hs.map(([id], i) => ({ src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2000&q=72`, op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
     const dark = this.state.dark;
@@ -1328,6 +1241,8 @@ class Component extends DCLogic {
       move: (e) => { const r = e.currentTarget.getBoundingClientRect(); const x = e.clientX - r.left; let best = 0, bd = Infinity; P.forEach((q, i) => { const d = Math.abs(q[0] - x); if (d < bd) { bd = d; best = i; } }); if (best !== this.state.altIdx) this.setState({ altIdx: best }); },
     };
     return {
+      sending: !!this.state.sending, sendError: this.state.sendError || '',
+      site: SunquView.site, blogCards: SunquView.blogCards, instagram: SunquView.instagram,
       alt, chartRef: this.chartRef,
       mapRef: this.mapRef, stops: this.STOPS.map((s, i) => { const m = this.state.mapIdx ?? 0; return { n: String(i + 1).padStart(2, '0'), name: s[0], alt: s[1], cls: (i <= m ? 'is-on' : '') + (i === m ? ' is-cur' : '') }; }),
       stopNow: (() => { const m = this.state.mapIdx ?? 0, st = this.STOPS[m]; return { n: String(m + 1).padStart(2, '0'), name: st[0], alt: st[1] }; })(),
@@ -1359,44 +1274,24 @@ class Component extends DCLogic {
       journeyCount: String(journeys.length).padStart(2, '0') + ' journeys',
       prev: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: -420, behavior: 'smooth' }),
       next: () => this.stripRef.current && this.stripRef.current.scrollBy({ left: 420, behavior: 'smooth' }),
-      principles: [
-        { bg: '#1c1c1c', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1567597243073-2d274aabecec?auto=format&fit=crop&w=800&q=70', n: '01', layer: 'Selección', title: 'Curamos, no acumulamos', q: '¿Es la experiencia correcta, o solo una más disponible?', icon: 'assets/diamond-orange.png' },
-        { bg: '#83b300', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805647297-df963b524678?auto=format&fit=crop&w=800&q=70', n: '02', layer: 'Ejecución', title: 'Contamos historias', q: 'Recibes contexto y significado, no solo acceso.', icon: 'assets/diamond-yellow.png' },
-        { bg: '#f4a700', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=800&q=70', n: '03', layer: 'Selección', title: 'Conectamos con personas', q: 'Detrás de cada experiencia hay un anfitrión con nombre propio.', icon: 'assets/diamond-teal.png' },
-        { bg: '#df5f0c', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=800&q=70', n: '04', layer: 'Ejecución', title: 'Te hacemos participante', q: 'Haces algo con las manos. No solo miras.', icon: 'assets/diamond-lime.png' },
-        { bg: '#736d47', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1526697675318-89790adec369?auto=format&fit=crop&w=800&q=70', n: '05', layer: 'Ejecución', title: 'Personalizamos', q: 'Cada viaje se siente diseñado para ti.', icon: 'assets/diamond-olive.png' },
-        { bg: '#48725E', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=800&q=70', n: '06', layer: 'Ejecución', title: 'Antes, durante y después', q: 'La relación empieza antes del vuelo y sigue después del regreso.', icon: 'assets/diamond-teal.png' },
-      ],
-      hosts: [
-        { id: 'tejedora', img: 'https://images.unsplash.com/photo-1568805778796-96b66708d6e0?auto=format&fit=crop&w=1400&q=70', role: 'Tejedora', place: 'Chinchero, Cusco', teach: 'teñido natural y telar de cintura.', ph: 'Retrato — tejedora en su telar' },
-        { id: 'picantera', img: 'https://images.unsplash.com/photo-1566793772361-1d5d9cefbd12?auto=format&fit=crop&w=1400&q=70', role: 'Picantera', place: 'Arequipa', teach: 'un plato de picantería, y te llevas la receta.', ph: 'Retrato — picantera en su cocina' },
-        { id: 'familia', img: 'https://images.unsplash.com/photo-1730423284218-a8a7e9422ebf?auto=format&fit=crop&w=1400&q=70', role: 'Familia anfitriona', place: 'Valle Sagrado', teach: 'la pachamanca, cocinada bajo tierra.', ph: 'Retrato — familia anfitriona' },
-      ],
-      conditions: [
-        { n: '01', title: 'Tiene nombre propio', body: 'Conoces a la persona y su historia. Nunca es folclore anónimo.', icon: 'assets/diamond-orange.png' },
-        { n: '02', title: 'Tú haces algo', body: 'Participas con las manos: cocinas, tejes, siembras. No es una demostración.', icon: 'assets/diamond-yellow.png' },
-        { n: '03', title: 'No se compra por separado', body: 'No lo encontrarás en ninguna plataforma de reservas. Solo existe dentro del viaje.', icon: 'assets/diamond-lime.png' },
-        { n: '04', title: 'Te llevas algo', body: 'Un objeto, una receta, una técnica, una palabra en quechua. Un vínculo.', icon: 'assets/diamond-olive.png' },
-      ],
-      phases: [
-        { bg: '#1c1c1c', fg: '#e9eef1', photo: 'https://images.unsplash.com/photo-1541637593725-923467404d17?auto=format&fit=crop&w=800&q=70', kicker: 'Antes', title: 'Kit de preparación', body: 'Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.', img: 'assets/pattern-pair.png' },
-        { bg: '#83b300', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1593460915132-fcb729cc4597?auto=format&fit=crop&w=800&q=70', kicker: 'Durante', title: 'Acompañamiento', body: 'Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.', img: 'assets/pattern-flower.png' },
-        { bg: '#f4a700', fg: '#1c1c1c', photo: 'https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=800&q=70', kicker: 'Después', title: 'Diario del viaje', body: 'Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.', img: 'assets/pattern-steps.png' },
-      ],
-      words: [
-        { word: 'Sunqu', meaning: 'Corazón', color: '#736d47' },
-        { word: 'Añay', meaning: 'Gracias', color: '#df5f0c' },
-        { word: 'Ayni', meaning: 'Reciprocidad', color: '#766d44' },
-      ],
-      steps: [
-        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
-        { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
-        { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
-      ],
+      principles: SunquView.principles,
+      hosts: SunquView.hosts,
+      conditions: SunquView.conditions,
+      phases: SunquView.phases,
+      words: SunquView.words,
+      steps: SunquView.steps,
       notSent: !this.state.sent, sent: this.state.sent,
       attach: this.attachVals('descubre.html'),
       sentFavOn: (this.state.sentFav || 0) > 0, sentFavText: this.state.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${this.state.sentFav} guardados a la solicitud.`,
-      submit: (e) => { e.preventDefault(); const a = this.attachVals(''); this.setState({ sent: true, sentFav: a.on ? a.items.length : 0 }); },
+      submit: (e) => {
+        e.preventDefault();
+        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.page };
+        this.setState({ sending: true, sendError: '' });
+        SunquContent.enviar('solicitud', datos).then(
+          () => this.setState({ sent: true, sending: false, sentFav: a.on ? a.items.length : 0 }),
+          () => this.setState({ sending: false, sendError: 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos por WhatsApp.' })
+        );
+      },
     };
   }
 }

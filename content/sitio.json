@@ -1,0 +1,75 @@
+{
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "contacto": {
+    "email": "hola@sunqujourneys.com",
+    "telefono": "+51 000 000 000",
+    "telefonoHref": "+51000000000",
+    "oficina": "Lima, Perú",
+    "whatsapp": "51966461384"
+  },
+  "redes": {
+    "youtube": "#",
+    "instagram": "#",
+    "facebook": "#",
+    "tiktok": "#",
+    "instagramUsuario": "@sunqujourneys"
+  },
+  "empresa": {
+    "name": "Sunqu Journeys Perú S.A.C.",
+    "ruc": "por confirmar",
+    "address": "Lima, Perú"
+  },
+  "conceptos": [
+    {
+      "slug": "historia",
+      "label": "La historia",
+      "icon": "assets/diamond-orange.png"
+    },
+    {
+      "slug": "sabor",
+      "label": "El sabor",
+      "icon": "assets/diamond-yellow.png"
+    },
+    {
+      "slug": "gente",
+      "label": "La gente",
+      "icon": "assets/diamond-lime.png"
+    }
+  ],
+  "destinos": [
+    {
+      "slug": "cusco",
+      "label": "Cusco y Valle Sagrado"
+    },
+    {
+      "slug": "machu",
+      "label": "Machu Picchu"
+    },
+    {
+      "slug": "arequipa",
+      "label": "Arequipa y Colca"
+    },
+    {
+      "slug": "lima",
+      "label": "Lima"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Lago Titicaca"
+    }
+  ],
+  "duraciones": [
+    {
+      "slug": "exp",
+      "label": "Experiencias de un día"
+    },
+    {
+      "slug": "escapada",
+      "label": "Escapadas · 3–4 días"
+    },
+    {
+      "slug": "journey",
+      "label": "Journeys · 8–10 días"
+    }
+  ]
+}

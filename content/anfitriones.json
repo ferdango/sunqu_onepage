@@ -1,0 +1,32 @@
+{
+  "_info": "Anfitriones (Sunqu Collective). Los usan la portada (Conecta) y la ficha de cada journey. En WordPress: tipo de contenido «Anfitriones».",
+  "items": [
+    {
+      "slug": "tejedora",
+      "role": "Tejedora",
+      "place": "Chinchero, Cusco",
+      "teach": "teñido natural y telar de cintura.",
+      "img": "1568805778796-96b66708d6e0",
+      "alt": "Tejedora en su telar",
+      "altInicio": "Retrato — tejedora en su telar"
+    },
+    {
+      "slug": "picantera",
+      "role": "Picantera",
+      "place": "Arequipa",
+      "teach": "un plato de picantería, y te llevas la receta.",
+      "img": "1566793772361-1d5d9cefbd12",
+      "alt": "Anfitrionas con trajes tradicionales",
+      "altInicio": "Retrato — picantera en su cocina"
+    },
+    {
+      "slug": "familia",
+      "role": "Familia anfitriona",
+      "place": "Valle Sagrado",
+      "teach": "la pachamanca, cocinada bajo tierra.",
+      "img": "1730423284218-a8a7e9422ebf",
+      "alt": "Familia anfitriona",
+      "altInicio": "Retrato — familia anfitriona"
+    }
+  ]
+}
