@@ -12,7 +12,7 @@ set -a; . ./.env; set +a
 wp() { docker compose run --rm -T cli "$@"; }
 
 echo "▸ Levantando contenedores…"
-docker compose up -d db wordpress sitio
+docker compose up -d db mailpit wordpress sitio
 
 echo "▸ Esperando a WordPress…"
 for i in $(seq 1 60); do
@@ -50,4 +50,5 @@ cat <<MSG
   Panel de WordPress : $WP_URL/wp-admin   (usuario y clave en wordpress/.env)
   API de contenido   : $WP_URL/wp-json/sunqu/v1/contenido
   Web (como en Hostinger, leyendo WordPress): $WEB_URL
+  Correos de los formularios (Mailpit): http://localhost:${MAIL_PORT:-8025}
 MSG

@@ -311,7 +311,7 @@ Los obligatorios del servidor son los mismos que marca el formulario de la web.
   - el **código correlativo** (`SJ-2026-00001`) lo asigna el servidor (opción `sunqu_reclamacion_n`), y la web muestra ese código;
   - la constancia al consumidor se envía como máximo 3 veces por correo cada 24 h;
   - si se supera, la hoja se guarda igual y queda anotado «Constancia por correo: No enviada».
-- **Destino de los avisos:** **Sunqu › Conexión › Correo de avisos**. Si está vacío, se usa el correo de Sunqu › Sitio.
+- **Destino de los avisos:** **Sunqu › Conexión › Avisos de los formularios** (uno o varios correos). Si está vacío, **sunqujourneys@gmail.com**. Correo HTML con «Responder a» = el visitante, SMTP propio (`SUNQU_SMTP_*` en `wp-config.php`) y avisos opcionales al celular (Telegram, webhook): ver [FORMULARIOS.md](FORMULARIOS.md).
 
 ---
 
@@ -365,8 +365,8 @@ Paso a paso en [DEPLOYMENT.md › 5](DEPLOYMENT.md#5-wordpress-en-cmssunqujourne
 1. WordPress en `cms.sunqujourneys.com` con HTTPS.
 2. Plugin y tema desde los zips de `tools/empaquetar-wordpress.sh`, Secure Custom Fields, «Nombre de la entrada» y «Disuade a los motores de búsqueda».
 3. Importar con el botón del panel.
-4. En **Sunqu › Conexión**: URL de la web, correo de avisos y token de purga.
-5. SMTP.
+4. En **Sunqu › Conexión**: URL de la web, token de purga y avisos de los formularios.
+5. SMTP en `wp-config.php` ([FORMULARIOS.md › 2](FORMULARIOS.md)) y **Enviar correo de prueba**.
 6. `WORDPRESS_API_URL` en el `.env` de la web.
 
 Recomendado: copias de seguridad diarias.
@@ -406,7 +406,7 @@ Recomendado: copias de seguridad diarias.
 | `/wp-json/` responde 404 | Enlaces permanentes en «Simple». Cámbialos a «Nombre de la entrada» (en Apache hace falta `.htaccess`) |
 | No veo los campos en el panel | Falta activar **Secure Custom Fields** o ACF Pro |
 | Las fotos no se importaron | Sin internet no se descargan las de Unsplash: se guarda la referencia y la web las muestra igual. Reintenta `wp sunqu importar` con conexión |
-| No llegan los correos | Configura SMTP (8.4.6). Los envíos igual quedan guardados en el panel |
+| No llegan los correos | Configura el SMTP y revisa la caja «Aviso a Sunqu» de cada envío ([FORMULARIOS.md › 4](FORMULARIOS.md)). Los envíos igual quedan guardados en el panel |
 | Un cambio no aparece en la web | Sunqu › Conexión › **Vaciar caché de la web**. Si responde 403, el token no coincide con `CACHE_PURGE_TOKEN`; si no responde, revisa la URL de la web. Si hay CDN, púrgala |
 | Los formularios responden «Formulario desconocido» | Plugin anterior a esta versión: el campo `tipo` del libro de reclamaciones pisaba el tipo de la ruta. Actualiza `sunqu-cms` |
 | Docker se queda en «Created» y no arranca contenedores | El uso compartido de archivos de Docker Desktop quedó trabado. Reinicia Docker Desktop (`docker desktop restart`) y revisa Settings › Resources › File sharing |

@@ -19,7 +19,8 @@
  * fuera una persona.
  * Libro de reclamaciones: el código correlativo (SJ-2026-00001) lo asigna el servidor. La constancia al
  * consumidor se envía como máximo 3 veces por correo cada 24 h (el formulario no sirve para enviar correos a terceros).
- * Correos: se envían con wp_mail (en producción configura SMTP, p. ej. con WP Mail SMTP).
+ * Avisos: cada envío se avisa por correo a sunqujourneys@gmail.com (o a los correos de Sunqu › Conexión › Avisos)
+ * y, si se configura, al celular. Ver includes/avisos.php (SMTP, Telegram, webhook).
  */
 
 defined('ABSPATH') || exit;
@@ -89,10 +90,15 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			}
 			$campos = [
 				'Nombre' => $t('nombre'), 'Email' => sanitize_email($v('email')), '¿Cuándo?' => $t('mes'), '¿Qué quiere sentir?' => $t('sentir'),
-				'Mensaje' => $ta('mensaje'), 'Guardados adjuntos' => $ta('guardados', 3000), 'Página' => $t('pagina'),
+				'Mensaje' => $ta('mensaje'), 'Guardados adjuntos' => $ta('guardados', 3000), 'Enviado desde' => sunqu_pagina_legible($t('pagina')),
 			];
 			$id = sunqu_guardar_envio('sunqu_solicitud', $campos['Nombre'] . ' · ' . wp_date('j M Y, H:i'), $campos);
-			sunqu_notificar('Nueva solicitud de viaje: ' . $campos['Nombre'], $campos, $campos['Email']);
+			sunqu_avisar('solicitud', $id, $campos, [
+				'asunto' => 'Nueva solicitud de viaje · ' . $campos['Nombre'],
+				'intro' => $campos['Nombre'] . ' quiere diseñar su viaje. Responde a este correo para escribirle directamente.',
+				'responder' => $campos['Email'],
+				'nombre' => $campos['Nombre'],
+			]);
 			return ['ok' => true, 'id' => $id];
 
 		case 'resena':
@@ -128,9 +134,17 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			$empresa = $sitio['empresa']['name'] ?? get_bloginfo('name');
 			if ($enviadas < 3) {
 				set_transient($rk, $enviadas + 1, DAY_IN_SECONDS);
-				wp_mail($campos['Correo'], 'Constancia de tu hoja de reclamación ' . $codigo . ' · ' . $empresa, sunqu_texto_envio($campos) . "\n\nResponderemos en un plazo máximo de 15 días hábiles.");
+				$asunto = 'Constancia de tu hoja de reclamación ' . $codigo . ' · ' . $empresa;
+				$intro = 'Registramos tu hoja de reclamación. Responderemos en un plazo máximo de 15 días hábiles. Guarda este correo como constancia.';
+				$avisos = sunqu_correos_avisos();
+				sunqu_enviar_correo($campos['Correo'], $asunto, sunqu_correo_html($asunto, $intro, $campos), sunqu_correo_texto($asunto, $intro, $campos), ['Reply-To: ' . $avisos[0]]);
 			}
-			sunqu_notificar('Libro de reclamaciones: ' . $codigo, $campos, $campos['Correo']);
+			sunqu_avisar('reclamacion', $id, $campos, [
+				'asunto' => 'Libro de reclamaciones · ' . $codigo . ' · ' . $campos['Consumidor'],
+				'intro' => 'Nueva hoja de reclamación (' . $campos['Tipo'] . '). El plazo legal de respuesta es de 15 días hábiles.',
+				'responder' => $campos['Correo'],
+				'nombre' => $campos['Consumidor'],
+			]);
 			return ['ok' => true, 'id' => $id, 'codigo' => $codigo];
 	}
 	return new WP_Error('sunqu_tipo', 'Formulario desconocido', ['status' => 404]);
@@ -188,12 +202,9 @@ function sunqu_texto_envio(array $campos): string {
 	return implode("\n", $l);
 }
 
-/** Correo de aviso a Sunqu (Sunqu › Conexión › Correo de avisos, o el correo de contacto del sitio). */
+/** Compatibilidad: aviso por correo sin ficha asociada (usa sunqu_avisar). */
 function sunqu_notificar(string $asunto, array $campos, string $responder = ''): void {
-	$sitio = sunqu_exportar('sitio');
-	$para = get_option('sunqu_notificar') ?: ($sitio['contacto']['email'] ?? '') ?: get_option('admin_email');
-	$headers = $responder && is_email($responder) ? ['Reply-To: ' . $responder] : [];
-	wp_mail($para, $asunto, sunqu_texto_envio($campos), $headers);
+	sunqu_avisar('prueba', 0, $campos, ['asunto' => $asunto, 'responder' => $responder]);
 }
 
 /** Reseña enviada desde la web: queda «Pendiente» en Reseñas, con sus fotos en la biblioteca. */
@@ -234,7 +245,15 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 			sunqu_escribir_campo(['post', $id], $f, $f['name'], $ruta . '/' . $f['name'], $item[$f['name']], $media, $relacion);
 		}
 	}
-	sunqu_notificar('Nueva reseña pendiente de ' . $nombre, ['Nombre' => $nombre, 'Texto' => $item['caption'], 'Enlace' => $enlace, 'Permiso de publicación' => 'Sí', 'Revisar' => admin_url('post.php?post=' . $id . '&action=edit')]);
+	$temas = ['viaje' => 'Viaje', 'souvenir' => 'Souvenir', 'merch' => 'Merch'];
+	sunqu_avisar('resena', $id, [
+		'Nombre' => $nombre, 'País' => $item['country'], 'Tema' => $temas[$item['topic']] ?? $item['topic'], 'Estrellas' => str_repeat('★', $item['stars']),
+		'Reseña' => $item['caption'], 'Enlace al post' => $enlace, 'Fotos' => count($fotos) ? count($fotos) . ' adjuntas (en la reseña)' : '', 'Permiso de publicación' => 'Sí, aceptado en el formulario',
+	], [
+		'asunto' => 'Nueva reseña para revisar · ' . $nombre,
+		'intro' => 'La reseña quedó «Pendiente»: revísala y publícala desde el panel para que aparezca en Recuerda.',
+		'nombre' => $nombre,
+	]);
 	return ['ok' => true, 'id' => $id];
 }
 

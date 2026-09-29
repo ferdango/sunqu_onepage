@@ -1,7 +1,7 @@
 === Sunqu CMS ===
 Requires at least: 6.4
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 
 Administra el contenido de la web de Sunqu Journeys y lo entrega en /wp-json/sunqu/v1 con el mismo formato que content/*.json.
 
@@ -23,7 +23,7 @@ Manual completo: docs/WORDPRESS.md en el repositorio de la web.
 * Menú Sunqu: Sitio, Inicio (portada), Journeys · común, Reseñas · temas y plataformas, Tienda · categorías, Legales, Solicitudes de viaje, Libro de reclamaciones y Conexión y herramientas.
 * Diario Sunqu con las Entradas nativas (caja «Diario Sunqu»: minutos de lectura, autor, rol, entradilla).
 * API: GET /sunqu/v1/contenido[?secciones=…], GET /sunqu/v1/contenido/{seccion}, GET /sunqu/v1/esquema.
-* Formularios: POST /sunqu/v1/formularios/{solicitud|resena|reclamacion}.
+* Formularios: POST /sunqu/v1/formularios/{solicitud|resena|reclamacion} → panel + correo (y celular, opcional).
 * Importar el contenido de la web desde el panel (carpeta datos/ del zip) o con WP-CLI: wp sunqu importar | exportar | verificar.
 
 == Modelo de contenido ==
@@ -31,6 +31,12 @@ Manual completo: docs/WORDPRESS.md en el repositorio de la web.
 schema.json se genera con wordpress/tools/generar-schema.py a partir de content/*.json. No lo edites a mano: agrega o cambia claves en los JSON y vuelve a generar.
 
 == Cambios ==
+
+= 1.2.0 =
+* Avisos de los formularios a sunqujourneys@gmail.com (o a los correos de Sunqu › Conexión › Avisos) en HTML, con «Responder a» al visitante.
+* SMTP propio desde wp-config.php (SUNQU_SMTP_*), sin plugins extra; estado del envío y «Reenviar» en cada ficha.
+* Avisos al celular opcionales: Telegram (bot + chat ID) y webhook (Make, Zapier, n8n → WhatsApp, Slack, SMS).
+* Botones «Enviar correo de prueba», «Detectar chat de Telegram» y «Enviar aviso de prueba al celular».
 
 = 1.1.0 =
 * Botón «Importar el contenido» en Sunqu › Conexión y herramientas (sin SSH).

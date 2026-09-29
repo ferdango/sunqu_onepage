@@ -1,7 +1,8 @@
 <?php
 /**
  * Panel: menú «Sunqu» con la página «Conexión y herramientas».
- *   · URL de la web, orígenes permitidos (CORS), correo de avisos de formularios y token de purga.
+ *   · URL de la web, orígenes permitidos (CORS) y token de purga.
+ *   · Avisos de los formularios: correos que los reciben, estado del SMTP, Telegram, webhook y pruebas.
  *   · Importar el contenido de la web que trae el plugin (carpeta datos/, la arma tools/empaquetar-wordpress.sh).
  *   · Limpiar la caché de la API, vaciar la caché de la web y descargar todo el contenido en JSON.
  *   · Aviso si falta el plugin de campos (Secure Custom Fields o ACF Pro).
@@ -15,13 +16,41 @@ add_action('admin_menu', function () {
 }, 9); // antes que los submenús de los envíos, para que «Sunqu» abra esta página
 
 add_action('admin_init', function () {
-	foreach (['sunqu_web' => 'esc_url_raw', 'sunqu_origenes' => 'sanitize_textarea_field', 'sunqu_notificar' => 'sanitize_email', 'sunqu_purga_token' => 'sanitize_text_field'] as $op => $san) {
+	foreach (['sunqu_web' => 'esc_url_raw', 'sunqu_origenes' => 'sanitize_textarea_field', 'sunqu_purga_token' => 'sanitize_text_field'] as $op => $san) {
 		register_setting('sunqu_conexion', $op, ['sanitize_callback' => $san]);
+	}
+	$correos = fn($v) => implode(', ', sunqu_lista_correos((string) $v));
+	foreach (['sunqu_notificar' => $correos, 'sunqu_telegram_token' => 'sanitize_text_field', 'sunqu_telegram_chat' => 'sanitize_text_field', 'sunqu_webhook_url' => 'esc_url_raw'] as $op => $san) {
+		register_setting('sunqu_avisos', $op, ['sanitize_callback' => $san]);
 	}
 	if (isset($_POST['sunqu_accion']) && current_user_can('manage_options') && check_admin_referer('sunqu_herramientas')) {
 		if ($_POST['sunqu_accion'] === 'cache') {
 			sunqu_limpiar_cache();
 			add_settings_error('sunqu', 'cache', 'Caché de la API limpiada.', 'updated');
+		}
+		if ($_POST['sunqu_accion'] === 'correo_prueba') {
+			$campos = ['Nombre' => 'Viajera de prueba', 'Email' => get_option('admin_email'), '¿Cuándo?' => 'Julio – septiembre', 'Mensaje' => 'Si lees esto, los formularios de la web llegan a este correo.'];
+			$r = sunqu_avisar('prueba', 0, $campos, ['asunto' => 'Prueba · avisos de los formularios de Sunqu', 'intro' => 'Correo de prueba enviado desde Sunqu › Conexión y herramientas.']);
+			add_settings_error('sunqu', 'correo', $r['ok'] ? 'Correo de prueba enviado a ' . $r['para'] . '. Revisa la bandeja de entrada (y la de spam la primera vez).' : 'El correo no salió: ' . $r['error'], $r['ok'] ? 'updated' : 'error');
+		}
+		if ($_POST['sunqu_accion'] === 'push_prueba') {
+			$r = sunqu_push('prueba', 'Aviso de prueba', 'Si ves esto, los avisos de la web llegan a tu celular.', admin_url('admin.php?page=sunqu'), true);
+			$msg = !$r['canales'] ? 'No hay canales configurados: completa Telegram o el webhook y guarda.' : ($r['errores'] ? implode(' · ', $r['errores']) : 'Aviso enviado por: ' . implode(', ', $r['canales']) . '.');
+			add_settings_error('sunqu', 'push', $msg, $r['canales'] && !$r['errores'] ? 'updated' : 'error');
+		}
+		if ($_POST['sunqu_accion'] === 'telegram_chat') {
+			$r = sunqu_telegram_chats();
+			if (!empty($r['error'])) {
+				add_settings_error('sunqu', 'tg', $r['error'], 'error');
+			} elseif (!$r['chats']) {
+				add_settings_error('sunqu', 'tg', 'El bot todavía no recibió mensajes: desde Telegram, abre tu bot y escríbele «/start» (o agrégalo al grupo del equipo y escribe algo). Luego vuelve a pulsar «Detectar chat».', 'error');
+			} else {
+				if (count($r['chats']) === 1) {
+					update_option('sunqu_telegram_chat', (string) array_key_first($r['chats']));
+				}
+				$lista = implode(' · ', array_map(fn($id, $n) => ($n ?: 'chat') . ' → ' . $id, array_keys($r['chats']), $r['chats']));
+				add_settings_error('sunqu', 'tg', count($r['chats']) === 1 ? 'Chat detectado y guardado: ' . $lista : 'Chats encontrados (copia el que quieras en «Chat ID» y guarda): ' . $lista, 'updated');
+			}
 		}
 		if ($_POST['sunqu_accion'] === 'purgar') {
 			$r = sunqu_purgar_web();
@@ -111,15 +140,14 @@ function sunqu_pagina_conexion(): void {
 				<tr><th><label for="sunqu_origenes">Orígenes permitidos</label></th>
 					<td><textarea class="large-text" rows="3" id="sunqu_origenes" name="sunqu_origenes" placeholder="https://sunqujourneys.com&#10;https://ferdango.github.io"><?php echo esc_textarea(get_option('sunqu_origenes')); ?></textarea>
 						<p class="description">Uno por línea. Vacío = solo el de «URL de la web».</p></td></tr>
-				<tr><th><label for="sunqu_notificar">Correo de avisos</label></th>
-					<td><input type="email" class="regular-text" id="sunqu_notificar" name="sunqu_notificar" value="<?php echo esc_attr(get_option('sunqu_notificar')); ?>">
-						<p class="description">Recibe las solicitudes de viaje, reseñas y hojas de reclamación. Vacío = correo de contacto de Sunqu › Sitio.</p></td></tr>
 				<tr><th><label for="sunqu_purga_token">Token de purga</label></th>
 					<td><input type="password" class="regular-text" id="sunqu_purga_token" name="sunqu_purga_token" value="<?php echo esc_attr(get_option('sunqu_purga_token')); ?>" autocomplete="off" spellcheck="false">
 						<p class="description">El mismo valor que <code>CACHE_PURGE_TOKEN</code> en el <code>.env</code> de la web. Con él, cada vez que guardas contenido la web lo muestra al instante; sin él, lo muestra al vencer su caché (5 minutos por defecto).</p></td></tr>
 			</table>
 			<?php submit_button('Guardar'); ?>
 		</form>
+
+		<?php sunqu_seccion_avisos(); ?>
 
 		<h2>Importar el contenido de la web</h2>
 		<?php if (!$paquete) : ?>
@@ -184,3 +212,50 @@ add_action('admin_notices', function () {
 		echo '<div class="notice notice-warning"><p><strong>Sunqu CMS:</strong> activa <em>Secure Custom Fields</em> o ACF Pro para ver y editar los campos.</p></div>';
 	}
 });
+
+/** Sección «Avisos de los formularios» de Sunqu › Conexión y herramientas. */
+function sunqu_seccion_avisos(): void {
+	$smtp = sunqu_smtp();
+	$error = get_option('sunqu_correo_error');
+	$token_cfg = defined('SUNQU_TELEGRAM_TOKEN') && SUNQU_TELEGRAM_TOKEN;
+	?>
+	<h2 id="avisos">Avisos de los formularios</h2>
+	<p>Cada «Diseña tu viaje», reseña y hoja de reclamación se guarda en el panel y llega por correo a estos destinatarios. Opcionalmente, también como notificación al celular.</p>
+	<?php if ($smtp) : ?>
+		<div class="notice notice-success inline"><p>✔ Envío por <strong>SMTP</strong>: <?php echo esc_html($smtp['host'] . ':' . $smtp['port']); ?> · remitente <strong><?php echo esc_html($smtp['from'] ?: '(el de WordPress)'); ?></strong> (configurado en <code>wp-config.php</code>).</p></div>
+	<?php else : ?>
+		<div class="notice notice-warning inline"><p><strong>Sin SMTP.</strong> Los correos salen con la función de correo del servidor y pueden caer en spam o no llegar a Gmail. Configura un buzón del dominio en <code>wp-config.php</code> (<code>SUNQU_SMTP_HOST</code>, <code>SUNQU_SMTP_USER</code>, <code>SUNQU_SMTP_PASS</code>…; ver <code>docs/FORMULARIOS.md</code>).</p></div>
+	<?php endif; ?>
+	<?php if (is_array($error) && !empty($error['error'])) : ?>
+		<div class="notice notice-error inline"><p>Último error de envío (<?php echo esc_html(wp_date('j M Y, H:i', strtotime($error['fecha']))); ?>): <?php echo esc_html($error['error']); ?></p></div>
+	<?php endif; ?>
+	<form method="post" action="options.php">
+		<?php settings_fields('sunqu_avisos'); ?>
+		<table class="form-table" role="presentation">
+			<tr><th><label for="sunqu_notificar">Correos que reciben los avisos</label></th>
+				<td><input type="text" class="large-text" id="sunqu_notificar" name="sunqu_notificar" value="<?php echo esc_attr(get_option('sunqu_notificar')); ?>" placeholder="<?php echo esc_attr(SUNQU_CORREO_AVISOS_DEFECTO); ?>">
+					<p class="description">Uno o varios, separados por comas. Vacío = <strong><?php echo esc_html(implode(', ', sunqu_correos_avisos())); ?></strong>.</p></td></tr>
+			<tr><th><label for="sunqu_telegram_token">Telegram · token del bot</label></th>
+				<td><?php if ($token_cfg) : ?>
+						<p>Definido en <code>wp-config.php</code> (<code>SUNQU_TELEGRAM_TOKEN</code>).</p>
+					<?php else : ?>
+						<input type="password" class="regular-text" id="sunqu_telegram_token" name="sunqu_telegram_token" value="<?php echo esc_attr(get_option('sunqu_telegram_token')); ?>" autocomplete="off" spellcheck="false" placeholder="123456789:ABC…">
+					<?php endif; ?>
+					<p class="description">Opcional: avisos instantáneos en la app de Telegram. Crea el bot con <strong>@BotFather</strong> (comando <code>/newbot</code>) y pega aquí el token.</p></td></tr>
+			<tr><th><label for="sunqu_telegram_chat">Telegram · chat ID</label></th>
+				<td><input type="text" class="regular-text" id="sunqu_telegram_chat" name="sunqu_telegram_chat" value="<?php echo esc_attr(get_option('sunqu_telegram_chat')); ?>" placeholder="Se completa con «Detectar chat»">
+					<p class="description">Escríbele «/start» a tu bot (o agrégalo al grupo del equipo) y pulsa <strong>Detectar chat</strong>.</p></td></tr>
+			<tr><th><label for="sunqu_webhook_url">Webhook</label></th>
+				<td><input type="url" class="large-text" id="sunqu_webhook_url" name="sunqu_webhook_url" value="<?php echo esc_attr(get_option('sunqu_webhook_url')); ?>" placeholder="https://hook.make.com/…">
+					<p class="description">Opcional: recibe <code>POST</code> JSON <code>{ tipo, titulo, texto, url, fecha }</code> en cada envío. Sirve para reenviar a WhatsApp, Slack o SMS con Make, Zapier o n8n. Sin datos personales.</p></td></tr>
+		</table>
+		<?php submit_button('Guardar avisos'); ?>
+	</form>
+	<form method="post">
+		<?php wp_nonce_field('sunqu_herramientas'); ?>
+		<button class="button button-primary" name="sunqu_accion" value="correo_prueba">Enviar correo de prueba</button>
+		<button class="button" name="sunqu_accion" value="telegram_chat">Detectar chat de Telegram</button>
+		<button class="button" name="sunqu_accion" value="push_prueba">Enviar aviso de prueba al celular</button>
+	</form>
+	<?php
+}

@@ -3,6 +3,7 @@
 #   ./setup.sh                      instala todo, importa content/*.json y verifica
 #   http://localhost:8080/wp-admin  panel de WordPress (usuario y clave en .env)
 #   http://localhost:8081           la web con Apache + PHP + .htaccess (igual que Hostinger), leyendo WordPress
+#   http://localhost:8025           Mailpit: los correos de los formularios (en local no salen a Internet)
 #   docker compose run --rm cli …   cualquier comando de WP-CLI (p. ej. «sunqu exportar --dir=/var/www/front/content»)
 name: sunqu
 
@@ -38,6 +39,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      mailpit:
+        condition: service_started
     ports:
       - "127.0.0.1:${WP_PORT:-8080}:80"   # solo este equipo (las claves locales son de ejemplo)
     environment:
@@ -46,7 +49,18 @@ services:
         define('WP_ENVIRONMENT_TYPE', 'local');
         // Dentro de Docker la web se llama «sitio» (en producción se usa Sunqu › Conexión › URL de la web)
         define('SUNQU_PURGA_URL', 'http://sitio/_sunqu/purge');
+        // Correos de los formularios → Mailpit (http://localhost:8025). En producción: el buzón SMTP del dominio.
+        define('SUNQU_SMTP_HOST', 'mailpit');
+        define('SUNQU_SMTP_PORT', 1025);
+        define('SUNQU_SMTP_SECURE', '');
+        define('SUNQU_MAIL_FROM', 'avisos@sunqu.test');
     volumes: *wp-volumes
+
+  # Atrapa los correos que envía WordPress para verlos en el navegador (no los entrega a nadie)
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:${MAIL_PORT:-8025}:8025"
 
   cli:
     image: wordpress:cli-php8.3

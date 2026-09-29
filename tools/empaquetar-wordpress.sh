@@ -10,7 +10,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-rm -rf dist && mkdir -p dist/tmp
+# Solo reemplaza sus dos zips: dist/ puede tener otros archivos (p. ej. el zip de la web o notas de producción)
+mkdir -p dist && rm -rf dist/tmp dist/sunqu-cms.zip dist/sunqu-headless.zip && mkdir -p dist/tmp
 cp -R wordpress/sunqu-cms dist/tmp/sunqu-cms
 cp -R wordpress/sunqu-headless dist/tmp/sunqu-headless
 

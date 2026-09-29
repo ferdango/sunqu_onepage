@@ -88,7 +88,7 @@ WHATSAPP_NUMBER=   # opcional: respaldo del número de Sunqu › Sitio
 9. **Sunqu › Conexión y herramientas:**
    - **URL de la web:** `https://sunqujourneys.com`. Es el único origen al que CORS deja leer la API y al que se avisa al publicar.
    - **Orígenes permitidos:** vacío, para usar solo el de la web. Agrega `https://ferdango.github.io` solo si la vista previa debe leer este WordPress.
-   - **Correo de avisos:** ⚠ el buzón que recibe solicitudes, reseñas y reclamaciones.
+   - **Avisos de los formularios:** los correos que reciben solicitudes, reseñas y reclamaciones. Vacío = **sunqujourneys@gmail.com**. Aquí también se configuran Telegram y el webhook (opcionales). Ver [FORMULARIOS.md](FORMULARIOS.md).
    - **Token de purga:** el mismo valor que `CACHE_PURGE_TOKEN`.
 10. **Importar el contenido:** en la misma pantalla, **Importar el contenido**.
     - Crea journeys, experiencias, anfitriones, reseñas, tienda, Diario, portada y ajustes, y sube las fotos a la biblioteca. Tarda alrededor de un minuto; no cierres la página hasta que diga «Listo».
@@ -105,7 +105,7 @@ WHATSAPP_NUMBER=   # opcional: respaldo del número de Sunqu › Sitio
       ```
 
       `verificar` debe terminar con «WordPress devuelve exactamente el contenido de los JSON».
-11. **Correo** ⚠: instala **WP Mail SMTP** con una cuenta de correo del dominio (hPanel › Correos). Sin SMTP, los avisos y la constancia del libro de reclamaciones pueden no llegar. Los envíos quedan guardados igual en el panel.
+11. **Correo** ⚠: crea el buzón `avisos@sunqujourneys.com` (hPanel › Correos), activa SPF/DKIM/DMARC y pega las constantes `SUNQU_SMTP_*` en el `wp-config.php` del CMS ([FORMULARIOS.md › 2](FORMULARIOS.md#2-activar-el-correo-en-producción-unos-15-minutos)). No hace falta WP Mail SMTP. Prueba con **Sunqu › Conexión › Enviar correo de prueba**. Sin SMTP, los avisos y la constancia del libro de reclamaciones pueden no llegar; los envíos quedan guardados igual en el panel.
 12. **Probar la conexión:** cuando la web esté publicada, Sunqu › Conexión › **Vaciar caché de la web** debe responder «La web vació su caché».
 13. **Activar la lectura de WordPress:** en el `.env` de la web pon `WORDPRESS_API_URL=https://cms.sunqujourneys.com/wp-json`. No hace falta reiniciar nada.
 
@@ -163,7 +163,7 @@ mismo `.htaccess` que Hostinger. Está en http://localhost:8081.
 ## 10. Lo que el repositorio no puede hacer por ti
 
 - ⚠ Acceso a Hostinger, DNS del dominio y certificados.
-- ⚠ Usuario administrador de WordPress y buzón SMTP.
+- ⚠ Usuario administrador de WordPress y buzón SMTP (`avisos@sunqujourneys.com`, constantes en `wp-config.php`).
 - ⚠ Cuentas de GA4, GTM y Meta Business, y sus IDs (ANALYTICS.md).
 - ⚠ Google Search Console (verificación por DNS).
 - ⚠ Datos del negocio: teléfono, redes, RUC, reseñas reales, revisión legal de Términos y cookies, y licencia web de la fuente Aeonik.

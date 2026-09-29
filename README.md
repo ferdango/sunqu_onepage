@@ -8,6 +8,7 @@
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Cómo funciona en producción, estructura, configuración (`.env`), URLs, caché, seguridad |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Publicar en Hostinger paso a paso y qué queda pendiente de configurar |
 | [`docs/WORDPRESS.md`](docs/WORDPRESS.md) | Contenido y WordPress: dónde se edita cada apartado, API, formularios, entorno local |
+| [`docs/FORMULARIOS.md`](docs/FORMULARIOS.md) | Formularios: recorrido de cada envío, correo a sunqujourneys@gmail.com (SMTP), pruebas y avisos al celular (Telegram, webhook) |
 | [`docs/SEO.md`](docs/SEO.md) | URLs, `<head>`, datos estructurados, sitemap y robots |
 | [`docs/ANALYTICS.md`](docs/ANALYTICS.md) | GA4, GTM, Meta Pixel, consentimiento y catálogo de eventos |
 | [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | WCAG 2.2 AA: qué se hizo y cómo se midió |
