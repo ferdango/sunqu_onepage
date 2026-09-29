@@ -1,14 +1,29 @@
-# Handoff: Sunqu Journeys — One-page (v2)
+# Sunqu Journeys — web
 
-**Web publicada:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz).
+**Producción:** https://sunqujourneys.com. Corre en Hostinger con la capa PHP `server/` y WordPress headless en `cms.sunqujourneys.com`.
+**Vista previa estática:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz; lleva `noindex`).
 
-> **Contenido y WordPress →** [`docs/WORDPRESS.md`](docs/WORDPRESS.md). Todo el contenido vive en `content/*.json` y la web lo carga con `js/sunqu-content.js`. Si `js/sunqu-config.js` tiene la URL de un WordPress con el plugin `wordpress/sunqu-cms`, lo lee desde ahí (API `/wp-json/sunqu/v1/contenido`) y le envía los formularios. Entorno local listo: `cd wordpress && ./setup.sh`.
+| Documento | Para qué |
+|---|---|
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Cómo funciona en producción, estructura, configuración (`.env`), URLs, caché, seguridad |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Publicar en Hostinger paso a paso y qué queda pendiente de configurar |
+| [`docs/WORDPRESS.md`](docs/WORDPRESS.md) | Contenido y WordPress: dónde se edita cada apartado, API, formularios, entorno local |
+| [`docs/SEO.md`](docs/SEO.md) | URLs, `<head>`, datos estructurados, sitemap y robots |
+| [`docs/ANALYTICS.md`](docs/ANALYTICS.md) | GA4, GTM, Meta Pixel, consentimiento y catálogo de eventos |
+| [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | WCAG 2.2 AA: qué se hizo y cómo se midió |
+| [`docs/AUDITORIA.md`](docs/AUDITORIA.md) | Auditoría inicial y mapeo de la migración |
+
+**Probar en local:**
+- Solo la web: `python3 -m http.server 8000` en la raíz y abrir http://localhost:8000/.
+- Como en producción, con WordPress: `cd wordpress && ./setup.sh` y abrir http://localhost:8081/.
+
+> **Contenido:** vive en `content/*.json` (mismo formato que la API de WordPress). En producción el servidor lo lee de WordPress con caché y lo entrega ya incluido en cada página; si WordPress no responde, usa la caché o estos JSON.
 `index.html` es la copia publicada de `Sunqu Journeys v2.dc.html`: al editar el prototipo, copia el archivo a `index.html` y haz push.
 
 **Estructura de cada página.** El HTML está indentado con tabs y cada bloque principal (header, menú lateral, secciones, footer, modales) lleva un comentario `<!-- Sección #id · nombre -->`. Los estilos viven aparte, minificados, en `css/<página>.min.css` (`home.min.css` lo comparten `index.html` y `Sunqu Journeys v2.dc.html`) y se enlazan desde el `<head>`; las rutas a `fonts/` y `assets/` dentro del CSS son relativas a `css/` (`../fonts/…`). La lógica sigue al final de cada archivo, en `<script type="text/x-dc">` (clase `Component`).
 Importante al editar el markup: indenta solo con tabs y saltos de línea. El runtime descarta los espacios en blanco sin el carácter espacio, pero un espacio entre dos etiquetas se renderiza como texto.
 `descubre.html` es el catálogo (buscador, filtros, journeys y experiencias); los enlaces "Descubre" del header, el menú lateral y el footer apuntan ahí. Sus datos vienen de `content/journeys.json` (bloque `catalogo`) y `content/experiencias.json`. Los guardados se almacenan en `localStorage['sunqu-fav']` como `{ clave: { t: título, k: 'Journey'|'Experiencia' } }`; el formulario «Diseña tu viaje» (inicio, journey y descubre) los lee y ofrece un interruptor «Adjuntar mis guardados» que los envía en el campo oculto `guardados`.
-La primera visita a Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fechas y viajeros, filtros, guardar y Guardados); se relanza con el botón «Cómo funciona» de la barra y se marca como visto en `localStorage['sunqu-onb-descubre']`. Los pasos del tour viven en `ONB` dentro del archivo.
+Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fechas y viajeros, filtros, guardar y Guardados) **una vez por sesión**: se marca como visto en `sessionStorage['sunqu-onb-descubre']` apenas se abre, y se relanza cuando se quiera con el botón «Cómo funciona» de la barra. Los pasos del tour viven en `ONB` dentro del archivo.
 `recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Reseñas en `content/resenas.json` (las actuales son de ejemplo) y tienda en `content/productos.json` (precios de referencia).
 `blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen los artículos de `content/diario.json` (en WordPress: Entradas y Categorías).
 `terminos.html` (Términos y condiciones, enlazado desde «Legales» del footer) y `reclamaciones.html` (Libro de reclamaciones virtual, enlazado desde el footer; header solo con el logo). El libro necesita un backend o servicio de correo para registrar y enviar cada hoja; el RUC y la dirección se completan en `content/sitio.json › empresa` (WordPress: Sunqu › Sitio). Con WordPress conectado, cada hoja se registra en Sunqu › Libro de reclamaciones y se envía por correo.
@@ -19,10 +34,12 @@ Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al
 
 Repo destino: `ferdango/sunqu_onepage` (rama `master`, actualmente vacío).
 
-## About the Design Files
-`Sunqu Journeys v2.dc.html` es una **referencia de diseño hecha en HTML** (un prototipo que muestra look y comportamiento), no código de producción. La tarea es **recrearla en un stack real**. Recomendación, al no existir entorno: **Next.js (App Router) + TypeScript + Tailwind CSS**, animaciones con **GSAP + ScrollTrigger** (o Framer Motion) y **Lenis** para smooth scroll. El mapa usa **d3-geo + topojson-client + world-atlas**.
+## Código de las páginas
+Las páginas usan un runtime propio (`support.js`):
+- el markup va entre `<x-dc>…</x-dc>`, con `{{ }}`, `<sc-for>` y `<sc-if>`;
+- la lógica va en la clase `Component` al final de cada archivo (estado, `renderVals()`, bucle de scroll con `requestAnimationFrame`).
 
-Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sunqu Journeys v2.dc.html`. El archivo usa un runtime propio (`support.js`): el markup está entre `<x-dc>…</x-dc>` con holes `{{ }}`, `<sc-for>`/`<sc-if>`, y la lógica en la clase `Component` al final (estado, `renderVals()`, loop `requestAnimationFrame` de scroll). Léelo como spec.
+Para producción **se mantuvo este frontend** y se le agregó una capa PHP delante, en lugar de reescribirlo (Next.js/Astro): conserva el diseño y todas las interacciones, y corre en cualquier plan de Hostinger. El porqué está en [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). El mapa usa módulos de d3 (`vendor/`) y un contorno de Perú y sus vecinos (`assets/geo/`), que se cargan cuando el mapa se acerca a la pantalla.
 
 ## Fidelity
 **High-fidelity.** Colores, tipografía, espaciado, copy e interacciones son finales. Recrear pixel-perfect. Las fotos son de Unsplash (placeholder de calidad) — reemplazar por fotografía propia cuando exista.
@@ -34,10 +51,11 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 - Negro base / fondo oscuro: `#1c1c1c` · tarjeta sobre oscuro `#26262a`
 - Footer (black_base 2): `#2b271b`
 - Secundarios: naranja `#df5f0c`, amarillo `#f4a700`, verde lima `#83b300`, verde bosque `#48725E`
-- Texto secundario: `#424244`, `#5d5d60`, `#7a7a7d` · divisores `rgba(28,28,28,.16)` (claro) / `rgba(233,238,241,.14)` (oscuro)
+- Texto secundario: `#424244`, `#5d5d60`, `#626265` · divisores `rgba(28,28,28,.16)` (claro) / `rgba(233,238,241,.14)` (oscuro)
+- Para cumplir contraste AA: el texto oliva sobre fondos claros usa `#676140`, y el texto sobre fondos oliva, `#fff` (ver `docs/ACCESSIBILITY.md`)
 
 **Tipografía — Aeonik** (archivos en `fonts/`, licencia comercial de CoType: confirmar licencia web)
-- 400 Regular (cuerpo), 500 Medium, 700 Bold (títulos, usado como 600), Regular Italic. Fallback: Manrope, system-ui.
+- 400 Regular (cuerpo), 500 Medium, 700 Bold (títulos, usado como 600), Regular Italic. WOFF2 con TTF de respaldo. Fallback: system-ui.
 - H1 hero: `clamp(46px, 9vw, 150px)`, lh .98, tracking -.035em
 - H2 sección: `clamp(33px, 4.4vw, 71px)`, lh 1.02–1.04, tracking -.02/-.03em
 - H3 tarjeta: 21–28px; títulos de stack cards `clamp(34px,4.4vw,64px)`
@@ -50,7 +68,7 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 **Easing global**: `cubic-bezier(.2,.7,.1,1)`.
 
 ## Screens / Secciones (en orden)
-1. **Loader** — minimalista: fondo `#1c1c1c`, solo el logo (primero el isotipo lima, luego las letras) y el lema "Viaja al corazón del Perú" en tono suave. Dura ~2,3 s y sale "al corazón": una máscara con forma de isotipo nace sobre el corazón del logo y crece hasta revelar el hero (si el navegador no soporta `mask-composite`, se desliza hacia arriba; con movimiento reducido, se desvanece).
+1. **Loader** — minimalista: fondo `#1c1c1c`, solo el logo (primero el isotipo lima, luego las letras) y el lema "Viaja al corazón del Perú" en tono suave. Se muestra **una vez por sesión** (`sessionStorage['sunqu-loader']`): en las visitas siguientes al inicio, el hero entra directo, con sus mismas animaciones adelantadas 2,8 s. Dura ~2,3 s y sale "al corazón": una máscara con forma de isotipo nace sobre el corazón del logo y crece hasta revelar el hero (si el navegador no soporta `mask-composite`, se desliza hacia arriba; con movimiento reducido, se desvanece).
 2. **Header** fijo — logo (swap `logo-light.png`/`logo-dark.png` según sección clara/oscura), links Descubre/Conecta/Vive/Recuerda, botón idioma (globo + "ES", pill con borde), CTA "Diseña tu viaje". Con scroll>30px: fondo blur `rgba(28,28,28,.7)` (oscuro) o `rgba(233,238,241,.88)` (claro).
 3. **Modal idioma** — backdrop `rgba(28,28,28,.55)` + blur 6px; tarjeta 440px, radio 28px; opciones Español/English/Português (activa en ocre). Cierra con X, click fuera o al elegir.
 4. **Hero** (oscuro, 100vh) — 4 fotos a pantalla completa en crossfade cada 5.2s con Ken Burns (scale 1→1.12, 8s linear); prop opcional `heroVideo` (mp4) reemplaza las fotos. Gradiente inferior. H1 "El Perú no es / un destino. / Es una relación." (última línea `#f4a700`). Fila inferior: bajada, caption de la foto, 4 barras de progreso, botón pill blanco "Descubre los journeys".
@@ -82,16 +100,21 @@ Para ver el prototipo: servir la carpeta (`python3 -m http.server`) y abrir `Sun
 ## Assets
 - `assets/logo-light.png`, `logo-dark.png` (logo del manual, corazón `#83b300`), `logo-mask.png` (monocromo)
 - `assets/diamond-*.png` (rombos de color), `assets/pattern-*.png` (patrones andinos del manual)
-- `fonts/Aeonik-*.ttf` — convertir a woff2 en producción
-- Fotos: Unsplash (URLs en el HTML, licencia Unsplash) — placeholders a reemplazar
+- `fonts/Aeonik-*.woff2` (y `.ttf` de respaldo), generadas con `tools/fuentes-woff2.py`
+- `assets/**/*.jpg|png` con versiones `.avif`/`.webp` al lado (`tools/optimizar-imagenes.mjs`): el `.htaccess` sirve la mejor según el navegador · favicons `assets/favicon-*.png`
+- Fotos: Unsplash (licencia Unsplash) o la biblioteca de WordPress. Son placeholders a reemplazar por fotografía propia
 
 ## Files
-- `Sunqu Journeys v2.dc.html` — prototipo completo (markup + lógica)
+- `index.html` … `reclamaciones.html` — plantillas de las páginas · `Sunqu Journeys v2.dc.html` — fuente de `index.html`
 - `support.js` — runtime de las plantillas (lo arranca `js/sunqu-content.js` cuando el contenido está listo)
-- `content/` — contenido de toda la web (JSON) · `js/sunqu-config.js` y `js/sunqu-content.js` — conexión con WordPress y capa de contenido
-- `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema · `docs/WORDPRESS.md` — manual de integración
+- `content/` — contenido de toda la web (JSON)
+- `js/sunqu-config.js`, `js/sunqu-content.js` y `js/sunqu-analytics.js` — conexión con WordPress (hosting estático), capa de contenido y medición
+- `server/`, `.htaccess`, `.env.example` — producción en Hostinger (`docs/ARCHITECTURE.md`)
+- `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema
+- `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)
 - `css/` — hojas de estilo minificadas, una por página
-- `assets/`, `fonts/`
+- `assets/`, `fonts/`, `docs/`
 
 ## Pendientes / datos placeholder
-Handle de Instagram, email, teléfono, links de redes y blog, precios, traducciones EN/PT, licencia web de Aeonik.
+- **Configuración** (ver `docs/DEPLOYMENT.md › 10`): Hostinger, DNS, SSL, WordPress en `cms.`, SMTP, IDs de GA4, GTM y Meta Pixel, y Search Console.
+- **Datos del negocio:** teléfono, enlaces de redes, RUC, reseñas reales, precios definitivos de la tienda, revisión legal de Términos y cookies, traducciones EN/PT y licencia web de Aeonik.

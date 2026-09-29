@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="robots" content="noindex"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/reclamaciones.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="reclamaciones"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
 	</head>
 	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
 				<title>Libro de reclamaciones — Sunqu Journeys</title>
-				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
 			</helmet>
 			<div class="jr-wrap" style="background:{{ pageBg }}">
 
@@ -25,7 +28,7 @@
 						</a>
 					</nav>
 				</header>
-				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -33,7 +36,7 @@
 				</a>
 
 				<!-- Contenido principal -->
-				<main>
+				<main id="contenido" tabIndex="-1">
 
 					<!-- Sección · Libro de reclamaciones -->
 					<section class="lg-hero" data-bg="dark" aria-label="Libro de reclamaciones">
@@ -49,11 +52,12 @@
 					</section>
 
 					<!-- Sección #hoja · Hoja de reclamación -->
-					<section id="hoja" class="sj-light" data-bg="light" aria-label="Hoja de reclamación">
+					<section id="hoja" class="sj-light" data-bg="light" aria-label="Hoja de reclamación" tabIndex="-1">
 						<div class="rl-wrap">
 							<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
 								<p class="rl-intro" data-reveal="">Si algo no estuvo a la altura de lo que te prometimos, queremos saberlo. Completa esta hoja: te enviaremos una copia a tu correo y te responderemos en un plazo máximo de 15 días hábiles.</p>
-								<form class="sj-form" onSubmit="{{ submit }}">
+								<form class="sj-form" onSubmit="{{ submit }}" data-form="reclamacion" aria-busy="{{ sending }}">
+									<div class="sj-hp" aria-hidden="true"><label for="hp-web">Deja este campo vacío</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
 									<div class="blueprint rl-card" data-reveal="">
 										<div class="rl-card-head">
 											<span class="rl-step">01</span>
@@ -344,6 +348,7 @@
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
 							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 							<a href="reclamaciones.html" aria-current="page" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
@@ -358,7 +363,7 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
   MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  U(id, w) { return /^(assets\/|https?:)/.test(id) ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`; }
+  U(id, w) { return SunquContent.img(id, w, 72); }
   fdate(iso) { const [y, m, d] = iso.split('-'); return `${d} ${this.MON[+m - 1]} ${y}`; }
   lock() { document.body.style.overflow = this.state.menuOpen ? 'hidden' : ''; }
   setMenu(open) {
@@ -428,7 +433,7 @@ class Component extends DCLogic {
   // Datos de la empresa para la hoja de reclamación: completar RUC y dirección reales.
   CO = SunquView.CO;
   componentDidMount() {
-    this.pageTitle = 'Libro de reclamaciones — Sunqu Journeys';
+    this.pageTitle = SunquContent.titulo('Libro de reclamaciones — Sunqu Journeys');
     document.title = this.pageTitle;
     let code = '';
     try { code = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : ''; } catch (e) {}
@@ -456,11 +461,13 @@ class Component extends DCLogic {
         rows.push(['Documento', `${g('tipoDoc')} ${g('numDoc')}`], ['Correo', g('email')], ['Celular', g('celular')], ['Domicilio', g('domicilio')],
           ['Servicio', g('servicio')], ['Monto reclamado', g('monto') || '—'], ['Fecha del servicio', g('fecha') || '—'], ['Descripción', g('descripcion')],
           ['Tipo', g('tipo')], ['Detalle', g('detalle')], ['Pedido', g('pedido')]);
-        // Con WordPress, la hoja se registra en Sunqu › Reclamaciones y se envía por correo al consumidor y a la empresa.
+        // Con WordPress, la hoja se registra en Sunqu › Reclamaciones, que asigna el código correlativo, y se envía
+        // por correo al consumidor y a la empresa. Sin WordPress (vista previa) se muestra el código del navegador.
         this.setState({ sending: true, sendError: '' });
-        SunquContent.enviar('reclamacion', { ...SunquContent.datosDe(e.currentTarget), codigo: code, identificacion: st.code, menor: !!st.minor }).then(() => {
-          this.setState({ sending: false, sent: true, done: { code, email: g('email'), rows: rows.map(([k, v]) => ({ k, v })) } }, () => {
-            const el = document.getElementById('hoja'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' });
+        SunquContent.enviar('reclamacion', { ...SunquContent.datosDe(e.currentTarget), codigo: code, identificacion: st.code, menor: !!st.minor }).then((r) => {
+          const codigo = (r && r.codigo) || code;
+          this.setState({ sending: false, sent: true, done: { code: codigo, email: g('email'), rows: rows.map(([k, v]) => ({ k, v })) } }, () => {
+            const el = document.getElementById('hoja'); if (el) { window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' }); el.focus({ preventScroll: true }); }
           });
         }, () => this.setState({ sending: false, sendError: 'No pudimos registrar tu hoja de reclamación. Inténtalo de nuevo o escríbenos.' }));
       },

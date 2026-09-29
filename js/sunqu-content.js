@@ -7,14 +7,17 @@
  *   <script src="js/sunqu-content.js" data-page="journey"></script>
  *
  * Orden de origen del contenido:
- *   1. window.SUNQU_PRELOADED  → inyectado por el servidor (p. ej. un tema de WordPress).
- *   2. WordPress (REST)        → si window.SUNQU_CMS.api tiene valor: GET {api}/sunqu/v1/contenido?secciones=…
+ *   1. window.SUNQU_PRELOADED  → lo inyecta el servidor de producción (server/index.php).
+ *   2. WordPress (REST)        → si la configuración tiene api: GET {api}/sunqu/v1/contenido?secciones=…
  *   3. content/*.json          → archivos locales (también es el respaldo si WordPress no responde).
+ *
+ * Configuración: window.SUNQU_CONFIG (servidor) tiene prioridad sobre window.SUNQU_CMS (js/sunqu-config.js).
  *
  * Expone:
  *   window.SUNQU            contenido normalizado (mismo formato que content/*.json y que la API).
  *   window.SunquView        datos ya adaptados a lo que usa cada página (J, JOURNEYS, POSTS…).
- *   window.SunquContent     { img, site, enviar, views } — utilidades.
+ *   window.SunquContent     utilidades: img, srcset, param, titulo, esc, site, enviar, datosDe, fotos, cargarScript,
+ *                           medir (eventos de medición, ver js/sunqu-analytics.js) y origen (página de un formulario).
  */
 (function () {
   'use strict';
@@ -22,7 +25,8 @@
   var me = document.currentScript;
   var PAGE = (me && me.getAttribute('data-page')) || 'home';
   var BASE = me ? me.src.replace(/js\/sunqu-content\.js(\?.*)?$/, '') : '';
-  var CFG = window.SUNQU_CMS || {};
+  var CFG = {};
+  [window.SUNQU_CMS || {}, window.SUNQU_CONFIG || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (o[k] !== '' && o[k] != null) CFG[k] = o[k]; }); });
 
   // Secciones de contenido que necesita cada página (= archivos de content/ = secciones de la API).
   var NEED = {
@@ -42,11 +46,61 @@
   document.head.appendChild(hide);
 
   // ── Utilidades ────────────────────────────────────────────────────────────
-  // Imagen: acepta una URL completa (WordPress), una ruta local (assets/…) o un id de Unsplash.
+  // Imagen: acepta una URL completa (WordPress), una ruta local (assets/… o /assets/…) o un id de Unsplash.
+  // Con URLs limpias (producción) las rutas locales van desde la raíz: /journeys/alma no es una carpeta.
   function img(v, w, q, h) {
     if (!v) return '';
-    if (/^(assets\/|blob:|data:|https?:|\/)/.test(v)) return v;
+    if (/^assets\//.test(v)) return CFG.rutas === 'limpias' ? '/' + v : v;
+    if (/^(blob:|data:|https?:|\/)/.test(v)) return v;
     return 'https://images.unsplash.com/photo-' + v + '?auto=format&fit=crop&w=' + w + (h ? '&h=' + h : '') + '&q=' + (q || 72);
+  }
+  // srcset para servir el tamaño justo: Unsplash por ancho; WordPress con los tamaños que entrega la API.
+  var IMGSET = {};
+  function srcset(v, widths, q, h) {
+    if (!v) return '';
+    if (/^https?:/.test(v)) return IMGSET[v] || '';
+    if (/^(assets\/|blob:|data:|\/)/.test(v)) return '';
+    return widths.map(function (w) { return img(v, w, q, h ? Math.round(h * w / widths[widths.length - 1]) : 0) + ' ' + w + 'w'; }).join(', ');
+  }
+  // Parámetro de la página: en producción viene de la URL limpia (/journeys/alma → j=alma).
+  function param(name) {
+    var p = window.SUNQU_PARAMS || {};
+    if (p[name] != null && p[name] !== '') return String(p[name]);
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  // Página de origen de un formulario: «journey:alma», «home», «descubre»…
+  function origen() {
+    var k = PAGE === 'journey' ? param('j') : PAGE === 'articulo' ? param('a') : '';
+    return PAGE + (k ? ':' + k : '');
+  }
+  // Evento de medición (lo procesa js/sunqu-analytics.js; si todavía no cargó, queda en cola).
+  function medir(evento, params) {
+    try {
+      if (window.SunquTrack) window.SunquTrack.evento(evento, params || {});
+      else (window.__sunquCola = window.__sunquCola || []).push([evento, params || {}]);
+    } catch (e) {}
+  }
+  // Título de la pestaña: el del SEO (Sunqu › Sitio › SEO) si el servidor lo envió; si no, el de la página.
+  function titulo(def) {
+    var s = window.SUNQU_SEO;
+    return (s && s.title) || def;
+  }
+  // Texto seguro para insertar en HTML armado a mano (p. ej. las etiquetas del mapa).
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+  }
+  var scripts = {};
+  function cargarScript(src) {
+    if (!scripts[src]) {
+      scripts[src] = new Promise(function (ok, ko) {
+        var s = document.createElement('script');
+        s.src = src; s.async = false;
+        s.onload = function () { ok(); };
+        s.onerror = function () { delete scripts[src]; ko(new Error('No se pudo cargar ' + src)); };
+        document.head.appendChild(s);
+      });
+    }
+    return scripts[src];
   }
   function dict(list, key, val) {
     var o = {};
@@ -68,15 +122,22 @@
     });
   }
   var MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  // Enlace a un artículo: URL limpia en producción, archivo .html en la vista previa estática.
+  function articulo(slug) { return CFG.rutas === 'limpias' ? '/diario/' + slug : 'articulo.html?a=' + slug; }
 
   // Datos de contacto y redes para el footer, el menú lateral y los botones de WhatsApp.
+  // WhatsApp: el número de Sunqu › Sitio; si falta, el de la configuración (WHATSAPP_NUMBER).
   function site(c) {
     var s = (c && c.sitio) || {}, k = s.contacto || {}, r = s.redes || {};
+    var wa = String(k.whatsapp || CFG.whatsapp || '').replace(/\D+/g, '');
+    if (!wa) console.warn('[sunqu] falta el número de WhatsApp (Sunqu › Sitio › WhatsApp o WHATSAPP_NUMBER)');
+    // +51 966 461 384 (Perú: 9 dígitos en grupos de 3); otros países: +<número>
+    var waLabel = /^51\d{9}$/.test(wa) ? '+51 ' + wa.slice(2).replace(/(\d{3})(?=\d)/g, '$1 ') : wa ? '+' + wa : '';
     return {
       email: k.email || '', phone: k.telefono || '', phoneHref: k.telefonoHref || '', office: k.oficina || '',
-      wa: k.whatsapp || '', youtube: r.youtube || '#', instagram: r.instagram || '#', facebook: r.facebook || '#', tiktok: r.tiktok || '#',
+      wa: wa, waLabel: waLabel, youtube: r.youtube || '#', instagram: r.instagram || '#', facebook: r.facebook || '#', tiktok: r.tiktok || '#',
       igUser: r.instagramUsuario || '',
-      waLink: function (text) { return 'https://wa.me/' + (k.whatsapp || '') + '?text=' + encodeURIComponent(text); },
+      waLink: function (text) { return 'https://wa.me/' + wa + '?text=' + encodeURIComponent(text); },
     };
   }
 
@@ -93,23 +154,23 @@
         STOPS: c.inicio.ruta.map(function (s) { return [s.name, s.alt, s.lon, s.lat]; }),
         journeys: c.journeys.items.map(function (j) {
           var i = j.inicio;
-          return { id: j.slug, img: img(i.img, 1400, 70), c: j.c, title: j.title, region: i.region, days: j.days, alt: j.alt, price: i.price, icon: i.icon, ph: i.ph, why: i.why, moment: i.moment };
+          return { id: j.slug, img: img(i.img, 1400, 70), srcset: srcset(i.img, [480, 720, 960, 1400], 70), c: j.c, title: j.title, region: i.region, days: j.days, alt: j.alt, price: i.price, icon: i.icon, ph: i.ph, why: i.why, moment: i.moment };
         }),
         FORM_LINKS: c.inicio.formas.map(function (f) { return [f.href, f.cta]; }),
         forms: c.inicio.formas.map(function (f) { return [f.title, f.sub, f.img]; }),
         hs: c.inicio.heroSlides.map(function (s) { return [s.img, s.caption]; }),
-        principles: c.inicio.principios.map(function (p) { var o = omit(p, []); o.photo = img(p.photo, 800, 70); return o; }),
+        principles: c.inicio.principios.map(function (p) { var o = omit(p, []); o.photo = img(p.photo, 800, 70); o.srcset = srcset(p.photo, [400, 800], 70); return o; }),
         hosts: c.inicio.anfitriones.map(function (slug) {
           var h = hosts[slug] || {};
-          return { id: slug, img: img(h.img, 1400, 70), role: h.role, place: h.place, teach: h.teach, ph: h.altInicio || h.alt };
+          return { id: slug, img: img(h.img, 1400, 70), srcset: srcset(h.img, [480, 720, 1080, 1400], 70), role: h.role, place: h.place, teach: h.teach, ph: h.altInicio || h.alt };
         }),
         conditions: c.inicio.condiciones,
-        phases: c.inicio.fases.map(function (p) { var o = omit(p, []); o.photo = img(p.photo, 800, 70); return o; }),
+        phases: c.inicio.fases.map(function (p) { var o = omit(p, []); o.photo = img(p.photo, 800, 70); o.srcset = srcset(p.photo, [400, 800], 70); return o; }),
         words: c.inicio.palabras,
         steps: c.inicio.pasos,
-        instagram: (c.inicio.instagram || []).map(function (p) { return { img: img(p.img, 700, 70, 700), href: p.href || '#' }; }),
+        instagram: (c.inicio.instagram || []).map(function (p) { return { img: img(p.img, 700, 70, 700), srcset: srcset(p.img, [240, 480, 700], 70, 700), href: p.href || '#' }; }),
         blogCards: posts.map(function (p, i) {
-          return { href: 'articulo.html?a=' + p.slug, img: img(p.img, 1000, 70), title: p.title, excerpt: p.excerpt, cat: cats[p.cat] || p.cat, date: fmt(p.date), delay: String(i * 120) };
+          return { href: articulo(p.slug), img: img(p.img, 1000, 70), srcset: srcset(p.img, [480, 720, 1000], 70), title: p.title, excerpt: p.excerpt, cat: cats[p.cat] || p.cat, date: fmt(p.date), delay: String(i * 120) };
         }),
       };
     },
@@ -122,6 +183,7 @@
         o.title = j.title; o.c = j.c; o.days = j.days; o.alt = j.alt;
         o.concepts = j.c.map(function (k) { return labels[k]; });
         o.momentImg = img(f.momentImg, 2200, 72);
+        o.momentSrcset = srcset(f.momentImg, [800, 1280, 1600, 2200], 72);
         o.slides = (f.slides || []).map(function (s) { return [s.img, s.caption]; });
         J[j.slug] = o;
         PLAN[j.slug] = j.plan;
@@ -170,7 +232,8 @@
         CATS: dict(c.diario.categorias, 'slug', 'label'),
         POSTS: c.diario.posts.map(function (p) {
           var o = omit(p, ['sections']);
-          o.sections = p.sections.map(function (s) { var x = omit(s, ['blocks']); x.blocks = blocksOut(s.blocks); return x; });
+          // En producción solo el artículo abierto trae su cuerpo (el resto se usa como tarjeta)
+          o.sections = (p.sections || []).map(function (s) { var x = omit(s, ['blocks']); x.blocks = blocksOut(s.blocks); return x; });
           return o;
         }),
       };
@@ -188,10 +251,19 @@
 
   // ── Formularios ───────────────────────────────────────────────────────────
   // tipo: 'solicitud' (Diseña tu viaje), 'resena' (Comparte tu viaje), 'reclamacion' (Libro de reclamaciones).
-  // Sin WordPress configurado resuelve de inmediato ({ local: true }) y la página muestra su confirmación.
+  //   · Con WordPress: POST {api}/sunqu/v1/formularios/{tipo}.
+  //   · Vista previa sin WordPress: resuelve de inmediato ({ local: true }) y la página muestra su confirmación.
+  //   · Producción sin WordPress: falla, para no mostrar un envío que no llegó a nadie.
+  // Cada resultado se mide (form_submit + generate_lead / form_error) sin datos personales: solo el tipo de formulario.
   function enviar(tipo, datos) {
-    if (!CFG.api) return Promise.resolve({ local: true });
-    return fetch(CFG.api.replace(/\/$/, '') + '/sunqu/v1/formularios/' + tipo, {
+    var ctx = { form_name: tipo, experience_id: PAGE === 'journey' ? param('j') || undefined : undefined };
+    var ok = function (r) { medir('form_submit', ctx); if (tipo === 'solicitud') medir('generate_lead', ctx); return r; };
+    var ko = function (e) { medir('form_error', ctx); throw e; };
+    if (!CFG.api) {
+      if (CFG.env === 'production') return Promise.reject(new Error('Formularios sin configurar: falta WORDPRESS_API_URL')).catch(ko);
+      return Promise.resolve({ local: true }).then(ok);
+    }
+    return fetch(String(CFG.api).replace(/\/$/, '') + '/sunqu/v1/formularios/' + tipo, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(datos || {}),
@@ -200,15 +272,17 @@
         if (!r.ok) throw new Error((j && j.message) || 'Error ' + r.status);
         return j;
       });
-    });
+    }).then(ok, ko);
   }
   // FormData de un <form> → objeto plano (los campos repetidos se juntan en una lista).
+  // _t: milisegundos desde que se abrió la página (el plugin descarta envíos imposibles de tan rápidos).
   function datosDe(form) {
     var o = {};
     new FormData(form).forEach(function (v, k) {
       if (v instanceof File) return;
       if (k in o) o[k] = [].concat(o[k], v); else o[k] = v;
     });
+    try { o._t = Math.round(performance.now()); } catch (e) {}
     return o;
   }
 
@@ -231,12 +305,39 @@
     })).then(function (list) { return list.filter(Boolean); });
   }
 
-  window.SunquContent = { img: img, site: site, enviar: enviar, datosDe: datosDe, fotos: fotos, views: views, page: PAGE };
+  // ── Accesibilidad: el foco no sale de un diálogo abierto (menú, idioma, visor, bolsa, galería…) ──
+  function dialogoAbierto() {
+    var list = document.querySelectorAll('[aria-modal="true"]');
+    for (var i = list.length - 1; i >= 0; i--) {
+      var d = list[i], cs = window.getComputedStyle(d);
+      if (cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0.05 && d.getClientRects().length) return d;
+    }
+    return null;
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var d = dialogoAbierto();
+    if (!d) return;
+    var f = Array.prototype.filter.call(d.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'), function (el) {
+      return el.getClientRects().length && window.getComputedStyle(el).visibility !== 'hidden';
+    });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1], a = document.activeElement;
+    if (!d.contains(a)) { e.preventDefault(); first.focus(); }
+    else if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+  }, true);
+
+  window.SunquContent = {
+    img: img, srcset: srcset, param: param, titulo: titulo, esc: esc, cargarScript: cargarScript, medir: medir, origen: origen,
+    site: site, enviar: enviar, datosDe: datosDe, fotos: fotos, views: views, page: PAGE, base: BASE, config: CFG,
+  };
 
   // ── Arranque ──────────────────────────────────────────────────────────────
   function boot(content, origen) {
     window.SUNQU = content;
     window.SUNQU_ORIGEN = origen;
+    Object.keys(content || {}).forEach(function (s) { if (content[s] && content[s]._imagenes) Object.assign(IMGSET, content[s]._imagenes); });
     try {
       window.SunquView = views[PAGE](content);
       window.SunquView.site = site(content);
@@ -245,7 +346,7 @@
       return;
     }
     var s = document.createElement('script');
-    s.src = BASE + 'support.js';
+    s.src = BASE + 'support.js' + (CFG.v ? '?v=' + CFG.v : '');
     document.head.appendChild(s);
   }
   function local() {
@@ -261,7 +362,7 @@
     });
   }
   function remote() {
-    var url = CFG.api.replace(/\/$/, '') + '/sunqu/v1/contenido?secciones=' + NEED[PAGE].join(',');
+    var url = String(CFG.api).replace(/\/$/, '') + '/sunqu/v1/contenido?secciones=' + NEED[PAGE].join(',');
     return fetch(url, { credentials: 'omit' }).then(function (r) {
       if (!r.ok) throw new Error('WordPress respondió ' + r.status);
       return r.json();

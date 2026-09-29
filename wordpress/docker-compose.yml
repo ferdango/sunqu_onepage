@@ -1,8 +1,8 @@
-# Entorno local de Sunqu: WordPress (CMS) + base de datos + WP-CLI + la web estática leyendo de WordPress.
+# Entorno local de Sunqu: WordPress (CMS) + base de datos + WP-CLI + la web como en producción.
 #
 #   ./setup.sh                      instala todo, importa content/*.json y verifica
 #   http://localhost:8080/wp-admin  panel de WordPress (usuario y clave en .env)
-#   http://localhost:8081           la web, leyendo el contenido desde WordPress
+#   http://localhost:8081           la web con Apache + PHP + .htaccess (igual que Hostinger), leyendo WordPress
 #   docker compose run --rm cli …   cualquier comando de WP-CLI (p. ej. «sunqu exportar --dir=/var/www/front/content»)
 name: sunqu
 
@@ -39,11 +39,13 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "${WP_PORT:-8080}:80"
+      - "127.0.0.1:${WP_PORT:-8080}:80"   # solo este equipo (las claves locales son de ejemplo)
     environment:
       <<: *db-env
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_ENVIRONMENT_TYPE', 'local');
+        // Dentro de Docker la web se llama «sitio» (en producción se usa Sunqu › Conexión › URL de la web)
+        define('SUNQU_PURGA_URL', 'http://sitio/_sunqu/purge');
     volumes: *wp-volumes
 
   cli:
@@ -58,14 +60,34 @@ services:
     volumes: *wp-volumes
     entrypoint: ["wp"]
 
-  web:
-    image: nginx:alpine
+  # La web tal como corre en Hostinger: Apache + PHP 8.3 + .htaccess + server/index.php.
+  # Usa la imagen de WordPress solo por su Apache y PHP (el entrypoint propio evita que instale WordPress).
+  sitio:
+    image: wordpress:6-php8.3-apache
+    depends_on:
+      - wordpress
     ports:
-      - "${WEB_PORT:-8081}:80"
+      - "127.0.0.1:${WEB_PORT:-8081}:80"
+    entrypoint: ["bash", "-c", "chown www-data: /var/www/html/server/storage && a2enmod -q headers && exec apache2-foreground"]
+    environment:
+      # Las mismas variables que el .env de producción (ver .env.example en la raíz)
+      APP_ENV: production
+      SITE_URL: ${WEB_URL:-http://localhost:8081}
+      WORDPRESS_API_URL: ${WP_URL:-http://localhost:8080}/wp-json
+      WORDPRESS_API_URL_INTERNAL: http://wordpress/wp-json
+      CONTENT_CACHE_TTL: "300"
+      CACHE_PURGE_TOKEN: ${PURGE_TOKEN:-}
+      GA4_ID: ${GA4_ID:-}
+      GTM_ID: ${GTM_ID:-}
+      META_PIXEL_ID: ${META_PIXEL_ID:-}
+      WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-}
+      CONSENT_MODE: ${CONSENT_MODE:-banner}
+      CSP_MODE: enforce
     volumes:
-      - ..:/usr/share/nginx/html:ro
-      - ./local/sunqu-config.js:/usr/share/nginx/html/js/sunqu-config.js:ro
+      - ..:/var/www/html
+      - sitio-cache:/var/www/html/server/storage   # caché de contenido fuera del repositorio
 
 volumes:
   db:
   wp:
+  sitio-cache:

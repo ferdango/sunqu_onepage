@@ -1,3 +1,8 @@
 .claude/
 .DS_Store
 wordpress/.env
+.env
+server/storage/*
+!server/storage/.htaccess
+dist/
+wordpress/*.zip

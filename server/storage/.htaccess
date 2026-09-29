@@ -1,0 +1,2 @@
+# La caché de contenido nunca se sirve (respaldo de la regla del .htaccess de la raíz)
+Require all denied

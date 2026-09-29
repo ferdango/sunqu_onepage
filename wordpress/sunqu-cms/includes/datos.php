@@ -158,9 +158,26 @@ function sunqu_convertir(string $tipo, $raw) {
  */
 function sunqu_url_media($raw): string {
 	if (is_numeric($raw)) {
-		return (int) $raw > 0 ? (wp_get_attachment_url((int) $raw) ?: '') : '';
+		$url = (int) $raw > 0 ? (wp_get_attachment_url((int) $raw) ?: '') : '';
+		sunqu_registrar_srcset($url, (int) $raw);
+		return $url;
 	}
 	return is_scalar($raw) ? (string) $raw : '';
+}
+
+/**
+ * Tamaños que WordPress generó para una imagen de la biblioteca (srcset). Se juntan mientras se
+ * exporta una sección y la API los entrega en «_imagenes» ({ url: srcset }): la web los usa para
+ * servir el tamaño justo a cada pantalla.
+ */
+function sunqu_registrar_srcset(string $url, int $id): void {
+	if ($url === '' || $id <= 0 || !isset($GLOBALS['sunqu_imagenes'])) {
+		return;
+	}
+	$set = wp_get_attachment_image_srcset($id, 'full');
+	if ($set) {
+		$GLOBALS['sunqu_imagenes'][$url] = $set;
+	}
 }
 
 // ── Escritura (formato de content/*.json → WordPress) ────────────────────────────────────────
@@ -251,6 +268,7 @@ function sunqu_exportar(string $nombre, bool $cache = true): ?array {
 		return $hit;
 	}
 	$out = ['_info' => $sec['info'] ?? ''];
+	$GLOBALS['sunqu_imagenes'] = [];
 	switch ($sec['tipo']) {
 		case 'ajustes':
 			$out += sunqu_leer_campos(['opcion', $sec['id']], $sec['campos']);
@@ -278,6 +296,10 @@ function sunqu_exportar(string $nombre, bool $cache = true): ?array {
 			$out += sunqu_exportar_diario($sec);
 			break;
 	}
+	if ($GLOBALS['sunqu_imagenes']) {
+		$out['_imagenes'] = $GLOBALS['sunqu_imagenes'];
+	}
+	unset($GLOBALS['sunqu_imagenes']);
 	$out = apply_filters('sunqu_exportar_seccion', $out, $nombre);
 	if ($cache) {
 		set_transient($ck, $out, DAY_IN_SECONDS);
@@ -285,14 +307,44 @@ function sunqu_exportar(string $nombre, bool $cache = true): ?array {
 	return $out;
 }
 
-/** Invalida la caché de la API (se llama al guardar cualquier contenido). */
+/** Invalida la caché de la API (se llama al guardar cualquier contenido) y avisa a la web. */
 function sunqu_limpiar_cache(): void {
 	if (!empty($GLOBALS['sunqu_sin_cache'])) {
 		return; // durante la importación se limpia una sola vez al final
 	}
 	update_option('sunqu_cache_v', (int) get_option('sunqu_cache_v', 1) + 1, false);
+	$GLOBALS['sunqu_purgar_web'] = true; // una sola vez por petición, al terminar
 }
-/** Tipos cuyo guardado cambia la API (entradas + colecciones; no los envíos de formularios). */
+add_action('shutdown', function () {
+	if (!empty($GLOBALS['sunqu_purgar_web'])) {
+		$GLOBALS['sunqu_purgar_web'] = false;
+		sunqu_purgar_web();
+	}
+});
+
+/**
+ * Vacía la caché de la web de producción: POST {URL de la web}/_sunqu/purge con el token de
+ * Sunqu › Conexión (el mismo que CACHE_PURGE_TOKEN en el .env de la web). Sin token no hace nada:
+ * la web vuelve a leer WordPress al vencer su caché (CONTENT_CACHE_TTL).
+ * La constante SUNQU_PURGA_URL (wp-config.php) permite otra dirección, p. ej. dentro de Docker.
+ *
+ * @return array{ok: bool, mensaje: string}
+ */
+function sunqu_purgar_web(): array {
+	$token = (string) get_option('sunqu_purga_token', '');
+	$web = untrailingslashit((string) get_option('sunqu_web', ''));
+	$url = defined('SUNQU_PURGA_URL') ? (string) SUNQU_PURGA_URL : ($web !== '' ? $web . '/_sunqu/purge' : '');
+	if ($token === '' || $url === '') {
+		return ['ok' => false, 'mensaje' => 'Falta la URL de la web o el token de purga.'];
+	}
+	$r = wp_remote_post($url, ['headers' => ['X-Sunqu-Token' => $token], 'timeout' => 4, 'redirection' => 0]);
+	if (is_wp_error($r)) {
+		return ['ok' => false, 'mensaje' => $r->get_error_message()];
+	}
+	$code = (int) wp_remote_retrieve_response_code($r);
+	return ['ok' => $code === 200, 'mensaje' => $code === 200 ? 'La web vació su caché.' : 'La web respondió ' . $code . ($code === 403 ? ' (el token no coincide con CACHE_PURGE_TOKEN)' : '') . '.'];
+}
+/** Tipos cuyo contenido publicado sale en la API (entradas + colecciones; no los envíos de formularios). */
 function sunqu_tipos_contenido(): array {
 	$tipos = ['post', 'attachment'];
 	foreach (sunqu_schema()['secciones'] as $sec) {
@@ -302,22 +354,30 @@ function sunqu_tipos_contenido(): array {
 	}
 	return $tipos;
 }
-add_action('save_post', function ($id, $post) {
-	if ($post && in_array($post->post_type, sunqu_tipos_contenido(), true)) {
+// Solo lo publicado cambia la web: publicar, editar algo publicado, despublicarlo o borrarlo. Los borradores, los
+// autoguardados y lo que llega por los formularios (reseñas «Pendientes» y sus fotos) no vacían ninguna caché.
+add_action('transition_post_status', function ($nuevo, $viejo, $post) {
+	if (($nuevo === 'publish' || $viejo === 'publish') && in_array($post->post_type, sunqu_tipos_contenido(), true)) {
 		sunqu_limpiar_cache();
 	}
-}, 10, 2);
+}, 10, 3);
 add_action('deleted_post', function ($id, $post = null) {
-	if (!$post || in_array($post->post_type, sunqu_tipos_contenido(), true)) {
+	if ($post && ($post->post_type === 'attachment' || ($post->post_status === 'publish' && in_array($post->post_type, sunqu_tipos_contenido(), true)))) {
 		sunqu_limpiar_cache();
 	}
 }, 10, 2);
-add_action('acf/save_post', 'sunqu_limpiar_cache');
+// Campos de ACF: las páginas de ajustes (Sitio, Inicio, Legales…) siempre; entradas y colecciones, si están publicadas
+add_action('acf/save_post', function ($id) {
+	if (is_numeric($id) && get_post_status((int) $id) !== 'publish') {
+		return;
+	}
+	sunqu_limpiar_cache();
+});
 foreach (['created_category', 'edited_category', 'delete_category'] as $hook) {
 	add_action($hook, 'sunqu_limpiar_cache');
 }
 add_action('updated_option', function ($opcion) {
-	if (str_starts_with($opcion, 'sunqu_') && $opcion !== 'sunqu_cache_v') {
+	if (str_starts_with($opcion, 'sunqu_') && !in_array($opcion, ['sunqu_cache_v', 'sunqu_purga_token'], true)) {
 		sunqu_limpiar_cache();
 	}
 });

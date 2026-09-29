@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="robots" content="noindex"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/home.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="home"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
 	</head>
 	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
 				<title>Sunqu Journeys — El corazón del Perú</title>
-				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
-				<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-				<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 			</helmet>
 			<div style="--font-heading:'Aeonik','Manrope',system-ui,sans-serif;--font-body:'Aeonik','Manrope',system-ui,sans-serif;--font-heading-weight:600;--color-bg:#e9eef1;--color-text:#1c1c1c;--color-divider:rgba(28,28,28,.16);--color-accent:#736d47;--color-accent-600:#5e5939;--color-accent-700:#4a462d;--color-accent-100:#efece2;--color-accent-800:#736d47;position:relative;background:{{ pageBg }};transition:background-color .9s ease;color:#1c1c1c;font-family:var(--font-body)">
 				<!-- Pantalla de carga -->
@@ -108,7 +109,7 @@
 						<div class="sj-band sj-band--light" aria-hidden="true"></div>
 					</div>
 				</aside>
-				<a class="sj-wa {{ waCls }}" href="https://wa.me/{{ site.wa }}?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="https://wa.me/{{ site.wa }}?text=Hola%20Sunqu%2C%20quiero%20dise%C3%B1ar%20mi%20viaje" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -144,13 +145,13 @@
 				</sc-if>
 
 				<!-- Contenido principal -->
-				<main style="position:relative;z-index:1">
+				<main id="contenido" tabIndex="-1" style="position:relative;z-index:1">
 
 					<!-- Sección #inicio · Hero -->
 					<section id="inicio" class="sj-hero" data-screen-label="Hero" data-bg="dark" style="position:relative;height:100vh;min-height:640px;overflow:hidden;color:#e9eef1">
 						<div data-parallax="0.25" style="position:absolute;inset:-6% 0">
 							<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
-								<img src="{{ s.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
+								<img src="{{ s.src }}" srcSet="{{ s.srcset }}" sizes="100vw" fetchpriority="{{ s.fp }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
 							</sc-for>
 							<sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
 								<video src="{{ heroVideo }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
@@ -182,7 +183,7 @@
 					<section id="sunqu" data-bg="light" data-screen-label="Detrás de Sunqu" style="padding:clamp(80px,12vw,160px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
 						<div class="sj-sunqu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:clamp(24px,4vw,56px)">
 							<div class="sj-sunqu-aside" style="display:flex;flex-direction:column;gap:20px">
-								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Detrás de Sunqu</span>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140">Detrás de Sunqu</span>
 								<img data-reveal="" data-delay="100" src="assets/pattern-pair.png" alt="" style="width:92px">
 							</div>
 							<div class="sj-sunqu-body" style="grid-column:span 3;min-width:min(100%,560px)">
@@ -239,7 +240,7 @@
 									</div>
 								</div>
 								<div class="sj-gc-text">
-									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">El Círculo Dorado de Sunqu</span>
+									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140">El Círculo Dorado de Sunqu</span>
 									<div class="sj-gc-tabs" role="group" aria-label="Pasos del Círculo Dorado">
 										<sc-for list="{{ gcTabs }}" as="t" hint-placeholder-count="3">
 											<button type="button" class="sj-gc-tab" data-state="{{ t.state }}" aria-pressed="{{ t.on }}" onClick="{{ t.go }}"><b>{{ t.n }}</b>{{ t.label }}</button>
@@ -284,7 +285,7 @@
 								<sc-for list="{{ principles }}" as="p" hint-placeholder-count="6">
 									<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,540px);background:{{ p.bg }};color:{{ p.fg }};border-radius:32px;padding:clamp(28px,4vw,44px) clamp(24px,4vw,52px) clamp(34px,5vw,56px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(12px,1.8vh,20px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
 										<div style="width:min(56%,270px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden">
-											<img src="{{ p.photo }}" alt="{{ p.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+											<img src="{{ p.photo }}" srcSet="{{ p.srcset }}" sizes="(max-width: 1000px) 45vw, 320px" loading="lazy" decoding="async" alt="{{ p.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
 										</div>
 										<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ p.n }} · {{ p.layer }}</span>
 										<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(34px,4.4vw,64px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ p.fg }};text-wrap:balance">{{ p.title }}</h3>
@@ -301,7 +302,7 @@
 						<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(28px,5vw,80px);align-items:start">
 							<div data-clip="" class="sj-formas-media" style="position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#dde3e7">
 								<sc-for list="{{ forms }}" as="f" hint-placeholder-count="4">
-									<img src="{{ f.img }}" alt="{{ f.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ f.op }};transform:scale({{ f.sc }});transition:opacity .6s,transform 1.2s cubic-bezier(.2,.7,.1,1)">
+									<img src="{{ f.img }}" srcSet="{{ f.srcset }}" sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" decoding="async" alt="{{ f.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ f.op }};transform:scale({{ f.sc }});transition:opacity .6s,transform 1.2s cubic-bezier(.2,.7,.1,1)">
 								</sc-for>
 							</div>
 							<ul class="sj-formas-list" style="list-style:none;margin:0;padding:0;border-top:1px solid rgba(28,28,28,.16)">
@@ -318,7 +319,7 @@
 										</a>
 										<div class="sj-formas-panel">
 											<div>
-												<div class="sj-formas-inline"><img src="{{ f.img }}" alt="{{ f.title }}" loading="lazy"></div>
+												<div class="sj-formas-inline"><img src="{{ f.img }}" srcSet="{{ f.srcset }}" sizes="100vw" alt="{{ f.title }}" loading="lazy" decoding="async"></div>
 												<a href="{{ f.href }}" class="sj-formas-more">{{ f.cta }}<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
 											</div>
 										</div>
@@ -332,7 +333,7 @@
 					<section data-expand="" data-bg="dark" data-screen-label="Expandir" style="height:260vh;position:relative">
 						<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
 							<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
-								<img src="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&fit=crop&w=2000&q=72" alt="Dos mujeres quechuas miran la ciudad desde la montaña" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
+								<img src="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&fit=crop&w=2000&q=72" srcSet="https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&amp;fit=crop&amp;w=640&amp;q=72 640w, https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&amp;fit=crop&amp;w=960&amp;q=72 960w, https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&amp;fit=crop&amp;w=1280&amp;q=72 1280w, https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&amp;fit=crop&amp;w=1600&amp;q=72 1600w, https://images.unsplash.com/photo-1783660107893-aa8554a9bc39?auto=format&amp;fit=crop&amp;w=2000&amp;q=72 2000w" sizes="100vw" loading="lazy" decoding="async" alt="Dos mujeres quechuas miran la ciudad desde la montaña" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
 								<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(28,28,28,0) 40%,rgba(28,28,28,.75))"></div>
 							</div>
 							<div data-expand-text="" style="position:absolute;left:0;right:0;bottom:0;max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,56px) clamp(36px,6vh,72px);color:#e9eef1;opacity:0">
@@ -360,7 +361,7 @@
 								<sc-for list="{{ journeys }}" as="j" hint-placeholder-count="3">
 									<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
 										<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
-											<img src="{{ j.img }}" alt="{{ j.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+											<img src="{{ j.img }}" srcSet="{{ j.srcset }}" sizes="(max-width: 767px) 80vw, 400px" loading="lazy" decoding="async" alt="{{ j.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
 											<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ j.alt }}</span>
 											<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ j.days }}</span>
 										</div>
@@ -386,7 +387,7 @@
 
 					<!-- Sección #conecta · 02 Conecta -->
 					<section id="conecta" data-bg="light" data-screen-label="02 Conecta" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
-						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">02 — Conecta · Sunqu Collective</div>
+						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140;margin-bottom:24px" data-reveal="">02 — Conecta · Sunqu Collective</div>
 						<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(24px,4vw,56px);align-items:end;margin-bottom:clamp(40px,5vw,64px)">
 							<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0">Viajas con personas, no con proveedores.</h2>
 							<p data-reveal="" data-delay="120" style="font-size:18px;line-height:1.55;margin:0;max-width:44ch;color:#424244;text-wrap:pretty">Detrás de cada Journey hay alguien con nombre propio. No «una familia quechua», sino Rosa, y su historia. Te presentamos a quienes te reciben antes de que llegues.</p>
@@ -395,14 +396,14 @@
 							<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="3">
 								<article data-reveal="" class="blueprint" style="display:flex;flex-direction:column">
 									<div data-clip="" class="duotone" style="position:relative;aspect-ratio:3/3.4;overflow:hidden">
-										<img src="{{ h.img }}" alt="{{ h.ph }}" style="width:100%;height:100%;object-fit:cover;display:block">
+										<img src="{{ h.img }}" srcSet="{{ h.srcset }}" sizes="(max-width: 767px) 75vw, (max-width: 1100px) 30vw, 440px" loading="lazy" decoding="async" alt="{{ h.ph }}" style="width:100%;height:100%;object-fit:cover;display:block">
 									</div>
 									<div style="padding:20px 22px 24px;display:flex;flex-direction:column;gap:8px">
 										<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 											<h3 style="letter-spacing:-.02em;font-size:22px;margin:0">{{ h.role }}</h3>
 											<span style="font-size:13px;color:#5d5d60">{{ h.place }}</span>
 										</div>
-										<p style="margin:0;font-size:15px;color:#424244;line-height:1.5"><strong style="font-weight:500;color:#736d47">Te enseña · </strong>{{ h.teach }}</p>
+										<p style="margin:0;font-size:15px;color:#424244;line-height:1.5"><strong style="font-weight:500;color:#676140">Te enseña · </strong>{{ h.teach }}</p>
 									</div>
 								</article>
 							</sc-for>
@@ -411,7 +412,7 @@
 							<div style="display:flex;align-items:center;gap:20px">
 								<img src="assets/pattern-ring.png" alt="" style="width:72px">
 								<div>
-									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Ayni · reciprocidad</span>
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Ayni · reciprocidad</span>
 									<h3 style="letter-spacing:-.02em;font-size:24px;margin:4px 0 0">Ficha de reciprocidad</h3>
 								</div>
 							</div>
@@ -541,7 +542,7 @@
 
 					<!-- Sección #recuerda · 04 Recuerda -->
 					<section id="recuerda" data-bg="light" data-screen-label="04 Recuerda" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto">
-						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47;margin-bottom:24px" data-reveal="">04 — Recuerda</div>
+						<div class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140;margin-bottom:24px" data-reveal="">04 — Recuerda</div>
 						<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(33px,4.4vw,71px);line-height:1.04;margin:0 0 clamp(30px,3.7vw,53px);max-width:15ch">El viaje empieza antes del vuelo y sigue después.</h2>
 						<div data-stack="" class="sj-stack-bleed" style="height:300vh;position:relative;margin-top:clamp(24px,3vw,40px)">
 							<div class="sj-sticky" style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden">
@@ -552,7 +553,7 @@
 								<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
 									<article data-card="" class="sj-stack-card" style="position:absolute;width:min(88vw,560px);background:{{ ph.bg }};color:{{ ph.fg }};border-radius:32px;padding:clamp(28px,4vw,48px) clamp(24px,4vw,56px) clamp(36px,5vw,64px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,2vh,22px);box-shadow:0 30px 80px rgba(0,0,0,.18);will-change:transform">
 										<div style="width:min(62%,300px);aspect-ratio:1/1.05;border-radius:24px;overflow:hidden">
-											<img src="{{ ph.photo }}" alt="{{ ph.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
+											<img src="{{ ph.photo }}" srcSet="{{ ph.srcset }}" sizes="(max-width: 767px) 55vw, 390px" loading="lazy" decoding="async" alt="{{ ph.title }}" style="width:100%;height:100%;object-fit:cover;display:block">
 										</div>
 										<span style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;opacity:.8">{{ ph.kicker }}</span>
 										<h3 style="font-family:var(--font-heading);font-weight:600;font-size:clamp(40px,5vw,76px);line-height:1;letter-spacing:-.03em;margin:0;color:{{ ph.fg }}">{{ ph.title }}</h3>
@@ -573,10 +574,10 @@
 						<div style="margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px">
 							<article data-reveal="" class="blueprint sj-market" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
 								<div class="duotone sj-market-img" style="position:relative;min-height:280px;overflow:hidden;border-right:1px solid rgba(28,28,28,.12)">
-									<img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=1400&q=70" alt="Textil andino" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+									<img src="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&fit=crop&w=1400&q=70" srcSet="https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&amp;fit=crop&amp;w=480&amp;q=70 480w, https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&amp;fit=crop&amp;w=720&amp;q=70 720w, https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&amp;fit=crop&amp;w=960&amp;q=70 960w, https://images.unsplash.com/photo-1568805778734-f0a5a77d7272?auto=format&amp;fit=crop&amp;w=1400&amp;q=70 1400w" sizes="(max-width: 900px) 92vw, 330px" loading="lazy" decoding="async" alt="Textil andino" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
 								</div>
 								<div style="padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:center;gap:12px">
-									<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Marketplace</span>
+									<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Marketplace</span>
 									<h3 style="letter-spacing:-.02em;font-size:24px;margin:0;line-height:1.12">Lo que te llevas tiene nombre.</h3>
 									<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">Textiles, cerámica, joyería y alimentos con la historia de quién los hizo, dónde y con qué técnica.</p>
 								</div>
@@ -593,7 +594,7 @@
 					<section id="blog" data-bg="light" data-screen-label="Blog" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
 						<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
 							<div>
-								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Diario Sunqu · Blog</span>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140">Diario Sunqu · Blog</span>
 								<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:13ch">Historias antes del viaje.</h2>
 							</div>
 							<a href="blog.html" class="btn btn-secondary" style="border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase;color:#1c1c1c" style-hover="background:rgba(115,109,71,.08);color:#1c1c1c">Ver todo el blog<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
@@ -602,15 +603,15 @@
 							<sc-for list="{{ blogCards }}" as="b" hint-placeholder-count="3">
 								<article data-reveal="" data-delay="{{ b.delay }}" style="display:flex;flex-direction:column;gap:18px">
 									<a href="{{ b.href }}" style="display:block;aspect-ratio:4/3;border-radius:20px;overflow:hidden">
-										<img src="{{ b.img }}" alt="{{ b.title }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+										<img src="{{ b.img }}" srcSet="{{ b.srcset }}" sizes="(max-width: 767px) 80vw, 420px" loading="lazy" decoding="async" alt="{{ b.title }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
 									</a>
 									<div style="display:flex;gap:12px;align-items:center;font-size:13px;color:#5d5d60">
-										<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#736d47;text-transform:uppercase;letter-spacing:.06em">{{ b.cat }}</span>
+										<span style="border:1px solid rgba(28,28,28,.2);border-radius:999px;padding:4px 12px;color:#676140;text-transform:uppercase;letter-spacing:.06em">{{ b.cat }}</span>
 										<span>{{ b.date }}</span>
 									</div>
 									<h3 style="letter-spacing:-.02em;font-size:clamp(22px,1.9vw,28px);line-height:1.15;margin:0;text-wrap:balance">{{ b.title }}</h3>
 									<p style="margin:0;font-size:15px;line-height:1.55;color:#424244">{{ b.excerpt }}</p>
-									<a href="{{ b.href }}" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#736d47;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+									<a href="{{ b.href }}" style="font-size:15px;color:#1c1c1c;text-decoration:none;display:inline-flex;gap:8px;align-items:center;border-bottom:1px solid #1c1c1c;align-self:flex-start;padding-bottom:2px" style-hover="color:#676140;border-color:#736d47">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
 								</article>
 							</sc-for>
 						</div>
@@ -620,7 +621,7 @@
 					<section id="instagram" data-bg="light" data-screen-label="Instagram" style="padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);max-width:1440px;margin:0 auto;border-top:1px solid rgba(28,28,28,.16)">
 						<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,4vw,56px)">
 							<div>
-								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#736d47">Instagram · {{ site.igUser }}</span>
+								<span data-reveal="" class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#676140">Instagram · {{ site.igUser }}</span>
 								<h2 data-reveal="" style="letter-spacing:-.03em;font-size:clamp(33px,4.4vw,71px);line-height:1.02;margin:10px 0 0;max-width:14ch">El Perú, contado por quienes lo viven.</h2>
 							</div>
 							<a href="{{ site.instagram }}" class="btn btn-primary" style="background:#1c1c1c;border-color:#1c1c1c;color:#e9eef1;border-radius:999px;font-size:14px;padding:13px 22px;letter-spacing:.06em;text-transform:uppercase" style-hover="background:#736d47;border-color:#736d47;color:#e9eef1">Síguenos</a>
@@ -628,7 +629,7 @@
 						<div data-reveal="" class="sj-ig" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:clamp(10px,1.4vw,18px)">
 							<sc-for list="{{ instagram }}" as="g" hint-placeholder-count="6">
 								<a href="{{ g.href }}" style="position:relative;display:block;aspect-ratio:1;border-radius:18px;overflow:hidden;color:#e9eef1" style-hover="color:#e9eef1">
-									<img src="{{ g.img }}" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
+									<img src="{{ g.img }}" srcSet="{{ g.srcset }}" sizes="(max-width: 767px) 30vw, 230px" loading="lazy" decoding="async" alt="Post de Instagram de Sunqu" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.1,1)">
 									<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(28,28,28,0);opacity:0;transition:all .4s" style-hover="background:rgba(28,28,28,.45);opacity:1">
 										<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
 											<rect x="2" y="2" width="20" height="20" rx="5"></rect>
@@ -649,7 +650,7 @@
 								<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
 									<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
 										<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
-											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#676140">{{ s.n }}</span>
 											<div>
 												<h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3>
 												<p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p>
@@ -658,10 +659,11 @@
 									</sc-for>
 								</ol>
 							</div>
-							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start" aria-live="polite">
 								<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
-									<form onSubmit="{{ submit }}" class="sj-form">
-										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+									<form onSubmit="{{ submit }}" class="sj-form" data-form="solicitud" aria-busy="{{ sending }}">
+										<div class="sj-hp" aria-hidden="true"><label for="hp-web">Deja este campo vacío</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
+										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · diseñamos contigo</span>
 										<div class="sj-form-row">
 											<div class="field">
 												<label for="f-name">Nombre</label>
@@ -859,6 +861,7 @@
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
 							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
@@ -868,7 +871,9 @@
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;conceptDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;todo&quot;,&quot;historia&quot;,&quot;sabor&quot;,&quot;gente&quot;],&quot;default&quot;:&quot;todo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Experiencia&quot;},&quot;heroVideo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, concept: null, gc: 0, sent: false, sentFav: 0, fav: {}, attachFav: true, hero: 0, loaded: false, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
+  // Pantalla de carga: una vez por sesión (sessionStorage 'sunqu-loader'). En las visitas siguientes el hero aparece directo.
+  ldSkip = (() => { try { return window.sessionStorage.getItem('sunqu-loader') === '1'; } catch (e) { return false; } })();
+  state = { scrolled: false, concept: null, gc: 0, sent: false, sentFav: 0, fav: {}, attachFav: true, hero: 0, loaded: this.ldSkip, ldGone: this.ldSkip, dark: true, menuOpen: false, nav: null, altIdx: 1, habOn: true, chartW: 0, chartIn: false, waOn: false };
   chartRef = React.createRef();
   stripRef = React.createRef();
   burgerRef = React.createRef();
@@ -889,10 +894,24 @@ class Component extends DCLogic {
   mapRef = React.createRef();
   STOPS = SunquView.STOPS;
   async drawMap() {
-    for (let i = 0; i < 80 && !(window.d3 && window.topojson); i++) await new Promise(r => setTimeout(r, 100));
-    const svg = this.mapRef.current; if (!svg || !window.d3) return;
-    const d3 = window.d3; const world = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json').then(r => r.json());
-    const all = topojson.feature(world, world.objects.countries).features; const peru = all.find(f => f.id === '604'); if (!peru) return;
+    // d3 (vendor/) y el contorno de Perú y vecinos (assets/geo/) se cargan del propio sitio cuando el mapa se acerca a la pantalla.
+    const svg0 = this.mapRef.current; if (!svg0) return;
+    await new Promise((ok) => {
+      if (!('IntersectionObserver' in window)) return ok();
+      this.mapIO = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { this.mapIO.disconnect(); ok(); } }, { rootMargin: '800px 0px' });
+      this.mapIO.observe(svg0);
+    });
+    const v = SunquContent.config.vendor ? '?v=' + SunquContent.config.vendor : '';
+    let geo;
+    try {
+      [geo] = await Promise.all([
+        fetch('assets/geo/peru-vecinos.json' + v).then((r) => r.json()),
+        Promise.all(['d3-array', 'd3-geo', 'd3-path', 'd3-shape'].map((m) => SunquContent.cargarScript('vendor/' + m + '.min.js' + v))),
+      ]);
+    } catch (e) { console.warn('[sunqu] no se pudo cargar el mapa', e); return; }
+    const svg = this.mapRef.current; if (!svg || !window.d3 || !window.d3.geoMercator) return;
+    const d3 = window.d3, E = SunquContent.esc;
+    const all = geo.features; const peru = all.find(f => f.id === '604'); if (!peru) return;
     const proj = d3.geoMercator().fitExtent([[0, 0], [600, 720]], peru); const path = d3.geoPath(proj);
     const pts = this.STOPS.map(s => proj([s[2], s[3]]));
     const line = d3.line().curve(d3.curveCatmullRom.alpha(.5))(pts);
@@ -902,7 +921,7 @@ class Component extends DCLogic {
       + `<path d="${path(peru)}" fill="rgba(131,179,0,.07)" stroke="rgba(233,238,241,.5)" stroke-width="1.2" ${ns}/>`
       + `<path data-guide d="${line}" fill="none" stroke="rgba(244,167,0,.4)" stroke-linecap="round"/>`
       + `<path data-route d="${line}" fill="none" stroke="#f4a700" stroke-linecap="round" stroke-linejoin="round"/>`
-      + pts.map((q, i) => `<g data-stop="${i}" style="transition:opacity .5s"><circle data-halo cx="${q[0]}" cy="${q[1]}" fill="rgba(244,167,0,.22)"/><circle data-dot cx="${q[0]}" cy="${q[1]}" fill="#f4a700"/><text data-label fill="#e9eef1" font-family="Aeonik,Manrope,sans-serif" style="transition:opacity .5s">${this.STOPS[i][0]}</text></g>`).join('')
+      + pts.map((q, i) => `<g data-stop="${i}" style="transition:opacity .5s"><circle data-halo cx="${q[0]}" cy="${q[1]}" fill="rgba(244,167,0,.22)"/><circle data-dot cx="${q[0]}" cy="${q[1]}" fill="#f4a700"/><text data-label fill="#e9eef1" font-family="Aeonik,Manrope,sans-serif" style="transition:opacity .5s">${E(this.STOPS[i][0])}</text></g>`).join('')
       + `<g data-iso><circle data-iso-bg fill="#1c1c1c" stroke="#83b300" stroke-width="1.5" ${ns}/><image data-iso-img href="assets/diamond-lime.png" preserveAspectRatio="xMidYMid meet"/></g>`;
     const r = svg.querySelector('[data-route]'); this.routeLen = r.getTotalLength(); r.style.strokeDasharray = this.routeLen; r.style.strokeDashoffset = this.routeLen;
     // largo del recorrido en el que cae cada parada
@@ -1028,10 +1047,15 @@ class Component extends DCLogic {
     this.setState({ fav: this.readFav() });
     this.onStorage = (e) => { if (e.key === 'sunqu-fav') this.setState({ fav: this.readFav() }); };
     window.addEventListener('storage', this.onStorage);
-    // Pantalla de carga: el logo se anima (~2.2 s) y luego sale "al corazón".
-    this.ldT = setTimeout(() => this.ldExit(), 2350);
+    // Pantalla de carga (la primera visita de la sesión): el logo se anima (~2.2 s) y luego sale "al corazón".
+    if (!this.ldSkip) {
+      this.ldT = setTimeout(() => this.ldExit(), 2350);
+      try { window.sessionStorage.setItem('sunqu-loader', '1'); } catch (e) {}
+    }
     this.drawMap();
     this.ht = setInterval(() => this.setState(s => ({ hero: (s.hero + 1) % 4 })), 5200);
+    this.heroAll = () => setTimeout(() => this.setState({ heroAll: true }), 300);
+    if (document.readyState === 'complete') this.heroAll(); else window.addEventListener('load', this.heroAll, { once: true });
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     this.onKey = (e) => {
       if (e.key !== 'Escape') return;
@@ -1057,7 +1081,8 @@ class Component extends DCLogic {
       this.observe = () => {
         root.querySelectorAll('[data-reveal]:not([data-rv]),[data-clip]:not([data-rv])').forEach(el => {
           el.setAttribute('data-rv', '1');
-          const d = +(el.getAttribute('data-delay') || 0);
+          // Sin pantalla de carga el hero no espera su salida: sus retrasos (2,9–3,3 s) cuentan con ella
+          const d = Math.max(0, +(el.getAttribute('data-delay') || 0) - (this.ldSkip && el.closest('#inicio') ? 2800 : 0));
           const ease = 'cubic-bezier(.2,.7,.1,1)';
           if (el.hasAttribute('data-clip')) {
             el.style.clipPath = 'inset(10% 10% 10% 10%)';
@@ -1169,10 +1194,11 @@ class Component extends DCLogic {
     this.io && this.io.disconnect();
     this.ro && this.ro.disconnect();
     this.mo && this.mo.disconnect();
+    this.mapIO && this.mapIO.disconnect();
   }
 
   renderVals() {
-    const T = '#736d47', dim = 'rgba(28,28,28,.16)';
+    const T = '#736d47', TX = '#676140', dim = 'rgba(28,28,28,.16)';
     const concept = this.state.concept ?? this.props.conceptDefault ?? 'todo';
     const all = SunquView.journeys.map((j) => ({ ...j }));
     all.forEach(j => { j.href = 'journey.html?j=' + j.id; });
@@ -1182,7 +1208,7 @@ class Component extends DCLogic {
       onClick: () => { this.setState({ concept: id }); const s = this.stripRef.current; const sec = document.getElementById('descubre'); sec && window.scrollTo({ top: sec.offsetTop, behavior: 'smooth' }); },
     }));
     const gi = this.state.gc;
-    const ring = (i) => ({ b: gi === i ? T : dim, bg: gi === i ? 'rgba(115,109,71,.09)' : 'transparent', l: gi === i ? T : '#7a7a7d' });
+    const ring = (i) => ({ b: gi === i ? T : dim, bg: gi === i ? 'rgba(115,109,71,.09)' : 'transparent', l: gi === i ? TX : '#626265' });
     const rw = ring(0), rh = ring(1), rt = ring(2);
     const gc = {
       whyDim: gi === 0 ? .08 : .55, whatDim: gi === 2 ? .12 : .6, howDim: gi === 1 ? .12 : .58, whyBorder: rw.b, whyBg: gi === 0 ? 'rgba(115,109,71,.14)' : 'rgba(233,238,241,1)', whyLabel: rw.l,
@@ -1193,12 +1219,12 @@ class Component extends DCLogic {
       bar0: gi >= 0 ? T : dim, bar1: gi >= 1 ? T : dim, bar2: gi >= 2 ? T : dim,
     };
     const fi = this.state.form ?? 0;
-    const U = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1200&q=70`;
+    const U = id => SunquContent.img(id, 1200, 70);
     const FORM_LINKS = SunquView.FORM_LINKS;
     const forms = SunquView.forms.map(([title, sub, id], i) => ({
-      title, sub, img: U(id), op: i === fi ? 1 : 0, sc: i === fi ? 1 : 1.08,
-      x: i === fi ? 16 : 0, color: i === fi ? T : '#1c1c1c',
-      btnBg: i === fi ? T : 'transparent', btnFg: i === fi ? '#e9eef1' : '#1c1c1c', iso: i === fi ? 'assets/diamond-lime.png' : 'assets/diamond-olive.png',
+      title, sub, img: U(id), srcset: SunquContent.srcset(id, [480, 720, 960, 1200], 70), op: i === fi ? 1 : 0, sc: i === fi ? 1 : 1.08,
+      x: i === fi ? 16 : 0, color: i === fi ? TX : '#1c1c1c',
+      btnBg: i === fi ? T : 'transparent', btnFg: i === fi ? '#fff' : '#1c1c1c', iso: i === fi ? 'assets/diamond-lime.png' : 'assets/diamond-olive.png',
       href: FORM_LINKS[i][0], cta: FORM_LINKS[i][1], cls: i === fi ? 'is-on' : '', open: i === fi ? 'true' : 'false',
       onEnter: () => { if (!(window.matchMedia && window.matchMedia('(hover: none)').matches)) this.setState({ form: i }); },
       onTap: (e) => {
@@ -1213,7 +1239,7 @@ class Component extends DCLogic {
     }));
     const hs = SunquView.hs;
     const hi = this.state.hero;
-    const heroSlides = hs.map(([id], i) => ({ src: `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2000&q=72`, op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
+    const heroSlides = hs.map(([id], i) => ({ src: i === 0 || this.state.heroAll ? SunquContent.img(id, 2000, 72) : '', srcset: i === 0 || this.state.heroAll ? SunquContent.srcset(id, [640, 960, 1280, 1600, 2000], 72) : '', fp: i === 0 ? 'high' : 'low', op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
     const dark = this.state.dark;
     const ALT = this.ALT, na = ALT.length;
     const W = Math.max(280, this.state.chartW || 900), small = W < 560;
@@ -1252,7 +1278,7 @@ class Component extends DCLogic {
       forms,
       langOpen: !!this.state.langOpen, langCode: (this.state.lang || 'es').toUpperCase(),
       openLang: () => this.setState({ langOpen: true }), closeLang: () => this.setState({ langOpen: false }), stop: (e) => e.stopPropagation(),
-      langs: [['es', 'Español', 'Hola, bienvenido', 'assets/diamond-orange.png'], ['en', 'English', 'Hello, welcome', 'assets/diamond-yellow.png'], ['pt', 'Português', 'Olá, bem-vindo', 'assets/diamond-lime.png']].map(([code, name, hello, icon]) => { const on = (this.state.lang || 'es') === code; return { code: code.toUpperCase(), name, hello, icon, bg: on ? '#736d47' : 'transparent', fg: on ? '#e9eef1' : '#1c1c1c', border: on ? '#736d47' : 'rgba(28,28,28,.18)', pressed: on ? 'true' : 'false', pick: () => this.setState({ lang: code, langOpen: false }), set: () => this.setState({ lang: code }) }; }),
+      langs: [['es', 'Español', 'Hola, bienvenido', 'assets/diamond-orange.png'], ['en', 'English', 'Hello, welcome', 'assets/diamond-yellow.png'], ['pt', 'Português', 'Olá, bem-vindo', 'assets/diamond-lime.png']].map(([code, name, hello, icon]) => { const on = (this.state.lang || 'es') === code; return { code: code.toUpperCase(), name, hello, icon, bg: on ? '#736d47' : 'transparent', fg: on ? '#fff' : '#1c1c1c', border: on ? '#736d47' : 'rgba(28,28,28,.18)', pressed: on ? 'true' : 'false', pick: () => this.setState({ lang: code, langOpen: false }), set: () => this.setState({ lang: code }) }; }),
       waCls: this.state.waOn ? 'is-on' : '',
       gcTabs: [['01', 'Por qué', 0.08], ['02', 'Cómo', 0.49], ['03', 'Qué', 0.9]].map(([n, label, f], i) => ({
         n, label, on: gi === i ? 'true' : 'false', state: gi === i ? 'on' : gi > i ? 'done' : 'off',
@@ -1285,7 +1311,7 @@ class Component extends DCLogic {
       sentFavOn: (this.state.sentFav || 0) > 0, sentFavText: this.state.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${this.state.sentFav} guardados a la solicitud.`,
       submit: (e) => {
         e.preventDefault();
-        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.page };
+        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.origen() };
         this.setState({ sending: true, sendError: '' });
         SunquContent.enviar('solicitud', datos).then(
           () => this.setState({ sent: true, sending: false, sentFav: a.on ? a.items.length : 0 }),

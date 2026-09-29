@@ -5,17 +5,27 @@
  *   POST /wp-json/sunqu/v1/formularios/solicitud     «Diseña tu viaje» (inicio, journey, descubre)
  *        nombre*, email*, mes, sentir, mensaje, guardados, pagina
  *   POST /wp-json/sunqu/v1/formularios/resena        «Comparte tu viaje» (recuerda) → Reseñas › Pendientes
- *        nombre, pais, tema, texto*, enlace, estrellas, fotos: [{ nombre, data: "data:image/jpeg;base64,…" }]
+ *        nombre*, pais*, tema, texto*, enlace, estrellas, permiso*, fotos: [{ nombre, data: "data:image/jpeg;base64,…" }]
  *   POST /wp-json/sunqu/v1/formularios/reclamacion   Libro de reclamaciones → Sunqu › Reclamaciones + correos
- *        nombre*, email*, tipoDoc, numDoc*, celular, domicilio, apoderado, servicio*, monto, fecha,
- *        descripcion*, tipo*, detalle*, pedido*, codigo, identificacion, menor
+ *        nombre*, email*, tipoDoc*, numDoc*, celular*, domicilio*, apoderado (* si menor), servicio*, monto, fecha,
+ *        descripcion*, tipo*, detalle*, pedido*, acepta*, codigo, identificacion, menor
+ *   (* = obligatorio, igual que en el formulario de la web)
  *
  * Respuesta: { ok: true, id } · Error: { code, message } con estado 400/429.
- * Protección: límite de 8 envíos cada 10 minutos por IP y tipo, y campo trampa «website».
+ * Anti-spam: límite de 8 envíos cada 10 minutos por IP y tipo, campo trampa «website» (invisible en la web) y
+ * tiempo mínimo de llenado (_t, milisegundos desde que se abrió la página: menos de 2,5 s es un bot).
+ * Los envíos que parecen de bots responden «ok» (para no darles pistas) y no se procesan: las solicitudes y
+ * reseñas se descartan; las hojas de reclamación quedan como borrador «[posible spam]», sin correos, por si
+ * fuera una persona.
+ * Libro de reclamaciones: el código correlativo (SJ-2026-00001) lo asigna el servidor. La constancia al
+ * consumidor se envía como máximo 3 veces por correo cada 24 h (el formulario no sirve para enviar correos a terceros).
  * Correos: se envían con wp_mail (en producción configura SMTP, p. ej. con WP Mail SMTP).
  */
 
 defined('ABSPATH') || exit;
+
+/** Milisegundos mínimos entre abrir la página y enviar un formulario (menos = bot). */
+const SUNQU_TIEMPO_MINIMO = 2500;
 
 /** Tipos privados donde quedan los envíos (visibles en el panel, no en la API pública). */
 function sunqu_registrar_tipos_envios(): void {
@@ -34,26 +44,35 @@ add_action('rest_api_init', function () {
 });
 
 function sunqu_recibir_formulario(WP_REST_Request $req) {
-	$tipo = $req['tipo'];
+	// De la ruta, no de $req['tipo']: el libro de reclamaciones tiene un campo «tipo» (Reclamo/Queja) en el cuerpo
+	$tipo = (string) ($req->get_url_params()['tipo'] ?? '');
 	$d = $req->get_json_params() ?: $req->get_body_params();
 	$d = is_array($d) ? $d : [];
 
-	if (!empty($d['website'])) {
-		return ['ok' => true]; // campo trampa: bots
-	}
-	$ip = sanitize_text_field($_SERVER['REMOTE_ADDR'] ?? '');
-	$lk = 'sunqu_rl_' . $tipo . '_' . md5($ip);
+	// Límite por IP (cuenta también los envíos de bots)
+	$lk = 'sunqu_rl_' . $tipo . '_' . md5(sunqu_ip_cliente());
 	$n = (int) get_transient($lk);
 	if ($n >= 8) {
 		return new WP_Error('sunqu_limite', 'Demasiados envíos. Inténtalo en unos minutos.', ['status' => 429]);
 	}
 	set_transient($lk, $n + 1, 10 * MINUTE_IN_SECONDS);
 
-	$t = fn($k, $max = 500) => mb_substr(sanitize_text_field((string) ($d[$k] ?? '')), 0, $max);
-	$ta = fn($k, $max = 5000) => mb_substr(sanitize_textarea_field((string) ($d[$k] ?? '')), 0, $max);
-	$falta = function (array $req) use ($d) {
+	$v = fn($k) => is_scalar($d[$k] ?? null) ? (string) $d[$k] : '';
+	$t = fn($k, $max = 500) => mb_substr(sanitize_text_field($v($k)), 0, $max);
+	$ta = fn($k, $max = 5000) => mb_substr(sanitize_textarea_field($v($k)), 0, $max);
+
+	// Campo trampa lleno o envío instantáneo: responde «ok» y no se procesa
+	if ($v('website') !== '' || (int) $v('_t') < SUNQU_TIEMPO_MINIMO) {
+		if ($tipo === 'reclamacion') {
+			$campos = sunqu_campos_reclamacion($d, $t, $ta, 'Sin asignar: posible spam (la web mostró ' . ($t('codigo', 40) ?: '—') . ')');
+			sunqu_guardar_envio('sunqu_reclamacion', '[posible spam] ' . $campos['Consumidor'], $campos, 'draft');
+		}
+		return ['ok' => true];
+	}
+
+	$falta = function (array $req) use ($v) {
 		foreach ($req as $k) {
-			if (trim((string) ($d[$k] ?? '')) === '') {
+			if (trim($v($k)) === '') {
 				return new WP_Error('sunqu_campo', 'Falta el campo «' . $k . '».', ['status' => 400]);
 			}
 		}
@@ -65,11 +84,11 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			if ($e = $falta(['nombre', 'email'])) {
 				return $e;
 			}
-			if (!is_string($d['email']) || !is_email($d['email'])) {
+			if (!is_email($v('email'))) {
 				return new WP_Error('sunqu_email', 'El correo no es válido.', ['status' => 400]);
 			}
 			$campos = [
-				'Nombre' => $t('nombre'), 'Email' => sanitize_email($d['email']), '¿Cuándo?' => $t('mes'), '¿Qué quiere sentir?' => $t('sentir'),
+				'Nombre' => $t('nombre'), 'Email' => sanitize_email($v('email')), '¿Cuándo?' => $t('mes'), '¿Qué quiere sentir?' => $t('sentir'),
 				'Mensaje' => $ta('mensaje'), 'Guardados adjuntos' => $ta('guardados', 3000), 'Página' => $t('pagina'),
 			];
 			$id = sunqu_guardar_envio('sunqu_solicitud', $campos['Nombre'] . ' · ' . wp_date('j M Y, H:i'), $campos);
@@ -77,35 +96,72 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			return ['ok' => true, 'id' => $id];
 
 		case 'resena':
-			if ($e = $falta(['texto'])) {
+			if ($e = $falta(['nombre', 'pais', 'texto'])) {
 				return $e;
+			}
+			if (empty($d['permiso'])) {
+				return new WP_Error('sunqu_permiso', 'Falta el permiso para publicar la reseña.', ['status' => 400]);
 			}
 			return sunqu_guardar_resena($d, $t, $ta);
 
 		case 'reclamacion':
-			if ($e = $falta(['nombre', 'email', 'numDoc', 'servicio', 'descripcion', 'tipo', 'detalle', 'pedido'])) {
+			if ($e = $falta(['nombre', 'email', 'tipoDoc', 'numDoc', 'celular', 'domicilio', 'servicio', 'descripcion', 'tipo', 'detalle', 'pedido'])) {
 				return $e;
 			}
-			if (!is_string($d['email']) || !is_email($d['email'])) {
+			if (!empty($d['menor']) && ($e = $falta(['apoderado']))) {
+				return $e;
+			}
+			if (empty($d['acepta'])) {
+				return new WP_Error('sunqu_acepta', 'Falta aceptar el tratamiento de datos personales.', ['status' => 400]);
+			}
+			if (!is_email($v('email'))) {
 				return new WP_Error('sunqu_email', 'El correo no es válido.', ['status' => 400]);
 			}
-			$codigo = $t('codigo', 40) ?: 'SJ-' . wp_date('Ymd-His');
-			$campos = [
-				'Código' => $codigo, 'Código de identificación' => $t('identificacion', 80), 'Fecha' => wp_date('j \d\e F \d\e Y, H:i'),
-				'Consumidor' => $t('nombre') . (!empty($d['menor']) ? ' (menor de edad)' : ''), 'Padre, madre o apoderado' => $t('apoderado'),
-				'Documento' => trim($t('tipoDoc', 20) . ' ' . $t('numDoc', 30)), 'Correo' => sanitize_email($d['email']), 'Celular' => $t('celular', 30),
-				'Domicilio' => $t('domicilio'), 'Servicio' => $t('servicio'), 'Monto reclamado' => $t('monto', 40), 'Fecha del servicio' => $t('fecha', 30),
-				'Descripción del servicio' => $ta('descripcion'), 'Tipo' => $t('tipo', 20), 'Detalle' => $ta('detalle'), 'Pedido' => $ta('pedido'),
-			];
+			$codigo = sunqu_codigo_reclamacion();
+			$campos = sunqu_campos_reclamacion($d, $t, $ta, $codigo);
+			// Constancia para el consumidor: máximo 3 por correo cada 24 h
+			$rk = 'sunqu_rc_' . md5(strtolower($campos['Correo']));
+			$enviadas = (int) get_transient($rk);
+			$campos['Constancia por correo'] = $enviadas < 3 ? 'Enviada al consumidor' : 'No enviada: ya se enviaron 3 constancias a este correo en 24 horas';
 			$id = sunqu_guardar_envio('sunqu_reclamacion', $codigo . ' · ' . $campos['Consumidor'], $campos, 'private');
-			// Copia para el consumidor (constancia) y aviso a la empresa
 			$sitio = sunqu_exportar('sitio');
 			$empresa = $sitio['empresa']['name'] ?? get_bloginfo('name');
-			wp_mail($campos['Correo'], 'Constancia de tu hoja de reclamación ' . $codigo . ' · ' . $empresa, sunqu_texto_envio($campos) . "\n\nResponderemos en un plazo máximo de 15 días hábiles.");
+			if ($enviadas < 3) {
+				set_transient($rk, $enviadas + 1, DAY_IN_SECONDS);
+				wp_mail($campos['Correo'], 'Constancia de tu hoja de reclamación ' . $codigo . ' · ' . $empresa, sunqu_texto_envio($campos) . "\n\nResponderemos en un plazo máximo de 15 días hábiles.");
+			}
 			sunqu_notificar('Libro de reclamaciones: ' . $codigo, $campos, $campos['Correo']);
 			return ['ok' => true, 'id' => $id, 'codigo' => $codigo];
 	}
 	return new WP_Error('sunqu_tipo', 'Formulario desconocido', ['status' => 404]);
+}
+
+/** IP del visitante para el límite de envíos. Detrás de una CDN o proxy, ajústala con el filtro «sunqu_ip_cliente». */
+function sunqu_ip_cliente(): string {
+	return (string) apply_filters('sunqu_ip_cliente', sanitize_text_field($_SERVER['REMOTE_ADDR'] ?? ''));
+}
+
+/** Código correlativo de la hoja de reclamación (SJ-2026-00001): uno por hoja, sin repetirse aunque lleguen juntas. */
+function sunqu_codigo_reclamacion(): string {
+	global $wpdb;
+	add_option('sunqu_reclamacion_n', '0', '', false); // no hace nada si ya existe
+	$wpdb->query($wpdb->prepare("UPDATE {$wpdb->options} SET option_value = LAST_INSERT_ID(option_value + 1) WHERE option_name = %s", 'sunqu_reclamacion_n'));
+	$n = (int) $wpdb->get_var('SELECT LAST_INSERT_ID()');
+	wp_cache_delete('sunqu_reclamacion_n', 'options');
+	return sprintf('SJ-%s-%05d', wp_date('Y'), $n);
+}
+
+/** Datos de una hoja de reclamación, con las etiquetas del libro. */
+function sunqu_campos_reclamacion(array $d, callable $t, callable $ta, string $codigo): array {
+	$fecha = wp_date('j \d\e F \d\e Y, H:i');
+	return [
+		'Código' => $codigo, 'Código de identificación' => $t('identificacion', 80), 'Fecha' => $fecha,
+		'Consumidor' => $t('nombre') . (!empty($d['menor']) ? ' (menor de edad)' : ''), 'Padre, madre o apoderado' => $t('apoderado'),
+		'Documento' => trim($t('tipoDoc', 20) . ' ' . $t('numDoc', 30)), 'Correo' => sanitize_email($t('email')), 'Celular' => $t('celular', 30),
+		'Domicilio' => $t('domicilio'), 'Servicio' => $t('servicio'), 'Monto reclamado' => $t('monto', 40), 'Fecha del servicio' => $t('fecha', 30),
+		'Descripción del servicio' => $ta('descripcion'), 'Tipo' => $t('tipo', 20), 'Detalle' => $ta('detalle'), 'Pedido' => $ta('pedido'),
+		'Tratamiento de datos personales' => !empty($d['acepta']) ? 'Aceptado en el formulario (' . $fecha . ')' : 'No aceptado',
+	];
 }
 
 function sunqu_guardar_envio(string $tipo, string $titulo, array $campos, string $estado = 'private'): int {
@@ -157,6 +213,7 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 	if (!$id || is_wp_error($id)) {
 		return new WP_Error('sunqu_guardar', 'No se pudo guardar la reseña.', ['status' => 500]);
 	}
+	update_post_meta($id, '_sunqu_permiso', wp_date('c')); // constancia del permiso de publicación
 	$fotos = [];
 	foreach (array_slice((array) ($d['fotos'] ?? []), 0, 4) as $i => $f) {
 		$att = sunqu_foto_desde_data((string) ($f['data'] ?? ''), sanitize_file_name((string) ($f['nombre'] ?? 'foto.jpg')), $id);
@@ -177,9 +234,23 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 			sunqu_escribir_campo(['post', $id], $f, $f['name'], $ruta . '/' . $f['name'], $item[$f['name']], $media, $relacion);
 		}
 	}
-	sunqu_notificar('Nueva reseña pendiente de ' . $nombre, ['Nombre' => $nombre, 'Texto' => $item['caption'], 'Enlace' => $enlace, 'Revisar' => admin_url('post.php?post=' . $id . '&action=edit')]);
+	sunqu_notificar('Nueva reseña pendiente de ' . $nombre, ['Nombre' => $nombre, 'Texto' => $item['caption'], 'Enlace' => $enlace, 'Permiso de publicación' => 'Sí', 'Revisar' => admin_url('post.php?post=' . $id . '&action=edit')]);
 	return ['ok' => true, 'id' => $id];
 }
+
+// Constancia visible al revisar una reseña: si llegó desde la web, cuándo aceptó el autor que se publique.
+add_action('add_meta_boxes', function () {
+	$sec = sunqu_seccion('resenas');
+	if (!$sec) {
+		return;
+	}
+	add_meta_box('sunqu_permiso', 'Permiso de publicación', function ($post) {
+		$f = (string) get_post_meta($post->ID, '_sunqu_permiso', true);
+		echo $f
+			? '<p>El autor aceptó en la web que Sunqu publique su reseña, sus fotos y el enlace que compartió (' . esc_html(wp_date('j \d\e F \d\e Y, H:i', strtotime($f))) . ').</p>'
+			: '<p>Esta reseña no llegó por el formulario de la web.</p>';
+	}, $sec['post_type'], 'side');
+});
 
 /** data:image/…;base64 → adjunto de la biblioteca (máx. 6 MB, solo JPG/PNG/WebP). */
 function sunqu_foto_desde_data(string $data, string $nombre, int $padre): int {

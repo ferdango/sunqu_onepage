@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="robots" content="noindex"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/recuerda.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="recuerda"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
 	</head>
 	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
 				<title>Recuerda · Reseñas y tienda — Sunqu Journeys</title>
-				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
 			</helmet>
 			<div class="jr-wrap" style="background:{{ pageBg }}">
 
@@ -92,7 +95,7 @@
 						<div class="sj-band sj-band--light" aria-hidden="true"></div>
 					</div>
 				</aside>
-				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -151,7 +154,7 @@
 				<!-- Modal · Tu bolsa -->
 				<aside id="rc-bag" class="rc-bag {{ bagCls }}" role="dialog" aria-modal="true" aria-label="Tu bolsa" aria-hidden="{{ bagHidden }}">
 					<div class="rc-bag-top">
-						<h2>Tu bolsa <span style="color:#736d47">{{ bagCountLabel }}</span></h2>
+						<h2>Tu bolsa <span style="color:#676140">{{ bagCountLabel }}</span></h2>
 						<button type="button" class="rc-x" ref="{{ bagCloseRef }}" onClick="{{ closeBag }}" aria-label="Cerrar la bolsa">
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
 								<path d="M18 6 6 18"></path>
@@ -186,12 +189,12 @@
 					<div class="rc-bag-foot {{ bagFootCls }}">
 						<div class="rc-total"><span>Subtotal</span><b>{{ bagTotal }}</b></div>
 						<p class="rc-bag-note">Te escribimos por WhatsApp para confirmar tallas, pago y entrega: en tu viaje, en tu hotel o por envío.</p>
-						<a class="btn rc-wa-buy" href="{{ bagWaHref }}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm5.8 14.13c-.25.69-1.44 1.33-2.01 1.41-.51.08-1.16.11-1.87-.12-.43-.14-.99-.32-1.7-.62-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.61-1.21-3.07s.77-2.18 1.04-2.48c.27-.3.6-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.27 1.65 2.06 1.13 1.01 2.09 1.32 2.39 1.47.3.15.47.12.64-.07.17-.2.74-.87.94-1.16.2-.3.4-.25.67-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.35.07.12.07.72-.18 1.41Z"></path></svg>Comprar por WhatsApp</a>
+						<a class="btn rc-wa-buy" href="{{ bagWaHref }}" data-track="bolsa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm5.8 14.13c-.25.69-1.44 1.33-2.01 1.41-.51.08-1.16.11-1.87-.12-.43-.14-.99-.32-1.7-.62-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.61-1.21-3.07s.77-2.18 1.04-2.48c.27-.3.6-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.27 1.65 2.06 1.13 1.01 2.09 1.32 2.39 1.47.3.15.47.12.64-.07.17-.2.74-.87.94-1.16.2-.3.4-.25.67-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.35.07.12.07.72-.18 1.41Z"></path></svg>Comprar por WhatsApp</a>
 					</div>
 				</aside>
 
 				<!-- Contenido principal -->
-				<main>
+				<main id="contenido" tabIndex="-1">
 
 					<!-- Sección #resenas · Reseñas de viajeros -->
 					<section id="resenas" class="rc-hero sj-dark" data-bg="dark" aria-label="Reseñas de viajeros">
@@ -230,7 +233,7 @@
 									<article class="rc-card rc-k-{{ r.kind }} {{ r.playCls }}" data-reveal="">
 										<sc-if value="{{ r.isVideo }}">
 											<button type="button" class="rc-media rc-media--video" onClick="{{ r.open }}" onMouseEnter="{{ r.hoverIn }}" onMouseLeave="{{ r.hoverOut }}" aria-label="{{ r.aria }}">
-												<img src="{{ r.poster }}" class="{{ r.posterCls }}" alt="" loading="lazy">
+												<img src="{{ r.poster }}" srcSet="{{ r.posterSet }}" sizes="(max-width: 767px) 45vw, 350px" class="{{ r.posterCls }}" alt="" loading="lazy" decoding="async">
 												<sc-if value="{{ r.hasPreview }}">
 													<video src="{{ r.video }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" aria-hidden="true"></video>
 												</sc-if>
@@ -241,7 +244,7 @@
 										</sc-if>
 										<sc-if value="{{ r.isPhoto }}">
 											<button type="button" class="rc-media rc-media--photo" onClick="{{ r.open }}" aria-label="{{ r.aria }}">
-												<img src="{{ r.cover }}" class="{{ r.coverCls }}" alt="" loading="lazy">
+												<img src="{{ r.cover }}" srcSet="{{ r.coverSet }}" sizes="(max-width: 767px) 45vw, 350px" class="{{ r.coverCls }}" alt="" loading="lazy" decoding="async">
 												<span class="rc-plat rc-p-{{ r.plat }}"><svg class="rc-i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg><svg class="rc-i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path></svg><img class="rc-i-web" src="assets/diamond-lime.png" alt="">{{ r.platLabel }}</span>
 												<span class="rc-count {{ r.countCls }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M4 16V5a1 1 0 0 1 1-1h11"></path></svg>{{ r.countLabel }}</span>
 											</button>
@@ -342,9 +345,10 @@
 									<li><img src="assets/diamond-lime.png" alt="">Nunca editamos lo que escribes. Si algo no te gustó, también queremos saberlo.</li>
 								</ul>
 							</div>
-							<div class="blueprint sj-form-card" data-reveal="" data-delay="120" style="align-self:start">
+							<div class="blueprint sj-form-card" data-reveal="" data-delay="120" style="align-self:start" aria-live="polite">
 								<sc-if value="{{ notShared }}" hint-placeholder-val="{{ true }}">
-									<form class="sj-form" onSubmit="{{ submitReview }}">
+									<form class="sj-form" onSubmit="{{ submitReview }}" data-form="resena" aria-busy="{{ sending }}">
+										<div class="sj-hp" aria-hidden="true"><label for="hp-web">Deja este campo vacío</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
 										<span class="sj-eyebrow" style="font-size:12px">Deja tu reseña</span>
 										<div class="sj-form-row">
 											<div class="field">
@@ -549,6 +553,7 @@
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
 							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
@@ -576,7 +581,7 @@ class Component extends DCLogic {
   PRODUCTS = SunquView.PRODUCTS;
   CATS = SunquView.CATS;
 
-  U(id, w) { return /^(assets\/|blob:|https?:)/.test(id) ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`; }
+  U(id, w) { return SunquContent.img(id, w, 72); }
   parseEmbed(u) {
     let m = u.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]+)/i);
     if (m) { const t = m[1].toLowerCase() === 'p' ? 'p' : 'reel'; return { plat: 'instagram', kind: t === 'p' ? 'photo' : 'video', embed: `https://www.instagram.com/${t}/${m[2]}/embed/captioned/` }; }
@@ -595,6 +600,7 @@ class Component extends DCLogic {
   openView(id, i) {
     this.lastFocus = document.activeElement;
     document.querySelectorAll('.rc-wall video').forEach((v) => v.pause());
+    SunquContent.medir('select_content', { content_type: 'resena', content_id: id });
     this.setState({ view: id, vIdx: i || 0, playing: null }, () => {
       this.lock(); setTimeout(() => this.viewCloseRef.current && this.viewCloseRef.current.focus({ preventScroll: true }), 80);
       const vid = document.querySelector('.rc-stage video');
@@ -613,6 +619,7 @@ class Component extends DCLogic {
   }
   saveBag(bag) { try { window.localStorage.setItem('sunqu-bag', JSON.stringify(bag)); } catch (e) {} }
   addToBag(p, size) {
+    SunquContent.medir('add_to_cart', { items: [{ item_id: p.id, item_name: p.name, item_variant: size || undefined }] });
     this.setState((s) => {
       const key = p.id + (size ? '-' + size : '');
       const bag = s.bag.some((l) => l.key === key) ? s.bag.map((l) => (l.key === key ? { ...l, qty: Math.min(20, l.qty + 1) } : l)) : [...s.bag, { key, pid: p.id, size, qty: 1 }];
@@ -625,7 +632,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
-    this.pageTitle = 'Recuerda · Reseñas y tienda — Sunqu Journeys';
+    this.pageTitle = SunquContent.titulo('Recuerda · Reseñas y tienda — Sunqu Journeys');
     document.title = this.pageTitle;
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     this.canHover = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
@@ -687,8 +694,8 @@ class Component extends DCLogic {
       return {
         kind: r.kind, plat: r.plat, platLabel: this.PLAT[r.plat],
         isVideo: r.kind === 'video', isPhoto: r.kind === 'photo', hasPreview: local, hasStars: !!r.stars,
-        video: r.video || '', poster: r.poster || (n ? U(photos[0], 700) : 'assets/pattern-pair.png'), posterCls: r.poster || n ? '' : 'is-contain', dur: r.embed ? 'Video' : r.dur,
-        cover: n ? U(photos[0], 800) : 'assets/pattern-pair.png', coverCls: n ? '' : 'is-contain', countLabel: n > 1 ? `1/${n}` : '', countCls: n > 1 ? '' : 'is-one',
+        video: r.video || '', poster: r.poster || (n ? U(photos[0], 700) : 'assets/pattern-pair.png'), posterSet: r.poster ? SunquContent.srcset(r.poster, [350, 700], 72) : n ? SunquContent.srcset(photos[0], [350, 700], 72) : '', posterCls: r.poster || n ? '' : 'is-contain', dur: r.embed ? 'Video' : r.dur,
+        cover: n ? U(photos[0], 800) : 'assets/pattern-pair.png', coverSet: n ? SunquContent.srcset(photos[0], [400, 800], 72) : '', coverCls: n ? '' : 'is-contain', countLabel: n > 1 ? `1/${n}` : '', countCls: n > 1 ? '' : 'is-one',
         aria: (r.kind === 'video' ? 'Ver video de ' : 'Ver fotos de ') + r.name + ' en ' + this.PLAT[r.plat],
         playCls: st.playing === r.id ? 'is-playing' : '',
         open: () => this.openView(r.id, 0),

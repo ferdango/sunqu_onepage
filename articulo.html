@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="robots" content="noindex"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/articulo.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="articulo"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
 	</head>
 	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
 				<title>Artículo · Diario Sunqu — Sunqu Journeys</title>
-				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
 			</helmet>
 			<div class="jr-wrap" style="background:{{ pageBg }}">
 
@@ -84,7 +87,7 @@
 						<div class="sj-band sj-band--light" aria-hidden="true"></div>
 					</div>
 				</aside>
-				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -92,12 +95,12 @@
 				</a>
 
 				<!-- Contenido principal -->
-				<main>
+				<main id="contenido" tabIndex="-1">
 
 					<!-- Sección -->
 					<section class="ar-hero sj-light" data-bg="light" aria-label="{{ a.title }}">
 						<div class="ar-hero-media">
-							<img src="{{ a.img }}" alt="">
+							<img src="{{ a.img }}" srcSet="{{ a.srcset }}" sizes="(max-width: 1440px) 92vw, 1340px" fetchpriority="high" alt="">
 							<div class="ar-hero-in">
 								<p class="ar-meta" data-reveal=""><span>{{ a.date }}</span><span aria-hidden="true">|</span><a href="{{ a.catHref }}">{{ a.cat }}</a></p>
 								<h1 class="ar-title" data-reveal="">{{ a.title }}</h1>
@@ -167,7 +170,7 @@
 												<blockquote class="ar-quote"><p class="ar-quote-t">{{ b.quote }}</p><cite class="ar-quote-c">{{ b.cite }}</cite></blockquote>
 											</sc-if>
 											<sc-if value="{{ b.isImg }}">
-												<figure class="ar-fig"><img src="{{ b.img }}" alt="{{ b.cap }}" loading="lazy"><figcaption>{{ b.cap }}</figcaption></figure>
+												<figure class="ar-fig"><img src="{{ b.img }}" srcSet="{{ b.imgSet }}" sizes="(max-width: 767px) 90vw, 660px" alt="{{ b.cap }}" loading="lazy" decoding="async"><figcaption>{{ b.cap }}</figcaption></figure>
 											</sc-if>
 										</sc-for>
 									</div>
@@ -187,7 +190,7 @@
 							<div class="bl-grid">
 								<sc-for list="{{ related }}" as="p" hint-placeholder-count="3">
 									<article class="bc-card" data-reveal="">
-										<a href="{{ p.href }}" class="bc-img" tabIndex="-1" aria-hidden="true"><img src="{{ p.img }}" alt="" loading="lazy"></a>
+										<a href="{{ p.href }}" class="bc-img" tabIndex="-1" aria-hidden="true"><img src="{{ p.img }}" srcSet="{{ p.srcset }}" sizes="(max-width: 767px) 90vw, 420px" alt="" loading="lazy" decoding="async"></a>
 										<div class="bc-meta"><a href="{{ p.catHref }}" class="bc-tag" onClick="{{ p.pickCat }}">{{ p.cat }}</a><span class="bc-date">{{ p.date }}</span></div>
 										<h3 class="bc-t"><a href="{{ p.href }}">{{ p.title }}</a></h3>
 										<p class="bc-x">{{ p.excerpt }}</p>
@@ -321,6 +324,7 @@
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
 							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
@@ -337,10 +341,10 @@ class Component extends DCLogic {
   MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   CATS = SunquView.CATS;
   POSTS = (SunquView.POSTS || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
-  U(id, w) { return /^(assets\/|https?:)/.test(id) ? id : `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`; }
+  U(id, w) { return SunquContent.img(id, w, 72); }
   fdate(iso) { const [y, m, d] = iso.split('-'); return `${d} ${this.MON[+m - 1]} ${y}`; }
   card(p, pickCat) {
-    return { href: 'articulo.html?a=' + p.slug, img: this.U(p.img, 1000), cat: this.CATS[p.cat] || p.cat, catHref: 'blog.html?cat=' + p.cat,
+    return { href: 'articulo.html?a=' + p.slug, img: this.U(p.img, 1000), srcset: SunquContent.srcset(p.img, [480, 720, 1000], 72), cat: this.CATS[p.cat] || p.cat, catHref: 'blog.html?cat=' + p.cat,
       pickCat: pickCat ? (e) => { e.preventDefault(); pickCat(p.cat); } : undefined, date: this.fdate(p.date), title: p.title, excerpt: p.excerpt };
   }
   lock() { document.body.style.overflow = this.state.menuOpen ? 'hidden' : ''; }
@@ -409,12 +413,12 @@ class Component extends DCLogic {
     };
   }
   post() {
-    let slug = null; try { slug = new URLSearchParams(window.location.search).get('a'); } catch (e) {}
+    let slug = SunquContent.param('a');
     return this.POSTS.find((p) => p.slug === slug) || this.POSTS[0];
   }
   componentDidMount() {
     const p = this.post();
-    this.pageTitle = p.title + ' — Diario Sunqu';
+    this.pageTitle = SunquContent.titulo(p.title + ' — Diario Sunqu');
     document.title = this.pageTitle;
     this.setState({ url: window.location.href });
     this.mountCommon((y, vh) => {
@@ -430,12 +434,12 @@ class Component extends DCLogic {
     return {
       site: SunquView.site,
       ...this.shellVals('Hola Sunqu, leí «' + p.title + '» y quiero saber más'),
-      a: { title: p.title, img: U(p.img, 2200), date: this.fdate(p.date), cat: this.CATS[p.cat] || p.cat, catHref: 'blog.html?cat=' + p.cat,
+      a: { title: p.title, img: U(p.img, 2200), srcset: SunquContent.srcset(p.img, [640, 960, 1280, 1600, 2200], 72), date: this.fdate(p.date), cat: this.CATS[p.cat] || p.cat, catHref: 'blog.html?cat=' + p.cat,
         read: `${p.read} min de lectura`, author: p.author, role: p.role, lead: p.lead },
       toc: p.sections.map((s, i) => ({ href: '#s' + (i + 1), label: `${i + 1}. ${s.h}`, cur: st.sec === i ? 'true' : 'false' })),
       sections: p.sections.map((s, i) => ({ id: 's' + (i + 1), title: `${i + 1}. ${s.h}`,
         blocks: s.blocks.map((b) => ({ isP: !!b.p, p: b.p || '', isUl: !!b.ul, ul: (b.ul || []).map(([bb, t]) => ({ b: bb, t })),
-          isQuote: !!b.quote, quote: b.quote || '', cite: b.cite || '', isImg: !!b.img, img: b.img ? U(b.img, 1600) : '', cap: b.cap || '' })) })),
+          isQuote: !!b.quote, quote: b.quote || '', cite: b.cite || '', isImg: !!b.img, img: b.img ? U(b.img, 1600) : '', imgSet: b.img ? SunquContent.srcset(b.img, [480, 720, 1000, 1320, 1600], 72) : '', cap: b.cap || '' })) })),
       share: { wa: 'https://wa.me/?text=' + enc(p.title + ' ' + url), fb: 'https://www.facebook.com/sharer/sharer.php?u=' + enc(url),
         x: 'https://twitter.com/intent/tweet?text=' + enc(p.title) + '&url=' + enc(url), li: 'https://www.linkedin.com/sharing/share-offsite/?url=' + enc(url) },
       copyLink: () => {

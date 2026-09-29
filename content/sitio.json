@@ -1,5 +1,5 @@
 {
-  "_info": "Ajustes globales del sitio: contacto, redes, empresa y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
   "contacto": {
     "email": "hola@sunqujourneys.com",
     "telefono": "+51 000 000 000",
@@ -18,6 +18,34 @@
     "name": "Sunqu Journeys Perú S.A.C.",
     "ruc": "por confirmar",
     "address": "Lima, Perú"
+  },
+  "seo": {
+    "paginas": {
+      "inicio": {
+        "title": "Sunqu Journeys — El corazón del Perú",
+        "description": "El Perú no es un destino. Es una relación. Viaja al corazón del Perú: viajes a medida con anfitriones que tienen nombre propio."
+      },
+      "descubre": {
+        "title": "Descubre · Catálogo — Sunqu Journeys",
+        "description": "Journeys de autor y experiencias con nombre propio. Filtra por lo que quieres sentir, el destino o el tiempo que tienes."
+      },
+      "recuerda": {
+        "title": "Recuerda · Reseñas y tienda — Sunqu Journeys",
+        "description": "Videos, fotos y comentarios de viajeros que vivieron un Journey, compraron un souvenir con nombre propio o se llevaron el merch de Sunqu."
+      },
+      "diario": {
+        "title": "Blog · Diario Sunqu — Sunqu Journeys",
+        "description": "Guías para prepararte, cocinas con nombre propio y las comunidades que te reciben, contadas por el equipo de Sunqu."
+      },
+      "terminos": {
+        "title": "Términos y condiciones — Sunqu Journeys",
+        "description": "Estos términos explican cómo reservas con Sunqu, cómo pagas, qué pasa si necesitas aplazar o cancelar y cómo cuidamos tus datos."
+      },
+      "reclamaciones": {
+        "title": "Libro de reclamaciones — Sunqu Journeys",
+        "description": "Si algo no estuvo a la altura de lo que te prometimos, queremos saberlo. Hoja de reclamación virtual conforme a la Ley N° 29571."
+      }
+    }
   },
   "conceptos": [
     {

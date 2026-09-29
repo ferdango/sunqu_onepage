@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="robots" content="noindex"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/descubre.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="descubre"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
 	</head>
 	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
 				<title>Descubre · Catálogo — Sunqu Journeys</title>
-				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
 			</helmet>
 			<div class="jr-wrap" style="background:{{ pageBg }}">
 
@@ -84,7 +87,7 @@
 						<div class="sj-band sj-band--light" aria-hidden="true"></div>
 					</div>
 				</aside>
-				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al +51 966 461 384">
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
 					<svg viewBox="0 0 24 24" aria-hidden="true">
 						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
 					</svg>
@@ -92,7 +95,7 @@
 				</a>
 
 				<!-- Contenido principal -->
-				<main>
+				<main id="contenido" tabIndex="-1">
 
 					<!-- Sección #catalogo · Encuentra tu viaje perfecto -->
 					<section id="catalogo" class="dc-hero sj-dark" data-bg="dark" aria-label="Encuentra tu viaje perfecto">
@@ -159,7 +162,7 @@
 										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.3-2.5 3.8"></path><path d="M12 17.2h.01"></path></svg>
 										<span class="dc-help-lbl">Cómo funciona</span>
 									</button>
-									<button type="button" class="dc-tbtn" onClick="{{ toggleFavOnly }}" aria-pressed="{{ favOnlyOn }}">
+									<button type="button" class="dc-tbtn" onClick="{{ toggleFavOnly }}" aria-pressed="{{ favOnlyOn }}" aria-label="Guardados ({{ favCount }})">
 										<img src="assets/diamond-orange.png" alt="">
 										<span class="dc-fav-lbl">Guardados</span>
 										<span class="dc-num {{ favCountCls }}">{{ favCount }}</span>
@@ -263,11 +266,11 @@
 											</div>
 											<a href="{{ j.href }}" class="dc-j-media" tabIndex="-1" aria-hidden="true">
 												<span class="dc-img">
-													<img src="{{ j.img1 }}" alt="" loading="lazy">
+													<img src="{{ j.img1 }}" srcSet="{{ j.img1Set }}" sizes="(max-width: 767px) 92vw, (max-width: 1280px) 62vw, 880px" alt="" loading="lazy" decoding="async">
 													<span class="dc-badge {{ j.badgeCls }}">{{ j.badge }}</span>
 													<span class="dc-alt">{{ j.altitude }}</span>
 												</span>
-												<span class="dc-img"><img src="{{ j.img2 }}" alt="" loading="lazy"></span>
+												<span class="dc-img"><img src="{{ j.img2 }}" srcSet="{{ j.img2Set }}" sizes="(max-width: 1280px) 31vw, 440px" alt="" loading="lazy" decoding="async"></span>
 											</a>
 										</div>
 									</article>
@@ -303,7 +306,7 @@
 								<sc-for list="{{ exps }}" as="e" hint-placeholder-count="8">
 									<article class="dc-card" data-reveal="">
 										<div class="dc-card-img">
-											<img src="{{ e.img }}" alt="{{ e.t }}" loading="lazy">
+											<img src="{{ e.img }}" srcSet="{{ e.srcset }}" sizes="(max-width: 767px) 45vw, 350px" alt="{{ e.t }}" loading="lazy" decoding="async">
 											<span class="dc-tags"><span class="dc-tag">{{ e.dur }}</span><span class="dc-tag">{{ e.alt }}</span></span>
 										</div>
 										<div class="dc-card-body">
@@ -320,7 +323,7 @@
 								</sc-for>
 							</div>
 							<sc-if value="{{ noExps }}" hint-placeholder-val="{{ false }}">
-								<p class="dc-exp-empty">Ninguna experiencia coincide con tu búsqueda. <button type="button" class="dc-clear" style="color:#736d47" onClick="{{ clearAll }}">Limpiar filtros</button></p>
+								<p class="dc-exp-empty">Ninguna experiencia coincide con tu búsqueda. <button type="button" class="dc-clear" style="color:#676140" onClick="{{ clearAll }}">Limpiar filtros</button></p>
 							</sc-if>
 							<nav class="dc-pager {{ pagerCls }}" aria-label="Páginas de experiencias">
 								<button type="button" class="dc-pg" onClick="{{ prevPage }}" disabled="{{ prevDis }}" aria-label="Página anterior">
@@ -344,7 +347,7 @@
 								<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
 									<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
 										<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
-											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#736d47">{{ s.n }}</span>
+											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#676140">{{ s.n }}</span>
 											<div>
 												<h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3>
 												<p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p>
@@ -353,10 +356,11 @@
 									</sc-for>
 								</ol>
 							</div>
-							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start">
+							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start" aria-live="polite">
 								<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
-									<form onSubmit="{{ submit }}" class="sj-form">
-										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#736d47">Sunqu Private · diseñamos contigo</span>
+									<form onSubmit="{{ submit }}" class="sj-form" data-form="solicitud" aria-busy="{{ sending }}">
+										<div class="sj-hp" aria-hidden="true"><label for="hp-web">Deja este campo vacío</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
+										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · diseñamos contigo</span>
 										<div class="sj-form-row">
 											<div class="field">
 												<label for="f-name">Nombre</label>
@@ -554,6 +558,7 @@
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
 							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
@@ -615,6 +620,7 @@ class Component extends DCLogic {
     this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
   }
   toggleFav(key, title) {
+    if (!this.state.fav[key]) SunquContent.medir('add_to_wishlist', { items: [{ item_id: key, item_name: title, item_category: key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' }] });
     this.setState((s) => {
       const fav = { ...s.fav }; if (fav[key]) delete fav[key]; else fav[key] = { t: title, k: key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' };
       try { window.localStorage.setItem('sunqu-fav', JSON.stringify(fav)); } catch (e) {}
@@ -644,7 +650,8 @@ class Component extends DCLogic {
       value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
     };
   }
-  // ── Onboarding: cómo buscar y cómo guardar. Se muestra la primera vez (localStorage 'sunqu-onb-descubre').
+  // ── Onboarding: cómo buscar y cómo guardar. Se abre solo una vez por sesión (sessionStorage 'sunqu-onb-descubre');
+  //    el botón «Cómo funciona» lo vuelve a abrir cuando se quiera.
   ONB = [
     { k: 'Bienvenido a Descubre', t: 'Encuentra y guarda tu próximo viaje', p: 'Te mostramos en cinco pasos cómo buscar una experiencia, afinar los resultados y guardar lo que te gusta.' },
     { k: 'Buscar', t: 'Escribe lo que buscas', p: 'Un lugar, una emoción o una actividad: «Cusco», «tejido», «cocina». Los journeys y experiencias se filtran mientras escribes.', target: ['.dc-kw'] },
@@ -659,10 +666,12 @@ class Component extends DCLogic {
     return step.target.length > 1 && step.try ? els.slice(0, 1) : els;
   }
   onbStart() {
+    try { window.sessionStorage.setItem('sunqu-onb-descubre', '1'); } catch (e) {} // visto en esta sesión (aunque no lo termine)
+    SunquContent.medir('tutorial_begin');
     this.setState({ onb: true, onbStep: 0, filtersOpen: false, menuOpen: false }, () => { this.lock(); this.onbLoop(); this.onbFocus(); });
   }
   onbGo(i) {
-    if (i >= this.ONB.length) return this.onbEnd();
+    if (i >= this.ONB.length) { SunquContent.medir('tutorial_complete'); return this.onbEnd(); }
     if (i < 0) return;
     this.setState({ onbStep: i, onbFav0: Object.keys(this.state.fav).length, onbNudge: false }, () => {
       const els = this.onbTargets(this.ONB[i]);
@@ -672,7 +681,6 @@ class Component extends DCLogic {
     });
   }
   onbEnd() {
-    try { window.localStorage.setItem('sunqu-onb-descubre', '1'); } catch (e) {}
     cancelAnimationFrame(this.onbRaf);
     this.setState({ onb: false }, () => { const b = document.querySelector('.dc-help'); if (b) b.focus({ preventScroll: true }); });
   }
@@ -723,7 +731,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
-    this.pageTitle = 'Descubre · Catálogo — Sunqu Journeys';
+    this.pageTitle = SunquContent.titulo('Descubre · Catálogo — Sunqu Journeys');
     document.title = this.pageTitle;
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     try {
@@ -736,12 +744,12 @@ class Component extends DCLogic {
       window.localStorage.setItem('sunqu-fav', JSON.stringify(f));
       this.setState({ fav: f });
     } catch (e) {}
-    try { const q = new URLSearchParams(window.location.search).get('q'); if (q) this.setState({ q }); } catch (e) {}
+    const q = SunquContent.param('q'); if (q) { this.setState({ q }); SunquContent.medir('search', { search_term: q }); }
     this.onKey = (e) => {
       if (this.state.onb) { if (e.key === 'Escape') this.onbEnd(); else if (e.key === 'ArrowRight') this.onbGo(this.state.onbStep + 1); else if (e.key === 'ArrowLeft') this.onbGo(this.state.onbStep - 1); return; }
       if (e.key === 'Escape') { if (this.state.menuOpen) this.setMenu(false); else if (this.state.filtersOpen) this.setState({ filtersOpen: false }); }
     };
-    let seen = false; try { seen = window.localStorage.getItem('sunqu-onb-descubre') === '1'; } catch (e) {}
+    let seen = false; try { seen = window.sessionStorage.getItem('sunqu-onb-descubre') === '1'; } catch (e) {}
     if (!seen) this.onbAuto = setTimeout(() => { if (!this.state.menuOpen) this.onbStart(); }, 1600);
     this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
     window.addEventListener('keydown', this.onKey);
@@ -809,7 +817,7 @@ class Component extends DCLogic {
       const total = j.price ? `Para ${pax} ${paxWord}: ${j.priceMax ? '' : 'desde '}USD ${num(j.price * pax)}${j.priceMax ? ' – ' + num(j.priceMax * pax) : ''}` : 'Tu Travel Advisor te envía el precio';
       return {
         href: 'journey.html?j=' + j.id, kicker: j.kicker, title: j.title, why: j.why, region: j.region, days: j.days, altitude: j.alt,
-        img1: U(j.img[0], 1600), img2: U(j.img[1], 900),
+        img1: U(j.img[0], 1600), img2: U(j.img[1], 900), img1Set: SunquContent.srcset(j.img[0], [480, 800, 1200, 1600], 72), img2Set: SunquContent.srcset(j.img[1], [360, 600, 900], 72),
         f1: CL[j.c[0]], f1i: CI[j.c[0]], f2: CL[j.c[1]], f2i: CI[j.c[1]],
         priceLabel: j.price ? (j.priceMax ? 'Precio por adulto' : 'Precio por adulto desde') : j.priceKicker, price, total,
         badge: lv === 2 ? `Ideal en ${mName}` : lv === 1 ? `Buena época en ${mName}` : lv === 0 ? `Lluvias en ${mName}` : '',
@@ -823,7 +831,7 @@ class Component extends DCLogic {
 
     const exAll = this.EXPS.map((e, i) => ({ ...e, durLabel: e.dur, key: 'e-' + e.slug, dest: [e.dest], dur: 'exp', hay: [e.t, e.place, DL[e.dest], ...e.c.map((c) => CL[c])].join(' ') })).filter(ok);
     const per = 8, nPages = Math.max(1, Math.ceil(exAll.length / per)), page = Math.min(st.page, nPages - 1);
-    const exps = exAll.slice(page * per, page * per + per).map((e) => ({ t: e.t, place: e.place, img: U(e.img, 800), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
+    const exps = exAll.slice(page * per, page * per + per).map((e) => ({ t: e.t, place: e.place, img: U(e.img, 800), srcset: SunquContent.srcset(e.img, [400, 800], 72), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
 
     const tog = (k, v) => () => this.setState((s) => ({ [k]: s[k].includes(v) ? s[k].filter((x) => x !== v) : [...s[k], v], page: 0 }));
     const pills = (k, map) => Object.keys(map).map((v) => ({ label: map[v], icon: CI[v] || '', on: st[k].includes(v) ? 'true' : 'false', toggle: tog(k, v) }));
@@ -861,7 +869,7 @@ class Component extends DCLogic {
       setTo: (e) => this.setState({ to: e.target.value }),
       paxText: `${pax} ${paxWord}`, paxMin: pax <= 1, paxMax: pax >= 12,
       paxDown: () => this.setState((s) => ({ pax: Math.max(1, s.pax - 1) })), paxUp: () => this.setState((s) => ({ pax: Math.min(12, s.pax + 1) })),
-      submitSearch: (e) => { e.preventDefault(); if (document.activeElement) document.activeElement.blur(); this.goTo('journeys'); },
+      submitSearch: (e) => { e.preventDefault(); if (document.activeElement) document.activeElement.blur(); if (st.q.trim()) SunquContent.medir('search', { search_term: st.q }); this.goTo('journeys'); },
 
       filtersOpen: st.filtersOpen ? 'true' : 'false', filtersLabel: st.filtersOpen ? 'Cerrar' : 'Filtros',
       panelCls: st.filtersOpen ? 'is-open' : '', panelHidden: st.filtersOpen ? 'false' : 'true', panelTab: st.filtersOpen ? 0 : -1,
@@ -906,7 +914,7 @@ class Component extends DCLogic {
       sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Adjuntamos tu guardado a la solicitud.' : `Adjuntamos tus ${st.sentFav} guardados a la solicitud.`,
       submit: (e) => {
         e.preventDefault();
-        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.page };
+        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.origen() };
         this.setState({ sending: true, sendError: '' });
         SunquContent.enviar('solicitud', datos).then(
           () => this.setState({ sent: true, sending: false, sentFav: a.on ? a.items.length : 0 }),

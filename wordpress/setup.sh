@@ -3,11 +3,16 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 [ -f .env ] || cp .env.example .env
+# Token de purga (web ↔ WordPress): se genera una vez y queda en .env
+if ! grep -q '^PURGE_TOKEN=.\+' .env; then
+  sed -i.bak '/^PURGE_TOKEN=/d' .env && rm -f .env.bak
+  echo "PURGE_TOKEN=$(openssl rand -hex 24)" >> .env
+fi
 set -a; . ./.env; set +a
 wp() { docker compose run --rm -T cli "$@"; }
 
 echo "▸ Levantando contenedores…"
-docker compose up -d db wordpress web
+docker compose up -d db wordpress sitio
 
 echo "▸ Esperando a WordPress…"
 for i in $(seq 1 60); do
@@ -29,7 +34,9 @@ wp plugin activate sunqu-cms
 wp theme activate sunqu-headless
 wp rewrite structure '/%postname%/' --hard
 wp option update sunqu_web "$WEB_URL" >/dev/null
+wp option update sunqu_purga_token "$PURGE_TOKEN" >/dev/null
 wp option update blogdescription "Contenido de sunqujourneys" >/dev/null
+wp option update blog_public 0 >/dev/null   # el CMS no se indexa (la web tiene su propio SEO)
 
 echo "▸ Importando content/*.json…"
 wp sunqu importar --dir=/var/www/front/content --front=/var/www/front --user="$WP_ADMIN_USER" --podar $IMPORT_FLAGS
@@ -42,5 +49,5 @@ cat <<MSG
 ✔ Listo.
   Panel de WordPress : $WP_URL/wp-admin   (usuario y clave en wordpress/.env)
   API de contenido   : $WP_URL/wp-json/sunqu/v1/contenido
-  Web con WordPress  : $WEB_URL
+  Web (como en Hostinger, leyendo WordPress): $WEB_URL
 MSG

@@ -39,7 +39,7 @@ function sunqu_exportar_diario(array $sec): array {
 			}
 		}
 		$thumb = get_post_thumbnail_id($p);
-		$img = $thumb ? (wp_get_attachment_url($thumb) ?: '') : (string) get_post_meta($p->ID, '_sunqu_img', true);
+		$img = $thumb ? sunqu_url_media($thumb) : (string) get_post_meta($p->ID, '_sunqu_img', true);
 		$item = [
 			'slug' => $p->post_name,
 			'cat' => $cat,
@@ -109,6 +109,9 @@ function sunqu_bloques_a_secciones(string $contenido): array {
 				$cap = preg_match('#<figcaption[^>]*>(.*?)</figcaption>#s', $html, $m) ? sunqu_texto($m[1]) : '';
 				$id = (int) ($b['attrs']['id'] ?? 0);
 				$fuente = $id ? (string) get_post_meta($id, '_sunqu_fuente', true) : '';
+				if ($src && $id) {
+					sunqu_registrar_srcset($src, $id);
+				}
 				$actual['blocks'][] = ['img' => $src ?: $fuente, 'cap' => $cap];
 				break;
 			default:

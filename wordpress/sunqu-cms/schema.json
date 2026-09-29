@@ -6,7 +6,7 @@
    "id": "sunqu_sitio",
    "titulo": "Sitio",
    "orden": 1,
-   "info": "Ajustes globales del sitio: contacto, redes, empresa y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+   "info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
    "campos": [
     {
      "name": "contacto",
@@ -91,6 +91,128 @@
        "name": "address",
        "label": "Dirección",
        "type": "text"
+      }
+     ]
+    },
+    {
+     "name": "seo",
+     "label": "SEO (buscadores y redes sociales)",
+     "type": "group",
+     "sub_fields": [
+      {
+       "name": "paginas",
+       "label": "Páginas fijas",
+       "type": "group",
+       "sub_fields": [
+        {
+         "name": "inicio",
+         "label": "Inicio",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        },
+        {
+         "name": "descubre",
+         "label": "Descubre",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        },
+        {
+         "name": "recuerda",
+         "label": "Recuerda",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        },
+        {
+         "name": "diario",
+         "label": "Diario Sunqu",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        },
+        {
+         "name": "terminos",
+         "label": "Términos y condiciones",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        },
+        {
+         "name": "reclamaciones",
+         "label": "Libro de reclamaciones",
+         "type": "group",
+         "sub_fields": [
+          {
+           "name": "title",
+           "label": "Título (pestaña del navegador y buscadores)",
+           "type": "text"
+          },
+          {
+           "name": "description",
+           "label": "Descripción (meta description)",
+           "ayuda": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
+           "type": "textarea"
+          }
+         ]
+        }
+       ]
       }
      ]
     },

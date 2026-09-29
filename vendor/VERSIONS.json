@@ -1,0 +1,32 @@
+{
+  "react.production.min.js": {
+    "url": "https://unpkg.com/react@18.3.1/umd/react.production.min.js",
+    "integrity": "sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z",
+    "bytes": 10751
+  },
+  "react-dom.production.min.js": {
+    "url": "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js",
+    "integrity": "sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1",
+    "bytes": 131835
+  },
+  "d3-array.min.js": {
+    "url": "https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js",
+    "integrity": "sha384-VpKMdU+TlpggHFip46tJ/xkFUs8NFBwLqUMo3+3uiu411lU6eUQYsHVU+JFpA5ja",
+    "bytes": 17204
+  },
+  "d3-geo.min.js": {
+    "url": "https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js",
+    "integrity": "sha384-VNiKRUXp0MmglFfqDwkfuk+Y78C3WTJShdKSaFwOacLR3UmamxHIJLBTD3BadIXD",
+    "bytes": 36329
+  },
+  "d3-path.min.js": {
+    "url": "https://cdn.jsdelivr.net/npm/d3-path@3.1.0/dist/d3-path.min.js",
+    "integrity": "sha384-6OLefW2YM92GNdyDHuNLXurfMxkbKBdNCBrbc9U57gThqvcmrFrR6V4h46q9RXH6",
+    "bytes": 2433
+  },
+  "d3-shape.min.js": {
+    "url": "https://cdn.jsdelivr.net/npm/d3-shape@3.2.0/dist/d3-shape.min.js",
+    "integrity": "sha384-Pf8DSN0/EBE+hYfdD/WOvxYZPh8+AUL27jVmgRJ2az/EQxJWjgJsZrKFEuFT7DYq",
+    "bytes": 30898
+  }
+}

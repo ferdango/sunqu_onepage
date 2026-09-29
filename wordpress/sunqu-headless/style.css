@@ -1,7 +1,7 @@
 /*
 Theme Name: Sunqu Headless
-Description: WordPress solo como CMS: la web pública es estática (index.html, journey.html…) y lee el contenido de /wp-json/sunqu/v1. Quien visite WordPress es redirigido a la URL de Sunqu › Conexión › URL de la web.
-Version: 1.0.0
+Description: WordPress solo como CMS (headless): la web pública (sunqujourneys.com) lee el contenido de /wp-json/sunqu/v1. Quien abre el sitio de WordPress va directo al acceso del panel.
+Version: 1.1.0
 Requires PHP: 8.1
 Text Domain: sunqu-headless
 */

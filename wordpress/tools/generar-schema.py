@@ -64,7 +64,11 @@ LABELS = {
     "cat": "Categoría", "desc": "Descripción", "sizes": "Tallas", "tag": "Etiqueta", "pos": "Encuadre de la foto (CSS object-position)", "read": "Minutos de lectura",
     "author": "Autor", "lead": "Entradilla", "terminos": "Términos y condiciones", "secciones": "Secciones", "h": "Título de la sección", "blocks": "Bloques",
     "p": "Párrafo", "ul": "Lista", "b": "Negrita", "link": "Enlace", "cite": "Cita · fuente", "quote": "Cita", "cap": "Pie de imagen",
+    "seo": "SEO (buscadores y redes sociales)", "paginas": "Páginas fijas", "description": "Descripción (meta description)",
 }
+# Páginas fijas dentro de Sitio › SEO (las claves coinciden con otras del contenido, por eso van aparte)
+SEO_PAGINAS = {"inicio": "Inicio", "descubre": "Descubre", "recuerda": "Recuerda", "diario": "Diario Sunqu",
+               "terminos": "Términos y condiciones", "reclamaciones": "Libro de reclamaciones"}
 AYUDA = {
     "img": "Sube la imagen o elige una de la biblioteca.",
     "slug": "Minúsculas y guiones. Se usa en la URL (journey.html?j=slug) y en «Guardados».",
@@ -75,6 +79,7 @@ AYUDA = {
     "url": "Si pegas el enlace de un post público, la web muestra el embed oficial.",
     "kw": "Separadas por espacios. Ayudan al buscador de Descubre.",
     "orden": "Orden en el catálogo de Descubre (1 = primero).",
+    "description": "Unos 150 caracteres. Es el texto que muestran Google y las redes al compartir el enlace.",
 }
 
 IMAGEN = {"img", "photo", "card", "momentImg", "poster"}
@@ -102,6 +107,10 @@ def infer(key, values, section, path):
         f["label"] = "Qué vivió o compró"
     if section == "resenas" and key == "dur":
         f["label"] = "Duración del video"
+    if section == "sitio" and path[-1:] == ["paginas"]:
+        f["label"] = SEO_PAGINAS.get(key, f["label"])
+    if section == "sitio" and "seo" in path and key == "title":
+        f["label"] = "Título (pestaña del navegador y buscadores)"
     if key in AYUDA:
         f["ayuda"] = AYUDA[key]
     if any(v is None for v in values):
