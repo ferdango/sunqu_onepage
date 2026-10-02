@@ -257,11 +257,30 @@ function sunqu_escribir_campo(array $ctx, array $f, string $meta, string $ruta, 
 
 // ── Exportación de secciones completas ───────────────────────────────────────────────────────
 
-/** Sección completa con el formato de content/{seccion}.json (usa caché; se limpia al guardar). */
-function sunqu_exportar(string $nombre, bool $cache = true): ?array {
+/**
+ * Sección completa con el formato de content/{seccion}.json (usa caché; se limpia al guardar).
+ * $lang: 'en', 'pt'… devuelve la sección traducida con las traducciones de Loco (includes/idiomas.php).
+ */
+function sunqu_exportar(string $nombre, bool $cache = true, string $lang = ''): ?array {
 	$sec = sunqu_seccion($nombre);
 	if (!$sec) {
 		return null;
+	}
+	if ($lang !== '' && function_exists('sunqu_i18n_traducir_seccion')) {
+		$idioma = sunqu_idiomas()['activos'][$lang] ?? null;
+		if (!$idioma) {
+			return sunqu_exportar($nombre, $cache);
+		}
+		$ck = 'sunqu_c_' . $nombre . '_' . (int) get_option('sunqu_cache_v', 1) . '_' . $lang . '_' . sunqu_i18n_huella($idioma['locale']);
+		if ($cache && ($hit = get_transient($ck)) !== false) {
+			return $hit;
+		}
+		$base = sunqu_exportar($nombre, $cache);
+		$out = $base === null ? null : sunqu_i18n_traducir_seccion($base, $lang);
+		if ($cache && $out !== null) {
+			set_transient($ck, $out, DAY_IN_SECONDS);
+		}
+		return $out;
 	}
 	$ck = 'sunqu_c_' . $nombre . '_' . (int) get_option('sunqu_cache_v', 1);
 	if ($cache && ($hit = get_transient($ck)) !== false) {
@@ -284,7 +303,8 @@ function sunqu_exportar(string $nombre, bool $cache = true): ?array {
 			]);
 			foreach ($q as $p) {
 				$item = [$sec['slug'] => $p->post_name, $sec['titulo_item'] => $p->post_title];
-				$items[] = $item + sunqu_leer_campos(['post', $p->ID], $sec['campos']);
+				// Fecha de la última edición (sitemap y datos estructurados de la web)
+				$items[] = $item + sunqu_leer_campos(['post', $p->ID], $sec['campos']) + ['_modificado' => get_post_modified_time('c', false, $p)];
 			}
 			$out['items'] = $items;
 			if (!empty($sec['ajustes']['campos'])) {
@@ -376,8 +396,17 @@ add_action('acf/save_post', function ($id) {
 foreach (['created_category', 'edited_category', 'delete_category'] as $hook) {
 	add_action($hook, 'sunqu_limpiar_cache');
 }
-add_action('updated_option', function ($opcion) {
-	if (str_starts_with($opcion, 'sunqu_') && !in_array($opcion, ['sunqu_cache_v', 'sunqu_purga_token'], true)) {
+// Opciones del plugin que no son contenido de la web: cambiarlas no vacía ninguna caché (algunas se escriben solas,
+// como el último error de correo o la plantilla de traducción: con ellas habría purgas en cadena)
+const SUNQU_OPCIONES_INTERNAS = ['sunqu_cache_v', 'sunqu_purga_token', 'sunqu_correo_error', 'sunqu_importado', 'sunqu_seguridad_v', 'sunqu_i18n_pot',
+	'sunqu_i18n_huellas', 'sunqu_scripts_historial', 'sunqu_reclamacion_n', 'sunqu_notificar', 'sunqu_telegram_token', 'sunqu_telegram_chat',
+	'sunqu_webhook_url', 'sunqu_origenes'];
+// Al crear, cambiar o borrar un ajuste (la primera vez que se guarda Idiomas o Scripts, WordPress lo crea)
+$sunqu_purgar_opcion = function ($opcion) {
+	if (str_starts_with((string) $opcion, 'sunqu_') && !in_array($opcion, SUNQU_OPCIONES_INTERNAS, true)) {
 		sunqu_limpiar_cache();
 	}
-});
+};
+add_action('added_option', $sunqu_purgar_opcion);
+add_action('updated_option', $sunqu_purgar_opcion);
+add_action('deleted_option', $sunqu_purgar_opcion);

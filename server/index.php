@@ -9,64 +9,105 @@
 
 declare(strict_types=1);
 
+ini_set('display_errors', '0'); // antes de cargar nada: ni un error de sintaxis se muestra al visitante
+
 require __DIR__ . '/lib/config.php';
 require __DIR__ . '/lib/content.php';
+require __DIR__ . '/lib/idiomas.php';
 require __DIR__ . '/lib/routes.php';
 require __DIR__ . '/lib/seo.php';
+require __DIR__ . '/lib/sinjs.php';
 require __DIR__ . '/lib/page.php';
 require __DIR__ . '/lib/sitemap.php';
+require __DIR__ . '/lib/scripts.php';
 require __DIR__ . '/lib/security.php';
+
+sunqu_endurecer_php(); // errores al log, nunca en pantalla
 
 $cfg = sunqu_config();
 $ruta = sunqu_resolver($_SERVER['REQUEST_URI'] ?? '/');
+$GLOBALS['sunqu_lang'] = $ruta['lang'] ?? SUNQU_IDIOMA_BASE;
+$metodo = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+$lectura = in_array($metodo, ['GET', 'HEAD'], true);
 
 switch ($ruta['tipo']) {
 	case 'redireccion':
-		header('Location: ' . $cfg['SITE_URL'] . $ruta['destino'], true, 301);
+		header('Location: ' . $cfg['SITE_URL'] . (!empty($ruta['conIdioma']) ? sunqu_ruta_idioma($ruta['destino']) : $ruta['destino']), true, 301);
 		header('Cache-Control: public, max-age=3600');
 		exit;
 
 	case 'sitemap':
-		header('Content-Type: application/xml; charset=utf-8');
-		header('Cache-Control: public, max-age=300');
-		echo sunqu_sitemap();
-		exit;
-
 	case 'robots':
-		header('Content-Type: text/plain; charset=utf-8');
-		header('Cache-Control: public, max-age=3600');
-		echo sunqu_robots();
+		if (!$lectura) {
+			sunqu_metodo_no_permitido('GET, HEAD');
+		}
+		$sitemap = $ruta['tipo'] === 'sitemap';
+		header($sitemap ? 'Content-Type: application/xml; charset=utf-8' : 'Content-Type: text/plain; charset=utf-8');
+		header('Cache-Control: public, max-age=' . ($sitemap ? 300 : 3600));
+		if ($metodo !== 'HEAD') {
+			echo $sitemap ? sunqu_sitemap() : sunqu_robots();
+		}
 		exit;
 
 	case 'purga':
 		// El plugin «Sunqu CMS» llama aquí al guardar contenido (POST con el token de .env).
+		if ($metodo !== 'POST') {
+			sunqu_metodo_no_permitido('POST');
+		}
 		$token = $_SERVER['HTTP_X_SUNQU_TOKEN'] ?? ($_POST['token'] ?? '');
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $cfg['CACHE_PURGE_TOKEN'] === '' || !hash_equals($cfg['CACHE_PURGE_TOKEN'], (string) $token)) {
-			http_response_code(403);
-			header('Content-Type: application/json');
+		if ($cfg['CACHE_PURGE_TOKEN'] === '' || !is_string($token) || !hash_equals($cfg['CACHE_PURGE_TOKEN'], $token)) {
+			if (sunqu_log_permitido('purga', 10)) {
+				error_log('[sunqu] purga rechazada: token ausente o incorrecto');
+			}
+			sunqu_cabeceras_internas(403);
 			echo '{"ok":false}';
 			exit;
 		}
 		$n = sunqu_purgar();
+		sunqu_cabeceras_internas(200);
 		header('X-LiteSpeed-Purge: *'); // vacía también la caché de LiteSpeed en Hostinger
-		header('Content-Type: application/json');
 		echo json_encode(['ok' => true, 'borrados' => $n]);
 		exit;
 
+	case 'csp':
+		if ($metodo !== 'POST') {
+			sunqu_metodo_no_permitido('POST');
+		}
+		sunqu_reporte_csp();
+		exit;
+
+	case 'salud':
+		if (!$lectura) {
+			sunqu_metodo_no_permitido('GET, HEAD');
+		}
+		$s = sunqu_salud();
+		sunqu_cabeceras_internas($s['estado']);
+		if ($metodo !== 'HEAD') {
+			echo json_encode($s['datos']);
+		}
+		exit;
+
 	case 'pagina':
-		$contenido = sunqu_contenido();
+		if (!$lectura) {
+			sunqu_metodo_no_permitido('GET, HEAD');
+		}
+		$contenido = sunqu_contenido(sunqu_lang());
+		$GLOBALS['sunqu_dic'] = (array) ($contenido['datos']['sitio']['_i18n'] ?? []); // textos fijos traducidos (sunqu_t)
 		$seo = sunqu_seo($ruta['pagina'], $ruta['params'], $contenido['datos']);
 		if ($seo === null) {
 			break; // slug inexistente → 404
 		}
-		sunqu_cabeceras_html(200, $contenido['origen']);
-		if ($_SERVER['REQUEST_METHOD'] !== 'HEAD') {
-			echo sunqu_render($ruta['pagina'], $ruta['params'], $seo);
+		$pagina = sunqu_render($ruta['pagina'], $ruta['params'], $seo);
+		sunqu_cabeceras_html(200, $contenido['origen'], $pagina['hashes'], $pagina['dominios']);
+		if ($metodo !== 'HEAD') {
+			echo $pagina['html'];
 		}
 		exit;
 }
 
 // 404: página propia con estado real 404 (sin indexar)
 sunqu_cabeceras_html(404);
-$html = (string) file_get_contents(__DIR__ . '/404.html');
-echo strtr($html, ['{{SITE_URL}}' => sunqu_e($cfg['SITE_URL'])]);
+if ($metodo !== 'HEAD') {
+	$html = (string) file_get_contents(__DIR__ . '/404.html');
+	echo strtr($html, ['{{SITE_URL}}' => sunqu_e($cfg['SITE_URL'])]);
+}

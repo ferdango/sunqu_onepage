@@ -17,7 +17,11 @@
  *   window.SUNQU            contenido normalizado (mismo formato que content/*.json y que la API).
  *   window.SunquView        datos ya adaptados a lo que usa cada página (J, JOURNEYS, POSTS…).
  *   window.SunquContent     utilidades: img, srcset, param, titulo, esc, site, enviar, datosDe, fotos, cargarScript,
- *                           medir (eventos de medición, ver js/sunqu-analytics.js) y origen (página de un formulario).
+ *                           medir (eventos de medición, ver js/sunqu-analytics.js), origen (página de un formulario)
+ *                           e idiomas: t (texto traducido), idioma, idiomas e irIdioma (selector de idioma).
+ *
+ * Idiomas: en /en/… y /pt/… el servidor entrega window.SUNQU_I18N (idioma, URL de la misma página en cada idioma
+ * activo y los textos de este archivo traducidos en Loco Translate). Ver server/lib/idiomas.php.
  */
 (function () {
   'use strict';
@@ -27,6 +31,14 @@
   var BASE = me ? me.src.replace(/js\/sunqu-content\.js(\?.*)?$/, '') : '';
   var CFG = {};
   [window.SUNQU_CMS || {}, window.SUNQU_CONFIG || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (o[k] !== '' && o[k] != null) CFG[k] = o[k]; }); });
+  var I18N = window.SUNQU_I18N || null; // sin servidor (vista previa estática): solo español
+  var LANG = (I18N && I18N.lang) || 'es';
+  var PREFIJO = (I18N && I18N.prefijo) || '';
+  // Texto fijo traducido (Loco Translate); si no hay traducción, el original en español.
+  function t(s) {
+    var d = (I18N && I18N.dic) || {};
+    return Object.prototype.hasOwnProperty.call(d, s) && d[s] ? d[s] : s;
+  }
 
   // Secciones de contenido que necesita cada página (= archivos de content/ = secciones de la API).
   var NEED = {
@@ -121,9 +133,31 @@
       return c;
     });
   }
-  var MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  // Enlace a un artículo: URL limpia en producción, archivo .html en la vista previa estática.
-  function articulo(slug) { return CFG.rutas === 'limpias' ? '/diario/' + slug : 'articulo.html?a=' + slug; }
+  var MON = [t('ene'), t('feb'), t('mar'), t('abr'), t('may'), t('jun'), t('jul'), t('ago'), t('sep'), t('oct'), t('nov'), t('dic')];
+  // Enlace a un artículo: URL limpia en producción (con el prefijo del idioma), archivo .html en la vista previa estática.
+  function articulo(slug) { return CFG.rutas === 'limpias' ? PREFIJO + '/diario/' + slug : 'articulo.html?a=' + slug; }
+
+  // ── Idiomas ───────────────────────────────────────────────────────────────
+  // Cada idioma se muestra en su propia lengua. Solo aparecen los activos en WordPress › Sunqu › Idiomas.
+  var IDIOMAS = [
+    { code: 'es', name: 'Español', hello: 'Hola, bienvenido', icon: 'assets/diamond-orange.png' },
+    { code: 'en', name: 'English', hello: 'Hello, welcome', icon: 'assets/diamond-yellow.png' },
+    { code: 'pt', name: 'Português', hello: 'Olá, bem-vindo', icon: 'assets/diamond-lime.png' },
+  ];
+  function idioma() { return LANG; }
+  function idiomas() {
+    var alt = (I18N && I18N.alternos) || null;
+    return IDIOMAS.filter(function (l) { return !alt || alt[l.code]; }).map(function (l) {
+      return { code: l.code, name: l.name, hello: l.hello, icon: img(l.icon), on: l.code === LANG };
+    });
+  }
+  // Abre la misma página en otro idioma (con sus filtros y su ancla). false si no hay a dónde ir (vista previa).
+  function irIdioma(code) {
+    var alt = (I18N && I18N.alternos) || {};
+    if (!alt[code]) return false;
+    if (code !== LANG) window.location.href = alt[code] + window.location.search + window.location.hash;
+    return true;
+  }
 
   // Datos de contacto y redes para el footer, el menú lateral y los botones de WhatsApp.
   // WhatsApp: el número de Sunqu › Sitio; si falta, el de la configuración (WHATSAPP_NUMBER).
@@ -263,16 +297,52 @@
       if (CFG.env === 'production') return Promise.reject(new Error('Formularios sin configurar: falta WORDPRESS_API_URL')).catch(ko);
       return Promise.resolve({ local: true }).then(ok);
     }
-    return fetch(String(CFG.api).replace(/\/$/, '') + '/sunqu/v1/formularios/' + tipo, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos || {}),
+    return verificacion().then(function (token) {
+      var cuerpo = token ? Object.assign({}, datos || {}, { _ts: token }) : (datos || {});
+      // ?lang=: los mensajes de error de WordPress llegan en el idioma de la página
+      return fetch(String(CFG.api).replace(/\/$/, '') + '/sunqu/v1/formularios/' + tipo + (LANG !== 'es' ? '?lang=' + LANG : ''), {
+        method: 'POST',
+        credentials: 'omit',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cuerpo),
+      });
     }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (j) {
         if (!r.ok) throw new Error((j && j.message) || 'Error ' + r.status);
         return j;
       });
     }).then(ok, ko);
+  }
+
+  // Verificación anti-bots opcional (Cloudflare Turnstile). Solo con TURNSTILE_SITE_KEY en el .env de la web
+  // (y SUNQU_TURNSTILE_SECRET en WordPress): se carga al enviar, no antes, y es invisible salvo que Cloudflare
+  // necesite que la persona confirme con un clic. Sin clave, los formularios funcionan como siempre.
+  var ts = null;
+  function verificacion() {
+    if (!CFG.turnstile) return Promise.resolve('');
+    return cargarScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit').then(function () {
+      return new Promise(function (ok, ko) {
+        var ts0 = window.turnstile;
+        if (!ts0) { ko(new Error(t('No se pudo cargar la verificación. Vuelve a intentarlo.'))); return; }
+        var fin = function (f, v) { if (ts.espera) { var e = ts.espera; ts.espera = null; e[f](v); } };
+        if (!ts) {
+          var caja = document.createElement('div');
+          caja.style.cssText = 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483000';
+          document.body.appendChild(caja);
+          ts = { caja: caja, espera: null };
+          ts.id = ts0.render(caja, {
+            sitekey: CFG.turnstile, appearance: 'interaction-only', execution: 'execute', language: { en: 'en', pt: 'pt-br' }[LANG] || 'es',
+            callback: function (token) { fin(0, token); },
+            'error-callback': function () { fin(1, new Error(t('No pudimos verificar el envío. Vuelve a intentarlo.'))); },
+            'timeout-callback': function () { fin(1, new Error(t('La verificación tardó demasiado. Vuelve a intentarlo.'))); },
+          });
+        } else {
+          ts0.reset(ts.id); // cada envío necesita un token nuevo
+        }
+        ts.espera = [ok, ko];
+        ts0.execute(ts.caja);
+      });
+    });
   }
   // FormData de un <form> → objeto plano (los campos repetidos se juntan en una lista).
   // _t: milisegundos desde que se abrió la página (el plugin descarta envíos imposibles de tan rápidos).
@@ -331,10 +401,30 @@
   window.SunquContent = {
     img: img, srcset: srcset, param: param, titulo: titulo, esc: esc, cargarScript: cargarScript, medir: medir, origen: origen,
     site: site, enviar: enviar, datosDe: datosDe, fotos: fotos, views: views, page: PAGE, base: BASE, config: CFG,
+    t: t, idioma: idioma, idiomas: idiomas, irIdioma: irIdioma, prefijo: PREFIJO,
   };
+
+  // El contenido de WordPress no se considera confiable: un valor que el navegador ejecutaría en un href o
+  // un src («javascript:…», data: que no sea imagen) se reemplaza por «#». Lo mismo hace el servidor
+  // (server/lib/content.php › sunqu_sanear) antes de precargarlo.
+  var PELIGRO = /^(javascript|vbscript|livescript):/;
+  function sanear(v) {
+    if (Array.isArray(v)) return v.map(sanear);
+    if (v && typeof v === 'object') {
+      var o = {};
+      Object.keys(v).forEach(function (k) { if (k !== '__proto__' && k !== 'constructor' && k !== 'prototype') o[k] = sanear(v[k]); });
+      return o;
+    }
+    if (typeof v !== 'string') return v;
+    var c = v.replace(/[\u0000- ]+/g, '').toLowerCase();
+    if (PELIGRO.test(c)) return '#';
+    if (v.trim().indexOf(' ') < 0 && c.indexOf('data:') === 0 && !/^data:image\/(png|jpe?g|gif|webp|avif)[;,]/.test(c)) return '#';
+    return v;
+  }
 
   // ── Arranque ──────────────────────────────────────────────────────────────
   function boot(content, origen) {
+    content = sanear(content || {});
     window.SUNQU = content;
     window.SUNQU_ORIGEN = origen;
     Object.keys(content || {}).forEach(function (s) { if (content[s] && content[s]._imagenes) Object.assign(IMGSET, content[s]._imagenes); });

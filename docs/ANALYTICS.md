@@ -4,6 +4,9 @@ Implementación: `js/sunqu-analytics.js`, cargado con `defer` en todas las pági
 de producción. **Hoy los tres están vacíos: PENDIENTE DE CONFIGURACIÓN.** Sin IDs no se carga ningún servicio
 externo ni aparece el aviso de cookies.
 
+**Otra vía, sin tocar el servidor:** pegar los códigos de GTM, GA4, Meta Pixel u otros servicios en WordPress ›
+**Sunqu › Scripts y seguimiento** (sección 7). Usa una de las dos vías, no ambas: se mediría dos veces.
+
 ```
 GTM_ID=GTM-XXXXXXX        # si existe, GA4 y el Pixel se configuran DENTRO de GTM
 GA4_ID=G-XXXXXXXXXX       # sin GTM: la web carga gtag.js directo
@@ -25,10 +28,11 @@ CONSENT_MODE=banner       # banner (recomendado) | off
 
 ## 2. Consentimiento
 
-- **Consent Mode v2:** todo empieza en `denied`. Solo se conceden `functionality_storage` y `security_storage`. Además se activa `ads_data_redaction`.
-- **Aviso** (`CONSENT_MODE=banner` y al menos un ID):
-  - «Solo necesarias» / «Aceptar», con enlace a *Protección de datos* (`/terminos#datos`);
-  - el texto nombra solo los servicios configurados;
+- **Consent Mode v2:** todo empieza en `denied`. Solo se conceden `functionality_storage` y `security_storage`. Además se activa `ads_data_redaction`. En producción el estado por defecto lo fija el script de arranque del `<head>`, antes que cualquier script del panel (con la elección guardada, si existe).
+- **Aviso** (`CONSENT_MODE=banner` y al menos un ID o un script del panel que pida permiso):
+  - «Solo necesarias» / «Aceptar», con enlace a *Protección de datos* (`/terminos#datos`, o `/en/terminos#datos` en inglés);
+  - el texto nombra solo los servicios configurados (los del `.env` y los del panel, por su nombre);
+  - sale en el idioma de la página (textos traducidos en Loco Translate, ver WORDPRESS.md › 8.7);
   - es accesible: diálogo no modal, va justo después de «Saltar al contenido» y tiene foco visible.
 - **Elección:** se guarda en `localStorage['sunqu-consent']` como `{ v: 1, a, m, t }` (analítica, marketing, fecha).
 - **«Preferencias de cookies»:** aparece en el pie de todas las páginas cuando hay aviso y lo vuelve a abrir.
@@ -98,14 +102,17 @@ PENDIENTE DE CONFIGURACIÓN. Necesita acceso a Google Tag Manager, Google Analyt
    - `Lead` con `generate_lead`, `Contact` con `click_whatsapp`, `ViewContent` con `view_experience` y `AddToCart` con `add_to_cart`;
    - consentimiento: requiere `ad_storage`;
    - en el Administrador de eventos, deja **desactivada** la *coincidencia avanzada automática*.
-7. **Nuevos dominios:** si agregas otros servicios en GTM (Google Ads, Hotjar, un chat…), suma sus dominios a la CSP en `server/lib/security.php`, porque si no el navegador los bloquea.
+7. **Nuevos dominios:** si agregas otros servicios en GTM (Google Ads, Hotjar, un chat…), suma sus dominios en WordPress › Sunqu › Scripts y seguimiento › **Dominios adicionales** (o en la CSP de `server/lib/security.php`), porque si no el navegador los bloquea.
+   - **Usa plantillas de la galería de GTM**, no etiquetas «HTML personalizado». La CSP no permite scripts en línea (solo los de la web, por su hash): un HTML personalizado no se ejecutaría.
+   - Si una etiqueta no tiene plantilla, `CSP_INLINE_SCRIPTS=allow` en el `.env` lo permite, con menos protección contra XSS (SECURITY.md › 7).
+   - La vista previa de GTM (Tag Assistant) ya está autorizada.
 8. **Probar:** vista previa de GTM (Tag Assistant) y DebugView de GA4.
 
 ## 5. Sin GTM
 
 Basta con poner `GA4_ID` y/o `META_PIXEL_ID`: los eventos de la tabla ya se envían. Para las conversiones, marca `generate_lead` y `click_whatsapp` como eventos clave en GA4.
 
-## 6. Cómo se probó
+## 6. Cómo se probó (IDs del `.env`)
 
 Con IDs ficticios (`G-TEST…`, `GTM-TEST…`) en Docker, bloqueando en el navegador las peticiones a Google y Meta para
 no enviar nada:
@@ -127,3 +134,28 @@ no enviar nada:
    - los eventos llegan a `dataLayer` como objetos;
    - no se cargan `gtag.js` ni `fbevents.js` aparte.
 8. **CSP:** 0 violaciones.
+
+## 7. Scripts desde WordPress (Sunqu › Scripts y seguimiento)
+
+Para que el equipo agregue o cambie servicios de medición sin tocar el servidor. Implementación: plugin
+`includes/scripts.php` (panel), `server/lib/scripts.php` (inserción y CSP) y `js/sunqu-analytics.js` (activación).
+
+| Opción del panel | Qué hace la web |
+|---|---|
+| **Dónde**: `<head>` · al empezar el `<body>` · al final del `<body>` | Inserta el código ahí, en todas las páginas e idiomas, con un comentario `<!-- Nombre (Sunqu › Scripts y seguimiento) -->` |
+| **Con permiso de analítica** / **de marketing** | Cada `<script>` llega inerte (`type="text/plain" data-sunqu-consent="analitica"`, `src` → `data-src`) y se activa al aceptar, en el mismo orden. Se quitan sus `<noscript>`, `<img>` e `<iframe>` (sin JavaScript no se puede pedir permiso). El aviso nombra el servicio |
+| **Siempre (necesario)** | Se inserta tal cual, sin aviso. Si es de Google (GTM o gtag.js), funciona en Consent Mode: el aviso aparece igual y Google no usa cookies hasta que la persona acepta |
+| **Dominios adicionales** | Se suman a la CSP de la web, además de los que aparecen en cada código. Con un código de Google o Meta se autorizan solos sus dominios de envío (google-analytics.com, facebook.com…) |
+
+**Eventos de la web** (tabla de la sección 3) con scripts del panel:
+- llegan a `dataLayer` como `{ event, …parámetros }`: un **GTM** pegado en el panel los recibe igual que con `GTM_ID` (configúralo como en la sección 4);
+- un **GA4 (gtag.js)** pegado en el panel recibe además `gtag('event', …)` de cada evento;
+- antes de aceptar quedan en el navegador; si la persona rechaza, nunca salen.
+- Recomendado para GTM: pegar solo el bloque del `<head>` («Con permiso de analítica», o «Siempre» para Consent Mode avanzado).
+
+**Quitar el permiso:** un script del panel ya activo no se puede detener; si la persona elige «Solo necesarias» después de aceptar, la página se recarga sin ellos.
+
+**Interruptor:** `CMS_SCRIPTS=off` en el `.env` de la web ignora todos los scripts del panel (por ejemplo, si un código rompe la web).
+
+**Probado** en Docker (plugin 1.4.0), con un script de cada tipo y dominios ficticios: antes de elegir solo corre el «necesario»; «Aceptar» activa los demás una vez y sin violaciones de la CSP; «Solo necesarias» recarga sin ellos; con `CONSENT_MODE=off` corren todos sin aviso; con `CMS_SCRIPTS=off` no se inserta ninguno.
+

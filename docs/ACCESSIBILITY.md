@@ -9,7 +9,7 @@ de color son mínimos y conservan cada tono de la marca.
 
 | Criterio | Implementación |
 |---|---|
-| 3.1.1 Idioma de la página | `<html lang="es">` en todas las plantillas |
+| 3.1.1 Idioma de la página | `<html lang="es">` en todas las plantillas; el servidor pone `en` o `pt` en `/en/…` y `/pt/…`. El selector de idioma muestra cada idioma en su propia lengua y marca el actual (`aria-pressed` / `aria-checked`) |
 | 2.4.1 Evitar bloques | Enlace **«Saltar al contenido»**, primer elemento enfocable de cada página (visible al recibir foco). Lleva a `<main id="contenido" tabindex="-1">` |
 | 2.4.2 Titulado de páginas | Título único por página, igual al del SEO |
 | 2.1.2 / 2.4.3 Foco en diálogos | Con un diálogo `aria-modal="true"` abierto (menú lateral, idioma, visor de fotos, reel, bolsa, galería, onboarding), el foco no sale de él con Tab ni con Shift+Tab (`js/sunqu-content.js`). Escape y el retorno del foco al cerrar ya existían |
@@ -63,11 +63,10 @@ Auditoría automática en Chrome, en escritorio (1440) y móvil (390 @2x). Revis
 
 ## 4. Pendiente o fuera de alcance
 
-- **Saltos de nivel de encabezado** (buena práctica, no fallo AA):
-  - en el itinerario del journey, un H4 sigue a un H2;
-  - en el listado del Diario, un H3 sigue al H1.
-
-  Cambiarlos exige ajustar estilos y se dejó para no alterar el diseño.
-- **Falsos positivos de la herramienta:** los enlaces del menú lateral se reportan «sin nombre» mientras el menú está cerrado (oculto). Al abrirlo tienen su texto visible.
+- **Saltos de nivel de encabezado:** corregidos el 29/09/2026 sin cambiar el diseño (los estilos van por clase). El día del gráfico de altitud del journey pasó de H4 a H3; las tarjetas del Diario y de Descubre, de H3 a H2. Lighthouse ya no marca `heading-order`.
+- **Fotos del hero del inicio:** ahora llevan su leyenda como texto alternativo («Valle Sagrado · 2.800 m», …). Antes tenían `alt=""`.
+- **Falsos positivos de la herramienta:**
+  - los enlaces del menú lateral se reportan «sin nombre» mientras el menú está cerrado (oculto); al abrirlo tienen su texto visible;
+  - Lighthouse marca contraste bajo en textos del inicio, el journey y Descubre (p. ej. `#424244` o `#676140` «sobre `#1c1c1c`»). La página cambia el color de fondo al desplazarse entre secciones oscuras y claras, y la herramienta evalúa todo el texto contra el fondo de la primera pantalla. Cuando ese texto está a la vista, su fondo es el claro. Revisado el 02/10/2026.
 - **Loader del inicio (~2,3 s):** respeta el movimiento reducido y se muestra una sola vez por sesión. En las visitas siguientes el hero aparece directo.
 - **Recomendado antes del lanzamiento:** una prueba con lector de pantalla (VoiceOver o NVDA) en los tres formularios y en el onboarding de Descubre.

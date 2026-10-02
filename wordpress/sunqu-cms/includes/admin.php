@@ -11,16 +11,40 @@
 defined('ABSPATH') || exit;
 
 add_action('admin_menu', function () {
-	add_menu_page('Sunqu', 'Sunqu', 'edit_posts', 'sunqu', 'sunqu_pagina_conexion', 'dashicons-heart', 3);
+	// Menú para Editores y Administradores (Autores y Colaboradores no ven ajustes ni envíos con datos personales)
+	add_menu_page('Sunqu', 'Sunqu', 'edit_others_posts', 'sunqu', 'sunqu_pagina_conexion', 'dashicons-heart', 3);
 	add_submenu_page('sunqu', 'Conexión y herramientas', 'Conexión y herramientas', 'manage_options', 'sunqu', 'sunqu_pagina_conexion');
 }, 9); // antes que los submenús de los envíos, para que «Sunqu» abra esta página
 
+/**
+ * Campos secretos (token de purga, token del bot): el panel nunca los vuelve a mostrar. Vacío al guardar =
+ * se mantiene el valor guardado; «-» lo borra.
+ */
+function sunqu_sanear_secreto(string $opcion): callable {
+	return function ($v) use ($opcion) {
+		$v = trim(sanitize_text_field((string) $v));
+		if ($v === '-') {
+			return '';
+		}
+		return $v === '' ? (string) get_option($opcion, '') : $v;
+	};
+}
+
 add_action('admin_init', function () {
-	foreach (['sunqu_web' => 'esc_url_raw', 'sunqu_origenes' => 'sanitize_textarea_field', 'sunqu_purga_token' => 'sanitize_text_field'] as $op => $san) {
+	// Webhook: solo https (o http en un entorno local); otro valor no se guarda y el panel lo avisa
+	$https = function ($v) {
+		$v = trim((string) $v);
+		if ($v === '' || preg_match('#^https://#i', $v) || preg_match('#^http://(localhost|127\.0\.0\.1)(:\d+)?(/|$)#i', $v)) {
+			return esc_url_raw($v);
+		}
+		add_settings_error('sunqu', 'webhook', 'El webhook debe empezar con https://. No se guardó.', 'error');
+		return (string) get_option('sunqu_webhook_url', '');
+	};
+	foreach (['sunqu_web' => 'esc_url_raw', 'sunqu_origenes' => 'sanitize_textarea_field', 'sunqu_purga_token' => sunqu_sanear_secreto('sunqu_purga_token')] as $op => $san) {
 		register_setting('sunqu_conexion', $op, ['sanitize_callback' => $san]);
 	}
 	$correos = fn($v) => implode(', ', sunqu_lista_correos((string) $v));
-	foreach (['sunqu_notificar' => $correos, 'sunqu_telegram_token' => 'sanitize_text_field', 'sunqu_telegram_chat' => 'sanitize_text_field', 'sunqu_webhook_url' => 'esc_url_raw'] as $op => $san) {
+	foreach (['sunqu_notificar' => $correos, 'sunqu_telegram_token' => sunqu_sanear_secreto('sunqu_telegram_token'), 'sunqu_telegram_chat' => 'sanitize_text_field', 'sunqu_webhook_url' => $https] as $op => $san) {
 		register_setting('sunqu_avisos', $op, ['sanitize_callback' => $san]);
 	}
 	if (isset($_POST['sunqu_accion']) && current_user_can('manage_options') && check_admin_referer('sunqu_herramientas')) {
@@ -131,18 +155,21 @@ function sunqu_pagina_conexion(): void {
 		<p>En el <code>.env</code> de la web: <code>WORDPRESS_API_URL=<?php echo esc_html(untrailingslashit(rest_url())); ?></code> (en una vista previa estática, <code>js/sunqu-config.js › api</code>).</p>
 		<p>Contenido: <a href="<?php echo esc_url($api); ?>" target="_blank"><?php echo esc_html($api); ?></a> · Por sección: <code>…/contenido/journeys</code> · Esquema: <code>…/sunqu/v1/esquema</code></p>
 
+		<?php if (!get_option('sunqu_web')) : ?>
+			<div class="notice notice-warning inline"><p><strong>Falta la URL de la web.</strong> Mientras tanto, solo <code><?php echo esc_html(SUNQU_WEB_DEFECTO); ?></code> puede leer la API y enviar formularios desde el navegador.</p></div>
+		<?php endif; ?>
 		<form method="post" action="options.php">
 			<?php settings_fields('sunqu_conexion'); ?>
 			<table class="form-table" role="presentation">
 				<tr><th><label for="sunqu_web">URL de la web</label></th>
 					<td><input type="url" class="regular-text" id="sunqu_web" name="sunqu_web" value="<?php echo esc_attr(get_option('sunqu_web')); ?>" placeholder="https://sunqujourneys.com">
-						<p class="description">La web pública. Solo ella puede leer la API desde el navegador (CORS) y es a la que se avisa al publicar para que vacíe su caché.</p></td></tr>
+						<p class="description">La web pública. Solo ella puede leer la API y enviar formularios desde el navegador (CORS) y es a la que se avisa al publicar para que vacíe su caché.</p></td></tr>
 				<tr><th><label for="sunqu_origenes">Orígenes permitidos</label></th>
 					<td><textarea class="large-text" rows="3" id="sunqu_origenes" name="sunqu_origenes" placeholder="https://sunqujourneys.com&#10;https://ferdango.github.io"><?php echo esc_textarea(get_option('sunqu_origenes')); ?></textarea>
-						<p class="description">Uno por línea. Vacío = solo el de «URL de la web».</p></td></tr>
+						<p class="description">Uno por línea (solo si hay más de un sitio, p. ej. una vista previa). Vacío = solo el de «URL de la web». Ningún otro sitio puede usar la API desde el navegador.</p></td></tr>
 				<tr><th><label for="sunqu_purga_token">Token de purga</label></th>
-					<td><input type="password" class="regular-text" id="sunqu_purga_token" name="sunqu_purga_token" value="<?php echo esc_attr(get_option('sunqu_purga_token')); ?>" autocomplete="off" spellcheck="false">
-						<p class="description">El mismo valor que <code>CACHE_PURGE_TOKEN</code> en el <code>.env</code> de la web. Con él, cada vez que guardas contenido la web lo muestra al instante; sin él, lo muestra al vencer su caché (5 minutos por defecto).</p></td></tr>
+					<td><input type="password" class="regular-text" id="sunqu_purga_token" name="sunqu_purga_token" value="" autocomplete="new-password" spellcheck="false" placeholder="<?php echo get_option('sunqu_purga_token') ? esc_attr('Guardado · déjalo vacío para mantenerlo') : ''; ?>">
+						<p class="description">El mismo valor que <code>CACHE_PURGE_TOKEN</code> en el <code>.env</code> de la web. Con él, cada vez que guardas contenido la web lo muestra al instante; sin él, lo muestra al vencer su caché (5 minutos por defecto). Por seguridad no se vuelve a mostrar: para cambiarlo pega el nuevo; para borrarlo escribe «-».</p></td></tr>
 			</table>
 			<?php submit_button('Guardar'); ?>
 		</form>
@@ -239,15 +266,15 @@ function sunqu_seccion_avisos(): void {
 				<td><?php if ($token_cfg) : ?>
 						<p>Definido en <code>wp-config.php</code> (<code>SUNQU_TELEGRAM_TOKEN</code>).</p>
 					<?php else : ?>
-						<input type="password" class="regular-text" id="sunqu_telegram_token" name="sunqu_telegram_token" value="<?php echo esc_attr(get_option('sunqu_telegram_token')); ?>" autocomplete="off" spellcheck="false" placeholder="123456789:ABC…">
+						<input type="password" class="regular-text" id="sunqu_telegram_token" name="sunqu_telegram_token" value="" autocomplete="new-password" spellcheck="false" placeholder="<?php echo esc_attr(get_option('sunqu_telegram_token') ? 'Guardado · déjalo vacío para mantenerlo' : '123456789:ABC…'); ?>">
 					<?php endif; ?>
-					<p class="description">Opcional: avisos instantáneos en la app de Telegram. Crea el bot con <strong>@BotFather</strong> (comando <code>/newbot</code>) y pega aquí el token.</p></td></tr>
+					<p class="description">Opcional: avisos instantáneos en la app de Telegram. Crea el bot con <strong>@BotFather</strong> (comando <code>/newbot</code>) y pega aquí el token. No se vuelve a mostrar («-» lo borra); más seguro aún: defínelo en <code>wp-config.php</code> como <code>SUNQU_TELEGRAM_TOKEN</code>.</p></td></tr>
 			<tr><th><label for="sunqu_telegram_chat">Telegram · chat ID</label></th>
 				<td><input type="text" class="regular-text" id="sunqu_telegram_chat" name="sunqu_telegram_chat" value="<?php echo esc_attr(get_option('sunqu_telegram_chat')); ?>" placeholder="Se completa con «Detectar chat»">
 					<p class="description">Escríbele «/start» a tu bot (o agrégalo al grupo del equipo) y pulsa <strong>Detectar chat</strong>.</p></td></tr>
 			<tr><th><label for="sunqu_webhook_url">Webhook</label></th>
 				<td><input type="url" class="large-text" id="sunqu_webhook_url" name="sunqu_webhook_url" value="<?php echo esc_attr(get_option('sunqu_webhook_url')); ?>" placeholder="https://hook.make.com/…">
-					<p class="description">Opcional: recibe <code>POST</code> JSON <code>{ tipo, titulo, texto, url, fecha }</code> en cada envío. Sirve para reenviar a WhatsApp, Slack o SMS con Make, Zapier o n8n. Sin datos personales.</p></td></tr>
+					<p class="description">Opcional: recibe <code>POST</code> JSON <code>{ tipo, titulo, texto, url, fecha }</code> en cada envío. Sirve para reenviar a WhatsApp, Slack o SMS con Make, Zapier o n8n. Solo <code>https://</code>; lleva el nombre de quien escribió, no su correo ni su mensaje.</p></td></tr>
 		</table>
 		<?php submit_button('Guardar avisos'); ?>
 	</form>

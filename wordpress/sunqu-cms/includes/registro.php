@@ -70,7 +70,8 @@ add_action('acf/init', function () {
 				'menu_slug' => $pg['id'],
 				'post_id' => $pg['id'],
 				'parent_slug' => 'sunqu',
-				'capability' => 'edit_posts',
+				// Ajustes que se publican al guardar (sin revisión): Editores y Administradores
+				'capability' => 'edit_others_posts',
 				'autoload' => false,
 				'update_button' => 'Guardar',
 				'updated_message' => 'Guardado. La web mostrará los cambios en la próxima carga.',

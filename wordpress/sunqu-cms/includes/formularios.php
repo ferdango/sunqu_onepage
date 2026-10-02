@@ -11,12 +11,15 @@
  *        descripcion*, tipo*, detalle*, pedido*, acepta*, codigo, identificacion, menor
  *   (* = obligatorio, igual que en el formulario de la web)
  *
- * Respuesta: { ok: true, id } · Error: { code, message } con estado 400/429.
+ * Respuesta: { ok: true } (reclamación: { ok: true, codigo }) · Error: { code, message } con estado 400/403/413/429.
+ * Origen: desde un navegador solo se aceptan los orígenes de la web (Sunqu › Conexión); el ID interno del envío no se devuelve.
  * Anti-spam: límite de 8 envíos cada 10 minutos por IP y tipo, campo trampa «website» (invisible en la web) y
  * tiempo mínimo de llenado (_t, milisegundos desde que se abrió la página: menos de 2,5 s es un bot).
  * Los envíos que parecen de bots responden «ok» (para no darles pistas) y no se procesan: las solicitudes y
  * reseñas se descartan; las hojas de reclamación quedan como borrador «[posible spam]», sin correos, por si
- * fuera una persona.
+ * fuera una persona. Opcional: Cloudflare Turnstile (SUNQU_TURNSTILE_SECRET en wp-config.php + TURNSTILE_SITE_KEY
+ * en la web). Todo se valida y se limpia aquí (sanitize_*, longitudes máximas, is_email): la validación del
+ * navegador es solo una ayuda. Las fotos se validan por su contenido real y se vuelven a codificar.
  * Libro de reclamaciones: el código correlativo (SJ-2026-00001) lo asigna el servidor. La constancia al
  * consumidor se envía como máximo 3 veces por correo cada 24 h (el formulario no sirve para enviar correos a terceros).
  * Avisos: cada envío se avisa por correo a sunqujourneys@gmail.com (o a los correos de Sunqu › Conexión › Avisos)
@@ -28,9 +31,16 @@ defined('ABSPATH') || exit;
 /** Milisegundos mínimos entre abrir la página y enviar un formulario (menos = bot). */
 const SUNQU_TIEMPO_MINIMO = 2500;
 
-/** Tipos privados donde quedan los envíos (visibles en el panel, no en la API pública). */
+/** Tamaño máximo del envío (JSON con hasta 4 fotos ya reducidas a 1600 px en el navegador). */
+const SUNQU_MAX_ENVIO = 16 * MB_IN_BYTES;
+
+/**
+ * Tipos privados donde quedan los envíos (visibles en el panel, no en la API pública). Tienen datos
+ * personales: solo los ven y editan Editores y Administradores (edit_others_posts), no Autores ni Colaboradores.
+ */
 function sunqu_registrar_tipos_envios(): void {
-	$comun = ['public' => false, 'show_ui' => true, 'show_in_menu' => 'sunqu', 'supports' => ['title', 'editor'], 'capability_type' => 'post', 'map_meta_cap' => true, 'rewrite' => false];
+	$comun = ['public' => false, 'show_ui' => true, 'show_in_menu' => 'sunqu', 'show_in_rest' => false, 'supports' => ['title', 'editor'], 'capability_type' => 'post', 'map_meta_cap' => true, 'rewrite' => false,
+		'capabilities' => ['edit_posts' => 'edit_others_posts', 'create_posts' => 'edit_others_posts', 'delete_posts' => 'delete_others_posts', 'edit_published_posts' => 'edit_others_posts', 'delete_published_posts' => 'delete_others_posts']];
 	register_post_type('sunqu_solicitud', $comun + ['labels' => ['name' => 'Solicitudes de viaje', 'singular_name' => 'Solicitud', 'all_items' => 'Solicitudes de viaje', 'edit_item' => 'Solicitud']]);
 	register_post_type('sunqu_reclamacion', $comun + ['labels' => ['name' => 'Libro de reclamaciones', 'singular_name' => 'Hoja de reclamación', 'all_items' => 'Libro de reclamaciones', 'edit_item' => 'Hoja de reclamación']]);
 }
@@ -47,6 +57,20 @@ add_action('rest_api_init', function () {
 function sunqu_recibir_formulario(WP_REST_Request $req) {
 	// De la ruta, no de $req['tipo']: el libro de reclamaciones tiene un campo «tipo» (Reclamo/Queja) en el cuerpo
 	$tipo = (string) ($req->get_url_params()['tipo'] ?? '');
+	// Desde un navegador, solo la web (otro sitio no puede usar estos formularios, p. ej. para mandar correos)
+	$origen = (string) get_http_origin();
+	if ($origen !== '' && !sunqu_origen_permitido($origen)) {
+		return new WP_Error('sunqu_origen', 'Origen no permitido.', ['status' => 403]);
+	}
+	// Mensajes para la persona en el idioma de la página (?lang=en, traducidos en Loco); el registro queda en español
+	$lang = sunqu_idioma_peticion($req);
+	if ($lang !== '') {
+		sunqu_i18n_cargar(sunqu_idiomas()['activos'][$lang]['locale']);
+	}
+	$msg = fn(string $s) => $lang !== '' ? sunqu_tr($s) : $s;
+	if (strlen((string) $req->get_body()) > SUNQU_MAX_ENVIO) {
+		return new WP_Error('sunqu_tamano', $msg('El envío es demasiado grande. Prueba con menos fotos.'), ['status' => 413]);
+	}
 	$d = $req->get_json_params() ?: $req->get_body_params();
 	$d = is_array($d) ? $d : [];
 
@@ -54,7 +78,7 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 	$lk = 'sunqu_rl_' . $tipo . '_' . md5(sunqu_ip_cliente());
 	$n = (int) get_transient($lk);
 	if ($n >= 8) {
-		return new WP_Error('sunqu_limite', 'Demasiados envíos. Inténtalo en unos minutos.', ['status' => 429]);
+		return new WP_Error('sunqu_limite', $msg('Demasiados envíos. Inténtalo en unos minutos.'), ['status' => 429]);
 	}
 	set_transient($lk, $n + 1, 10 * MINUTE_IN_SECONDS);
 
@@ -71,10 +95,16 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 		return ['ok' => true];
 	}
 
-	$falta = function (array $req) use ($v) {
+	// Verificación anti-bots opcional (Cloudflare Turnstile): solo si wp-config.php define SUNQU_TURNSTILE_SECRET
+	// (y la web tiene TURNSTILE_SITE_KEY; si falta alguna de las dos, no la actives).
+	if (defined('SUNQU_TURNSTILE_SECRET') && SUNQU_TURNSTILE_SECRET && !sunqu_turnstile_valido($v('_ts'))) {
+		return new WP_Error('sunqu_verificacion', $msg('No pudimos verificar el envío. Vuelve a intentarlo.'), ['status' => 403]);
+	}
+
+	$falta = function (array $req) use ($v, $msg) {
 		foreach ($req as $k) {
 			if (trim($v($k)) === '') {
-				return new WP_Error('sunqu_campo', 'Falta el campo «' . $k . '».', ['status' => 400]);
+				return new WP_Error('sunqu_campo', str_replace('%s', $k, $msg('Falta el campo «%s».')), ['status' => 400]);
 			}
 		}
 		return null;
@@ -86,7 +116,7 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 				return $e;
 			}
 			if (!is_email($v('email'))) {
-				return new WP_Error('sunqu_email', 'El correo no es válido.', ['status' => 400]);
+				return new WP_Error('sunqu_email', $msg('El correo no es válido.'), ['status' => 400]);
 			}
 			$campos = [
 				'Nombre' => $t('nombre'), 'Email' => sanitize_email($v('email')), '¿Cuándo?' => $t('mes'), '¿Qué quiere sentir?' => $t('sentir'),
@@ -99,14 +129,14 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 				'responder' => $campos['Email'],
 				'nombre' => $campos['Nombre'],
 			]);
-			return ['ok' => true, 'id' => $id];
+			return ['ok' => true];
 
 		case 'resena':
 			if ($e = $falta(['nombre', 'pais', 'texto'])) {
 				return $e;
 			}
 			if (empty($d['permiso'])) {
-				return new WP_Error('sunqu_permiso', 'Falta el permiso para publicar la reseña.', ['status' => 400]);
+				return new WP_Error('sunqu_permiso', $msg('Falta el permiso para publicar la reseña.'), ['status' => 400]);
 			}
 			return sunqu_guardar_resena($d, $t, $ta);
 
@@ -118,10 +148,10 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 				return $e;
 			}
 			if (empty($d['acepta'])) {
-				return new WP_Error('sunqu_acepta', 'Falta aceptar el tratamiento de datos personales.', ['status' => 400]);
+				return new WP_Error('sunqu_acepta', $msg('Falta aceptar el tratamiento de datos personales.'), ['status' => 400]);
 			}
 			if (!is_email($v('email'))) {
-				return new WP_Error('sunqu_email', 'El correo no es válido.', ['status' => 400]);
+				return new WP_Error('sunqu_email', $msg('El correo no es válido.'), ['status' => 400]);
 			}
 			$codigo = sunqu_codigo_reclamacion();
 			$campos = sunqu_campos_reclamacion($d, $t, $ta, $codigo);
@@ -145,9 +175,29 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 				'responder' => $campos['Correo'],
 				'nombre' => $campos['Consumidor'],
 			]);
-			return ['ok' => true, 'id' => $id, 'codigo' => $codigo];
+			return ['ok' => true, 'codigo' => $codigo];
 	}
 	return new WP_Error('sunqu_tipo', 'Formulario desconocido', ['status' => 404]);
+}
+
+/**
+ * Token de Cloudflare Turnstile válido. Si Cloudflare no responde, el envío pasa (queda en el log): así una caída
+ * de Cloudflare no impide registrar una hoja de reclamación. Un token falso, vencido o ya usado no pasa.
+ */
+function sunqu_turnstile_valido(string $token): bool {
+	if ($token === '' || strlen($token) > 2048) {
+		return false;
+	}
+	$r = wp_remote_post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+		'timeout' => 8,
+		'body' => ['secret' => (string) SUNQU_TURNSTILE_SECRET, 'response' => $token, 'remoteip' => sunqu_ip_cliente()],
+	]);
+	if (is_wp_error($r) || (int) wp_remote_retrieve_response_code($r) >= 500) {
+		error_log('[sunqu] Turnstile no respondió; el envío se acepta sin verificación');
+		return true;
+	}
+	$j = json_decode((string) wp_remote_retrieve_body($r), true);
+	return !empty($j['success']);
 }
 
 /** IP del visitante para el límite de envíos. Detrás de una CDN o proxy, ajústala con el filtro «sunqu_ip_cliente». */
@@ -226,8 +276,9 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 	}
 	update_post_meta($id, '_sunqu_permiso', wp_date('c')); // constancia del permiso de publicación
 	$fotos = [];
-	foreach (array_slice((array) ($d['fotos'] ?? []), 0, 4) as $i => $f) {
-		$att = sunqu_foto_desde_data((string) ($f['data'] ?? ''), sanitize_file_name((string) ($f['nombre'] ?? 'foto.jpg')), $id);
+	foreach (array_slice(array_values(array_filter((array) ($d['fotos'] ?? []), 'is_array')), 0, 4) as $i => $f) {
+		// El nombre del archivo no sale del visitante: resena-{id}-{n}
+		$att = sunqu_foto_desde_data(is_string($f['data'] ?? null) ? $f['data'] : '', 'resena-' . $id . '-' . ($i + 1), $id);
 		if ($att) {
 			$fotos[] = $att;
 		}
@@ -254,7 +305,7 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 		'intro' => 'La reseña quedó «Pendiente»: revísala y publícala desde el panel para que aparezca en Recuerda.',
 		'nombre' => $nombre,
 	]);
-	return ['ok' => true, 'id' => $id];
+	return ['ok' => true];
 }
 
 // Constancia visible al revisar una reseña: si llegó desde la web, cuándo aceptó el autor que se publique.
@@ -271,18 +322,31 @@ add_action('add_meta_boxes', function () {
 	}, $sec['post_type'], 'side');
 });
 
-/** data:image/…;base64 → adjunto de la biblioteca (máx. 6 MB, solo JPG/PNG/WebP). */
+/**
+ * data:image/…;base64 → adjunto de la biblioteca. Solo JPG/PNG/WebP de hasta 4 MB y 3000 px por lado, cuyo
+ * contenido sea de verdad ese tipo de imagen. Se vuelve a codificar (sin EXIF: ubicación GPS, modelo del
+ * teléfono…): lo que se guarda es una imagen limpia, nunca el archivo tal como llegó.
+ */
 function sunqu_foto_desde_data(string $data, string $nombre, int $padre): int {
 	if (!preg_match('#^data:image/(jpeg|png|webp);base64,#', $data, $m)) {
 		return 0;
 	}
 	$bin = base64_decode(substr($data, strlen($m[0])), true);
-	if ($bin === false || strlen($bin) > 6 * MB_IN_BYTES || !@getimagesizefromstring($bin)) {
-		return 0; // vacío, demasiado grande o no es una imagen real
+	if ($bin === false || strlen($bin) > 4 * MB_IN_BYTES) {
+		return 0;
+	}
+	$info = @getimagesizefromstring($bin);
+	$tipos = ['jpeg' => IMAGETYPE_JPEG, 'png' => IMAGETYPE_PNG, 'webp' => IMAGETYPE_WEBP];
+	if (!$info || $info[2] !== $tipos[$m[1]] || $info[0] < 16 || $info[1] < 16 || $info[0] > 3000 || $info[1] > 3000) {
+		return 0; // no es una imagen real del tipo declarado, o sus medidas no son razonables
+	}
+	$bin = sunqu_reencodar_imagen($bin, $m[1]);
+	if ($bin === '') {
+		return 0;
 	}
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	$ext = $m[1] === 'jpeg' ? 'jpg' : $m[1];
-	$up = wp_upload_bits(preg_replace('/\.[^.]+$/', '', $nombre) . '.' . $ext, null, $bin);
+	$up = wp_upload_bits(sanitize_file_name($nombre) . '.' . $ext, null, $bin);
 	if (!empty($up['error'])) {
 		return 0;
 	}
@@ -292,4 +356,36 @@ function sunqu_foto_desde_data(string $data, string $nombre, int $padre): int {
 	}
 	wp_update_attachment_metadata($att, wp_generate_attachment_metadata($att, $up['file']));
 	return (int) $att;
+}
+
+/** Vuelve a codificar una imagen: quita los metadatos y cualquier byte ajeno a la imagen. '' si no se puede leer. */
+function sunqu_reencodar_imagen(string $bin, string $tipo): string {
+	if (function_exists('imagecreatefromstring')) {
+		$im = @imagecreatefromstring($bin);
+		if (!$im) {
+			return '';
+		}
+		imagealphablending($im, false);
+		imagesavealpha($im, true);
+		ob_start();
+		$ok = match ($tipo) {
+			'png' => imagepng($im, null, 6),
+			'webp' => function_exists('imagewebp') && imagewebp($im, null, 85),
+			default => imagejpeg($im, null, 88),
+		};
+		$out = (string) ob_get_clean();
+		imagedestroy($im);
+		return $ok ? $out : '';
+	}
+	if (class_exists('Imagick')) {
+		try {
+			$im = new Imagick();
+			$im->readImageBlob($bin);
+			$im->stripImage();
+			return (string) $im->getImageBlob();
+		} catch (Throwable $e) {
+			return '';
+		}
+	}
+	return $bin; // sin GD ni Imagick no se puede limpiar: ya se comprobó que es una imagen real
 }

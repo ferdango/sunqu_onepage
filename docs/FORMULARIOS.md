@@ -11,7 +11,8 @@ Qué pasa con cada formulario de la web, cómo hacer que llegue a **sunqujourney
       │  POST https://cms.sunqujourneys.com/wp-json/sunqu/v1/formularios/{solicitud|resena|reclamacion}
       ▼
  plugin «Sunqu CMS» (WordPress)
-      │ 1. valida los campos obligatorios y el anti-spam (límite por IP, campo trampa, tiempo mínimo)
+      │ 1. valida el origen (solo la web), el tamaño, los campos obligatorios y el anti-spam
+      │    (límite por IP, campo trampa, tiempo mínimo y, si se activa, Cloudflare Turnstile)
       │ 2. lo guarda en el panel
       │ 3. envía un correo HTML a sunqujourneys@gmail.com  ──► «Responder» le escribe directo al visitante
       │ 4. (opcional) aviso al celular: Telegram o webhook
@@ -169,7 +170,9 @@ Zapier («Webhooks by Zapier › Catch Hook») y n8n («Webhook») funcionan igu
 
 ### 5.4 Privacidad
 
-Los avisos al celular **no llevan datos personales**: solo qué tipo de formulario llegó, el nombre de la persona y el enlace al panel. El correo, el teléfono, el mensaje y los datos del libro de reclamaciones solo están en el panel (con usuario y contraseña) y en el correo de Sunqu. Así, un celular perdido o un servicio externo no exponen la información de los clientes.
+Los avisos al celular llevan solo qué tipo de formulario llegó, el **nombre** de la persona y el enlace al panel. El correo, el teléfono, el mensaje y los datos del libro de reclamaciones solo están en el panel (con usuario y contraseña) y en el correo de Sunqu. Así, un celular perdido o un servicio externo exponen lo mínimo.
+
+Seguridad de los formularios (origen, límites, fotos sin EXIF, Turnstile): [SECURITY.md › 6](SECURITY.md#6-form-security).
 
 ---
 
@@ -182,4 +185,5 @@ Los avisos al celular **no llevan datos personales**: solo qué tipo de formular
   - **Configuración (fuera del repositorio):** `wp-config.php` del CMS define el SMTP (`SUNQU_SMTP_*`) y, opcionalmente, el token de Telegram (`SUNQU_TELEGRAM_TOKEN`) y el destinatario (`SUNQU_CORREO_AVISOS`).
   - **Destinatarios y canales (desde el panel):** Sunqu › Conexión y herramientas › Avisos de los formularios.
   - **Web:** envía con `SunquContent.enviar(tipo, datos)` (`js/sunqu-content.js`). En producción necesita `WORDPRESS_API_URL`.
+- **Idiomas.** En `/en/…` y `/pt/…` la web agrega `?lang=en` (o `pt`) al envío: los mensajes de error para la persona («Falta el campo…», «El correo no es válido»…) llegan traducidos con Loco Translate. Lo que se guarda en el panel, los correos a Sunqu y la constancia del libro de reclamaciones siguen en español.
 - **Otro canal.** Para agregar uno (por ejemplo, Slack directo), súmalo en `sunqu_push()`. Recibe tipo, título, texto y URL, sin datos personales.

@@ -7,10 +7,11 @@
 |---|---|
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Cómo funciona en producción, estructura, configuración (`.env`), URLs, caché, seguridad |
 | [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Publicar en Hostinger paso a paso y qué queda pendiente de configurar |
-| [`docs/WORDPRESS.md`](docs/WORDPRESS.md) | Contenido y WordPress: dónde se edita cada apartado, API, formularios, entorno local |
+| [`docs/WORDPRESS.md`](docs/WORDPRESS.md) | Contenido y WordPress: dónde se edita cada apartado, API, formularios, idiomas (Loco Translate), scripts de medición, entorno local |
 | [`docs/FORMULARIOS.md`](docs/FORMULARIOS.md) | Formularios: recorrido de cada envío, correo a sunqujourneys@gmail.com (SMTP), pruebas y avisos al celular (Telegram, webhook) |
-| [`docs/SEO.md`](docs/SEO.md) | URLs, `<head>`, datos estructurados, sitemap y robots |
-| [`docs/ANALYTICS.md`](docs/ANALYTICS.md) | GA4, GTM, Meta Pixel, consentimiento y catálogo de eventos |
+| [`docs/SEO.md`](docs/SEO.md) | Auditoría SEO con puntuación, URLs, `<head>`, datos estructurados, sitemap, robots, rendimiento y pendientes |
+| [`docs/SECURITY.md`](docs/SECURITY.md) | Seguridad: arquitectura, protecciones de la web y de WordPress, Hostinger, secretos, copias, monitoreo, riesgos pendientes e incidentes |
+| [`docs/ANALYTICS.md`](docs/ANALYTICS.md) | GA4, GTM, Meta Pixel, consentimiento, catálogo de eventos y scripts desde WordPress (Sunqu › Scripts y seguimiento) |
 | [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | WCAG 2.2 AA: qué se hizo y cómo se midió |
 | [`docs/AUDITORIA.md`](docs/AUDITORIA.md) | Auditoría inicial y mapeo de la migración |
 
@@ -31,7 +32,7 @@ Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fecha
 `journey.html?j=<slug>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Su contenido viene de `content/journeys.json` (bloques `ficha` y `plan`), `content/anfitriones.json` y los `principios`/`galeria` comunes del mismo archivo.
 
 ## Overview
-Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idioma base: español (selector ES/EN/PT preparado).
+Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idioma base: español. Inglés y portugués en `/en/…` y `/pt/…` cuando se activan en WordPress › Sunqu › Idiomas y se traducen con Loco Translate (`docs/WORDPRESS.md › 8.7`); el selector ES/EN/PT lleva a la misma página en el otro idioma.
 
 Repo destino: `ferdango/sunqu_onepage` (rama `master`, actualmente vacío).
 
@@ -112,10 +113,11 @@ Para producción **se mantuvo este frontend** y se le agregó una capa PHP delan
 - `js/sunqu-config.js`, `js/sunqu-content.js` y `js/sunqu-analytics.js` — conexión con WordPress (hosting estático), capa de contenido y medición
 - `server/`, `.htaccess`, `.env.example` — producción en Hostinger (`docs/ARCHITECTURE.md`)
 - `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema
-- `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)
+- `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes, `extraer-textos.py` para las traducciones y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)
 - `css/` — hojas de estilo minificadas, una por página
 - `assets/`, `fonts/`, `docs/`
 
 ## Pendientes / datos placeholder
 - **Configuración** (ver `docs/DEPLOYMENT.md › 10`): Hostinger, DNS, SSL, WordPress en `cms.`, SMTP, IDs de GA4, GTM y Meta Pixel, y Search Console.
-- **Datos del negocio:** teléfono, enlaces de redes, RUC, reseñas reales, precios definitivos de la tienda, revisión legal de Términos y cookies, traducciones EN/PT y licencia web de Aeonik.
+- **Seguridad** (ver `docs/SECURITY.md › 13`): 2FA en WordPress y Hostinger, prueba de restauración de copias, monitor externo de `/_sunqu/salud`, Turnstile (opcional).
+- **Datos del negocio:** teléfono, enlaces de redes, RUC, reseñas reales, precios definitivos de la tienda, revisión legal de Términos y cookies, traducciones EN/PT en Loco Translate (la integración está lista) y licencia web de Aeonik.

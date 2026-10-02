@@ -112,7 +112,7 @@ class Sunqu_CLI {
 	/** URLs de la biblioteca → su origen (_sunqu_fuente), para comparar con el JSON. */
 	private function normalizar($v) {
 		if (is_array($v)) {
-			unset($v['_imagenes']); // tamaños de la biblioteca: solo existen en WordPress
+			unset($v['_imagenes'], $v['_modificado'], $v['_idiomas'], $v['_i18n'], $v['_scripts']); // solo existen en WordPress
 			return array_map(fn($x) => $this->normalizar($x), $v);
 		}
 		if (is_string($v) && preg_match('#/wp-content/uploads/#', $v)) {

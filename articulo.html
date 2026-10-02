@@ -405,7 +405,7 @@ class Component extends DCLogic {
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([href, label]) => ({ href, label, current: 'false' })),
       menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
-      langs: [['es', 'Español'], ['en', 'English'], ['pt', 'Português']].map(([code, name]) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || 'es') === code ? 'true' : 'false', set: () => this.setState({ lang: code }) })),
+      langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,
       toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),

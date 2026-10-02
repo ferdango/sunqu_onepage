@@ -11,7 +11,7 @@ x-db-env: &db-env
   WORDPRESS_DB_HOST: db
   WORDPRESS_DB_NAME: ${DB_NAME:-sunqu}
   WORDPRESS_DB_USER: ${DB_USER:-sunqu}
-  WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-sunqu}
+  WORDPRESS_DB_PASSWORD: "${DB_PASSWORD:?Falta DB_PASSWORD en wordpress/.env - corre ./setup.sh}"
 
 x-wp-volumes: &wp-volumes
   - wp:/var/www/html
@@ -25,8 +25,8 @@ services:
     environment:
       MARIADB_DATABASE: ${DB_NAME:-sunqu}
       MARIADB_USER: ${DB_USER:-sunqu}
-      MARIADB_PASSWORD: ${DB_PASSWORD:-sunqu}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-sunqu-root}
+      MARIADB_PASSWORD: "${DB_PASSWORD:?Falta DB_PASSWORD en wordpress/.env - corre ./setup.sh}"
+      MARIADB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:?Falta DB_ROOT_PASSWORD en wordpress/.env - corre ./setup.sh}"
     volumes:
       - db:/var/lib/mysql
     healthcheck:
@@ -42,7 +42,7 @@ services:
       mailpit:
         condition: service_started
     ports:
-      - "127.0.0.1:${WP_PORT:-8080}:80"   # solo este equipo (las claves locales son de ejemplo)
+      - "127.0.0.1:${WP_PORT:-8080}:80"   # solo este equipo (las claves locales las genera setup.sh en .env)
     environment:
       <<: *db-env
       WORDPRESS_CONFIG_EXTRA: |
@@ -54,6 +54,9 @@ services:
         define('SUNQU_SMTP_PORT', 1025);
         define('SUNQU_SMTP_SECURE', '');
         define('SUNQU_MAIL_FROM', 'avisos@sunqu.test');
+        // Turnstile solo si .env trae TURNSTILE_SECRET (claves de prueba de Cloudflare en local)
+        if (getenv('SUNQU_TURNSTILE_SECRET')) { define('SUNQU_TURNSTILE_SECRET', getenv('SUNQU_TURNSTILE_SECRET')); }
+      SUNQU_TURNSTILE_SECRET: ${TURNSTILE_SECRET:-}
     volumes: *wp-volumes
 
   # Atrapa los correos que envía WordPress para verlos en el navegador (no los entrega a nadie)
@@ -97,6 +100,7 @@ services:
       WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-}
       CONSENT_MODE: ${CONSENT_MODE:-banner}
       CSP_MODE: enforce
+      TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
     volumes:
       - ..:/var/www/html
       - sitio-cache:/var/www/html/server/storage   # caché de contenido fuera del repositorio

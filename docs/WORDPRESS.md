@@ -65,11 +65,14 @@ wordpress/                                                   ◆ CMS
   .env.example        puertos, credenciales locales y token de purga (se copia como .env)
   sunqu-cms/          plugin «Sunqu CMS»
     schema.json       modelo de contenido (generado)
-    includes/…        motor de datos, registro, API, formularios, Diario, panel y WP-CLI
+    includes/…        motor de datos, registro, API, formularios, Diario, panel, idiomas, scripts, seguridad y WP-CLI
+    i18n/textos-web.php  textos fijos de la web para traducir (generado por tools/extraer-textos.py)
   sunqu-headless/     tema mínimo: el front de WordPress lleva al acceso del panel
   tools/generar-schema.py  genera schema.json desde content/*.json
 
-docs/WORDPRESS.md     este manual · ARCHITECTURE, SEO, ANALYTICS, DEPLOYMENT y ACCESSIBILITY: el resto
+tools/extraer-textos.py  junta los textos fijos de las páginas, js/ y server/ para Loco Translate (8.7)
+
+docs/WORDPRESS.md     este manual · ARCHITECTURE, SEO, ANALYTICS, DEPLOYMENT, SECURITY y ACCESSIBILITY: el resto
 ```
 
 ---
@@ -274,17 +277,24 @@ Base: `{sitio}/wp-json/sunqu/v1`. Todas las respuestas son JSON.
 |---|---|
 | `GET /contenido?secciones=a,b,c` | `{ "a": {…}, "b": {…} }`. Sin `secciones`, devuelve todas |
 | `GET /contenido/{seccion}` | una sección: `sitio`, `inicio`, `journeys`, `anfitriones`, `experiencias`, `resenas`, `productos`, `diario` o `legales` |
-| `GET /esquema` | `schema.json` |
+| `…?lang=en` (o `pt`) | el mismo contenido traducido con Loco Translate, si ese idioma está activo en Sunqu › Idiomas (lo que falta, en español; un idioma inactivo se ignora) |
+| `GET /esquema` | `schema.json` (pide sesión con permiso de edición) |
+
+**Sin sesión solo responden `/contenido` y `/formularios`.** El índice `/wp-json/`, `/wp/v2/*` (usuarios, entradas, medios…), oEmbed y las rutas internas del editor responden 401 (plugin, `includes/seguridad.php`). El panel y el editor de bloques no cambian. Ver [SECURITY.md](SECURITY.md).
 
 - **Imágenes:** la API devuelve URLs de la biblioteca. La web también acepta rutas `assets/…` e ids de Unsplash, por eso los JSON y la API son intercambiables.
   - Cada sección con fotos de la biblioteca trae además **`_imagenes`**, en formato `{ url: srcset }`, con los tamaños que generó WordPress. La web lo usa para servir el tamaño justo a cada pantalla.
-  - `wp sunqu exportar` y `verificar` ignoran `_imagenes`, porque solo existe en WordPress.
+  - Cada journey, experiencia, anfitrión, reseña, producto y artículo trae **`_modificado`** (fecha de su última edición, ISO 8601). La web la usa en el sitemap (`lastmod`) y en `dateModified`.
+  - `sitio` trae también **`_idiomas`** (idiomas activos y si se indexan), **`_i18n`** (con `?lang=`: los textos fijos de la web traducidos, `{ original: traducción }`) y **`_scripts`** (los códigos activos de Sunqu › Scripts y seguimiento). Los usa el servidor de la web al armar cada página; no viajan al navegador.
+  - `wp sunqu exportar` y `verificar` ignoran `_imagenes`, `_modificado`, `_idiomas`, `_i18n` y `_scripts`, porque solo existen en WordPress.
 - **Caché:**
   - las respuestas se guardan en caché hasta que se guarda cualquier contenido (y con `Cache-Control: max-age=60`);
   - al guardar algo **publicado** (publicar, editar, despublicar o borrar), el plugin avisa a la web (`POST {URL de la web}/_sunqu/purge` con el **Token de purga**) para que renueve la suya. Los borradores, los autoguardados y los envíos de formularios no avisan;
   - *LiteSpeed Cache*, si está en el CMS, no guarda estas respuestas (`litespeed_control_set_nocache`): la web ya tiene su propia caché;
   - herramientas en Sunqu › Conexión: **Limpiar caché de la API** y **Vaciar caché de la web** (muestra si la web respondió).
-- **CORS:** la API solo responde con CORS a los **Orígenes permitidos** de Sunqu › Conexión. Si la lista está vacía, responde al origen de la **URL de la web**; si tampoco hay URL, a cualquiera.
+- **CORS** (toda la API): solo responde a los **Orígenes permitidos** de Sunqu › Conexión y al propio CMS.
+  - Si la lista está vacía, al origen de la **URL de la web**; si tampoco hay URL, a `https://sunqujourneys.com`.
+  - Nunca a «cualquiera» ni con credenciales.
 - **No indexar:** la API responde con `X-Robots-Tag: noindex`. El tema desactiva `wp-sitemap.xml` y, en `robots.txt`, solo permite `/wp-content/uploads/`.
 
 ### Formularios
@@ -301,12 +311,19 @@ Base: `{sitio}/wp-json/sunqu/v1`. Todas las respuestas son JSON.
 
 Los obligatorios del servidor son los mismos que marca el formulario de la web.
 
-- **Respuestas:** `{ "ok": true, "id": 123 }`. Los errores devuelven `{ "code", "message" }` con estado 400 (falta un campo o el correo no es válido) o 429 (más de 8 envíos en 10 minutos desde la misma IP).
+- **Respuestas:** `{ "ok": true }` (la reclamación agrega `"codigo"`); el ID interno ya no se devuelve. Los errores devuelven `{ "code", "message" }` con estado:
+  - 400: falta un campo o el correo no es válido;
+  - 403: otro origen, o Turnstile no validó;
+  - 413: el envío pasa de 16 MB;
+  - 429: más de 8 envíos en 10 minutos desde la misma IP.
+- **Origen:** desde un navegador solo se aceptan los orígenes de la web (Sunqu › Conexión). Otro sitio recibe 403.
+- **Fotos de reseñas:** solo JPG/PNG/WebP reales, de hasta 4 MB y 3000 px. Se vuelven a codificar sin EXIF ni GPS, con nombre `resena-{id}-{n}`.
+- **Turnstile (opcional):** con `define('SUNQU_TURNSTILE_SECRET', '…')` en `wp-config.php`, cada envío debe traer un token válido (`_ts`); la web lo agrega si tiene `TURNSTILE_SITE_KEY`. Configura las dos claves o ninguna.
 - **Anti-spam:**
   - primero, el límite por IP (8 envíos cada 10 minutos por tipo);
   - después, se considera bot si llega el campo trampa `website` o si `_t` (milisegundos desde que se abrió la página, lo agrega `SunquContent.datosDe`) es menor que 2500;
   - con un bot, la respuesta es `ok`, para no dar pistas: solicitudes y reseñas se descartan, y las hojas de reclamación quedan como **borrador «[posible spam]»**, sin correos, por si fuera una persona;
-  - la IP sale de `REMOTE_ADDR`. Detrás de una CDN, ajústala con el filtro `sunqu_ip_cliente`.
+  - la IP sale de `REMOTE_ADDR`: con la CDN de Hostinger ya es la del visitante. Detrás de otra CDN, ajústala con el filtro `sunqu_ip_cliente`.
 - **Libro de reclamaciones:**
   - el **código correlativo** (`SJ-2026-00001`) lo asigna el servidor (opción `sunqu_reclamacion_n`), y la web muestra ese código;
   - la constancia al consumidor se envía como máximo 3 veces por correo cada 24 h;
@@ -380,6 +397,35 @@ Recomendado: copias de seguridad diarias.
 - **Reseñas › Pendientes**: revisa, completa (Tema, «Qué vivió o compró») y **Publica**.
 - **Sunqu › Solicitudes de viaje** y **Sunqu › Libro de reclamaciones**: cada envío con todos sus datos. Son privados y no salen por la API.
 
+### 8.7 Traducir la web (Sunqu › Idiomas + Loco Translate)
+
+La web está escrita en español (sus URLs no llevan prefijo). El inglés y el portugués se sirven en `/en/…` y `/pt/…`.
+
+1. **Plugins › Añadir nuevo › «Loco Translate»** › Activar.
+2. **Sunqu › Idiomas**: marca **Activo** en cada idioma, elige su variante (`en_US`/`en_GB`, `pt_BR`/`pt_PT`) y guarda. El selector de idioma de la web (cabecera y menú) aparece solo cuando hay más de un idioma; se puede apagar en la misma página.
+3. **Loco Translate › Plugins › Sunqu CMS › Nuevo idioma**: el mismo idioma y variante, ubicación **Personalizado** (`wp-content/languages/loco/plugins/`: no se pierde al actualizar el plugin). Traduce y **Guarda**.
+4. La web muestra las traducciones en unos minutos (al instante con Sunqu › Conexión › **Vaciar caché de la web**). Sunqu › Idiomas muestra el porcentaje traducido de las páginas y del contenido.
+5. Cuando la traducción esté completa, marca **Publicar en buscadores**. Hasta entonces `/en/…` se puede visitar pero lleva `noindex` y no entra al sitemap ni a los `hreflang` ([SEO.md › 9](SEO.md)).
+
+Qué se traduce:
+- **Textos fijos de las páginas** (botones, títulos, formularios, aviso de cookies, mensajes de error): los junta `tools/extraer-textos.py` en `wordpress/sunqu-cms/i18n/textos-web.php`. Si cambias un texto de una plantilla, de `js/` o de `server/`, vuelve a correrlo (`python3 tools/extraer-textos.py`) y empaqueta el plugin.
+- **Contenido** (journeys, Diario, legales, Sitio…): todos sus textos, tal como están publicados en español. No se traducen slugs, imágenes, colores, enlaces ni datos de contacto.
+- La plantilla `languages/sunqu-cms.pot` junta las dos cosas, con dónde aparece cada texto. El plugin la regenera cuando cambia el contenido; en Loco, abre el idioma y pulsa **Sincronizar** para ver lo nuevo.
+- Un texto del contenido que cambia en español vuelve a quedar sin traducir (en Loco aparece como nuevo): así nunca se muestra una traducción vieja de un texto distinto.
+- Lo que no tiene traducción se muestra en español. Los slugs son los mismos en todos los idiomas (`/en/journeys/alma`).
+
+### 8.8 Tag Manager, Analytics u otros scripts (Sunqu › Scripts y seguimiento)
+
+Para agregar Google Tag Manager, Google Analytics, Meta Pixel, Hotjar, Clarity, un chat… sin tocar el servidor:
+
+1. **Sunqu › Scripts y seguimiento › Agregar un script**: nombre, código (tal como lo entrega el servicio), **dónde** (`<head>`, al empezar el `<body>` o al final) y **cuándo**:
+   - **Con permiso de analítica / de marketing** (lo normal para medición y publicidad): el código queda inerte hasta que la persona acepta en el aviso de cookies, que aparece solo y nombra cada servicio. Sus `<noscript>`, `<img>` e `<iframe>` se quitan.
+   - **Siempre (necesario)**: se inserta tal cual, sin pedir permiso. Solo para lo imprescindible. Un código de Google (GTM o gtag.js) marcado así funciona en *Consent Mode*: carga desde el principio, sin cookies hasta que la persona acepta.
+2. **Guardar scripts**. La web los aplica en segundos en todas las páginas e idiomas.
+3. Si la consola del navegador muestra que la política de seguridad (CSP) bloqueó algo del servicio, agrega su dominio en **Dominios adicionales** (`https://*.hotjar.com`, `wss://…`). Los dominios que aparecen en el código y los de Google y Meta se autorizan solos.
+
+Más detalles (eventos, GTM, consentimiento) en [ANALYTICS.md › 7](ANALYTICS.md) y la decisión de seguridad en [SECURITY.md](SECURITY.md). Usa esta vía **o** los IDs del `.env` (`GTM_ID`, `GA4_ID`, `META_PIXEL_ID`), no las dos.
+
 ---
 
 ## 9. Convenciones del código
@@ -411,6 +457,9 @@ Recomendado: copias de seguridad diarias.
 | Los formularios responden «Formulario desconocido» | Plugin anterior a esta versión: el campo `tipo` del libro de reclamaciones pisaba el tipo de la ruta. Actualiza `sunqu-cms` |
 | Docker se queda en «Created» y no arranca contenedores | El uso compartido de archivos de Docker Desktop quedó trabado. Reinicia Docker Desktop (`docker desktop restart`) y revisa Settings › Resources › File sharing |
 | `wp sunqu verificar` muestra diferencias | Alguien editó en el panel después de importar (es normal) o cambió la estructura sin regenerar el esquema |
+| `/en/…` responde 404 | El idioma no está activo en Sunqu › Idiomas (o la web todavía tiene la caché anterior: Vaciar caché de la web) |
+| Una traducción de Loco no aparece | Revisa que esté en la ubicación **Personalizado** y con la misma variante elegida en Sunqu › Idiomas; luego Vaciar caché de la web. Un texto que cambió en español necesita su traducción nueva |
+| Un servicio de Scripts y seguimiento no mide | Consola del navegador: si la CSP lo bloquea, agrega el dominio en «Dominios adicionales». Si el script es «Con permiso», solo carga después de «Aceptar» en el aviso de cookies |
 
 ---
 
@@ -425,6 +474,14 @@ Recomendado: copias de seguridad diarias.
 - **CORS:** el origen de la web recibe `Access-Control-Allow-Origin`; otro origen no.
 - **Purga:** editar el título de un journey con WP-CLI se ve en la web en la petición siguiente. El endpoint rechaza GET, POST sin token y token incorrecto (403).
 
+**Idiomas y scripts (plugin 1.4.0)**, probados en Docker con WordPress 7.1.2, PHP 8.3, Loco Translate y una traducción de prueba al inglés:
+- `?lang=en` entrega el contenido y los textos fijos traducidos; `?lang=pt` sin traducciones y un idioma inactivo devuelven el español. Con el panel en inglés, `/pt` sigue en español (no toma las traducciones de otro idioma).
+- `/en`, `/en/descubre`, `/en/journeys/alma`, `/en/diario/…`, `/en/terminos`, `/en/libro-de-reclamaciones` y `/en/recuerda` responden 200 con `<html lang="en">`, canonical y `hreflang`; `/es/…` redirige a la URL sin prefijo y un idioma inactivo da 404. Las 8 páginas cargan sin errores en la consola.
+- El selector de idioma (cabecera y menú) abre la misma página en el otro idioma, con sus filtros y su ancla.
+- Los mensajes de error de los formularios llegan en inglés con `?lang=en`.
+- Scripts: guardados desde el formulario del panel (con historial y aviso por correo); los «Con permiso» quedan inertes hasta «Aceptar», se activan una sola vez y sin bloqueos de la CSP; «Solo necesarias» recarga la página sin ellos. `CMS_SCRIPTS=off` y `CONSENT_MODE=off` se comportan como se espera.
+- Guardar Idiomas o Scripts por primera vez vacía la caché de la web; visitar el panel no genera purgas en cadena. `wp sunqu verificar` sigue igual.
+
 **Corregido en esta versión:** el libro de reclamaciones respondía 404 («Formulario desconocido»). WordPress da prioridad al campo `tipo` del cuerpo sobre el `{tipo}` de la ruta; ahora el tipo se lee de la ruta.
 
 **Pendientes de negocio:**
@@ -433,4 +490,4 @@ Recomendado: copias de seguridad diarias.
 - reseñas reales (las actuales son de ejemplo);
 - revisión legal de los Términos (incluidas las cookies);
 - SMTP para los correos;
-- traducciones EN/PT (el selector de idioma todavía no cambia el contenido).
+- traducciones EN/PT en Loco Translate (la integración está lista; faltan los textos traducidos y revisarlos antes de «Publicar en buscadores»).

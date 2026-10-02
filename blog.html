@@ -111,9 +111,9 @@
 							<div class="bl-grid">
 								<sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
 									<article class="bc-card" data-reveal="">
-										<a href="{{ p.href }}" class="bc-img" tabIndex="-1" aria-hidden="true"><img src="{{ p.img }}" srcSet="{{ p.srcset }}" sizes="(max-width: 767px) 90vw, 420px" alt="" loading="lazy" decoding="async"></a>
+										<a href="{{ p.href }}" class="bc-img" tabIndex="-1" aria-hidden="true"><img src="{{ p.img }}" srcSet="{{ p.srcset }}" sizes="(max-width: 767px) 90vw, 420px" alt="" loading="{{ p.ld }}" fetchpriority="{{ p.fp }}" decoding="async"></a>
 										<div class="bc-meta"><a href="{{ p.catHref }}" class="bc-tag" onClick="{{ p.pickCat }}">{{ p.cat }}</a><span class="bc-date">{{ p.date }}</span></div>
-										<h3 class="bc-t"><a href="{{ p.href }}">{{ p.title }}</a></h3>
+										<h2 class="bc-t"><a href="{{ p.href }}">{{ p.title }}</a></h2>
 										<p class="bc-x">{{ p.excerpt }}</p>
 										<a href="{{ p.href }}" class="bc-more">Leer artículo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
 									</article>
@@ -331,7 +331,7 @@ class Component extends DCLogic {
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([href, label]) => ({ href, label, current: 'false' })),
       menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
-      langs: [['es', 'Español'], ['en', 'English'], ['pt', 'Português']].map(([code, name]) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || 'es') === code ? 'true' : 'false', set: () => this.setState({ lang: code }) })),
+      langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,
       toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
@@ -354,7 +354,7 @@ class Component extends DCLogic {
     return {
       site: SunquView.site,
       ...this.shellVals('Hola Sunqu, leí el blog y quiero saber más de sus viajes'),
-      tabs, posts: shown.map((p) => this.card(p, pick)), noPosts: list.length === 0,
+      tabs, posts: shown.map((p, i) => ({ ...this.card(p, pick), ld: i < 3 ? 'eager' : 'lazy', fp: i === 0 ? 'high' : 'auto' })), noPosts: list.length === 0,
       moreCls: list.length > st.shown ? '' : 'is-hidden', moreN: String(Math.max(0, list.length - st.shown)),
       loadMore: () => this.setState((s) => ({ shown: s.shown + 3 })),
     };

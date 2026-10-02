@@ -11,6 +11,10 @@
  * Eventos: la web llama SunquContent.medir(evento, parámetros); aquí se validan (lista blanca de
  * parámetros, sin correos ni teléfonos) y se envían a dataLayer, GA4 y Meta. Nunca se envían datos
  * de los formularios.
+ *
+ * Scripts de WordPress › Sunqu › Scripts y seguimiento: los de «analítica» o «marketing» llegan inertes
+ * (<script type="text/plain" data-sunqu-consent="…">, server/lib/scripts.php) y se activan aquí cuando la persona
+ * acepta. El aviso de cookies los nombra. Si después elige «Solo necesarias», la página se recarga sin ellos.
  */
 (function () {
   'use strict';
@@ -18,7 +22,12 @@
   var C = (window.SunquContent && window.SunquContent.config) || window.SUNQU_CONFIG || {};
   var ID = function (v, re) { v = String(v || '').trim(); if (v && !re.test(v)) { console.warn('[sunqu] ID de medición con formato inválido:', v); return ''; } return v; };
   var GTM = ID(C.gtm, /^GTM-[A-Z0-9]+$/), GA4 = ID(C.ga4, /^G-[A-Z0-9]+$/), PIXEL = ID(C.pixel, /^\d{6,20}$/);
-  var HAY = !!(GTM || GA4 || PIXEL);
+  // Nombres de los scripts del panel que esperan permiso: { analitica: ['Hotjar'], marketing: ['TikTok Pixel'] }
+  var PANEL = C.scripts || {};
+  // google: GTM o gtag.js marcados «necesario» (Consent Mode: se cargan siempre y miden con cookies solo con permiso)
+  var nombres = function (cat) { return Array.isArray(PANEL[cat]) ? PANEL[cat].map(String) : []; };
+  var CON_PANEL = nombres('analitica').length + nombres('marketing').length + nombres('google').length > 0;
+  var HAY = !!(GTM || GA4 || PIXEL || CON_PANEL);
   var MODO = C.consent === 'off' ? 'off' : 'banner';
   var CLAVE = 'sunqu-consent';
   var PAGE = (window.SunquContent && window.SunquContent.page) || '';
@@ -26,6 +35,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = window.gtag || gtag;
+
+  // Textos del aviso traducidos (Loco Translate, ver server/lib/idiomas.php); sin traducción, en español
+  var I18N = window.SUNQU_I18N || {};
+  function t(s) { var d = I18N.dic || {}; return Object.prototype.hasOwnProperty.call(d, s) && d[s] ? d[s] : s; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   // ── Consentimiento ────────────────────────────────────────────────────────
   function leer() {
@@ -41,10 +55,13 @@
       ad_storage: p.m ? 'granted' : 'denied', ad_user_data: p.m ? 'granted' : 'denied', ad_personalization: p.m ? 'granted' : 'denied',
     };
   }
-  var def = estadoGoogle(permiso);
-  def.functionality_storage = 'granted'; def.security_storage = 'granted'; def.wait_for_update = 500;
-  gtag('consent', 'default', def);
-  gtag('set', 'ads_data_redaction', true);
+  // En producción el estado por defecto ya lo fijó el script de arranque, antes que los scripts del panel
+  if (!window.__sunquConsent) {
+    var def = estadoGoogle(permiso);
+    def.functionality_storage = 'granted'; def.security_storage = 'granted'; def.wait_for_update = 500;
+    gtag('consent', 'default', def);
+    gtag('set', 'ads_data_redaction', true);
+  }
 
   // ── Privacidad de las URLs y de los parámetros ────────────────────────────
   var PARECE_PII = /@|\+?\d[\d\s().-]{6,}\d/;
@@ -102,6 +119,21 @@
     window.fbq('track', 'PageView');
   }
 
+  // Scripts del panel de una categoría: cada <script type="text/plain"> se reemplaza por uno ejecutable, en orden
+  var activos = { analitica: false, marketing: false };
+  function activar(cat) {
+    activos[cat] = true;
+    Array.prototype.forEach.call(document.querySelectorAll('script[type="text/plain"][data-sunqu-consent="' + cat + '"]'), function (viejo) {
+      var s = document.createElement('script');
+      Array.prototype.forEach.call(viejo.attributes, function (a) {
+        if (a.name !== 'type' && a.name !== 'data-sunqu-consent') s.setAttribute(a.name === 'data-src' ? 'src' : a.name, a.value);
+      });
+      if (s.src && !viejo.hasAttribute('async')) s.async = false; // los externos se ejecutan en el orden del panel
+      s.text = viejo.text; // mismo contenido: la CSP lo autoriza por su hash
+      viejo.parentNode.replaceChild(s, viejo);
+    });
+  }
+
   // Equivalencias con los eventos estándar de Meta (con GTM se configuran allí, ver docs/ANALYTICS.md)
   function meta(evento, p) {
     if (!fbListo || !window.fbq) return;
@@ -120,8 +152,10 @@
     var p = limpiar(params);
     if (nombre === 'search' && !p.search_term) return; // la búsqueda parecía un correo o un teléfono: no se mide
     if (!p.pagina && PAGE) p.pagina = PAGE;
-    if (GTM) { var o = { event: nombre }; Object.keys(p).forEach(function (k) { o[k] = p[k]; }); window.dataLayer.push(o); return; }
-    if (!HAY) return;
+    // A dataLayer, para GTM (del .env o pegado en el panel); queda en el navegador hasta que GTM se carga
+    if (GTM || CON_PANEL) { var o = { event: nombre }; Object.keys(p).forEach(function (k) { o[k] = p[k]; }); window.dataLayer.push(o); }
+    if (PANEL.gtag && !GTM && !GA4) gtag('event', nombre, p); // GA4 pegado en el panel (gtag.js lo envía cuando carga)
+    if (GTM || !(GA4 || PIXEL)) return;
     if (!gaListo && !fbListo) { if (!elegido && espera.length < 20) espera.push([nombre, p]); return; }
     if (gaListo) gtag('event', nombre, p);
     meta(nombre, p);
@@ -134,9 +168,9 @@
       try { window.localStorage.setItem(CLAVE, JSON.stringify(elegido)); } catch (e) {}
     }
     gtag('consent', 'update', estadoGoogle(permiso));
-    if (GTM) window.dataLayer.push({ event: 'sunqu_consent_update', consent_analytics: permiso.a, consent_marketing: permiso.m });
-    if (permiso.a) cargarGA4();
-    if (permiso.m) cargarPixel();
+    if (GTM || CON_PANEL) window.dataLayer.push({ event: 'sunqu_consent_update', consent_analytics: permiso.a, consent_marketing: permiso.m });
+    if (permiso.a) { cargarGA4(); activar('analitica'); }
+    if (permiso.m) { cargarPixel(); activar('marketing'); }
     if (window.fbq && fbListo) window.fbq('consent', permiso.m ? 'grant' : 'revoke');
     var cola = espera; espera = [];
     if (permiso.a || permiso.m) cola.forEach(function (e) { evento(e[0], e[1]); });
@@ -146,14 +180,17 @@
   var aviso = null;
   function enlaceDatos() {
     var base = (window.SunquContent && window.SunquContent.base) || '/';
-    return C.rutas === 'limpias' ? '/terminos#datos' : base + 'terminos.html#datos';
+    return C.rutas === 'limpias' ? (I18N.prefijo || '') + '/terminos#datos' : base + 'terminos.html#datos';
   }
   function abrirAviso(desdeBoton) {
     if (!HAY || MODO !== 'banner') return;
     if (!aviso) {
+      // Para qué y con qué servicios (los del .env y los del panel de WordPress)
+      var analitica = (GA4 || GTM ? ['Google Analytics'] : []).concat(nombres('google'), nombres('analitica'));
+      var marketing = (PIXEL || GTM ? ['Meta'] : []).concat(nombres('marketing'));
       var usos = [];
-      if (GA4 || GTM) usos.push('medir cómo se usa la web (Google Analytics)');
-      if (PIXEL || GTM) usos.push('medir nuestros anuncios (Meta)');
+      if (analitica.length) usos.push(t('medir cómo se usa la web') + ' (' + analitica.join(', ') + ')');
+      if (marketing.length) usos.push(t('medir nuestros anuncios') + ' (' + marketing.join(', ') + ')');
       var st = document.createElement('style');
       st.textContent = '.sq-cc{position:fixed;left:16px;bottom:16px;z-index:2147483000;width:min(440px,calc(100% - 32px));box-sizing:border-box;padding:20px 20px 18px;border-radius:18px;background:#1c1c1c;color:#e9eef1;border:1px solid rgba(233,238,241,.16);box-shadow:0 18px 50px rgba(0,0,0,.35);font:15px/1.5 Aeonik,system-ui,sans-serif}'
         + '.sq-cc[hidden]{display:none}.sq-cc-t{margin:0 0 6px;font-weight:600;font-size:16px}.sq-cc-d{margin:0;color:rgba(233,238,241,.85)}.sq-cc-d a{color:#e9eef1;text-decoration:underline;text-underline-offset:3px}'
@@ -168,14 +205,18 @@
       aviso.setAttribute('aria-modal', 'false');
       aviso.setAttribute('aria-labelledby', 'sq-cc-t');
       aviso.setAttribute('aria-describedby', 'sq-cc-d');
-      aviso.innerHTML = '<p class="sq-cc-t" id="sq-cc-t">Cookies de medición</p>'
-        + '<p class="sq-cc-d" id="sq-cc-d">Con tu permiso usamos cookies para ' + usos.join(' y ') + '. Nunca enviamos lo que escribes en los formularios. <a href="' + enlaceDatos() + '">Protección de datos</a></p>'
-        + '<div class="sq-cc-b"><button type="button" data-cc="no">Solo necesarias</button><button type="button" class="sq-si" data-cc="si">Aceptar</button></div>';
+      aviso.innerHTML = '<p class="sq-cc-t" id="sq-cc-t">' + esc(t('Cookies de medición')) + '</p>'
+        + '<p class="sq-cc-d" id="sq-cc-d">' + esc(t('Con tu permiso usamos cookies para %s.').replace('%s', function () { return usos.join(' ' + t('y') + ' '); })) + ' '
+        + esc(t('Nunca enviamos lo que escribes en los formularios.')) + ' <a href="' + esc(enlaceDatos()) + '">' + esc(t('Protección de datos')) + '</a></p>'
+        + '<div class="sq-cc-b"><button type="button" data-cc="no">' + esc(t('Solo necesarias')) + '</button><button type="button" class="sq-si" data-cc="si">' + esc(t('Aceptar')) + '</button></div>';
       aviso.addEventListener('click', function (e) {
         var b = e.target.closest('[data-cc]');
         if (!b) return;
         var si = b.getAttribute('data-cc') === 'si';
+        // Un script del panel ya activo no se puede detener: al quitar el permiso, la página se recarga sin él
+        var recargar = !si && (activos.analitica || activos.marketing);
         aplicar({ a: si, m: si }, true);
+        if (recargar) { window.location.reload(); return; }
         aviso.hidden = true;
         if (aviso._volver && aviso._volver.focus) aviso._volver.focus({ preventScroll: true });
       });

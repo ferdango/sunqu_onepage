@@ -62,10 +62,10 @@ function sunqu_codificar_plantilla(string $html): string {
 		$t = preg_replace('#(</?)' . $tag . '(?=[\s>])#i', '$1sc-raw-' . $tag, $t) ?? $t;
 	}
 	// Atributos con {{ … }} que el navegador intentaría usar al leer la plantilla (oculta): src y poster
-	// dispararían descargas de «{{ s.src }}» (404) y la geometría SVG, errores en la consola. Con el
-	// prefijo sc-camel- el navegador los ignora y el runtime los devuelve con el mismo nombre.
+	// dispararían descargas de «{{ s.src }}» (404), la geometría SVG y los value/min/max de un <input type="date">,
+	// avisos en la consola. Con el prefijo sc-camel- el navegador los ignora y el runtime los devuelve con el mismo nombre.
 	$t = preg_replace_callback('#<(?!/|sc-|x-import|dc-import)([a-zA-Z][\w-]*)(' . $attrs . ')>#', function ($m) {
-		$at = preg_replace('#(\s)(src|poster|width|height|x|y|x1|x2|y1|y2|cx|cy|r|rx|ry|points|d|transform)(\s*=\s*"[^"]*\{\{)#', '$1sc-camel-$2$3', $m[2]) ?? $m[2];
+		$at = preg_replace('#(\s)(src|poster|width|height|x|y|x1|x2|y1|y2|cx|cy|r|rx|ry|points|d|transform|value|min|max)(\s*=\s*"[^"]*\{\{)#', '$1sc-camel-$2$3', $m[2]) ?? $m[2];
 		return '<' . $m[1] . $at . '>';
 	}, $t) ?? $t;
 	return substr($html, 0, $a) . $t . substr($html, $b);
@@ -85,8 +85,11 @@ function sunqu_whatsapp(array $c): string {
 	return $n ?: preg_replace('/\D+/', '', sunqu_config()['WHATSAPP_NUMBER']);
 }
 
-/** Configuración pública que recibe el navegador (nada secreto: los IDs de medición son públicos). */
-function sunqu_config_publica(array $c): array {
+/**
+ * Configuración pública que recibe el navegador (nada secreto: los IDs de medición son públicos).
+ * $consentimiento: nombres de los scripts del panel que esperan permiso ['analitica' => [...], 'marketing' => [...]].
+ */
+function sunqu_config_publica(array $c, array $consentimiento = []): array {
 	$cfg = sunqu_config();
 	return [
 		'env' => $cfg['APP_ENV'],
@@ -97,6 +100,9 @@ function sunqu_config_publica(array $c): array {
 		'pixel' => $cfg['META_PIXEL_ID'],
 		'whatsapp' => sunqu_whatsapp($c),
 		'consent' => $cfg['CONSENT_MODE'],
+		'turnstile' => $cfg['TURNSTILE_SITE_KEY'], // clave pública (la secreta está solo en WordPress)
+		'scripts' => (object) array_filter($consentimiento), // js/sunqu-analytics.js: aviso de cookies y activación
+		'lang' => sunqu_lang(),
 		'rutas' => 'limpias',
 		'v' => sunqu_version('support.js'),
 		'vendor' => sunqu_version('vendor/VERSIONS.json'), // d3 y el mapa (?v= para la caché de un año)
@@ -114,19 +120,73 @@ function sunqu_recursos(): array {
 	return $r;
 }
 
-/**
- * Página completa. $seo sale de sunqu_seo(); $params son los parámetros de la ruta (j, a, q, cat).
- */
-function sunqu_render(string $pagina, array $params, array $seo, bool $noEncontrada = false): string {
-	$plantilla = SUNQU_ROOT . '/' . SUNQU_PAGINAS[$pagina]['plantilla'];
-	$html = (string) file_get_contents($plantilla);
-	$c = sunqu_contenido()['datos'];
+/** Scripts en línea ejecutables de un HTML: [contenido, …] (sin los que tienen src ni los de datos). */
+function sunqu_scripts_en_linea(string $html): array {
+	$out = [];
+	if (preg_match_all('#<script(\s[^>]*)?>(.*?)</script>#is', $html, $m, PREG_SET_ORDER)) {
+		foreach ($m as $s) {
+			$attrs = $s[1] ?? '';
+			if (preg_match('/\ssrc\s*=/i', $attrs)) {
+				continue;
+			}
+			if (preg_match('/\stype\s*=\s*["\']?([^"\'\s>]+)/i', $attrs, $t) && !in_array(strtolower($t[1]), ['text/javascript', 'application/javascript', 'module'], true)) {
+				continue; // datos (JSON-LD, plantilla x-dc): el navegador no los ejecuta
+			}
+			if ($s[2] !== '') {
+				$out[] = $s[2];
+			}
+		}
+	}
+	return $out;
+}
 
-	$html = sunqu_url_publica(sunqu_rutas_absolutas($html));
+/**
+ * Hashes CSP de los scripts en línea de la página. Solo se autorizan los que vienen de la plantilla (archivo del
+ * repositorio, con las mismas transformaciones que el resto del HTML) o los que arma el servidor ($propios): un
+ * <script> que llegara por el contenido no coincidiría con ninguno y el navegador no lo ejecutaría.
+ */
+function sunqu_hashes_en_linea(string $html, string $plantilla, array $propios, string $prefijo = ''): array {
+	foreach (sunqu_scripts_en_linea($plantilla) as $s) {
+		$propios[] = sunqu_url_publica(sunqu_rutas_absolutas($s), $prefijo);
+	}
+	$h = [];
+	foreach (sunqu_scripts_en_linea($html) as $s) {
+		if (in_array($s, $propios, true)) {
+			$h[] = sunqu_csp_hash($s);
+		}
+	}
+	return array_values(array_unique($h));
+}
+
+/** Inserta $nuevo justo antes de la primera $marca (o de la última, con $ultima). */
+function sunqu_insertar_antes(string $html, string $marca, string $nuevo, bool $ultima = false): string {
+	$p = $ultima ? strripos($html, $marca) : stripos($html, $marca);
+	return $p === false || $nuevo === '' ? $html : substr_replace($html, $nuevo, $p, 0);
+}
+
+/**
+ * Página completa en el idioma actual (sunqu_lang). $seo sale de sunqu_seo(); $params son los parámetros de la
+ * ruta (j, a, q, cat). Devuelve ['html' => …, 'hashes' => […], 'dominios' => […]] (para la Content-Security-Policy).
+ */
+function sunqu_render(string $pagina, array $params, array $seo, bool $noEncontrada = false): array {
+	$archivo = SUNQU_ROOT . '/' . SUNQU_PAGINAS[$pagina]['plantilla'];
+	$original = (string) file_get_contents($archivo);
+	$lang = sunqu_lang();
+	$prefijo = sunqu_prefijo();
+	$c = sunqu_contenido($lang)['datos'];
+
+	$html = sunqu_url_publica(sunqu_rutas_absolutas($original), $prefijo);
 	$html = sunqu_versionar($html);
+	// Otro idioma: textos fijos de la plantilla y de su código traducidos (Loco Translate) y <html lang>
+	$html = sunqu_traducir_html($html, sunqu_dic());
+	if ($lang !== SUNQU_IDIOMA_BASE) {
+		$html = preg_replace('#<html lang="es"#', '<html lang="' . $lang . '"', $html, 1) ?? $html;
+	}
 
 	// Bloque SEO del <head> (en las plantillas trae noindex para la vista previa estática)
-	$head = sunqu_head($seo, $c, $noEncontrada) . "\n\t\t" . sunqu_precargas($pagina, $params, $c);
+	$estilos = '<style>x-dc{display:none!important}</style>' // la plantilla cruda nunca se muestra (scripts con defer)
+		. (sunqu_selector_idiomas() ? '' : '<style>.sj-lang,.sj-seg{display:none!important}</style>'); // sin otros idiomas, sin selector
+	$head = sunqu_head($seo, $c, $noEncontrada) . "\n\t\t" . sunqu_precargas($pagina, $params, $c) . "\n\t\t" . $estilos . sunqu_sin_js_estilos();
 	$html = sunqu_reemplazar_entre($html, '<!-- sunqu:seo -->', '<!-- /sunqu:seo -->', "\n\t\t" . $head . "\n\t\t");
 	// El <title> de la plantilla (dentro de <helmet>) queda igual al del SEO
 	if (preg_match('#<helmet>\s*<title>[^<]*</title>#', $html, $m, PREG_OFFSET_CAPTURE)) {
@@ -135,33 +195,60 @@ function sunqu_render(string $pagina, array $params, array $seo, bool $noEncontr
 	}
 	$html = sunqu_codificar_plantilla($html); // después del título: convierte <helmet> en <sc-helmet>
 
+	// Scripts de WordPress › Sunqu › Scripts y seguimiento (GTM, Analytics…)
+	$scripts = sunqu_scripts_pagina($c);
+
 	// Configuración + contenido precargado, antes de js/sunqu-config.js
 	$datos = sunqu_contenido_pagina($pagina, $params);
-	$boot = '<script>'
-		. 'window.SUNQU_CONFIG=' . sunqu_json_script(sunqu_config_publica($c)) . ';'
+	$codigo = sunqu_consentimiento_js()
+		. 'window.SUNQU_CONFIG=' . sunqu_json_script(sunqu_config_publica($c, $scripts['consentimiento'])) . ';'
+		. 'window.SUNQU_I18N=' . sunqu_json_script(sunqu_i18n_publico((string) ($seo['ruta_base'] ?? '/'))) . ';'
 		. 'window.SUNQU_PARAMS=' . sunqu_json_script((object) $params) . ';'
 		. 'window.SUNQU_SEO=' . sunqu_json_script(['title' => $seo['titulo'], 'journey' => $seo['journey'] ?? null]) . ';'
 		. 'window.__resources=Object.assign(window.__resources||{},' . sunqu_json_script((object) sunqu_recursos()) . ');'
-		. 'window.SUNQU_PRELOADED=' . sunqu_url_publica(sunqu_rutas_absolutas(sunqu_json_script($datos))) . ';'
-		. '</script>';
+		. 'window.SUNQU_PRELOADED=' . sunqu_url_publica(sunqu_rutas_absolutas(sunqu_json_script($datos)), $prefijo) . ';';
 	$pos = strpos($html, '<script src="/js/sunqu-config.js');
 	if ($pos !== false) {
-		$html = substr_replace($html, $boot . "\n\t\t", $pos, 0);
+		$html = substr_replace($html, '<script>' . $codigo . "</script>\n\t\t", $pos, 0);
 	}
-	return $html;
+	// Configuración y capa de contenido con defer: no bloquean el primer pintado (el orden se mantiene)
+	$html = preg_replace('#<script src="(/js/sunqu-(?:config|content)\.js[^"]*)"([^>]*)></script>#', '<script src="$1"$2 defer></script>', $html) ?? $html;
+
+	// Al empezar el <body>: los scripts del panel para ese lugar y el contenido sin JavaScript
+	$inicio = $scripts['body_inicio'] . "\n\t\t" . sunqu_sin_js($pagina, $params, $c, $seo, $html); // $html: con el <h1> ya traducido
+	$html = preg_replace('#<body([^>]*)>#', '<body$1>' . "\n\t\t" . str_replace(['\\', '$'], ['\\\\', '\\$'], $inicio), $html, 1) ?? $html;
+	$html = sunqu_insertar_antes($html, '</head>', $scripts['head']);
+	$html = sunqu_insertar_antes($html, '</body>', $scripts['body_fin'], true);
+
+	$hashes = array_values(array_unique(array_merge(sunqu_hashes_en_linea($html, $original, [$codigo], $prefijo), $scripts['hashes'])));
+	// CSP también como <meta>, antes de cualquier script (ver sunqu_csp_meta)
+	$html = preg_replace('#<!-- sunqu:seo -->#', '<!-- sunqu:seo -->' . str_replace(['\\', '$'], ['\\\\', '\\$'], sunqu_csp_meta($hashes, $scripts['dominios'])), $html, 1) ?? $html;
+	return ['html' => $html, 'hashes' => $hashes, 'dominios' => $scripts['dominios']];
 }
 
-/** Precarga de la imagen del hero (LCP) y de las fuentes que se ven primero. */
+/**
+ * Precargas del <head>: la cadena de scripts que dibuja la página (support.js → React), las fuentes que se
+ * ven primero y la imagen principal (LCP). Así se descargan en paralelo con el CSS en lugar de una tras otra.
+ */
 function sunqu_precargas(string $pagina, array $params, array $c): string {
 	$h = [];
-	foreach (['Aeonik-Regular', 'Aeonik-Bold'] as $f) {
+	$h[] = '<link rel="preload" href="/support.js?v=' . sunqu_version('support.js') . '" as="script">';
+	foreach (sunqu_recursos() as $local) {
+		$h[] = '<link rel="preload" href="' . sunqu_e($local) . '" as="script">';
+	}
+	foreach (['Aeonik-Regular', 'Aeonik-Medium', 'Aeonik-Bold'] as $f) {
 		if (is_file(SUNQU_ROOT . "/fonts/$f.woff2")) {
 			$h[] = '<link rel="preload" href="/fonts/' . $f . '.woff2" as="font" type="font/woff2" crossorigin>';
 		}
 	}
+	// Las fotos de Unsplash (journeys, anfitriones, Diario): conexión anticipada en las páginas que las muestran
+	if (!in_array($pagina, ['terminos', 'reclamaciones'], true)) {
+		$h[] = '<link rel="preconnect" href="https://images.unsplash.com">';
+	}
 	// Mismos anchos y «sizes» que el <img> de cada plantilla, para que el navegador reutilice la precarga
 	$hero = '';
 	$sizes = '100vw';
+	$q = 72;
 	if ($pagina === 'home') {
 		$hero = (string) ($c['inicio']['heroSlides'][0]['img'] ?? '');
 		$w = [640, 960, 1280, 1600, 2000];
@@ -174,6 +261,13 @@ function sunqu_precargas(string $pagina, array $params, array $c): string {
 		$hero = (string) ($p['img'] ?? '');
 		$w = [640, 960, 1280, 1600, 2200];
 		$sizes = '(max-width: 1440px) 92vw, 1340px';
+	} elseif ($pagina === 'blog') {
+		// Primera tarjeta del Diario (la más reciente, o la primera de la categoría pedida)
+		$posts = array_values(array_filter($c['diario']['posts'] ?? [], fn($p) => !isset($params['cat']) || ($p['cat'] ?? '') === $params['cat']));
+		usort($posts, fn($a, $b) => strcmp((string) ($b['date'] ?? ''), (string) ($a['date'] ?? '')));
+		$hero = (string) ($posts[0]['img'] ?? '');
+		$w = [480, 720, 1000];
+		$sizes = '(max-width: 767px) 90vw, 420px';
 	}
 	if ($hero !== '') {
 		if (preg_match('#^https?://#', $hero)) {
@@ -183,9 +277,8 @@ function sunqu_precargas(string $pagina, array $params, array $c): string {
 			}
 			$h[] = '<link rel="preload" as="image" href="' . sunqu_e($hero) . '"' . ($set ? ' imagesrcset="' . sunqu_e($set) . '" imagesizes="' . $sizes . '"' : '') . ' fetchpriority="high">';
 		} elseif (preg_match('#^[A-Za-z0-9_-]+$#', $hero)) { // id de Unsplash (una ruta local o data: no se precarga)
-			$u = fn($x) => 'https://images.unsplash.com/photo-' . rawurlencode($hero) . "?auto=format&fit=crop&w=$x&q=72";
+			$u = fn($x) => 'https://images.unsplash.com/photo-' . rawurlencode($hero) . "?auto=format&fit=crop&w=$x&q=$q";
 			$set = implode(', ', array_map(fn($x) => $u($x) . " {$x}w", $w));
-			$h[] = '<link rel="preconnect" href="https://images.unsplash.com">';
 			$h[] = '<link rel="preload" as="image" href="' . sunqu_e($u(end($w))) . '" imagesrcset="' . sunqu_e($set) . '" imagesizes="' . $sizes . '" fetchpriority="high">';
 		}
 	}

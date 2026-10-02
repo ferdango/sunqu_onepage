@@ -151,7 +151,7 @@
 					<section id="inicio" class="sj-hero" data-screen-label="Hero" data-bg="dark" style="position:relative;height:100vh;min-height:640px;overflow:hidden;color:#e9eef1">
 						<div data-parallax="0.25" style="position:absolute;inset:-6% 0">
 							<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
-								<img src="{{ s.src }}" srcSet="{{ s.srcset }}" sizes="100vw" fetchpriority="{{ s.fp }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
+								<img src="{{ s.src }}" srcSet="{{ s.srcset }}" sizes="100vw" fetchpriority="{{ s.fp }}" alt="{{ s.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:{{ s.op }};transform:scale({{ s.sc }});transition:opacity 1.6s ease,transform 8s linear">
 							</sc-for>
 							<sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
 								<video src="{{ heroVideo }}" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
@@ -1239,7 +1239,7 @@ class Component extends DCLogic {
     }));
     const hs = SunquView.hs;
     const hi = this.state.hero;
-    const heroSlides = hs.map(([id], i) => ({ src: i === 0 || this.state.heroAll ? SunquContent.img(id, 2000, 72) : '', srcset: i === 0 || this.state.heroAll ? SunquContent.srcset(id, [640, 960, 1280, 1600, 2000], 72) : '', fp: i === 0 ? 'high' : 'low', op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
+    const heroSlides = hs.map(([id, cap], i) => ({ alt: cap || '', src: i === 0 || this.state.heroAll ? SunquContent.img(id, 2000, 72) : '', srcset: i === 0 || this.state.heroAll ? SunquContent.srcset(id, [640, 960, 1280, 1600, 2000], 72) : '', fp: i === 0 ? 'high' : 'low', op: i === hi ? 1 : 0, sc: i === hi ? 1.12 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' }));
     const dark = this.state.dark;
     const ALT = this.ALT, na = ALT.length;
     const W = Math.max(280, this.state.chartW || 900), small = W < 560;
@@ -1276,9 +1276,9 @@ class Component extends DCLogic {
       loaderCls: this.state.ldGone ? (this.state.ldMode || '') + ' is-gone' : this.state.loaded ? this.state.ldMode || 'is-fade' : '',
       pageBg: dark ? '#1c1c1c' : '#e9eef1', logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1, navFg: dark ? '#e9eef1' : '#1c1c1c',
       forms,
-      langOpen: !!this.state.langOpen, langCode: (this.state.lang || 'es').toUpperCase(),
+      langOpen: !!this.state.langOpen, langCode: (this.state.lang || SunquContent.idioma()).toUpperCase(),
       openLang: () => this.setState({ langOpen: true }), closeLang: () => this.setState({ langOpen: false }), stop: (e) => e.stopPropagation(),
-      langs: [['es', 'Español', 'Hola, bienvenido', 'assets/diamond-orange.png'], ['en', 'English', 'Hello, welcome', 'assets/diamond-yellow.png'], ['pt', 'Português', 'Olá, bem-vindo', 'assets/diamond-lime.png']].map(([code, name, hello, icon]) => { const on = (this.state.lang || 'es') === code; return { code: code.toUpperCase(), name, hello, icon, bg: on ? '#736d47' : 'transparent', fg: on ? '#fff' : '#1c1c1c', border: on ? '#736d47' : 'rgba(28,28,28,.18)', pressed: on ? 'true' : 'false', pick: () => this.setState({ lang: code, langOpen: false }), set: () => this.setState({ lang: code }) }; }),
+      langs: SunquContent.idiomas().map(({ code, name, hello, icon }) => { const on = (this.state.lang || SunquContent.idioma()) === code; return { code: code.toUpperCase(), name, hello, icon, bg: on ? '#736d47' : 'transparent', fg: on ? '#fff' : '#1c1c1c', border: on ? '#736d47' : 'rgba(28,28,28,.18)', pressed: on ? 'true' : 'false', pick: () => { if (!SunquContent.irIdioma(code)) this.setState({ lang: code }); this.setState({ langOpen: false }); }, set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) }; }),
       waCls: this.state.waOn ? 'is-on' : '',
       gcTabs: [['01', 'Por qué', 0.08], ['02', 'Cómo', 0.49], ['03', 'Qué', 0.9]].map(([n, label, f], i) => ({
         n, label, on: gi === i ? 'true' : 'false', state: gi === i ? 'on' : gi > i ? 'done' : 'off',

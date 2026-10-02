@@ -84,12 +84,13 @@ WHATSAPP_NUMBER=   # opcional: respaldo del número de Sunqu › Sitio
 5. **Campos:** Plugins › Añadir nuevo › busca **Secure Custom Fields** › Instalar ahora › Activar. Sin este plugin el contenido se importa igual, pero no se puede editar desde el panel.
 6. **Enlaces permanentes:** Ajustes › Enlaces permanentes › «Nombre de la entrada». Sin esto, `/wp-json/` no responde y la web no puede leer el contenido.
 7. **Ajustes › Lectura:** marca «Disuade a los motores de búsqueda…». El CMS no se indexa; la web tiene su propio SEO.
-8. **Plugins que sobran en un CMS headless:** desactiva **Yoast SEO**, que publica sus propios sitemaps del CMS, y **Google Site Kit**. Si no usas el asistente de IA de Hostinger, revisa también su conexión MCP.
+8. **Plugins que sobran en un CMS headless:** desactiva y **borra** Yoast SEO (publica sus propios sitemaps del CMS), Google Site Kit, Hostinger AI Assistant y Hostinger Easy Onboarding. Cada plugin instalado es código más que mantener al día. Quedan Sunqu CMS, Secure Custom Fields y, si lo usas, LiteSpeed Cache.
 9. **Sunqu › Conexión y herramientas:**
    - **URL de la web:** `https://sunqujourneys.com`. Es el único origen al que CORS deja leer la API y al que se avisa al publicar.
    - **Orígenes permitidos:** vacío, para usar solo el de la web. Agrega `https://ferdango.github.io` solo si la vista previa debe leer este WordPress.
    - **Avisos de los formularios:** los correos que reciben solicitudes, reseñas y reclamaciones. Vacío = **sunqujourneys@gmail.com**. Aquí también se configuran Telegram y el webhook (opcionales). Ver [FORMULARIOS.md](FORMULARIOS.md).
-   - **Token de purga:** el mismo valor que `CACHE_PURGE_TOKEN`.
+   - **Token de purga:** el mismo valor que `CACHE_PURGE_TOKEN`. No se vuelve a mostrar: para cambiarlo, pega el nuevo.
+   - Sin **URL de la web**, la API solo acepta formularios de `https://sunqujourneys.com`. Complétala igual.
 10. **Importar el contenido:** en la misma pantalla, **Importar el contenido**.
     - Crea journeys, experiencias, anfitriones, reseñas, tienda, Diario, portada y ajustes, y sube las fotos a la biblioteca. Tarda alrededor de un minuto; no cierres la página hasta que diga «Listo».
     - Deja marcado «Pasar a borrador lo publicado que no está…»: así «¡Hola, mundo!» sale del Diario.
@@ -107,7 +108,14 @@ WHATSAPP_NUMBER=   # opcional: respaldo del número de Sunqu › Sitio
       `verificar` debe terminar con «WordPress devuelve exactamente el contenido de los JSON».
 11. **Correo** ⚠: crea el buzón `avisos@sunqujourneys.com` (hPanel › Correos), activa SPF/DKIM/DMARC y pega las constantes `SUNQU_SMTP_*` en el `wp-config.php` del CMS ([FORMULARIOS.md › 2](FORMULARIOS.md#2-activar-el-correo-en-producción-unos-15-minutos)). No hace falta WP Mail SMTP. Prueba con **Sunqu › Conexión › Enviar correo de prueba**. Sin SMTP, los avisos y la constancia del libro de reclamaciones pueden no llegar; los envíos quedan guardados igual en el panel.
 12. **Probar la conexión:** cuando la web esté publicada, Sunqu › Conexión › **Vaciar caché de la web** debe responder «La web vació su caché».
-13. **Activar la lectura de WordPress:** en el `.env` de la web pon `WORDPRESS_API_URL=https://cms.sunqujourneys.com/wp-json`. No hace falta reiniciar nada.
+13. **Seguridad** (el plugin ya cierra XML-RPC, comentarios, la API sin sesión y la enumeración de usuarios, y limita los intentos de acceso):
+    - abre **Sunqu › Seguridad** y resuelve lo que esté en rojo o ámbar;
+    - 2FA para cada administrador (plugin «Two Factor») y en la cuenta de Hostinger;
+    - `wp-config.php` con permisos 600 o 640 y `define('FORCE_SSL_ADMIN', true);`;
+    - lista completa en [SECURITY.md › 3 y 4](SECURITY.md#3-wordpress-hardening).
+14. **Activar la lectura de WordPress:** en el `.env` de la web pon `WORDPRESS_API_URL=https://cms.sunqujourneys.com/wp-json`. No hace falta reiniciar nada.
+15. **Idiomas (opcional):** Plugins › Añadir nuevo › **Loco Translate** › Activar. Luego **Sunqu › Idiomas**: activa inglés y/o portugués, y traduce en **Loco Translate › Plugins › Sunqu CMS › Nuevo idioma** (ubicación **Personalizado**). Marca «Publicar en buscadores» solo cuando la traducción esté completa y revisada. Paso a paso en [WORDPRESS.md › 8.7](WORDPRESS.md).
+16. **Medición (opcional):** pega los códigos de GTM, GA4, Meta Pixel u otros en **Sunqu › Scripts y seguimiento** (con «Con permiso de analítica / marketing») o usa los IDs del `.env` de la web, no las dos cosas. Ver [WORDPRESS.md › 8.8](WORDPRESS.md) y [ANALYTICS.md › 7](ANALYTICS.md).
 
 **Por qué no un `.sql` para phpMyAdmin:**
 - las tablas de cada instalación tienen su propio prefijo;
@@ -129,7 +137,7 @@ El importador usa las funciones de WordPress, así que no tiene esos problemas y
   - la API de contenido le pide que no la guarde y la web la consulta con un parámetro anti-caché;
   - los formularios son POST y no se cachean;
   - verifícalo con `curl -sI "https://cms.sunqujourneys.com/wp-json/sunqu/v1/contenido?secciones=sitio" | grep -i litespeed`, que debe responder `X-LiteSpeed-Cache-Control: no-cache`.
-- **Si pones una CDN delante del CMS**, el límite de envíos por IP vería la IP de la CDN. Ajusta el filtro `sunqu_ip_cliente` a la cabecera que envíe esa CDN (WORDPRESS.md › 6).
+- **CDN delante del CMS:** con la CDN de Hostinger, PHP ya recibe la IP real del visitante, así que los límites de envíos y de intentos de acceso funcionan sin cambios. Con otra CDN (p. ej. Cloudflare), ajusta el filtro `sunqu_ip_cliente` a la cabecera que envíe esa CDN (WORDPRESS.md › 6).
 
 ## 7. Verificación después de publicar
 
@@ -140,12 +148,17 @@ El importador usa las funciones de WordPress, así que no tiene esos problemas y
 | `/journeys/no-existe` | 404 |
 | `/journey.html?j=sabor` | 301 → `/journeys/sabor` |
 | `/sitemap.xml`, `/robots.txt` | Con el dominio real |
-| `/.env`, `/server/lib/config.php`, `/docs/`, `/wordpress/` | 403 |
+| `/server/lib/config.php`, `/docs/SEO.md`, `/wordpress/setup.sh`, `/.git/config`, `/copia.sql` | 404 (no se confirma que existan) |
+| `/_sunqu/salud` | `{"ok":true,"contenido":"wordpress"…}` (o `cache`) |
+| `cms.sunqujourneys.com/wp-json/wp/v2/users`, `/?author=1`, `/xmlrpc.php` (sin sesión) | 401, redirección al panel y 403: sin nombres de usuario |
 | Consola del navegador (F12) en cada página | Sin errores ni avisos de CSP; `SUNQU_ORIGEN` = `servidor` |
 | «Diseña tu viaje», «Comparte tu viaje», libro de reclamaciones | Llegan a Sunqu › Solicitudes / Reseñas › Pendientes / Libro de reclamaciones y al correo de avisos |
 | Cambiar un texto de un journey en WordPress | Se ve en la web al recargar |
-| securityheaders.com, PageSpeed Insights | Cabeceras presentes. Rendimiento: comparar con los valores de la auditoría |
+| securityheaders.com, PageSpeed Insights | Cabeceras presentes. Rendimiento: comparar con SEO.md › 0 |
+| Código fuente de `/` | Primera etiqueta del `<head>` tras `viewport`: `<meta http-equiv="Content-Security-Policy" …>` con `script-src 'self' 'sha256-…'` (Hostinger reemplaza el encabezado CSP por `upgrade-insecure-requests`; ver SECURITY.md › 7) |
 | Search Console ⚠ | Propiedad de dominio verificada y sitemap enviado (SEO.md › 6) |
+| Con un idioma activo en Sunqu › Idiomas: `/en`, `/en/journeys/alma` | 200, `<html lang="en">`, selector de idioma visible. Sin «Publicar en buscadores»: `noindex` y sin `hreflang` (SEO.md › 9) |
+| Con un script en Sunqu › Scripts y seguimiento | Aparece en el código fuente con su comentario; si pide permiso, solo corre después de «Aceptar» en el aviso de cookies; consola sin bloqueos de CSP |
 
 ## 8. Volver atrás
 
@@ -164,6 +177,8 @@ mismo `.htaccess` que Hostinger. Está en http://localhost:8081.
 
 - ⚠ Acceso a Hostinger, DNS del dominio y certificados.
 - ⚠ Usuario administrador de WordPress y buzón SMTP (`avisos@sunqujourneys.com`, constantes en `wp-config.php`).
-- ⚠ Cuentas de GA4, GTM y Meta Business, y sus IDs (ANALYTICS.md).
+- ⚠ Cuentas de GA4, GTM y Meta Business, y sus IDs o códigos (ANALYTICS.md).
+- ⚠ Traducciones al inglés y al portugués en Loco Translate, y su revisión antes de publicarlas en buscadores.
 - ⚠ Google Search Console (verificación por DNS).
 - ⚠ Datos del negocio: teléfono, redes, RUC, reseñas reales, revisión legal de Términos y cookies, y licencia web de la fuente Aeonik.
+- ⚠ Seguridad de las cuentas: 2FA en WordPress y Hostinger, borrar plugins sin uso, activar el escáner de malware, probar una restauración de copia y crear el monitor externo de `/_sunqu/salud` (SECURITY.md).

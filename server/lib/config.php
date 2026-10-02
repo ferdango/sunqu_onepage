@@ -27,6 +27,9 @@ const SUNQU_DEFAULTS = [
 	'CONTENT_CACHE_TTL' => '300',          // segundos
 	'CACHE_PURGE_TOKEN' => '',             // lo usa el plugin para vaciar la caché al publicar
 	'CSP_MODE' => 'enforce',               // enforce | report | off
+	'CSP_INLINE_SCRIPTS' => 'hash',        // hash (seguro) | allow (solo si GTM usa etiquetas «HTML personalizado»)
+	'CMS_SCRIPTS' => 'on',                 // on | off: insertar los scripts de WordPress › Sunqu › Scripts y seguimiento
+	'TURNSTILE_SITE_KEY' => '',            // opcional: Cloudflare Turnstile en los formularios (con SUNQU_TURNSTILE_SECRET en WordPress)
 ];
 
 function sunqu_env_file(): ?string {
@@ -74,11 +77,22 @@ function sunqu_config(): array {
 		$v = getenv($k);
 		$cfg[$k] = ($v !== false && $v !== '') ? $v : ($env[$k] ?? $def);
 	}
-	// SITE_URL sin barra final. Si falta, se usa el host de la petición (solo para entornos locales).
+	// SITE_URL sin barra final. Si falta, se usa el host de la petición (solo para entornos locales): en producción
+	// el host lo manda el visitante, así que sin SITE_URL los canonical y las redirecciones no son confiables.
 	if ($cfg['SITE_URL'] === '') {
 		$https = (($_SERVER['HTTPS'] ?? '') === 'on') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
-		$cfg['SITE_URL'] = ($https ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+		$host = preg_match('/^[a-z0-9.-]+(:\d+)?$/i', (string) ($_SERVER['HTTP_HOST'] ?? '')) ? $_SERVER['HTTP_HOST'] : 'localhost';
+		$cfg['SITE_URL'] = ($https ? 'https' : 'http') . '://' . $host;
 		$cfg['_site_url_pendiente'] = true;
+		if ($cfg['APP_ENV'] === 'production') {
+			error_log('[sunqu] falta SITE_URL en el .env de producción');
+		}
+	}
+	if (!preg_match('/^[0-9A-Za-z_-]{10,100}$/', $cfg['TURNSTILE_SITE_KEY'])) {
+		$cfg['TURNSTILE_SITE_KEY'] = '';
+	}
+	if (!in_array($cfg['CSP_INLINE_SCRIPTS'], ['hash', 'allow'], true)) {
+		$cfg['CSP_INLINE_SCRIPTS'] = 'hash';
 	}
 	$cfg['SITE_URL'] = rtrim($cfg['SITE_URL'], '/');
 	$cfg['WORDPRESS_API_URL'] = rtrim($cfg['WORDPRESS_API_URL'], '/');

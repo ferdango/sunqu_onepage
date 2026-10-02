@@ -6,3 +6,21 @@ server/storage/*
 !server/storage/.htaccess
 dist/
 wordpress/*.zip
+# Secretos, respaldos y archivos temporales: nunca al repositorio
+.env.*
+!.env.example
+*.sql
+*.sql.gz
+*.sqlite
+*.bak
+*.backup
+*.dump
+*.log
+*.pem
+*.key
+*.p12
+*.swp
+*~
+*.tmp
+node_modules/
+backups/

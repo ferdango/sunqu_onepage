@@ -1,0 +1,3 @@
+# Sunqu CMS: ningún archivo del plugin se sirve por la web (WordPress los carga desde el disco).
+# Evita que se lean readme.txt, schema.json o el contenido de datos/ y que se llame a un .php suelto.
+Require all denied

@@ -81,6 +81,11 @@ function sunqu_smtp(): ?array {
 	];
 }
 
+// Con SMTP, todos los correos de WordPress (también «¿Olvidaste tu contraseña?») salen del buzón autenticado:
+// wp_mail() fija el remitente antes de phpmailer_init, y «wordpress@<host>» puede no ser válido o no pasar SPF.
+add_filter('wp_mail_from', fn($de) => ($s = sunqu_smtp()) && $s['from'] ? $s['from'] : $de);
+add_filter('wp_mail_from_name', fn($nombre) => ($s = sunqu_smtp()) && $s['from'] ? $s['from_name'] : $nombre);
+
 add_action('phpmailer_init', function ($mail) {
 	if ($smtp = sunqu_smtp()) {
 		$mail->isSMTP();
@@ -267,8 +272,9 @@ function sunqu_push(string $tipo, string $titulo, string $texto, string $url, bo
 		}
 	}
 	$hook = trim((string) get_option('sunqu_webhook_url', ''));
+	// wp_safe_remote_post: no sigue a direcciones internas del servidor (localhost, redes privadas)
 	if ($hook !== '' && wp_http_validate_url($hook)) {
-		$r = wp_remote_post($hook, [
+		$r = wp_safe_remote_post($hook, [
 			'timeout' => $esperar ? 10 : 3,
 			'blocking' => $esperar,
 			'headers' => ['Content-Type' => 'application/json'],

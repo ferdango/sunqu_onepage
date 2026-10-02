@@ -50,6 +50,7 @@ function sunqu_exportar_diario(array $sec): array {
 		];
 		$item += sunqu_leer_campos(['post', $p->ID], $sec['campos']);
 		$item['sections'] = sunqu_bloques_a_secciones($p->post_content);
+		$item['_modificado'] = get_post_modified_time('c', false, $p); // última edición (sitemap y dateModified)
 		$posts[] = $item;
 	}
 	return ['categorias' => $cats, 'posts' => $posts];

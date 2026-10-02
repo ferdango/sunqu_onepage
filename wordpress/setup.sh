@@ -3,11 +3,14 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 [ -f .env ] || cp .env.example .env
-# Token de purga (web ↔ WordPress): se genera una vez y queda en .env
-if ! grep -q '^PURGE_TOKEN=.\+' .env; then
-  sed -i.bak '/^PURGE_TOKEN=/d' .env && rm -f .env.bak
-  echo "PURGE_TOKEN=$(openssl rand -hex 24)" >> .env
-fi
+# Contraseñas locales y token de purga (web ↔ WordPress): valores aleatorios, se generan una vez y quedan
+# solo en wordpress/.env (ignorado por git). Para verlos: cat wordpress/.env
+for k in DB_PASSWORD DB_ROOT_PASSWORD WP_ADMIN_PASSWORD PURGE_TOKEN; do
+  if ! grep -q "^$k=.\+" .env; then
+    sed -i.bak "/^$k=/d" .env && rm -f .env.bak
+    echo "$k=$(openssl rand -hex 24)" >> .env
+  fi
+done
 set -a; . ./.env; set +a
 wp() { docker compose run --rm -T cli "$@"; }
 

@@ -104,7 +104,7 @@ class Sunqu_Importador {
 			$id = $this->post_id('post', $slug);
 			$fecha = ($p['date'] ?? wp_date('Y-m-d')) . ' 09:00:00';
 			$post = [
-				'post_type' => 'post', 'post_status' => 'publish', 'post_name' => $slug,
+				'post_type' => 'post', 'post_status' => 'publish', 'post_name' => $slug, 'comment_status' => 'closed', 'ping_status' => 'closed',
 				'post_title' => wp_slash($p['title'] ?? ''), 'post_excerpt' => wp_slash($p['excerpt'] ?? ''),
 				'post_date' => $fecha, 'post_date_gmt' => get_gmt_from_date($fecha),
 				'post_content' => wp_slash(sunqu_secciones_a_bloques($p['sections'] ?? [], $bloque_media)),
