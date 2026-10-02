@@ -118,17 +118,28 @@ todas exige generar la primera pantalla en el servidor; está anotado en la secc
 | `robots` | `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`. Búsqueda interna (`/descubre?q=`): `noindex, follow`. En 404 y en `APP_ENV=staging`: `noindex, nofollow` |
 | `canonical` | `SITE_URL` + ruta limpia del idioma, sin parámetros (`/es/diario?cat=x` apunta a `/es/diario`, `/es/descubre?q=x` a `/es/descubre`; en inglés, `/en/…`) |
 | `hreflang` | Solo con más de un idioma publicado en buscadores (sección 9): la misma página en cada uno y `x-default` (inglés, o español mientras el inglés no se publique) |
-| Open Graph | `og:site_name`, `og:locale` (es_PE, en_US, pt_BR… según la página) y `og:locale:alternate` de los otros idiomas publicados, `og:type` (`article` en artículos), `og:title`, `og:description`, `og:url`, `og:image` con `alt` y dimensiones (también de imágenes locales), `article:published_time`, `article:modified_time`, `article:section` |
-| Twitter / X | `summary_large_image`, título, descripción e imagen |
+| Open Graph | `og:site_name`, `og:locale` (es_PE, en_US, pt_BR… según la página) y `og:locale:alternate` de los otros idiomas publicados, `og:type` (`article` en artículos), `og:title`, `og:description`, `og:url`, `og:image` con `alt` y dimensiones (y `og:image:type` en las locales), `article:published_time`, `article:modified_time`, `article:section` |
+| Twitter / X | `summary_large_image`, título, descripción, imagen y su texto alternativo (`twitter:image:alt`) |
 | Iconos | 32, 48 y 192 px (`rel="icon"`), 180 px (`apple-touch-icon`), todos cuadrados, y `/favicon.ico` |
 | Precargas | `support.js`, React y ReactDOM; fuentes Aeonik Regular, Medium y Bold; imagen principal (hero, journey, artículo o primera tarjeta del Diario) con `imagesrcset` igual al del `<img>`; conexión anticipada a `images.unsplash.com` |
 
 **Imagen para compartir:**
+- inicio y páginas fijas: la imagen de marca del idioma de la página (abajo);
 - journey: la primera foto de su galería;
 - artículo: su imagen;
-- páginas fijas: la primera foto del hero del inicio.
+- journey o artículo sin foto: la imagen de marca.
 
 Las fotos de Unsplash se piden recortadas a 1200×630. Las de WordPress se usan en su URL original.
+
+**Imagen de marca** (`assets/og/sunqu-og-es.jpg`, `-en`, `-pt`, `-fr`, `-de`, `-it`, `-ru`):
+- 1200×630, JPEG de ~50 KB, sin fotos: se reconoce también en la miniatura de WhatsApp;
+- sigue el póster del manual de marca: fondo oliva, las cuatro formas de la marca, el logo, «Viaja al corazón del Perú.» en el idioma de la página y sunqujourneys.com;
+- la URL lleva `?v=`, que cambia cuando cambia el archivo: así WhatsApp, Facebook y LinkedIn piden la imagen nueva en lugar de usar la que guardaron;
+- se sirve siempre en JPEG (el `.htaccess` no la cambia por AVIF/WebP), con medidas, `og:image:type` y texto alternativo («Sunqu Journeys · Viaja al corazón del Perú»).
+
+Para cambiar sus textos: `server/lib/og.php` (los mismos sirven de texto alternativo), y después correr `tools/imagen-og.php` (el comando está al principio del archivo). El español sale de la web. **Los textos en inglés, portugués, francés, alemán, italiano y ruso son propuestas: revisarlos con una persona nativa antes de publicar ese idioma.** El ruso usa Avenir Next, porque Aeonik no tiene letras cirílicas.
+
+Los datos estructurados (`primaryImageOfPage`) y el sitemap de imágenes siguen usando las fotos de la web, no la imagen de marca.
 
 **Dónde se editan los textos de las páginas fijas:** **Sunqu › Sitio › SEO (buscadores y redes sociales) › Páginas fijas**.
 
@@ -211,7 +222,7 @@ Un solo `@graph` por página, con `@id` estables:
    - enviar `https://sunqujourneys.com/sitemap.xml`;
    - «Inspección de URLs» en las páginas principales y «Probar URL publicada», que confirma que la CDN no bloquea a Google.
 6. **Bing Webmaster Tools:** importar la propiedad desde Search Console. Bing también alimenta a varios asistentes de IA.
-7. **Vista previa al compartir:** una URL en WhatsApp y en el depurador de Facebook.
+7. **Vista previa al compartir:** `/es/` (y `/en/`, si está activo) en el [depurador de Facebook](https://developers.facebook.com/tools/debug/) › «Volver a extraer»: la imagen de marca de ese idioma, 1200×630. Un journey: su foto. Después, una URL en WhatsApp.
 8. **CDN de Hostinger:** no dejar activo el «modo bajo ataque» ni bloquear EE. UU., porque bloquea a los rastreadores ([Hostinger: crawlers y SEO](https://www.hostinger.com/support/hostinger-cdn-search-engine-crawlers-and-seo/)).
 
 ## 8. Pendiente para pasar de intermedio a avanzado
@@ -255,6 +266,7 @@ francés, alemán, italiano y ruso (el español siempre está). Traducción: Loc
 - **Una URL con idioma nunca se redirige** según el navegador o el país: así cada versión es rastreable.
 - **Migración desde las URLs sin prefijo:** `/descubre`, `/journeys/{slug}`, `/diario/{slug}`, `/recuerda`, `/terminos`, `/libro-de-reclamaciones` y las `.html` antiguas redirigen **301** a su versión `/es/…` (eran las páginas en español), conservando los parámetros útiles y de campañas. En Search Console: enviar de nuevo `sitemap.xml` y revisar en «Páginas» que las URLs nuevas se indexen.
 - **Idioma no activo** (`/fr/…` antes de activarlo): 302 a la misma página en español.
+- **Imagen para compartir:** cada idioma tiene la suya (sección 2), con el texto en ese idioma; revisarlo antes de publicar el idioma.
 - **Qué se traduce en la página:** `<title>`, description, Open Graph, migas, nombres del JSON-LD (journeys, artículos), el contenido, los textos fijos de la plantilla (texto, `alt`, `aria-label`, `placeholder`, `title`), el aviso de cookies y el bloque sin JavaScript.
 - **SEO por idioma:** los títulos y descripciones de Sunqu › Sitio › SEO van en Loco en el contexto `seo`, aparte del resto: conviene escribirlos para cada idioma (palabras que se buscan en ese idioma), no traducirlos palabra por palabra, y revisarlos antes de publicar.
 - **Lo que no tiene traducción** se muestra en español. Conviene publicar en buscadores solo un idioma completo y revisado: una página «en inglés» con la mitad en español compite mal y confunde.

@@ -96,6 +96,7 @@ js/sunqu-analytics.js         Consentimiento + GTM/GA4/Pixel + eventos (sin dato
 js/sunqu-campos.js            Campos de los formularios: País con buscador, Celular con prefijo y bandera, Mi grupo
 content/*.json                Contenido completo (respaldo si WordPress no responde; mismo formato que la API)
 assets/                       Imágenes locales + versiones .avif/.webp + favicons + assets/geo (mapa)
+                              + assets/og (imagen de marca para compartir, una por idioma, solo JPEG)
 fonts/                        Aeonik en WOFF2 (y TTF de respaldo)
 vendor/                       React 18.3.1 y módulos de d3 servidos desde el propio sitio (VERSIONS.json)
 
@@ -111,6 +112,7 @@ server/
   lib/geo.php                 País aproximado por IP (cabecera de la CDN o GEOIP_URL), con caché y sin guardar IPs
   lib/scripts.php             Scripts de WordPress › Sunqu › Scripts y seguimiento (consentimiento y CSP)
   lib/seo.php                 <head> y JSON-LD por página
+  lib/og.php                  Imagen de marca para compartir: textos por idioma y URL con ?v=
   lib/page.php                Transformaciones de la plantilla, precargas y hashes CSP de los scripts en línea
   lib/sinjs.php               Contenido sin JavaScript (<noscript>) para buscadores y asistentes
   lib/sitemap.php             sitemap.xml (con imágenes) y robots.txt
@@ -119,7 +121,8 @@ server/
 
 wordpress/                    Plugin «Sunqu CMS», tema headless, Docker local y generador del esquema
 tools/                        Scripts de mantenimiento: vendor.mjs, optimizar-imagenes.mjs, fuentes-woff2.py,
-                              extraer-textos.py (textos fijos para traducir con Loco Translate)
+                              extraer-textos.py (textos fijos para traducir con Loco Translate),
+                              imagen-og.php (dibuja las imágenes de assets/og)
 docs/                         Esta documentación
 ```
 

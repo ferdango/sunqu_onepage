@@ -32,15 +32,17 @@ function sunqu_img_abs(string $v, int $w = 1200, int $h = 630): string {
 	return 'https://images.unsplash.com/photo-' . rawurlencode($v) . "?auto=format&fit=crop&w=$w" . ($h > 0 ? "&h=$h" : '') . '&q=80';
 }
 
-/** Ancho y alto de una imagen local (assets/…) para og:image; [] si no es local o no se puede leer. */
+/** Ancho, alto y tipo de una imagen local (assets/…, con o sin ?v=) para og:image; [] si no es local o no se puede leer. */
 function sunqu_img_medidas(string $url): array {
 	$site = sunqu_config()['SITE_URL'];
+	$url = explode('?', $url, 2)[0];
 	if (!str_starts_with($url, $site . '/assets/')) {
 		return [];
 	}
-	$f = SUNQU_ROOT . '/' . ltrim(substr($url, strlen($site)), '/');
-	$m = (is_file($f) && !str_contains($f, '..')) ? @getimagesize($f) : false;
-	return $m ? [(int) $m[0], (int) $m[1]] : [];
+	$rel = ltrim(substr($url, strlen($site)), '/');
+	$f = SUNQU_ROOT . '/' . $rel; // SUNQU_ROOT ya trae «..»: solo se revisa la parte que viene de la URL
+	$m = (!str_contains($rel, '..') && is_file($f)) ? @getimagesize($f) : false;
+	return $m ? [(int) $m[0], (int) $m[1], (string) ($m['mime'] ?? '')] : [];
 }
 
 /** Título con sufijo de marca solo si cabe (~62 caracteres): los buscadores cortan los títulos largos. */
@@ -83,7 +85,7 @@ function sunqu_seo(string $pagina, array $params, array $c): ?array {
 		'ruta_base' => $base, // sin prefijo de idioma: con ella se arman el canonical, los hreflang y el selector
 		'canonical' => sunqu_url_idioma($base),
 		'og_type' => 'website',
-		'imagen' => '',
+		'imagen' => '', // foto principal de la página (datos estructurados); al compartir: sunqu_imagen_compartir()
 		'imagen_alt' => '',
 		'migas' => [],
 		'grafo' => [],
@@ -319,6 +321,18 @@ function sunqu_limpiar_ld($v) {
 	return array_keys($v) === range(0, count($v) - 1) ? array_values($out) : $out;
 }
 
+/**
+ * Imagen para compartir (Open Graph y X): [URL, texto alternativo]. Un journey o un artículo comparten su foto; las
+ * demás páginas, y los que no tienen foto, la imagen de marca del idioma (server/lib/og.php). Sin ella, la foto
+ * principal de la página.
+ */
+function sunqu_imagen_compartir(array $seo): array {
+	if (in_array($seo['pagina'], ['journey', 'articulo'], true) && $seo['imagen'] !== '') {
+		return [$seo['imagen'], $seo['imagen_alt']];
+	}
+	return sunqu_og_marca() ?? [$seo['imagen'], $seo['imagen_alt']];
+}
+
 /** Etiquetas del <head> para la página. */
 function sunqu_head(array $seo, array $c, bool $noEncontrada = false): string {
 	$cfg = sunqu_config();
@@ -353,13 +367,16 @@ function sunqu_head(array $seo, array $c, bool $noEncontrada = false): string {
 		'og:site_name' => 'Sunqu Journeys', 'og:locale' => sunqu_idiomas_web()[sunqu_lang()]['locale'] ?? 'es_PE', 'og:type' => $seo['og_type'],
 		'og:title' => $seo['titulo'], 'og:description' => $seo['descripcion'], 'og:url' => $seo['canonical'],
 	];
-	if ($seo['imagen'] !== '') {
-		$og['og:image'] = $seo['imagen'];
-		$og['og:image:alt'] = $seo['imagen_alt'] ?: $seo['titulo'];
-		$medidas = str_contains($seo['imagen'], 'images.unsplash.com') ? [1200, 630] : sunqu_img_medidas($seo['imagen']);
+	[$imagen, $imagenAlt] = sunqu_imagen_compartir($seo);
+	$imagenAlt = $imagenAlt ?: $seo['titulo'];
+	if ($imagen !== '') {
+		$og['og:image'] = $imagen;
+		$og['og:image:alt'] = $imagenAlt;
+		$medidas = str_contains($imagen, 'images.unsplash.com') ? [1200, 630] : sunqu_img_medidas($imagen);
 		if ($medidas) {
 			$og['og:image:width'] = (string) $medidas[0];
 			$og['og:image:height'] = (string) $medidas[1];
+			$og['og:image:type'] = $medidas[2] ?? ''; // solo de las locales: Unsplash elige el formato según el navegador
 		}
 	}
 	if (!empty($seo['publicado'])) {
@@ -382,8 +399,9 @@ function sunqu_head(array $seo, array $c, bool $noEncontrada = false): string {
 	if ($seo['descripcion'] !== '') {
 		$h[] = '<meta name="twitter:description" content="' . sunqu_e($seo['descripcion']) . '">';
 	}
-	if ($seo['imagen'] !== '') {
-		$h[] = '<meta name="twitter:image" content="' . sunqu_e($seo['imagen']) . '">';
+	if ($imagen !== '') {
+		$h[] = '<meta name="twitter:image" content="' . sunqu_e($imagen) . '">';
+		$h[] = '<meta name="twitter:image:alt" content="' . sunqu_e($imagenAlt) . '">';
 	}
 	// Datos estructurados
 	if (!$noEncontrada) {

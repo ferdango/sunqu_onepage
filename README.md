@@ -104,6 +104,7 @@ Para producción **se mantuvo este frontend** y se le agregó una capa PHP delan
 - `assets/diamond-*.png` (rombos de color), `assets/pattern-*.png` (patrones andinos del manual)
 - `fonts/Aeonik-*.woff2` (y `.ttf` de respaldo), generadas con `tools/fuentes-woff2.py`
 - `assets/**/*.jpg|png` con versiones `.avif`/`.webp` al lado (`tools/optimizar-imagenes.mjs`): el `.htaccess` sirve la mejor según el navegador · favicons `assets/favicon-*.png`
+- `assets/og/sunqu-og-{idioma}.jpg` — imagen de marca para compartir (Open Graph y X), una por idioma, 1200×630 (`tools/imagen-og.php`, textos en `server/lib/og.php`; `docs/SEO.md` › 2)
 - Fotos: Unsplash (licencia Unsplash) o la biblioteca de WordPress. Son placeholders a reemplazar por fotografía propia
 
 ## Files
@@ -113,7 +114,7 @@ Para producción **se mantuvo este frontend** y se le agregó una capa PHP delan
 - `js/sunqu-config.js`, `js/sunqu-content.js`, `js/sunqu-analytics.js` y `js/sunqu-campos.js` — conexión con WordPress (hosting estático), capa de contenido, medición y campos de los formularios (País, Celular con prefijo, Mi grupo)
 - `server/`, `.htaccess`, `.env.example` — producción en Hostinger (`docs/ARCHITECTURE.md`)
 - `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema
-- `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes, `extraer-textos.py` para las traducciones y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)
+- `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes, `extraer-textos.py` para las traducciones, `imagen-og.php` para la imagen de compartir y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)
 - `css/` — hojas de estilo minificadas, una por página
 - `assets/`, `fonts/`, `docs/`
 

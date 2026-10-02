@@ -17,6 +17,7 @@ require __DIR__ . '/lib/idiomas.php';
 require __DIR__ . '/lib/geo.php';
 require __DIR__ . '/lib/routes.php';
 require __DIR__ . '/lib/seo.php';
+require __DIR__ . '/lib/og.php';
 require __DIR__ . '/lib/sinjs.php';
 require __DIR__ . '/lib/page.php';
 require __DIR__ . '/lib/sitemap.php';

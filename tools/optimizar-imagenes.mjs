@@ -32,8 +32,9 @@ const archivos = [];
 (function walk(dir) {
 	for (const n of readdirSync(dir)) {
 		const p = join(dir, n);
-		if (statSync(p).isDirectory()) walk(p);
-		else if (/\.(jpe?g|png)$/i.test(n) && !/^favicon-/.test(n)) archivos.push(p);
+		if (statSync(p).isDirectory()) {
+			if (n !== 'og') walk(p); // assets/og: las imágenes para compartir se quedan solo en JPEG (.htaccess)
+		} else if (/\.(jpe?g|png)$/i.test(n) && !/^favicon-/.test(n)) archivos.push(p);
 	}
 })(join(ROOT, 'assets'));
 

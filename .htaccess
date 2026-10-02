@@ -44,12 +44,15 @@ AddDefaultCharset utf-8
 	# /favicon.ico (lo piden navegadores y buscadores sin mirar el <head>)
 	RewriteRule ^favicon\.ico$ assets/favicon-48.png [L]
 
-	# Imágenes locales: AVIF o WebP si el navegador los acepta y existe foto.jpg.avif / foto.jpg.webp
+	# Imágenes locales: AVIF o WebP si el navegador los acepta y existe foto.jpg.avif / foto.jpg.webp.
+	# Menos las de compartir (assets/og/): las redes sociales las leen siempre en JPEG.
 	RewriteCond %{HTTP_ACCEPT} image/avif
+	RewriteCond %{REQUEST_URI} !^/assets/og/
 	RewriteCond %{REQUEST_FILENAME} -f
 	RewriteCond %{REQUEST_FILENAME}.avif -f
 	RewriteRule ^(assets/.+\.(?:jpe?g|png))$ $1.avif [L]
 	RewriteCond %{HTTP_ACCEPT} image/webp
+	RewriteCond %{REQUEST_URI} !^/assets/og/
 	RewriteCond %{REQUEST_FILENAME} -f
 	RewriteCond %{REQUEST_FILENAME}.webp -f
 	RewriteRule ^(assets/.+\.(?:jpe?g|png))$ $1.webp [L]

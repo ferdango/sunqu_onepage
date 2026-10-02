@@ -158,6 +158,7 @@ El importador usa las funciones de WordPress, así que no tiene esos problemas y
 | Código fuente de `/` | Primera etiqueta del `<head>` tras `viewport`: `<meta http-equiv="Content-Security-Policy" …>` con `script-src 'self' 'sha256-…'` (Hostinger reemplaza el encabezado CSP por `upgrade-insecure-requests`; ver SECURITY.md › 7) |
 | Search Console ⚠ | Propiedad de dominio verificada y sitemap enviado (SEO.md › 6). Tras pasar a `/es/…`, enviar de nuevo el sitemap y revisar que las URLs nuevas se indexen (SEO.md › 9) |
 | `https://sunqujourneys.com/` | 302 a `/es/` o `/en/` según el idioma del navegador (no a una página fija) |
+| Código fuente de `/es/` (y de `/en/`, si está activo) | `og:image` → `/assets/og/sunqu-og-es.jpg?v=…` (`-en` en inglés), con `og:image:width` 1200, `og:image:height` 630 y `og:image:type` `image/jpeg`. Depurador de Facebook › «Volver a extraer»: se ve la imagen de marca (SEO.md › 2) |
 | `/descubre`, `/journeys/alma` (URLs de antes) | 301 a `/es/descubre`, `/es/journeys/alma` |
 | Con un idioma activo en Sunqu › Idiomas: `/en/`, `/en/journeys/alma` | 200, `<html lang="en">`, selector de idioma visible. Sin «Publicar en buscadores»: `noindex` y sin `hreflang` (SEO.md › 9) |
 | «Diseña tu viaje» y «Comparte tu viaje» con tu correo | Llega la copia de la solicitud y el «Gracias por enviar tu reseña»; al publicar la reseña, «Tu reseña ya es pública» |
