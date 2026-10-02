@@ -1,18 +1,20 @@
 <?php
 /**
- * Rutas de producción (URLs limpias, sin barra final) y redirecciones 301 de las URLs antiguas.
+ * Rutas de producción y redirecciones de las URLs antiguas. Cada página vive en su idioma: /es/…, /en/…
+ * (los activos en WordPress › Sunqu › Idiomas). Sin barra final, salvo el inicio de cada idioma (/es/).
  *
- *   /                          index.html          (home)
- *   /descubre                  descubre.html       (?q= busca)
- *   /journeys/{slug}           journey.html        (5 journeys; los nuevos aparecen solos)
- *   /recuerda                  recuerda.html
- *   /diario                    blog.html           (?cat= filtra)
- *   /diario/{slug}             articulo.html
- *   /terminos                  terminos.html
- *   /libro-de-reclamaciones    reclamaciones.html
- *   /sitemap.xml · /robots.txt generados
+ *   /                               elige el idioma (302 a /es/ o /en/, ver server/lib/idiomas.php)
+ *   /{idioma}/                      index.html          (home)
+ *   /{idioma}/descubre              descubre.html       (?q= busca)
+ *   /{idioma}/journeys/{slug}       journey.html        (5 journeys; los nuevos aparecen solos)
+ *   /{idioma}/recuerda              recuerda.html
+ *   /{idioma}/diario                blog.html           (?cat= filtra)
+ *   /{idioma}/diario/{slug}         articulo.html
+ *   /{idioma}/terminos              terminos.html
+ *   /{idioma}/libro-de-reclamaciones reclamaciones.html
+ *   /sitemap.xml · /robots.txt      generados
  *   /_sunqu/purge (POST, token) · /_sunqu/csp (POST, reportes CSP) · /_sunqu/salud (estado para monitoreo)
- *   /en/…, /pt/…               las mismas páginas en otro idioma, si está activo en WordPress (server/lib/idiomas.php)
+ *   /descubre, /journeys/alma…      URLs de antes (eran en español) → 301 a /es/descubre, /es/journeys/alma…
  *
  * Las plantillas siguen siendo los HTML de la raíz: en local (y en GitHub Pages) funcionan tal cual
  * con sus enlaces .html; en producción el servidor reescribe esos enlaces con sunqu_url_publica().
@@ -88,48 +90,64 @@ function sunqu_resolver(string $uri): array {
 		return ['tipo' => 'salud'];
 	}
 
-	// Barras repetidas (//descubre, /journeys//alma/) → la misma URL con una sola barra y sin barra final
+	// Barras repetidas (//descubre, /es/journeys//alma/) → una sola barra (la barra final se resuelve después)
 	if (str_contains($crudo, '//')) {
-		$limpio = rtrim(preg_replace('#/{2,}#', '/', $crudo) ?? '', '/');
-		return ['tipo' => 'redireccion', 'destino' => ($limpio === '' ? '/' : $limpio) . ($q ? '?' . http_build_query($q) : '')];
+		$limpio = preg_replace('#/{2,}#', '/', $crudo) ?? '/';
+		return ['tipo' => 'redireccion', 'destino' => $limpio . ($q ? '?' . http_build_query($q) : '')];
 	}
 
-	// URLs antiguas (.html con parámetros) → 301
+	// URLs antiguas (.html con parámetros) → 301. El inicio va a la raíz (elige el idioma); el resto era en español
 	$base = basename($path);
 	$antiguas = [
-		'index.html' => '/' . $qs([]), 'Sunqu Journeys v2.dc.html' => '/' . $qs([]), 'descubre.html' => '/descubre' . $qs(['q']),
-		'recuerda.html' => '/recuerda' . $qs([]), 'terminos.html' => '/terminos' . $qs([]), 'reclamaciones.html' => '/libro-de-reclamaciones' . $qs([]),
-		'blog.html' => '/diario' . $qs(['cat']),
-		'journey.html' => (is_string($q['j'] ?? null) && $q['j'] !== '' ? '/journeys/' . rawurlencode($q['j']) : '/descubre') . $qs([]),
-		'articulo.html' => (is_string($q['a'] ?? null) && $q['a'] !== '' ? '/diario/' . rawurlencode($q['a']) : '/diario') . $qs([]),
+		'index.html' => '/' . $qs([]), 'Sunqu Journeys v2.dc.html' => '/' . $qs([]), 'descubre.html' => '/es/descubre' . $qs(['q']),
+		'recuerda.html' => '/es/recuerda' . $qs([]), 'terminos.html' => '/es/terminos' . $qs([]), 'reclamaciones.html' => '/es/libro-de-reclamaciones' . $qs([]),
+		'blog.html' => '/es/diario' . $qs(['cat']),
+		'journey.html' => (is_string($q['j'] ?? null) && $q['j'] !== '' ? '/es/journeys/' . rawurlencode($q['j']) : '/es/descubre') . $qs([]),
+		'articulo.html' => (is_string($q['a'] ?? null) && $q['a'] !== '' ? '/es/diario/' . rawurlencode($q['a']) : '/es/diario') . $qs([]),
 	];
 	if (isset($antiguas[$base]) && dirname($path) === '/') {
 		return ['tipo' => 'redireccion', 'destino' => $antiguas[$base]];
 	}
+	$conQuery = fn(string $ruta) => $ruta . ($q ? '?' . http_build_query($q) : '');
 
-	// Barra final → sin barra (salvo la raíz). Se usa la ruta tal como llegó (codificada): %3F sigue siendo %3F
-	if ($path !== '/' && str_ends_with($path, '/')) {
-		$limpio = rtrim($crudo, '/');
-		return ['tipo' => 'redireccion', 'destino' => ($limpio === '' ? '/' : $limpio) . ($q ? '?' . http_build_query($q) : '')];
-	}
-
-	// Idioma: /en/…, /pt/… si está activo en WordPress (Sunqu › Idiomas); /es/… → la misma URL sin prefijo
-	$lang = SUNQU_IDIOMA_BASE;
+	// Con idioma: /es/…, /en/…
 	if (preg_match('#^/([a-z]{2})(/.*)?$#', $path, $mi) && isset(SUNQU_IDIOMAS_WEB[$mi[1]])) {
-		if ($mi[1] === SUNQU_IDIOMA_BASE) {
-			return ['tipo' => 'redireccion', 'destino' => (substr($crudo, 3) ?: '/') . ($q ? '?' . http_build_query($q) : '')];
-		}
-		if (!isset(sunqu_idiomas_web()[$mi[1]])) {
-			return ['tipo' => 'no-encontrada'];
-		}
 		$lang = $mi[1];
-		$path = ($mi[2] ?? '') ?: '/';
+		$resto = $mi[2] ?? '';
+		$crudoResto = substr($crudo, 3);
+		if ($resto === '') {
+			return ['tipo' => 'redireccion', 'destino' => $conQuery('/' . $lang . '/')]; // /en → /en/
+		}
+		if ($resto !== '/' && str_ends_with($resto, '/')) {
+			return ['tipo' => 'redireccion', 'destino' => $conQuery('/' . $lang . rtrim($crudoResto, '/'))]; // sin barra final
+		}
+		if (!isset(sunqu_idiomas_web()[$lang])) {
+			// Idioma desactivado (o todavía no activado): la misma página en español, sin dar el idioma por perdido
+			return ['tipo' => 'redireccion', 'destino' => $conQuery('/' . SUNQU_IDIOMA_BASE . $crudoResto), 'temporal' => true];
+		}
+		$r = sunqu_resolver_pagina($resto, $q);
+		if ($r['tipo'] === 'redireccion') {
+			$r['destino'] = sunqu_ruta_idioma($r['destino'], $lang);
+		}
+		return $r + ['lang' => $lang];
 	}
-	$r = sunqu_resolver_pagina($path, $q);
-	return $r + ['lang' => $lang];
+
+	// Sin idioma: la raíz elige; las demás eran las URLs en español de antes → 301 a /es/…
+	if ($path === '/') {
+		return ['tipo' => 'raiz', 'query' => $q ? '?' . http_build_query($q) : ''];
+	}
+	$sinBarra = rtrim($path, '/');
+	$r = sunqu_resolver_pagina($sinBarra, $q);
+	if ($r['tipo'] === 'pagina') {
+		return ['tipo' => 'redireccion', 'destino' => $conQuery('/' . SUNQU_IDIOMA_BASE . rtrim($crudo, '/'))];
+	}
+	if ($r['tipo'] === 'redireccion') {
+		return ['tipo' => 'redireccion', 'destino' => sunqu_ruta_idioma($r['destino'], SUNQU_IDIOMA_BASE)];
+	}
+	return $r;
 }
 
-/** Página de una ruta sin prefijo de idioma. */
+/** Página de una ruta (ya sin el prefijo de idioma). */
 function sunqu_resolver_pagina(string $path, array $q): array {
 	$fijas = ['/' => 'home', '/descubre' => 'descubre', '/recuerda' => 'recuerda', '/diario' => 'blog', '/terminos' => 'terminos', '/libro-de-reclamaciones' => 'reclamaciones'];
 	if (isset($fijas[$path])) {
@@ -145,7 +163,7 @@ function sunqu_resolver_pagina(string $path, array $q): array {
 		return ['tipo' => 'pagina', 'pagina' => $fijas[$path], 'params' => $params, 'ruta' => $path];
 	}
 	if ($path === '/journeys') {
-		return ['tipo' => 'redireccion', 'destino' => '/descubre', 'conIdioma' => true];
+		return ['tipo' => 'redireccion', 'destino' => '/descubre']; // en el idioma de la petición (sunqu_resolver)
 	}
 	if (preg_match('#^/journeys/([a-z0-9-]+)$#', $path, $m)) {
 		return ['tipo' => 'pagina', 'pagina' => 'journey', 'params' => ['j' => $m[1]], 'ruta' => $path];
@@ -163,15 +181,11 @@ function sunqu_ruta(string $pagina, string $slug = ''): string {
 
 /**
  * Reescribe los enlaces a páginas .html de un texto (HTML, JS o JSON) por sus URLs públicas, en el idioma de la
- * página: con $prefijo '/en', «descubre.html» pasa a «/en/descubre» e «index.html#contacto» a «/en#contacto».
+ * página: con $prefijo '/en', «descubre.html» pasa a «/en/descubre» e «index.html#contacto» a «/en/#contacto».
  */
 function sunqu_url_publica(string $texto, string $prefijo = ''): string {
 	if ($prefijo === '') {
 		return strtr($texto, SUNQU_ENLACES);
 	}
-	$mapa = [];
-	foreach (SUNQU_ENLACES as $de => $a) {
-		$mapa[$de] = $a === '/' ? $prefijo : (str_starts_with($a, '/#') ? $prefijo . substr($a, 1) : $prefijo . $a);
-	}
-	return strtr($texto, $mapa);
+	return strtr($texto, array_map(fn($a) => $prefijo . $a, SUNQU_ENLACES));
 }

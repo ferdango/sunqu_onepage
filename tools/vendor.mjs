@@ -19,6 +19,9 @@ const LIBS = [
 	{ file: 'd3-geo.min.js', url: 'https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js' },
 	{ file: 'd3-path.min.js', url: 'https://cdn.jsdelivr.net/npm/d3-path@3.1.0/dist/d3-path.min.js' },
 	{ file: 'd3-shape.min.js', url: 'https://cdn.jsdelivr.net/npm/d3-shape@3.2.0/dist/d3-shape.min.js' },
+	// Banderas de los campos País y Celular (js/sunqu-campos.js): Windows no trae banderas emoji.
+	// country-flag-emoji-polyfill (MIT); gráficos Twemoji © Twitter, Inc. y colaboradores, CC-BY 4.0
+	{ file: 'TwemojiCountryFlags.woff2', url: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2', sri: 'sha384-khwRTemzZWkDYZ9+Z+cL4KGye7omQSt25J1/RiIDQl66s74qnxoR5tJ2//QPJTDH' },
 ];
 const hash = (buf) => 'sha384-' + createHash('sha384').update(buf).digest('base64');
 const get = async (url) => { const r = await fetch(url); if (!r.ok) throw new Error(url + ' → ' + r.status); return Buffer.from(await r.arrayBuffer()); };

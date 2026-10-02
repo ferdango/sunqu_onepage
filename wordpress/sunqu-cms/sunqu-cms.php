@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Sunqu CMS
  * Description:       Contenido de sunqujourneys (journeys, experiencias, anfitriones, reseñas, tienda, Diario, portada y ajustes) para la web estática. Expone la API /wp-json/sunqu/v1 con el mismo formato que content/*.json y recibe los formularios.
- * Version:           1.4.0
+ * Version:           1.5.0
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Sunqu Journeys
@@ -29,7 +29,7 @@
 
 defined('ABSPATH') || exit;
 
-define('SUNQU_CMS_VERSION', '1.4.0');
+define('SUNQU_CMS_VERSION', '1.5.0');
 define('SUNQU_CMS_DIR', plugin_dir_path(__FILE__));
 define('SUNQU_CMS_URL', plugin_dir_url(__FILE__));
 

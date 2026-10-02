@@ -3,9 +3,13 @@
  * Formularios de la web.
  *
  *   POST /wp-json/sunqu/v1/formularios/solicitud     «Diseña tu viaje» (inicio, journey, descubre)
- *        nombre*, email*, mes, sentir, mensaje, guardados, pagina
+ *        nombre*, email*, celular + celular_prefijo + celular_pais, pais (ISO) + pais_nombre, mes, fuente,
+ *        grupo ([[adultos, niños, bebés], …] por habitación), sentir, mensaje, guardados, pagina
+ *        → Sunqu › Solicitudes + aviso a Sunqu + copia completa a la persona
  *   POST /wp-json/sunqu/v1/formularios/resena        «Comparte tu viaje» (recuerda) → Reseñas › Pendientes
- *        nombre*, pais*, tema, texto*, enlace, estrellas, permiso*, fotos: [{ nombre, data: "data:image/jpeg;base64,…" }]
+ *        nombre*, pais* (ISO) + pais_nombre, email, tema, texto*, enlace, estrellas, permiso*,
+ *        fotos: [{ nombre, data: "data:image/jpeg;base64,…" }] → correo «Gracias por enviar tu reseña» (en revisión)
+ *        y, cuando se publica en el panel, «Tu reseña ya es pública»
  *   POST /wp-json/sunqu/v1/formularios/reclamacion   Libro de reclamaciones → Sunqu › Reclamaciones + correos
  *        nombre*, email*, tipoDoc*, numDoc*, celular*, domicilio*, apoderado (* si menor), servicio*, monto, fecha,
  *        descripcion*, tipo*, detalle*, pedido*, acepta*, codigo, identificacion, menor
@@ -24,12 +28,22 @@
  * consumidor se envía como máximo 3 veces por correo cada 24 h (el formulario no sirve para enviar correos a terceros).
  * Avisos: cada envío se avisa por correo a sunqujourneys@gmail.com (o a los correos de Sunqu › Conexión › Avisos)
  * y, si se configura, al celular. Ver includes/avisos.php (SMTP, Telegram, webhook).
+ * Correos a la persona (copia de la solicitud, reseña recibida y publicada): en el idioma de la página (?lang=),
+ * con la marca, «Responder» le escribe a Sunqu y como máximo 5 por dirección cada 24 h.
+ * Los campos nuevos (celular, país, grupo…) se validan si llegan: un formulario anterior en caché sigue funcionando.
  */
 
 defined('ABSPATH') || exit;
 
 /** Milisegundos mínimos entre abrir la página y enviar un formulario (menos = bot). */
 const SUNQU_TIEMPO_MINIMO = 2500;
+
+/** Opciones de los formularios: valor → texto en español (el que se traduce en Loco para la persona). */
+const SUNQU_MESES_VIAJE = ['no-se' => 'Aún no lo sé', 'ene-mar' => 'Enero – marzo', 'abr-jun' => 'Abril – junio', 'jul-sep' => 'Julio – septiembre', 'oct-dic' => 'Octubre – diciembre'];
+const SUNQU_FUENTES = ['instagram' => 'Instagram', 'youtube' => 'YouTube', 'tiktok' => 'TikTok', 'conocidos' => 'Conocidos o familiares'];
+const SUNQU_SENTIR = ['historia' => 'La historia', 'sabor' => 'El sabor', 'gente' => 'La gente'];
+/** Mi grupo: hasta 6 habitaciones; por habitación, adultos (1–8), niños de 3 a 10 años (0–6) y bebés de 0 a 2 (0–4). */
+const SUNQU_GRUPO_LIMITES = [[1, 8], [0, 6], [0, 4]];
 
 /** Tamaño máximo del envío (JSON con hasta 4 fotos ya reducidas a 1600 px en el navegador). */
 const SUNQU_MAX_ENVIO = 16 * MB_IN_BYTES;
@@ -118,17 +132,48 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			if (!is_email($v('email'))) {
 				return new WP_Error('sunqu_email', $msg('El correo no es válido.'), ['status' => 400]);
 			}
+			$celular = sunqu_celular_formulario($v('celular_prefijo'), $v('celular'));
+			if ($celular === null) {
+				return new WP_Error('sunqu_celular', $msg('El celular no es válido.'), ['status' => 400]);
+			}
+			$pais = sunqu_pais_formulario($v('pais'), $v('pais_nombre'));
+			$grupo = sunqu_grupo_formulario($v('grupo'));
+			// Valores del formulario → texto en español (un formulario anterior manda el texto tal cual)
+			$mes = SUNQU_MESES_VIAJE[$v('mes')] ?? $t('mes', 80);
+			$sentir = SUNQU_SENTIR[$v('sentir')] ?? $t('sentir', 40);
+			$fuente = SUNQU_FUENTES[$v('fuente')] ?? '';
+			$nombre = $t('nombre', 120);
 			$campos = [
-				'Nombre' => $t('nombre'), 'Email' => sanitize_email($v('email')), '¿Cuándo?' => $t('mes'), '¿Qué quiere sentir?' => $t('sentir'),
+				'Nombres completos' => $nombre, 'Email' => sanitize_email($v('email')), 'Celular' => $celular,
+				'País' => $pais['es'] . ($pais['codigo'] !== '' ? ' (' . $pais['codigo'] . ')' : ''), '¿Cuándo?' => $mes,
+				'Mi grupo' => $grupo ? sunqu_grupo_texto($grupo, fn($s) => $s) : '', '¿Qué quiere sentir?' => $sentir, '¿Cómo nos encontró?' => $fuente,
 				'Mensaje' => $ta('mensaje'), 'Guardados adjuntos' => $ta('guardados', 3000), 'Enviado desde' => sunqu_pagina_legible($t('pagina')),
 			];
-			$id = sunqu_guardar_envio('sunqu_solicitud', $campos['Nombre'] . ' · ' . wp_date('j M Y, H:i'), $campos);
+			$id = sunqu_guardar_envio('sunqu_solicitud', $nombre . ' · ' . wp_date('j M Y, H:i'), $campos);
 			sunqu_avisar('solicitud', $id, $campos, [
-				'asunto' => 'Nueva solicitud de viaje · ' . $campos['Nombre'],
-				'intro' => $campos['Nombre'] . ' quiere diseñar su viaje. Responde a este correo para escribirle directamente.',
+				'asunto' => 'Nueva solicitud de viaje · ' . $nombre,
+				'intro' => $nombre . ' quiere diseñar su viaje. Responde a este correo para escribirle directamente.',
 				'responder' => $campos['Email'],
-				'nombre' => $campos['Nombre'],
+				'nombre' => $nombre,
 			]);
+			// Copia completa para la persona, en su idioma
+			$wa = preg_replace('/\D+/', '', (string) (sunqu_exportar('sitio')['contacto']['whatsapp'] ?? ''));
+			$copia = sunqu_correo_visitante($campos['Email'], $lang, [
+				'tr' => $msg,
+				'asunto' => $msg('Recibimos tu solicitud de viaje') . ' · Sunqu Journeys',
+				'titulo' => $msg('Recibimos tu solicitud de viaje'),
+				'intro' => str_replace('%s', $nombre, $msg('Gracias, %s. Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje. Esta es la información que nos enviaste:')),
+				'campos' => [
+					$msg('Nombres completos') => $nombre, $msg('Email') => $campos['Email'], $msg('Celular') => $celular, $msg('País') => $pais['visto'],
+					$msg('¿Cuándo te gustaría viajar?') => $msg($mes), $msg('Mi grupo') => $grupo ? sunqu_grupo_texto($grupo, $msg) : '',
+					$msg('¿Qué quieres sentir?') => $msg($sentir), $msg('¿Cómo nos encontraste?') => $fuente !== '' ? $msg($fuente) : '',
+					$msg('Cuéntanos de ti') => $campos['Mensaje'], $msg('Tus guardados') => $campos['Guardados adjuntos'],
+				],
+				'botones' => $wa !== '' ? [['texto' => $msg('Escríbenos por WhatsApp'), 'url' => 'https://wa.me/' . $wa]] : [],
+			]);
+			if ($id) {
+				update_post_meta($id, '_sunqu_copia', wp_slash(wp_json_encode($copia, JSON_UNESCAPED_UNICODE)));
+			}
 			return ['ok' => true];
 
 		case 'resena':
@@ -138,7 +183,10 @@ function sunqu_recibir_formulario(WP_REST_Request $req) {
 			if (empty($d['permiso'])) {
 				return new WP_Error('sunqu_permiso', $msg('Falta el permiso para publicar la reseña.'), ['status' => 400]);
 			}
-			return sunqu_guardar_resena($d, $t, $ta);
+			if ($v('email') !== '' && !is_email($v('email'))) {
+				return new WP_Error('sunqu_email', $msg('El correo no es válido.'), ['status' => 400]);
+			}
+			return sunqu_guardar_resena($d, $t, $ta, $lang);
 
 		case 'reclamacion':
 			if ($e = $falta(['nombre', 'email', 'tipoDoc', 'numDoc', 'celular', 'domicilio', 'servicio', 'descripcion', 'tipo', 'detalle', 'pedido'])) {
@@ -258,7 +306,7 @@ function sunqu_notificar(string $asunto, array $campos, string $responder = ''):
 }
 
 /** Reseña enviada desde la web: queda «Pendiente» en Reseñas, con sus fotos en la biblioteca. */
-function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
+function sunqu_guardar_resena(array $d, callable $t, callable $ta, string $lang = '') {
 	$sec = sunqu_seccion('resenas');
 	$enlace = esc_url_raw((string) ($d['enlace'] ?? ''));
 	$plat = str_contains($enlace, 'tiktok.com') ? 'tiktok' : (str_contains($enlace, 'instagram.com') ? 'instagram' : 'web');
@@ -275,6 +323,13 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 		return new WP_Error('sunqu_guardar', 'No se pudo guardar la reseña.', ['status' => 500]);
 	}
 	update_post_meta($id, '_sunqu_permiso', wp_date('c')); // constancia del permiso de publicación
+	// Correo e idioma del autor: solo en el panel (no son campos de la reseña, nunca salen por la API)
+	$email = is_email((string) ($d['email'] ?? '')) ? sanitize_email((string) $d['email']) : '';
+	if ($email !== '') {
+		update_post_meta($id, '_sunqu_email', $email);
+		update_post_meta($id, '_sunqu_lang', $lang);
+	}
+	$pais = sunqu_pais_formulario(is_scalar($d['pais'] ?? null) ? (string) $d['pais'] : '', is_scalar($d['pais_nombre'] ?? null) ? (string) $d['pais_nombre'] : '');
 	$fotos = [];
 	foreach (array_slice(array_values(array_filter((array) ($d['fotos'] ?? []), 'is_array')), 0, 4) as $i => $f) {
 		// El nombre del archivo no sale del visitante: resena-{id}-{n}
@@ -284,7 +339,7 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 		}
 	}
 	$item = [
-		'sample' => false, 'kind' => $kind, 'plat' => $plat, 'country' => $t('pais', 80) ?: 'Perú',
+		'sample' => false, 'kind' => $kind, 'plat' => $plat, 'country' => $pais['es'] ?: 'Perú',
 		'when' => $meses[(int) wp_date('n') - 1] . ' de ' . wp_date('Y'), 'topic' => $t('tema', 20) ?: 'viaje', 'what' => '',
 		'caption' => $ta('texto', 2000), 'stars' => max(1, min(5, (int) ($d['estrellas'] ?? 5))), 'url' => $enlace, 'photos' => $fotos,
 	];
@@ -298,14 +353,152 @@ function sunqu_guardar_resena(array $d, callable $t, callable $ta) {
 	}
 	$temas = ['viaje' => 'Viaje', 'souvenir' => 'Souvenir', 'merch' => 'Merch'];
 	sunqu_avisar('resena', $id, [
-		'Nombre' => $nombre, 'País' => $item['country'], 'Tema' => $temas[$item['topic']] ?? $item['topic'], 'Estrellas' => str_repeat('★', $item['stars']),
+		'Nombres completos' => $nombre, 'Correo' => $email, 'País' => $item['country'], 'Tema' => $temas[$item['topic']] ?? $item['topic'], 'Estrellas' => str_repeat('★', $item['stars']),
 		'Reseña' => $item['caption'], 'Enlace al post' => $enlace, 'Fotos' => count($fotos) ? count($fotos) . ' adjuntas (en la reseña)' : '', 'Permiso de publicación' => 'Sí, aceptado en el formulario',
 	], [
 		'asunto' => 'Nueva reseña para revisar · ' . $nombre,
-		'intro' => 'La reseña quedó «Pendiente»: revísala y publícala desde el panel para que aparezca en Recuerda.',
+		'intro' => 'La reseña quedó «Pendiente»: revísala y publícala desde el panel para que aparezca en Recuerda.' . ($email !== '' ? ' Al publicarla, el autor recibe un correo.' : ''),
 		'nombre' => $nombre,
 	]);
+	if ($email !== '') {
+		// Lo que se repite en el correo de «ya es pública» (los campos de la reseña pueden cambiar al moderarla)
+		update_post_meta($id, '_sunqu_resumen', wp_slash(wp_json_encode(['texto' => mb_substr($item['caption'], 0, 600)], JSON_UNESCAPED_UNICODE)));
+		$msg = sunqu_msg($lang);
+		$r = sunqu_correo_visitante($email, $lang, [
+			'tr' => $msg,
+			'asunto' => $msg('Gracias por enviar tu reseña') . ' · Sunqu Journeys',
+			'titulo' => $msg('Gracias por enviar tu reseña'),
+			'intro' => $msg('Recibimos tu reseña para Sunqu Journeys. Está en revisión: te avisaremos por correo cuando la publiquemos en Recuerda.'),
+			'campos' => [
+				$msg('Estado') => $msg('En revisión'), $msg('Nombres completos') => $nombre, $msg('País') => $pais['visto'],
+				$msg('Tu calificación') => str_repeat('★', $item['stars']), $msg('Tu comentario') => $item['caption'],
+				$msg('Enlace de tu post o video') => $enlace, $msg('Fotos') => count($fotos) ? (string) count($fotos) : '',
+			],
+			'botones' => [['texto' => $msg('Ver el muro de reseñas'), 'url' => sunqu_url_web($lang ?: SUNQU_IDIOMA_BASE, '/recuerda') . '#resenas']],
+		]);
+		update_post_meta($id, '_sunqu_aviso_recibida', wp_slash(wp_json_encode($r, JSON_UNESCAPED_UNICODE)));
+	}
 	return ['ok' => true];
+}
+
+// Al publicar en el panel una reseña que llegó de la web: «Tu reseña ya es pública» al autor (una vez; si el correo
+// falló, se reintenta la próxima vez que se publique)
+add_action('transition_post_status', function ($nuevo, $viejo, $post) {
+	$sec = sunqu_seccion('resenas');
+	if (!$sec || !($post instanceof WP_Post) || $post->post_type !== $sec['post_type'] || $nuevo !== 'publish' || $viejo === 'publish') {
+		return;
+	}
+	$para = (string) get_post_meta($post->ID, '_sunqu_email', true);
+	$antes = json_decode((string) get_post_meta($post->ID, '_sunqu_aviso_publicada', true), true);
+	if (!is_email($para) || !empty($antes['ok'])) {
+		return;
+	}
+	$lang = (string) get_post_meta($post->ID, '_sunqu_lang', true);
+	$activo = sunqu_idiomas()['activos'][$lang] ?? null;
+	$lang = $activo ? $lang : '';
+	if ($activo) {
+		sunqu_i18n_cargar($activo['locale']);
+	}
+	$msg = sunqu_msg($lang);
+	$resumen = json_decode((string) get_post_meta($post->ID, '_sunqu_resumen', true), true);
+	$r = sunqu_correo_visitante($para, $lang, [
+		'tr' => $msg,
+		'asunto' => $msg('Tu reseña ya es pública') . ' · Sunqu Journeys',
+		'titulo' => $msg('Tu reseña ya es pública'),
+		'intro' => str_replace('%s', $post->post_title, $msg('Gracias, %s. Publicamos tu reseña en Recuerda: ahora otros viajeros pueden leerla.')),
+		'campos' => [$msg('Estado') => $msg('Publicada'), $msg('Tu comentario') => is_array($resumen) ? (string) ($resumen['texto'] ?? '') : ''],
+		'botones' => [['texto' => $msg('Ver tu reseña'), 'url' => sunqu_url_web($lang ?: SUNQU_IDIOMA_BASE, '/recuerda') . '#resenas']],
+	]);
+	update_post_meta($post->ID, '_sunqu_aviso_publicada', wp_slash(wp_json_encode($r, JSON_UNESCAPED_UNICODE)));
+}, 10, 3);
+
+// ── Campos de los formularios y correos a la persona ─────────────────────────────────────────────
+
+/** Traductor de los textos fijos al idioma de la petición ('' = español). Uso: $msg('…') (lo junta tools/extraer-textos.py). */
+function sunqu_msg(string $lang): callable {
+	return fn(string $s) => $lang !== '' ? sunqu_tr($s) : $s;
+}
+
+/**
+ * Correo a la persona que llenó un formulario, en su idioma y con la marca. $c: tr, asunto, titulo, intro, campos,
+ * botones. Máximo 5 por dirección cada 24 horas (que nadie use la web para llenar el buzón de otra persona).
+ * Devuelve ['ok', 'error', 'fecha', 'para'] para la ficha del envío.
+ */
+function sunqu_correo_visitante(string $para, string $lang, array $c): array {
+	$base = ['fecha' => wp_date('c'), 'para' => $para];
+	if (!is_email($para)) {
+		return $base + ['ok' => false, 'error' => 'Correo no válido.'];
+	}
+	$k = 'sunqu_cc_' . md5(strtolower($para));
+	$n = (int) get_transient($k);
+	if ($n >= 5) {
+		return $base + ['ok' => false, 'error' => 'No enviado: ya se enviaron 5 correos a esta dirección en 24 horas.'];
+	}
+	set_transient($k, $n + 1, DAY_IN_SECONDS);
+	$lang = $lang !== '' ? $lang : SUNQU_IDIOMA_BASE;
+	$o = ['visitante' => true, 'lang' => $lang, 'tr' => $c['tr'] ?? fn($s) => $s, 'enlace' => sunqu_url_web($lang)];
+	$botones = $c['botones'] ?? [];
+	$r = sunqu_enviar_correo($para, $c['asunto'], sunqu_correo_html($c['titulo'], $c['intro'], $c['campos'], $botones, $o), sunqu_correo_texto($c['titulo'], $c['intro'], $c['campos'], $botones, $o), ['Reply-To: ' . sunqu_correos_avisos()[0]]);
+	return $base + $r;
+}
+
+/** País del formulario: ['codigo' => 'PE', 'es' => 'Perú' (para Sunqu y el muro), 'visto' => como lo eligió la persona]. */
+function sunqu_pais_formulario(string $codigo, string $visto): array {
+	$codigo = trim($codigo);
+	$visto = mb_substr(sanitize_text_field($visto), 0, 80);
+	if (!preg_match('/^[A-Za-z]{2}$/', $codigo)) {
+		$texto = mb_substr(sanitize_text_field($codigo), 0, 80); // formulario anterior: el país llegaba escrito
+		return ['codigo' => '', 'es' => $texto, 'visto' => $texto];
+	}
+	$c = strtoupper($codigo);
+	$es = class_exists('Locale') ? (string) Locale::getDisplayRegion('und-' . $c, 'es') : '';
+	if ($es === '' || strtoupper($es) === $c) {
+		$es = $visto !== '' ? $visto : $c;
+	}
+	return ['codigo' => $c, 'es' => $es, 'visto' => $visto !== '' ? $visto : $es];
+}
+
+/** «+51» + «987 654 321» → «+51 987 654 321»; '' si no se escribió; null si no parece un número (6 a 15 dígitos). */
+function sunqu_celular_formulario(string $prefijo, string $numero): ?string {
+	$numero = trim(preg_replace('/\s+/', ' ', $numero) ?? '');
+	if ($numero === '') {
+		return '';
+	}
+	$digitos = preg_replace('/\D/', '', $numero) ?? '';
+	if (strlen($digitos) < 6 || strlen($digitos) > 15) {
+		return null;
+	}
+	$prefijo = preg_match('/^\+\d{1,4}$/', trim($prefijo)) ? trim($prefijo) . ' ' : '';
+	return $prefijo . trim(preg_replace('/[^\d ]/', '', $numero) ?? '');
+}
+
+/** Mi grupo (JSON del formulario) → [[adultos, niños, bebés], …] dentro de los límites; [] si no llegó. */
+function sunqu_grupo_formulario(string $json): array {
+	$d = json_decode($json, true);
+	$out = [];
+	foreach (is_array($d) ? array_slice($d, 0, 6) : [] as $hab) {
+		if (is_array($hab) && count($hab) >= 3) {
+			$hab = array_values($hab);
+			$out[] = array_map(fn($j) => max(SUNQU_GRUPO_LIMITES[$j][0], min(SUNQU_GRUPO_LIMITES[$j][1], (int) $hab[$j])), [0, 1, 2]);
+		}
+	}
+	return $out;
+}
+
+/** «2 habitaciones · 5 huéspedes | Habitación 1: 2 adultos | Habitación 2: 2 adultos, 1 niño» (traducido con $msg). */
+function sunqu_grupo_texto(array $grupo, callable $msg): string {
+	$n = fn(int $x, string $uno, string $varios) => str_replace('{n}', (string) $x, $x === 1 ? $uno : $varios);
+	$huespedes = array_sum(array_map('array_sum', $grupo));
+	$partes = [$n(count($grupo), $msg('1 habitación'), $msg('{n} habitaciones')) . ' · ' . $n($huespedes, $msg('1 huésped'), $msg('{n} huéspedes'))];
+	foreach ($grupo as $i => [$adultos, $ninos, $bebes]) {
+		$detalle = array_filter([
+			$adultos ? $n($adultos, $msg('1 adulto'), $msg('{n} adultos')) : '',
+			$ninos ? $n($ninos, $msg('1 niño'), $msg('{n} niños')) : '',
+			$bebes ? $n($bebes, $msg('1 bebé'), $msg('{n} bebés')) : '',
+		]);
+		$partes[] = str_replace('{n}', (string) ($i + 1), $msg('Habitación {n}')) . ': ' . implode(', ', $detalle);
+	}
+	return implode(' | ', $partes);
 }
 
 // Constancia visible al revisar una reseña: si llegó desde la web, cuándo aceptó el autor que se publique.
@@ -319,6 +512,14 @@ add_action('add_meta_boxes', function () {
 		echo $f
 			? '<p>El autor aceptó en la web que Sunqu publique su reseña, sus fotos y el enlace que compartió (' . esc_html(wp_date('j \d\e F \d\e Y, H:i', strtotime($f))) . ').</p>'
 			: '<p>Esta reseña no llegó por el formulario de la web.</p>';
+		$email = (string) get_post_meta($post->ID, '_sunqu_email', true);
+		if ($email !== '') {
+			echo '<p>Correo del autor (no se publica): <a href="mailto:' . esc_attr($email) . '">' . esc_html($email) . '</a></p>';
+			foreach (['_sunqu_aviso_recibida' => 'Aviso «en revisión»', '_sunqu_aviso_publicada' => 'Aviso «ya es pública»'] as $k => $titulo) {
+				$a = json_decode((string) get_post_meta($post->ID, $k, true), true);
+				echo '<p class="description">' . esc_html($titulo) . ': ' . (is_array($a) ? ($a['ok'] ? '✔ enviado el ' . esc_html(wp_date('j M Y, H:i', strtotime((string) $a['fecha']))) : '✖ ' . esc_html((string) $a['error'])) : ($k === '_sunqu_aviso_publicada' ? 'se envía al publicar' : '—')) . '</p>';
+			}
+		}
 	}, $sec['post_type'], 'side');
 });
 

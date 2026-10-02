@@ -129,12 +129,23 @@ function sunqu_enviar_correo($para, string $asunto, string $html, string $texto,
 	return ['ok' => (bool) $ok, 'error' => $ok ? '' : ($GLOBALS['sunqu_error_correo'] ?: 'wp_mail no pudo enviar el correo.')];
 }
 
+/** URL pública de la web (Sunqu › Conexión › URL de la web), con idioma: sunqu_url_web('en', '/recuerda') → …/en/recuerda. */
+function sunqu_url_web(string $lang = '', string $ruta = ''): string {
+	$web = untrailingslashit((string) get_option('sunqu_web', '')) ?: SUNQU_WEB_DEFECTO;
+	return $lang === '' ? $web . $ruta : $web . '/' . $lang . ($ruta === '' || $ruta === '/' ? '/' : $ruta);
+}
+
 /**
  * Correo con la marca: encabezado, introducción, tabla de datos y botones.
  * $botones: [['texto' => 'Ver en el panel', 'url' => '…'], …]
+ * $o (correos a quien llenó un formulario): visitante => true (logo y pie para la persona), lang => 'en',
+ *    tr => traductor de los textos fijos, enlace => la web en su idioma.
  */
-function sunqu_correo_html(string $titulo, string $intro, array $campos, array $botones = []): string {
+function sunqu_correo_html(string $titulo, string $intro, array $campos, array $botones = [], array $o = []): string {
 	$e = fn($s) => esc_html((string) $s);
+	$msg = $o['tr'] ?? fn($s) => $s; // $msg('…'): tools/extraer-textos.py lo junta para traducir
+	$visitante = !empty($o['visitante']);
+	$lang = preg_match('/^[a-z]{2}$/', (string) ($o['lang'] ?? '')) ? $o['lang'] : 'es';
 	$filas = '';
 	foreach ($campos as $k => $v) {
 		if ($v === '' || $v === null) {
@@ -161,21 +172,33 @@ function sunqu_correo_html(string $titulo, string $intro, array $campos, array $
 	foreach (['#f4a700', '#83b300', '#df5f0c', '#48725E', '#e9eef1'] as $i => $c) {
 		$banda .= '<span style="display:inline-block;width:8px;height:8px;margin-right:8px;background:' . $c . ';transform:rotate(45deg);border-radius:2px"></span>';
 	}
-	return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . $e($titulo) . '</title></head>'
+	$web = sunqu_url_web();
+	// Para la persona: el logo de la web (con texto alternativo si su correo no muestra imágenes)
+	$marca = $visitante
+		? '<img src="' . esc_url($web . '/assets/logo-light.png') . '" width="168" height="42" alt="Sunqu Journeys" style="display:block;border:0;outline:none;height:auto;max-width:168px;color:#e9eef1;font-size:20px;font-weight:700">'
+		: '<div style="font-size:20px;font-weight:700;letter-spacing:-.01em">Sunqu Journeys</div>';
+	$pie = $visitante
+		? '<strong style="color:#1c1c1c">Sunqu Journeys</strong> · ' . $e($msg('Viaja al corazón del Perú'))
+			. '<br><a href="' . esc_url($o['enlace'] ?? $web) . '" style="color:#736d47">' . $e(preg_replace('#^https?://#', '', $web)) . '</a>'
+			. '<br><br>' . $e($msg('Recibes este correo porque enviaste un formulario en sunqujourneys.com. Si tienes dudas, responde a este correo.'))
+		: 'Aviso automático del formulario de sunqujourneys.com · ' . $e(wp_date('j \d\e F \d\e Y, H:i'));
+	return '<!doctype html><html lang="' . $lang . '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' . $e($titulo) . '</title></head>'
 		. '<body style="margin:0;padding:24px 12px;background:#e9eef1;font-family:Helvetica,Arial,sans-serif;color:#1c1c1c">'
+		. ($visitante && $intro !== '' ? '<div style="display:none;max-height:0;overflow:hidden;opacity:0">' . $e($intro) . '</div>' : '') // vista previa en la bandeja
 		. '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden">'
-		. '<tr><td style="background:#2b271b;padding:22px 28px;color:#e9eef1"><div style="font-size:20px;font-weight:700;letter-spacing:-.01em">Sunqu Journeys</div>'
-		. '<div style="margin-top:10px">' . $banda . '</div></td></tr>'
+		. '<tr><td style="background:#2b271b;padding:22px 28px;color:#e9eef1">' . $marca
+		. '<div style="margin-top:12px">' . $banda . '</div></td></tr>'
 		. '<tr><td style="padding:28px 28px 8px"><h1 style="margin:0;font-size:22px;line-height:1.25;color:#1c1c1c">' . $e($titulo) . '</h1>'
 		. ($intro !== '' ? '<p style="margin:10px 0 0;font-size:15px;line-height:1.55;color:#424244">' . $e($intro) . '</p>' : '') . '</td></tr>'
 		. '<tr><td style="padding:12px 28px 8px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0">' . $filas . '</table></td></tr>'
 		. ($bts !== '' ? '<tr><td style="padding:12px 28px 20px">' . $bts . '</td></tr>' : '')
-		. '<tr><td style="padding:16px 28px 22px;border-top:1px solid #e3e6e8;font-size:12px;line-height:1.5;color:#7a7a7d">Aviso automático del formulario de sunqujourneys.com · ' . $e(wp_date('j \d\e F \d\e Y, H:i')) . '</td></tr>'
+		. '<tr><td style="padding:16px 28px 22px;border-top:1px solid #e3e6e8;font-size:12px;line-height:1.5;color:#7a7a7d">' . $pie . '</td></tr>'
 		. '</table></body></html>';
 }
 
 /** Versión de texto del mismo correo. */
-function sunqu_correo_texto(string $titulo, string $intro, array $campos, array $botones = []): string {
+function sunqu_correo_texto(string $titulo, string $intro, array $campos, array $botones = [], array $o = []): string {
+	$msg = $o['tr'] ?? fn($s) => $s; // $msg('…'): tools/extraer-textos.py lo junta para traducir
 	$l = [$titulo, str_repeat('─', 40)];
 	if ($intro !== '') {
 		$l[] = $intro;
@@ -189,6 +212,9 @@ function sunqu_correo_texto(string $titulo, string $intro, array $campos, array 
 	foreach ($botones as $b) {
 		$l[] = '';
 		$l[] = $b['texto'] . ': ' . $b['url'];
+	}
+	if (!empty($o['visitante'])) {
+		array_push($l, '', '—', 'Sunqu Journeys · ' . $msg('Viaja al corazón del Perú') . ' · ' . sunqu_url_web(), $msg('Recibes este correo porque enviaste un formulario en sunqujourneys.com. Si tienes dudas, responde a este correo.'));
 	}
 	return implode("\n", $l);
 }
@@ -332,6 +358,12 @@ function sunqu_caja_aviso(WP_Post $post): void {
 		: '<p style="color:#b32d2e">✖ El correo no salió (' . $fecha . '): ' . esc_html($a['error']) . '</p>';
 	if (!empty($a['celular'])) {
 		echo '<p class="description">Aviso al celular: ' . esc_html(implode(', ', $a['celular'])) . '</p>';
+	}
+	$copia = json_decode((string) get_post_meta($post->ID, '_sunqu_copia', true), true);
+	if (is_array($copia)) {
+		echo $copia['ok']
+			? '<p class="description">✔ Copia de la solicitud enviada a ' . esc_html((string) $copia['para']) . '</p>'
+			: '<p class="description" style="color:#b32d2e">✖ La copia a la persona no salió: ' . esc_html((string) $copia['error']) . '</p>';
 	}
 	if (get_post_meta($post->ID, '_sunqu_aviso_datos', true)) {
 		$url = wp_nonce_url(admin_url('admin-post.php?action=sunqu_reenviar&post=' . $post->ID), 'sunqu_reenviar_' . $post->ID);

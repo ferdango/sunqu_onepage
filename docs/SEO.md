@@ -102,8 +102,9 @@ todas exige generar la primera pantalla en el servidor; está anotado en la secc
 
 - **Dominio canónico:** `SITE_URL=https://sunqujourneys.com` en el `.env`. Es la única fuente para canonical, Open Graph, JSON-LD, sitemap y redirecciones.
 - **`.htaccess`:** fuerza HTTPS (301) y quita `www` (301).
-- **URLs limpias sin barra final.** Con barra final, o con barras repetidas (`//descubre`), redirigen 301 a la versión limpia. Tabla completa en [ARCHITECTURE.md › 5](ARCHITECTURE.md#5-urls).
-- **URLs antiguas** (`index.html`, `journey.html?j=…`, `articulo.html?a=…`, `blog.html?cat=…`, `descubre.html?q=…`, `Sunqu Journeys v2.dc.html`): redirigen 301 a su versión limpia.
+- **Cada idioma con su prefijo** (`/es/…`, `/en/…`, sección 9). La raíz `/` elige el idioma y redirige (302).
+- **URLs limpias sin barra final**, salvo el inicio de cada idioma (`/es/`). Con barra final, o con barras repetidas (`//descubre`), redirigen 301 a la versión limpia. Tabla completa en [ARCHITECTURE.md › 5](ARCHITECTURE.md#5-urls).
+- **URLs antiguas** (`index.html`, `journey.html?j=…`, `articulo.html?a=…`, `blog.html?cat=…`, `descubre.html?q=…`, `Sunqu Journeys v2.dc.html`) y las limpias **sin prefijo** de antes (`/descubre`, `/journeys/…`): redirigen 301 a su versión `/es/…` (el inicio, a la raíz).
   - Conservan el parámetro útil y los de campañas (`utm_*`, `gclid`, `fbclid`, `gbraid`, `wbraid`, `msclkid`), así los enlaces viejos compartidos en redes siguen midiéndose.
 - **404 real:** un slug de journey o de artículo que no existe devuelve 404, con `noindex`, `server/404.html` y enlaces a Inicio y Descubre. También dan 404 los archivos internos y de respaldo.
 - **Enlaces internos:** en el HTML que sirve el servidor, todos los enlaces `.html` se reescriben a su URL limpia. Queda 0 enlaces `.html`.
@@ -115,8 +116,8 @@ todas exige generar la primera pantalla en el servidor; está anotado en la secc
 | `<title>` | Páginas fijas: `sitio.seo.paginas.<página>.title`. Journey: `<título>: journey de <días> — Sunqu Journeys` (o `escapada`). Artículo: `<título> — Diario Sunqu`, `— Sunqu` o solo el título, según lo que quepa en ~62 caracteres |
 | `meta description` | Páginas fijas: `…description`. Journey: `ficha.what` + precio + `ficha.why`, ~158 caracteres. Artículo: extracto + entradilla, ~158 caracteres |
 | `robots` | `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`. Búsqueda interna (`/descubre?q=`): `noindex, follow`. En 404 y en `APP_ENV=staging`: `noindex, nofollow` |
-| `canonical` | `SITE_URL` + ruta limpia, sin parámetros (`/diario?cat=x` apunta a `/diario`, `/descubre?q=x` a `/descubre`). En otro idioma, su propia URL (`/en/descubre`) |
-| `hreflang` | Solo con más de un idioma publicado en buscadores (sección 9): la misma página en cada uno y `x-default` (español) |
+| `canonical` | `SITE_URL` + ruta limpia del idioma, sin parámetros (`/es/diario?cat=x` apunta a `/es/diario`, `/es/descubre?q=x` a `/es/descubre`; en inglés, `/en/…`) |
+| `hreflang` | Solo con más de un idioma publicado en buscadores (sección 9): la misma página en cada uno y `x-default` (inglés, o español mientras el inglés no se publique) |
 | Open Graph | `og:site_name`, `og:locale` (es_PE, en_US, pt_BR… según la página) y `og:locale:alternate` de los otros idiomas publicados, `og:type` (`article` en artículos), `og:title`, `og:description`, `og:url`, `og:image` con `alt` y dimensiones (también de imágenes locales), `article:published_time`, `article:modified_time`, `article:section` |
 | Twitter / X | `summary_large_image`, título, descripción e imagen |
 | Iconos | 32, 48 y 192 px (`rel="icon"`), 180 px (`apple-touch-icon`), todos cuadrados, y `/favicon.ico` |
@@ -235,25 +236,28 @@ En orden de impacto. Lo de contenido y negocio no se inventó: lo tiene que apor
    - evaluar acortar el loader en móviles (decisión de diseño).
 7. **Títulos nuevos en el WordPress de producción** (sección 0) y revisión de los textos de Sunqu › Sitio › SEO por el negocio.
 
-## 9. Idiomas (`/en/…`, `/pt/…`)
+## 9. Idiomas (`/es/…`, `/en/…`)
 
-El español es el idioma base y sus URLs no llevan prefijo. Los idiomas activos en WordPress › Sunqu › Idiomas se sirven
-con prefijo y las mismas rutas: `/en`, `/en/descubre`, `/en/journeys/alma`, `/en/diario/{slug}`… (los slugs no se
-traducen). Traducción: Loco Translate ([WORDPRESS.md › 8.7](WORDPRESS.md)).
+Cada idioma tiene URLs propias e indexables, con las mismas rutas y slugs: `/es/`, `/es/descubre`, `/es/journeys/alma` ·
+`/en/`, `/en/descubre`, `/en/journeys/alma`. Idiomas activables en WordPress › Sunqu › Idiomas: inglés, portugués,
+francés, alemán, italiano y ruso (el español siempre está). Traducción: Loco Translate ([WORDPRESS.md › 8.7](WORDPRESS.md)).
 
 | | Idioma con «Publicar en buscadores» | Idioma activo sin publicar |
 |---|---|---|
 | Se puede visitar | Sí | Sí (útil para revisar) |
 | `robots` | `index, follow…` | `noindex, follow` |
-| `hreflang` (en todas sus versiones) | Sí, con `x-default` = español | No |
+| `canonical` | Su propia URL (`/en/…` → `/en/…`) | Ídem |
+| `hreflang` (en todas sus versiones) | Sí, con `x-default` = inglés (o español mientras el inglés no se publique) | No |
 | sitemap.xml | Sí, con `xhtml:link` alternos | No |
 | `<html lang>`, `og:locale`, `inLanguage` (JSON-LD) | El del idioma | El del idioma |
 
-- **Qué se traduce en la página:** `<title>`, description, Open Graph, migas, nombres del JSON-LD (journeys, artículos), el contenido y los textos fijos de la plantilla (texto, `alt`, `aria-label`, `placeholder`, `title`), el aviso de cookies y el bloque sin JavaScript.
-- **Lo que no tiene traducción** se muestra en español. Por eso conviene publicar en buscadores solo un idioma completo y revisado: una página «en inglés» con la mitad en español compite mal y confunde.
-- **Redirecciones:** `/es/…` → la URL sin prefijo (301). Un idioma no activo da 404. `/en/journeys` → `/en/descubre`.
-- **Selector de idioma:** lleva a la misma página en el otro idioma (con sus filtros y su ancla). Nunca redirige solo según el idioma del navegador: los buscadores necesitan ver cada versión.
-- **Títulos y descripciones** de las páginas fijas: se traducen en Loco como el resto del contenido (Sunqu › Sitio › SEO).
+- **La raíz** (`/`) no es una página: redirige (302, `Cache-Control: private, no-store`, `Vary: Accept-Language, Cookie`) al idioma de la persona (preferencia guardada, navegador, país por IP o inglés) y no entra al sitemap. Los buscadores, que no mandan preferencias, terminan en el idioma por defecto; cada versión se descubre por los `hreflang` y el sitemap.
+- **Una URL con idioma nunca se redirige** según el navegador o el país: así cada versión es rastreable.
+- **Migración desde las URLs sin prefijo:** `/descubre`, `/journeys/{slug}`, `/diario/{slug}`, `/recuerda`, `/terminos`, `/libro-de-reclamaciones` y las `.html` antiguas redirigen **301** a su versión `/es/…` (eran las páginas en español), conservando los parámetros útiles y de campañas. En Search Console: enviar de nuevo `sitemap.xml` y revisar en «Páginas» que las URLs nuevas se indexen.
+- **Idioma no activo** (`/fr/…` antes de activarlo): 302 a la misma página en español.
+- **Qué se traduce en la página:** `<title>`, description, Open Graph, migas, nombres del JSON-LD (journeys, artículos), el contenido, los textos fijos de la plantilla (texto, `alt`, `aria-label`, `placeholder`, `title`), el aviso de cookies y el bloque sin JavaScript.
+- **SEO por idioma:** los títulos y descripciones de Sunqu › Sitio › SEO van en Loco en el contexto `seo`, aparte del resto: conviene escribirlos para cada idioma (palabras que se buscan en ese idioma), no traducirlos palabra por palabra, y revisarlos antes de publicar.
+- **Lo que no tiene traducción** se muestra en español. Conviene publicar en buscadores solo un idioma completo y revisado: una página «en inglés» con la mitad en español compite mal y confunde.
+- **Selector de idioma:** lleva a la misma página en el otro idioma (con sus filtros y su ancla) y guarda la elección.
 
-**Probado** en Docker con una traducción de prueba al inglés: `hreflang` es/en/x-default en ambas versiones, `og:locale` en_US con alternativo es_PE, canonical `/en/…`, JSON-LD con `inLanguage: en` y migas traducidas; el portugués (activo sin publicar) con `noindex` y fuera del sitemap y de los `hreflang`; sitemap válido con 40 URLs (20 por idioma) y sus alternos.
-
+**Probado** en Docker con una traducción de prueba al inglés: canonical propio en `/es/` y `/en/`, `hreflang` es/en con `x-default` → `/en/…`, `og:locale` es_PE / en_US con su alternativo, JSON-LD con `inLanguage` del idioma; las URLs sin prefijo redirigen 301 a `/es/…`; la raíz redirige 302 sin caché; sitemap válido con 40 URLs (20 por idioma), sin la raíz.

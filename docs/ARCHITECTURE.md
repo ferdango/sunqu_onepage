@@ -93,6 +93,7 @@ css/<página>.min.css          Estilos por página
 js/sunqu-config.js            Solo para hosting estático: URL de WordPress (en producción manda el .env)
 js/sunqu-content.js           Capa de contenido: origen, vistas por página, imágenes/srcset, formularios, foco en diálogos
 js/sunqu-analytics.js         Consentimiento + GTM/GA4/Pixel + eventos (sin datos personales)
+js/sunqu-campos.js            Campos de los formularios: País con buscador, Celular con prefijo y bandera, Mi grupo
 content/*.json                Contenido completo (respaldo si WordPress no responde; mismo formato que la API)
 assets/                       Imágenes locales + versiones .avif/.webp + favicons + assets/geo (mapa)
 fonts/                        Aeonik en WOFF2 (y TTF de respaldo)
@@ -106,7 +107,8 @@ server/
   lib/config.php              Lee el .env (una sola fuente de configuración)
   lib/routes.php              URLs públicas y redirecciones de las antiguas
   lib/content.php             WordPress con caché en disco (una por idioma) y respaldos
-  lib/idiomas.php             Idiomas: /en/… y /pt/…, textos fijos traducidos, selector (SUNQU_I18N)
+  lib/idiomas.php             Idiomas: /es/…, /en/…, idioma de la raíz, textos fijos traducidos, selector (SUNQU_I18N)
+  lib/geo.php                 País aproximado por IP (cabecera de la CDN o GEOIP_URL), con caché y sin guardar IPs
   lib/scripts.php             Scripts de WordPress › Sunqu › Scripts y seguimiento (consentimiento y CSP)
   lib/seo.php                 <head> y JSON-LD por página
   lib/page.php                Transformaciones de la plantilla, precargas y hashes CSP de los scripts en línea
@@ -144,6 +146,7 @@ lo lee. Las variables del entorno del servidor tienen prioridad sobre el archivo
 | `CSP_INLINE_SCRIPTS` | `hash` (solo los scripts en línea de la web) o `allow` (`'unsafe-inline'`, solo si GTM usa etiquetas «HTML personalizado») | `hash` |
 | `TURNSTILE_SITE_KEY` | Clave pública de Cloudflare Turnstile para los formularios (la secreta va en el `wp-config.php` del CMS) | Formularios sin Turnstile |
 | `CMS_SCRIPTS` | `on` u `off`: insertar los scripts de WordPress › Sunqu › Scripts y seguimiento (`off` = interruptor de emergencia) | `on` |
+| `GEOIP_URL`, `GEOIP_CAMPO`, `GEOIP_TIMEOUT_MS` | Servicio de país por IP (respaldo para el idioma de la raíz), consultado desde el servidor: `{ip}` se reemplaza; campo del JSON con el país; espera máxima (800 ms) | Sin consulta por IP (se usa la cabecera de país de la CDN, si existe) |
 
 Al navegador solo llega `SUNQU_CONFIG`, con valores públicos: entorno, dominio, API, IDs de medición, WhatsApp, modo de consentimiento, clave pública de Turnstile y versiones.
 
@@ -151,23 +154,28 @@ Al navegador solo llega `SUNQU_CONFIG`, con valores públicos: entorno, dominio,
 
 ## 5. URLs
 
+Cada página vive en su idioma (`{idioma}` = `es`, `en`… los activos en WordPress › Sunqu › Idiomas):
+
 | URL | Plantilla | Parámetro |
 |---|---|---|
-| `/` | index.html | — |
-| `/descubre` | descubre.html | `?q=` (búsqueda) |
-| `/journeys/{slug}` | journey.html | slug del journey. Un journey nuevo en WordPress tiene URL sola |
-| `/recuerda` | recuerda.html | — |
-| `/diario` | blog.html | `?cat=` (canonical sin parámetro) |
-| `/diario/{slug}` | articulo.html | slug de la entrada |
-| `/terminos` | terminos.html | — |
-| `/libro-de-reclamaciones` | reclamaciones.html | — |
+| `/` | — | Elige el idioma y redirige (302) a `/es/` o `/en/` (ver abajo) |
+| `/{idioma}/` | index.html | — |
+| `/{idioma}/descubre` | descubre.html | `?q=` (búsqueda) |
+| `/{idioma}/journeys/{slug}` | journey.html | slug del journey. Un journey nuevo en WordPress tiene URL sola |
+| `/{idioma}/recuerda` | recuerda.html | — |
+| `/{idioma}/diario` | blog.html | `?cat=` (canonical sin parámetro) |
+| `/{idioma}/diario/{slug}` | articulo.html | slug de la entrada |
+| `/{idioma}/terminos` | terminos.html | — |
+| `/{idioma}/libro-de-reclamaciones` | reclamaciones.html | — |
 
-Las URLs sin barra final son las canónicas; con barra final redirigen 301. Las URLs antiguas `.html` también redirigen 301:
-- `/journey.html?j=alma` pasa a `/journeys/alma`;
-- `/blog.html?cat=x` pasa a `/diario?cat=x`;
-- `/journeys` pasa a `/descubre`.
+El inicio de cada idioma lleva barra final (`/en` → `/en/`); el resto, no (`/en/descubre/` → `/en/descubre`). Redirecciones:
+- **URLs de antes, sin prefijo** (eran en español): `/descubre`, `/journeys/alma`… → **301** a `/es/descubre`, `/es/journeys/alma`…
+- **URLs antiguas `.html`:** `/journey.html?j=alma` → `/es/journeys/alma`; `/blog.html?cat=x` → `/es/diario?cat=x`; `/index.html` → `/`.
+- `/{idioma}/journeys` → `/{idioma}/descubre`.
+- **Idioma conocido pero no activo** (`/fr/…`): **302** a la misma página en español.
+- Los slugs no se traducen. SEO de cada idioma en [SEO.md › 9](SEO.md).
 
-**Idiomas** (activos en WordPress › Sunqu › Idiomas): la misma tabla con prefijo, `/en/…` o `/pt/…` (`/en`, `/en/journeys/alma`, `/en/diario/{slug}`…). `/es/…` redirige 301 a la URL sin prefijo; un idioma inactivo da 404. Los slugs no se traducen. SEO de cada idioma en [SEO.md › 9](SEO.md).
+**Idioma en la raíz** (`server/lib/idiomas.php › sunqu_idioma_inicial`): preferencia guardada (cookie `sunqu_language`, la escribe el selector) → idioma del navegador (`Accept-Language`) si está activo → país aproximado por IP (`server/lib/geo.php`: cabecera de la CDN o el servicio de `GEOIP_URL`, con caché y espera máxima corta; nunca para buscadores) con el mapa `SUNQU_PAISES_IDIOMA` → inglés (o español si el inglés no está activo). La respuesta no se cachea (`private, no-store`, `Vary: Accept-Language, Cookie`) y deja la cookie `sunqu_lang_src` (2 minutos) para el evento `language_detected`.
 
 Los slugs inexistentes devuelven **404 real**. `/sitemap.xml` y `/robots.txt` se generan en el servidor.
 Rutas internas: `/_sunqu/purge` (POST con token), `/_sunqu/csp` (POST, reportes de CSP) y `/_sunqu/salud` (GET, 200/503 para monitoreo), todas con `noindex` y sin caché. `/favicon.ico` sirve `assets/favicon-48.png`.
@@ -179,6 +187,8 @@ Rutas internas: `/_sunqu/purge` (POST con token), `/_sunqu/csp` (POST, reportes 
 | Qué | Dónde | Duración |
 |---|---|---|
 | Contenido de WordPress | `server/storage/cache/contenido-{idioma}.json` (`contenido-es.json`, `contenido-en.json`…) | `CONTENT_CACHE_TTL` (5 min). Al publicar (o al guardar traducciones en Loco), la purga marca vencidos todos los idiomas |
+| País por IP (solo con `GEOIP_URL`) | `server/storage/cache/geo/` (un hash por red /24 o /48, sin la IP) | 30 días (1 día si el servicio no supo el país; 5 min de pausa si falló) |
+| Raíz `/` (elección de idioma) | — | Nunca: cada persona puede ir a un idioma distinto |
 | HTML | LiteSpeed (`X-LiteSpeed-Cache-Control`); el navegador revalida | 5 min, solo si la página se armó con contenido vigente. La purga envía `X-LiteSpeed-Purge: *` |
 | CSS y JS (con `?v=`), fuentes | navegador | 1 año, `immutable` |
 | Imágenes y video | navegador | 30 días |

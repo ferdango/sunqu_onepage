@@ -28,5 +28,11 @@
     "url": "https://cdn.jsdelivr.net/npm/d3-shape@3.2.0/dist/d3-shape.min.js",
     "integrity": "sha384-Pf8DSN0/EBE+hYfdD/WOvxYZPh8+AUL27jVmgRJ2az/EQxJWjgJsZrKFEuFT7DYq",
     "bytes": 30898
+  },
+  "TwemojiCountryFlags.woff2": {
+    "url": "https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2",
+    "integrity": "sha384-khwRTemzZWkDYZ9+Z+cL4KGye7omQSt25J1/RiIDQl66s74qnxoR5tJ2//QPJTDH",
+    "bytes": 78292,
+    "licencia": "country-flag-emoji-polyfill (MIT); gráficos Twemoji © Twitter, Inc. y colaboradores, CC-BY 4.0"
   }
 }

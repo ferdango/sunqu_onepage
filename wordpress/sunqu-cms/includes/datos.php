@@ -276,7 +276,7 @@ function sunqu_exportar(string $nombre, bool $cache = true, string $lang = ''): 
 			return $hit;
 		}
 		$base = sunqu_exportar($nombre, $cache);
-		$out = $base === null ? null : sunqu_i18n_traducir_seccion($base, $lang);
+		$out = $base === null ? null : sunqu_i18n_traducir_seccion($base, $lang, $nombre);
 		if ($cache && $out !== null) {
 			set_transient($ck, $out, DAY_IN_SECONDS);
 		}

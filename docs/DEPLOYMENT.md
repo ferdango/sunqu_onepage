@@ -156,8 +156,11 @@ El importador usa las funciones de WordPress, así que no tiene esos problemas y
 | Cambiar un texto de un journey en WordPress | Se ve en la web al recargar |
 | securityheaders.com, PageSpeed Insights | Cabeceras presentes. Rendimiento: comparar con SEO.md › 0 |
 | Código fuente de `/` | Primera etiqueta del `<head>` tras `viewport`: `<meta http-equiv="Content-Security-Policy" …>` con `script-src 'self' 'sha256-…'` (Hostinger reemplaza el encabezado CSP por `upgrade-insecure-requests`; ver SECURITY.md › 7) |
-| Search Console ⚠ | Propiedad de dominio verificada y sitemap enviado (SEO.md › 6) |
-| Con un idioma activo en Sunqu › Idiomas: `/en`, `/en/journeys/alma` | 200, `<html lang="en">`, selector de idioma visible. Sin «Publicar en buscadores»: `noindex` y sin `hreflang` (SEO.md › 9) |
+| Search Console ⚠ | Propiedad de dominio verificada y sitemap enviado (SEO.md › 6). Tras pasar a `/es/…`, enviar de nuevo el sitemap y revisar que las URLs nuevas se indexen (SEO.md › 9) |
+| `https://sunqujourneys.com/` | 302 a `/es/` o `/en/` según el idioma del navegador (no a una página fija) |
+| `/descubre`, `/journeys/alma` (URLs de antes) | 301 a `/es/descubre`, `/es/journeys/alma` |
+| Con un idioma activo en Sunqu › Idiomas: `/en/`, `/en/journeys/alma` | 200, `<html lang="en">`, selector de idioma visible. Sin «Publicar en buscadores»: `noindex` y sin `hreflang` (SEO.md › 9) |
+| «Diseña tu viaje» y «Comparte tu viaje» con tu correo | Llega la copia de la solicitud y el «Gracias por enviar tu reseña»; al publicar la reseña, «Tu reseña ya es pública» |
 | Con un script en Sunqu › Scripts y seguimiento | Aparece en el código fuente con su comentario; si pide permiso, solo corre después de «Aceptar» en el aviso de cookies; consola sin bloqueos de CSP |
 
 ## 8. Volver atrás

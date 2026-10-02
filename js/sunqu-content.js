@@ -20,8 +20,10 @@
  *                           medir (eventos de medición, ver js/sunqu-analytics.js), origen (página de un formulario)
  *                           e idiomas: t (texto traducido), idioma, idiomas e irIdioma (selector de idioma).
  *
- * Idiomas: en /en/… y /pt/… el servidor entrega window.SUNQU_I18N (idioma, URL de la misma página en cada idioma
- * activo y los textos de este archivo traducidos en Loco Translate). Ver server/lib/idiomas.php.
+ * Idiomas: cada página vive en su idioma (/es/…, /en/…) y el servidor entrega window.SUNQU_I18N (idioma, URL de la
+ * misma página en cada idioma activo y los textos de este archivo traducidos en Loco Translate). La raíz (/) elige
+ * el idioma en el servidor (server/lib/idiomas.php); aquí solo se guarda la elección del selector (cookie
+ * sunqu_language) y se miden language_detected y language_changed.
  */
 (function () {
   'use strict';
@@ -34,10 +36,14 @@
   var I18N = window.SUNQU_I18N || null; // sin servidor (vista previa estática): solo español
   var LANG = (I18N && I18N.lang) || 'es';
   var PREFIJO = (I18N && I18N.prefijo) || '';
-  // Texto fijo traducido (Loco Translate); si no hay traducción, el original en español.
+  // Texto fijo traducido (Loco Translate); si no hay traducción, el original en español. Fuera de producción,
+  // la consola avisa una vez por texto sin traducir.
+  var avisados = {};
   function t(s) {
     var d = (I18N && I18N.dic) || {};
-    return Object.prototype.hasOwnProperty.call(d, s) && d[s] ? d[s] : s;
+    if (Object.prototype.hasOwnProperty.call(d, s) && d[s]) return d[s];
+    if (I18N && LANG !== I18N.base && CFG.env !== 'production' && !avisados[s]) { avisados[s] = 1; console.warn('[sunqu] sin traducción (' + LANG + '):', s); }
+    return s;
   }
 
   // Secciones de contenido que necesita cada página (= archivos de content/ = secciones de la API).
@@ -138,25 +144,63 @@
   function articulo(slug) { return CFG.rutas === 'limpias' ? PREFIJO + '/diario/' + slug : 'articulo.html?a=' + slug; }
 
   // ── Idiomas ───────────────────────────────────────────────────────────────
-  // Cada idioma se muestra en su propia lengua. Solo aparecen los activos en WordPress › Sunqu › Idiomas.
+  // Cada idioma se muestra en su propia lengua. Solo aparecen los activos en WordPress › Sunqu › Idiomas (y, sin
+  // servidor, los tres primeros como vista previa del selector). Agregar uno: aquí y en SUNQU_IDIOMAS_WEB.
   var IDIOMAS = [
     { code: 'es', name: 'Español', hello: 'Hola, bienvenido', icon: 'assets/diamond-orange.png' },
     { code: 'en', name: 'English', hello: 'Hello, welcome', icon: 'assets/diamond-yellow.png' },
     { code: 'pt', name: 'Português', hello: 'Olá, bem-vindo', icon: 'assets/diamond-lime.png' },
+    { code: 'fr', name: 'Français', hello: 'Bonjour, bienvenue', icon: 'assets/diamond-teal.png' },
+    { code: 'de', name: 'Deutsch', hello: 'Hallo, willkommen', icon: 'assets/diamond-olive.png' },
+    { code: 'it', name: 'Italiano', hello: 'Ciao, benvenuto', icon: 'assets/diamond-orange.png' },
+    { code: 'ru', name: 'Русский', hello: 'Здравствуйте, добро пожаловать', icon: 'assets/diamond-yellow.png' },
   ];
+  var COOKIE_IDIOMA = 'sunqu_language';
   function idioma() { return LANG; }
   function idiomas() {
     var alt = (I18N && I18N.alternos) || null;
-    return IDIOMAS.filter(function (l) { return !alt || alt[l.code]; }).map(function (l) {
+    return IDIOMAS.filter(function (l, i) { return alt ? alt[l.code] : i < 3; }).map(function (l) {
       return { code: l.code, name: l.name, hello: l.hello, icon: img(l.icon), on: l.code === LANG };
     });
   }
-  // Abre la misma página en otro idioma (con sus filtros y su ancla). false si no hay a dónde ir (vista previa).
+  function leerCookie(n) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function escribirCookie(n, v, segundos) {
+    document.cookie = n + '=' + encodeURIComponent(v) + '; Max-Age=' + segundos + '; Path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
+  }
+  function sesion(k, v) {
+    try { if (v === undefined) return window.sessionStorage.getItem(k); if (v === null) window.sessionStorage.removeItem(k); else window.sessionStorage.setItem(k, v); } catch (e) {}
+    return null;
+  }
+  // Abre la misma página en otro idioma (con sus filtros y su ancla) y guarda la elección: la raíz no vuelve a
+  // decidir por la persona. false si no hay a dónde ir (vista previa estática).
   function irIdioma(code) {
     var alt = (I18N && I18N.alternos) || {};
     if (!alt[code]) return false;
-    if (code !== LANG) window.location.href = alt[code] + window.location.search + window.location.hash;
+    escribirCookie(COOKIE_IDIOMA, code, 31536000);
+    if (code !== LANG) {
+      sesion('sunqu-idioma-cambio', JSON.stringify({ from: LANG, to: code })); // se mide al cargar la otra página
+      window.location.href = alt[code] + window.location.search + window.location.hash;
+    }
     return true;
+  }
+  // Al cargar: la URL manda. Si la persona ya había elegido otro idioma y llegó a esta página, su preferencia pasa a
+  // ser este. language_detected se mide una vez por visita (con cómo se eligió) y language_changed tras el selector.
+  if (I18N) {
+    var guardado = leerCookie(COOKIE_IDIOMA);
+    if (guardado && guardado !== LANG) escribirCookie(COOKIE_IDIOMA, LANG, 31536000);
+    var cambio = sesion('sunqu-idioma-cambio');
+    if (cambio) {
+      sesion('sunqu-idioma-cambio', null);
+      try { var c = JSON.parse(cambio); if (c && c.to === LANG) medir('language_changed', { from: String(c.from), to: LANG, source: 'manual' }); } catch (e) {}
+    } else if (!sesion('sunqu-idioma-medido')) {
+      var fuente = leerCookie('sunqu_lang_src');
+      medir('language_detected', { language: LANG, source: /^(saved_preference|browser|ip|default)$/.test(fuente) ? fuente : 'url' });
+    }
+    if (leerCookie('sunqu_lang_src')) escribirCookie('sunqu_lang_src', '', 0);
+    sesion('sunqu-idioma-medido', '1');
   }
 
   // Datos de contacto y redes para el footer, el menú lateral y los botones de WhatsApp.
@@ -331,7 +375,7 @@
           document.body.appendChild(caja);
           ts = { caja: caja, espera: null };
           ts.id = ts0.render(caja, {
-            sitekey: CFG.turnstile, appearance: 'interaction-only', execution: 'execute', language: { en: 'en', pt: 'pt-br' }[LANG] || 'es',
+            sitekey: CFG.turnstile, appearance: 'interaction-only', execution: 'execute', language: { en: 'en', pt: 'pt-br', fr: 'fr', de: 'de', it: 'it', ru: 'ru' }[LANG] || 'es',
             callback: function (token) { fin(0, token); },
             'error-callback': function () { fin(1, new Error(t('No pudimos verificar el envío. Vuelve a intentarlo.'))); },
             'timeout-callback': function () { fin(1, new Error(t('La verificación tardó demasiado. Vuelve a intentarlo.'))); },

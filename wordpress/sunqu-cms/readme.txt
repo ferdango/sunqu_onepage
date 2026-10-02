@@ -1,7 +1,7 @@
 === Sunqu CMS ===
 Requires at least: 6.4
 Requires PHP: 8.1
-Stable tag: 1.4.0
+Stable tag: 1.5.0
 
 Administra el contenido de la web de Sunqu Journeys y lo entrega en /wp-json/sunqu/v1 con el mismo formato que content/*.json.
 
@@ -34,6 +34,13 @@ Manual completo: docs/WORDPRESS.md en el repositorio de la web.
 schema.json se genera con wordpress/tools/generar-schema.py a partir de content/*.json. No lo edites a mano: agrega o cambia claves en los JSON y vuelve a generar.
 
 == Cambios ==
+
+= 1.5.0 =
+* Idiomas: francés, alemán, italiano y ruso, además de inglés y portugués. La web usa /es/… y /en/… y su raíz elige el idioma (preferencia guardada, navegador, país por IP o inglés); «Idioma por país» con excepciones (FR=fr).
+* Traducciones separadas por contexto en Loco Translate (interfaz, seo, contenido) y progreso por contexto en Sunqu › Idiomas.
+* «Diseña tu viaje»: celular con prefijo por país, país, «¿Cómo nos encontraste?» y Mi grupo (habitaciones con adultos, niños y bebés). La persona recibe una copia completa de su solicitud, en su idioma.
+* «Comparte tu viaje»: país de una lista, correo del autor (solo en el panel) y dos avisos con la marca: «Gracias por enviar tu reseña» (en revisión) y, al publicarla, «Tu reseña ya es pública».
+* Correos a la persona con logo, en el idioma de la página, «Responder» a Sunqu y máximo 5 por dirección cada 24 horas.
 
 = 1.4.0 =
 * Sunqu › Idiomas: activar inglés y portugués (con su variante), «Publicar en buscadores» por idioma, selector de idioma en la web y porcentaje traducido. Textos Domain «sunqu-cms» (Domain Path /languages).

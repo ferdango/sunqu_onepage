@@ -2,11 +2,15 @@
 /**
  * Idiomas de la web (Sunqu › Idiomas) traducidos con Loco Translate.
  *
- * La web está escrita en español. Para mostrarla en inglés o portugués:
+ * El contenido se escribe en español. Cada idioma activo tiene sus URLs (/es/…, /en/…); la raíz de la web elige el
+ * idioma de quien entra (preferencia guardada, idioma del navegador, país aproximado por IP o inglés). Para sumar un
+ * idioma (inglés, portugués, francés, alemán, italiano o ruso):
  *   1. Sunqu › Idiomas: activar el idioma (y elegir su variante: en_US, pt_BR…).
  *   2. Loco Translate › Plugins › Sunqu CMS › «Nuevo idioma»: crear el idioma en la ubicación «Personalizado»
- *      y traducir. La plantilla languages/sunqu-cms.pot trae TODOS los textos de la web: los fijos de las páginas
- *      (botones, títulos, formularios, aviso de cookies…) y los del contenido (journeys, Diario, legales, ajustes).
+ *      y traducir. La plantilla languages/sunqu-cms.pot trae TODOS los textos de la web, separados por contexto:
+ *        · interfaz:  los fijos de las páginas (botones, formularios, aviso de cookies, correos);
+ *        · seo:       títulos y descripciones para buscadores y redes (Sunqu › Sitio › SEO);
+ *        · contenido: journeys, experiencias, Diario, legales y ajustes.
  *      El plugin la actualiza solo cuando cambia el contenido; en Loco, «Sincronizar» suma los textos nuevos.
  *   3. Cuando la traducción esté completa, marcar «Publicar en buscadores»: hasta entonces /en/… se ve pero no se indexa.
  *
@@ -19,11 +23,17 @@
 defined('ABSPATH') || exit;
 
 const SUNQU_IDIOMA_BASE = 'es';
-/** Idiomas que la web puede mostrar: código => [nombre, variantes (la primera es la predeterminada)]. */
+/** Idiomas que la web puede mostrar, además del español: código => [nombre, variantes (la primera es la predeterminada)]. */
 const SUNQU_IDIOMAS = [
 	'en' => ['English', ['en_US', 'en_GB']],
 	'pt' => ['Português', ['pt_BR', 'pt_PT']],
+	'fr' => ['Français', ['fr_FR', 'fr_CA']],
+	'de' => ['Deutsch', ['de_DE', 'de_AT', 'de_CH']],
+	'it' => ['Italiano', ['it_IT']],
+	'ru' => ['Русский', ['ru_RU']],
 ];
+/** Contextos de traducción (msgctxt en Loco): textos fijos de la web, SEO y contenido, para traducirlos por separado. */
+const SUNQU_I18N_CONTEXTOS = ['interfaz' => 'Páginas', 'seo' => 'SEO', 'contenido' => 'Contenido'];
 /** Campos del contenido que no son texto para personas (slugs, imágenes, colores, enlaces, contacto). */
 const SUNQU_I18N_SIN_TRADUCIR = ['slug', 'id', 'img', 'imagenes', 'momentImg', 'photo', 'photos', 'poster', 'video', 'icon', 'card', 'href', 'link',
 	'url', 'embed', 'email', 'telefono', 'telefonoHref', 'whatsapp', 'instagramUsuario', 'facebook', 'instagram', 'tiktok', 'youtube', 'ruc', 'bg',
@@ -44,7 +54,27 @@ function sunqu_idiomas(): array {
 			'indexar' => !empty($a['indexar']),
 		];
 	}
-	return ['selector' => !array_key_exists('selector', $o) || !empty($o['selector']), 'activos' => $activos];
+	$paises = [];
+	foreach ((array) ($o['paises'] ?? []) as $pais => $lang) {
+		if (preg_match('/^[A-Z]{2}$/', (string) $pais) && ($lang === SUNQU_IDIOMA_BASE || isset(SUNQU_IDIOMAS[$lang]))) {
+			$paises[$pais] = $lang;
+		}
+	}
+	return ['selector' => !array_key_exists('selector', $o) || !empty($o['selector']), 'activos' => $activos, 'paises' => $paises];
+}
+
+/** «FR=fr, PT=pt» (comas o saltos de línea) → ['FR' => 'fr', 'PT' => 'pt']; lo que no se entiende se descarta. */
+function sunqu_idiomas_paises_leer(string $texto): array {
+	$out = [];
+	foreach (preg_split('/[\r\n,;]+/', $texto) ?: [] as $par) {
+		if (preg_match('/^\s*([A-Za-z]{2})\s*[=:]\s*([a-z]{2})\s*$/', $par, $m)) {
+			$lang = strtolower($m[2]);
+			if ($lang === SUNQU_IDIOMA_BASE || isset(SUNQU_IDIOMAS[$lang])) {
+				$out[strtoupper($m[1])] = $lang;
+			}
+		}
+	}
+	return $out;
 }
 
 /** Idioma pedido a la API (?lang=en) si está activo; '' = español. */
@@ -91,11 +121,17 @@ function sunqu_i18n_cargar(string $locale): void {
 }
 
 /**
- * Traducción de un texto con las traducciones cargadas (sunqu_i18n_cargar); el mismo texto si no la hay.
- * Sin archivos para ese idioma no se llama a translate(): WordPress cargaría las del idioma del panel.
+ * Traducción de un texto con las traducciones cargadas (sunqu_i18n_cargar), en su contexto (interfaz, seo o
+ * contenido); el mismo texto si no la hay. Sin archivos para ese idioma no se llama a translate(): WordPress
+ * cargaría las del idioma del panel.
  */
-function sunqu_tr(string $s): string {
-	return !empty($GLOBALS['sunqu_i18n']['hay']) ? translate($s, 'sunqu-cms') : $s;
+function sunqu_tr(string $s, string $ctx = 'interfaz'): string {
+	return !empty($GLOBALS['sunqu_i18n']['hay']) ? translate_with_gettext_context($s, $ctx, 'sunqu-cms') : $s;
+}
+
+/** Contexto de un texto del contenido: los de Sunqu › Sitio › SEO van aparte. */
+function sunqu_i18n_contexto(string $seccion, string $ruta): string {
+	return $seccion === 'sitio' && str_starts_with($ruta, '/seo/') ? 'seo' : 'contenido';
 }
 
 // ── Qué se traduce del contenido ───────────────────────────────────────────────────────────
@@ -131,13 +167,13 @@ function sunqu_i18n_recorrer($v, callable $fn, string $clave = '', string $ruta 
 }
 
 /** Sección exportada (sunqu_exportar) traducida a un idioma activo. */
-function sunqu_i18n_traducir_seccion(array $datos, string $lang): array {
+function sunqu_i18n_traducir_seccion(array $datos, string $lang, string $seccion = ''): array {
 	$idioma = sunqu_idiomas()['activos'][$lang] ?? null;
 	if (!$idioma) {
 		return $datos;
 	}
 	sunqu_i18n_cargar($idioma['locale']);
-	return sunqu_i18n_recorrer($datos, fn($s) => sunqu_tr($s));
+	return sunqu_i18n_recorrer($datos, fn($s, $ruta) => sunqu_tr($s, sunqu_i18n_contexto($seccion, $ruta)));
 }
 
 /** Textos fijos de la web (plantillas, JS, PHP): [texto => dónde aparece]. Lo genera tools/extraer-textos.py. */
@@ -160,7 +196,7 @@ function sunqu_i18n_diccionario(string $lang): array {
 	$dic = [];
 	foreach (array_keys(sunqu_i18n_textos_web()) as $s) {
 		$s = (string) $s;
-		$tr = sunqu_tr($s);
+		$tr = sunqu_tr($s, 'interfaz');
 		if ($tr !== $s && $tr !== '') {
 			$dic[$s] = $tr;
 		}
@@ -171,7 +207,7 @@ function sunqu_i18n_diccionario(string $lang): array {
 /** Datos de idioma que agrega la API a la sección sitio. */
 function sunqu_i18n_sitio(array $sitio, string $lang): array {
 	$cfg = sunqu_idiomas();
-	$sitio['_idiomas'] = ['base' => SUNQU_IDIOMA_BASE, 'selector' => $cfg['selector'], 'activos' => array_map(fn($a) => ['locale' => $a['locale'], 'indexar' => $a['indexar']], $cfg['activos'])];
+	$sitio['_idiomas'] = ['base' => SUNQU_IDIOMA_BASE, 'selector' => $cfg['selector'], 'activos' => array_map(fn($a) => ['locale' => $a['locale'], 'indexar' => $a['indexar']], $cfg['activos']), 'paises' => (object) $cfg['paises']];
 	if ($lang !== '') {
 		$sitio['_i18n'] = (object) sunqu_i18n_diccionario($lang);
 	}
@@ -189,19 +225,22 @@ function sunqu_po_cadena(string $s): string {
  * (en español). Devuelve ['ok' => bool, 'textos' => int, 'error' => string].
  */
 function sunqu_i18n_generar_pot(): array {
-	$entradas = [];
+	// [contexto => [texto => [dónde aparece]]]
+	$entradas = array_fill_keys(array_keys(SUNQU_I18N_CONTEXTOS), []);
 	foreach (sunqu_i18n_textos_web() as $s => $donde) {
-		$entradas[(string) $s][] = 'Web: ' . $donde;
+		$entradas['interfaz'][(string) $s][] = 'Web: ' . $donde;
 	}
 	foreach (sunqu_secciones() as $sec) {
 		$datos = sunqu_exportar($sec, false);
 		sunqu_i18n_recorrer($datos ?? [], function ($s, $ruta) use (&$entradas, $sec) {
-			if (count($entradas[$s] ?? []) < 3) {
-				$entradas[$s][] = 'Contenido: ' . $sec . $ruta;
+			$ctx = sunqu_i18n_contexto($sec, $ruta);
+			if (count($entradas[$ctx][$s] ?? []) < 3) {
+				$entradas[$ctx][$s][] = 'Contenido: ' . $sec . $ruta;
 			}
 			return $s;
 		});
 	}
+	$total = array_sum(array_map('count', $entradas));
 	$l = [
 		'# Textos de la web de Sunqu Journeys (páginas y contenido) para traducir con Loco Translate.',
 		'# GENERADO por el plugin Sunqu CMS al cambiar el contenido: no lo edites a mano.',
@@ -216,13 +255,16 @@ function sunqu_i18n_generar_pot(): array {
 		'"X-Domain: sunqu-cms\n"',
 		'',
 	];
-	foreach ($entradas as $s => $comentarios) {
-		foreach (array_slice(array_unique($comentarios), 0, 3) as $c) {
-			$l[] = '#. ' . str_replace(["\r", "\n"], ' ', $c);
+	foreach ($entradas as $ctx => $textos) {
+		foreach ($textos as $s => $comentarios) {
+			foreach (array_slice(array_unique($comentarios), 0, 3) as $c) {
+				$l[] = '#. ' . str_replace(["\r", "\n"], ' ', $c);
+			}
+			$l[] = 'msgctxt ' . sunqu_po_cadena($ctx);
+			$l[] = 'msgid ' . sunqu_po_cadena((string) $s);
+			$l[] = 'msgstr ""';
+			$l[] = '';
 		}
-		$l[] = 'msgid ' . sunqu_po_cadena((string) $s);
-		$l[] = 'msgstr ""';
-		$l[] = '';
 	}
 	$dir = SUNQU_CMS_DIR . 'languages';
 	if (!is_dir($dir) && !wp_mkdir_p($dir)) {
@@ -230,9 +272,9 @@ function sunqu_i18n_generar_pot(): array {
 	}
 	$ok = file_put_contents($dir . '/sunqu-cms.pot', implode("\n", $l) . "\n", LOCK_EX) !== false;
 	if ($ok) {
-		update_option('sunqu_i18n_pot', ['v' => sunqu_i18n_version_contenido(), 'fecha' => wp_date('c'), 'textos' => count($entradas)], false);
+		update_option('sunqu_i18n_pot', ['v' => sunqu_i18n_version_contenido(), 'fecha' => wp_date('c'), 'textos' => $total], false);
 	}
-	return ['ok' => $ok, 'textos' => count($entradas), 'error' => $ok ? '' : 'No se pudo escribir languages/sunqu-cms.pot (permisos de la carpeta del plugin).'];
+	return ['ok' => $ok, 'textos' => $total, 'error' => $ok ? '' : 'No se pudo escribir languages/sunqu-cms.pot (permisos de la carpeta del plugin).'];
 }
 
 /** Versión del contenido + del plugin: si cambia, la plantilla se vuelve a generar. */
@@ -265,7 +307,7 @@ add_action('admin_menu', function () {
 add_action('admin_init', function () {
 	register_setting('sunqu_idiomas', 'sunqu_idiomas', ['sanitize_callback' => function ($v) {
 		$v = is_array($v) ? $v : [];
-		$out = ['selector' => !empty($v['selector']) ? 1 : 0, 'activos' => []];
+		$out = ['selector' => !empty($v['selector']) ? 1 : 0, 'activos' => [], 'paises' => sunqu_idiomas_paises_leer(is_string($v['paises'] ?? null) ? $v['paises'] : '')];
 		foreach (SUNQU_IDIOMAS as $code => [, $variantes]) {
 			$a = is_array($v['activos'][$code] ?? null) ? $v['activos'][$code] : [];
 			$out['activos'][$code] = [
@@ -282,20 +324,21 @@ add_action('admin_init', function () {
 	}
 });
 
-/** Cuántos textos tiene traducidos un locale: ['web' => [traducidos, total], 'contenido' => [traducidos, total]]. */
+/** Cuántos textos tiene traducidos un locale, por contexto: ['interfaz' => [traducidos, total], 'seo' => […], 'contenido' => […]]. */
 function sunqu_i18n_progreso(string $locale): array {
 	sunqu_i18n_cargar($locale);
-	$web = array_keys(sunqu_i18n_textos_web());
-	$hechos = count(array_filter($web, fn($s) => sunqu_tr((string) $s) !== (string) $s));
-	$cont = [];
+	$textos = ['interfaz' => array_fill_keys(array_map('strval', array_keys(sunqu_i18n_textos_web())), true), 'seo' => [], 'contenido' => []];
 	foreach (sunqu_secciones() as $sec) {
-		sunqu_i18n_recorrer(sunqu_exportar($sec) ?? [], function ($s) use (&$cont) {
-			$cont[$s] = true;
+		sunqu_i18n_recorrer(sunqu_exportar($sec) ?? [], function ($s, $ruta) use (&$textos, $sec) {
+			$textos[sunqu_i18n_contexto($sec, $ruta)][$s] = true;
 			return $s;
 		});
 	}
-	$hc = count(array_filter(array_keys($cont), fn($s) => sunqu_tr((string) $s) !== (string) $s));
-	return ['web' => [$hechos, count($web)], 'contenido' => [$hc, count($cont)]];
+	$out = [];
+	foreach ($textos as $ctx => $lista) {
+		$out[$ctx] = [count(array_filter(array_keys($lista), fn($s) => sunqu_tr((string) $s, $ctx) !== (string) $s)), count($lista)];
+	}
+	return $out;
 }
 
 function sunqu_pagina_idiomas(): void {
@@ -312,7 +355,8 @@ function sunqu_pagina_idiomas(): void {
 	<div class="wrap">
 		<h1>Sunqu · Idiomas</h1>
 		<?php settings_errors('sunqu_idiomas'); ?>
-		<p>La web está escrita en <strong>español</strong>. Activa otros idiomas aquí y tradúcelos con <strong>Loco Translate</strong>: cada idioma activo se ve en <code><?php echo esc_html($web); ?>/en/…</code> o <code>/pt/…</code>, y el selector de idioma de la web lo ofrece. Lo que todavía no está traducido se muestra en español.</p>
+		<p>El contenido se escribe en <strong>español</strong>. Activa otros idiomas aquí y tradúcelos con <strong>Loco Translate</strong>. Cada idioma tiene sus propias URLs: <code><?php echo esc_html($web); ?>/es/…</code>, <code>/en/…</code>, <code>/pt/…</code>; el selector de idioma de la web los ofrece y lo que todavía no está traducido se muestra en español.</p>
+		<p><strong>Quien entra a <code><?php echo esc_html($web); ?></code></strong> (sin idioma en la URL) va al idioma que eligió antes en el selector; si nunca eligió, al de su navegador si está activo; si no, al de su país (por IP, si la web tiene configurado <code>GEOIP_URL</code>); y si nada de eso coincide, al <strong>inglés</strong> (o al español mientras el inglés no esté activo). Una URL con idioma (<code>/es/…</code>) siempre se respeta.</p>
 		<?php if (!$loco) : ?>
 			<div class="notice notice-warning inline"><p><strong>Falta Loco Translate.</strong> Instálalo y actívalo (Plugins › Añadir nuevo › «Loco Translate») para traducir los textos.</p></div>
 		<?php endif; ?>
@@ -334,8 +378,10 @@ function sunqu_pagina_idiomas(): void {
 							</select></td>
 							<td><label><input type="checkbox" name="sunqu_idiomas[activos][<?php echo esc_attr($code); ?>][indexar]" value="1" <?php checked(!empty($a['indexar'])); ?>> Sí</label></td>
 							<td><?php if ($p) :
-								$pct = fn($x) => $x[1] ? (int) round(100 * $x[0] / $x[1]) : 0; ?>
-								Páginas: <strong><?php echo esc_html($pct($p['web'])); ?>%</strong> (<?php echo esc_html($p['web'][0] . '/' . $p['web'][1]); ?>) · Contenido: <strong><?php echo esc_html($pct($p['contenido'])); ?>%</strong> (<?php echo esc_html($p['contenido'][0] . '/' . $p['contenido'][1]); ?>)
+								$pct = fn($x) => $x[1] ? (int) round(100 * $x[0] / $x[1]) : 0;
+								foreach (SUNQU_I18N_CONTEXTOS as $ctx => $etiqueta) :
+									echo $ctx !== 'interfaz' ? ' · ' : ''; ?><?php echo esc_html($etiqueta); ?>: <strong><?php echo esc_html($pct($p[$ctx])); ?>%</strong> <span style="color:#646970">(<?php echo esc_html($p[$ctx][0] . '/' . $p[$ctx][1]); ?>)</span><?php
+								endforeach; ?>
 								<?php if ($loco) : ?><br><a href="<?php echo esc_url(admin_url('admin.php?page=loco-plugin&action=view&bundle=' . rawurlencode('sunqu-cms/sunqu-cms.php'))); ?>">Traducir en Loco Translate</a><?php endif; ?>
 							<?php else : ?>—<?php endif; ?></td>
 						</tr>
@@ -343,7 +389,10 @@ function sunqu_pagina_idiomas(): void {
 				</tbody>
 			</table>
 			<p><label><input type="checkbox" name="sunqu_idiomas[selector]" value="1" <?php checked($cfg['selector']); ?>> Mostrar el selector de idioma en la web (cabecera y menú). Sin idiomas activos no se muestra.</label></p>
-			<p class="description">«Publicar en buscadores»: márcalo cuando la traducción esté completa. Hasta entonces las páginas del idioma se pueden visitar, pero llevan <code>noindex</code> y no entran al sitemap ni a los <code>hreflang</code>.</p>
+			<p class="description">«Publicar en buscadores»: márcalo cuando la traducción esté completa. Hasta entonces las páginas del idioma se pueden visitar, pero llevan <code>noindex</code> y no entran al sitemap ni a los <code>hreflang</code>. El inglés es el idioma por defecto para quien no coincide con ninguno: actívalo cuando tenga traducciones.</p>
+			<h2>Idioma por país (respaldo por IP)</h2>
+			<p>Solo se usa si la persona no eligió un idioma y su navegador no está en uno activo. Por defecto: español para Sudamérica, Centroamérica, España, México y el Caribe hispanohablante; portugués para Brasil; ruso para Rusia; inglés para el resto. Excepciones, una por línea (código de país = idioma), por ejemplo <code>FR=fr</code> o <code>PT=pt</code>:</p>
+			<p><textarea name="sunqu_idiomas[paises]" rows="3" class="large-text code" style="max-width:420px" placeholder="FR=fr"><?php echo esc_textarea(implode("\n", array_map(fn($p, $l) => $p . '=' . $l, array_keys($cfg['paises']), $cfg['paises']))); ?></textarea></p>
 			<?php submit_button('Guardar idiomas'); ?>
 		</form>
 

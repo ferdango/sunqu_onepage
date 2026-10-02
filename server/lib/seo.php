@@ -339,7 +339,8 @@ function sunqu_head(array $seo, array $c, bool $noEncontrada = false): string {
 		foreach ($indexables as $l) {
 			$h[] = '<link rel="alternate" hreflang="' . $l . '" href="' . sunqu_e(sunqu_url_idioma($seo['ruta_base'], $l)) . '">';
 		}
-		$h[] = '<link rel="alternate" hreflang="x-default" href="' . sunqu_e(sunqu_url_idioma($seo['ruta_base'], SUNQU_IDIOMA_BASE)) . '">';
+		// x-default: el idioma por defecto (inglés, si se indexa); quien no coincide con ningún idioma ve ese
+		$h[] = '<link rel="alternate" hreflang="x-default" href="' . sunqu_e(sunqu_url_idioma($seo['ruta_base'], sunqu_idioma_defecto_indexable())) . '">';
 	}
 	$h[] = '<meta name="theme-color" content="#1c1c1c">';
 	// Íconos cuadrados: Google muestra en los resultados un favicon cuadrado de 48 px o más

@@ -305,11 +305,11 @@ Base: `{sitio}/wp-json/sunqu/v1`. Todas las respuestas son JSON.
 
 | Tipo | Campos (* obligatorios) | Queda en |
 |---|---|---|
-| `solicitud` | nombre*, email*, mes, sentir, mensaje, guardados, pagina (`home`, `descubre`, `journey:<slug>`) | Sunqu › Solicitudes de viaje + correo de aviso |
-| `resena` | nombre*, pais*, texto*, permiso*, tema, enlace, estrellas, fotos `[{nombre, data}]` (data URL, máx. 4) | Reseñas › Pendiente + aviso. La caja «Permiso de publicación» muestra cuándo lo aceptó el autor |
+| `solicitud` | nombre*, email*, celular + celular_prefijo + celular_pais, pais (ISO) + pais_nombre, mes (`no-se`, `ene-mar`…), fuente (`instagram`, `youtube`, `tiktok`, `conocidos`), grupo (`[[adultos, niños, bebés], …]` por habitación), sentir, mensaje, guardados, pagina (`home`, `descubre`, `journey:<slug>`) | Sunqu › Solicitudes de viaje + aviso a Sunqu + **copia completa a la persona** |
+| `resena` | nombre*, pais* (ISO) + pais_nombre, email, texto*, permiso*, tema, enlace, estrellas, fotos `[{nombre, data}]` (data URL, máx. 4) | Reseñas › Pendiente + aviso a Sunqu + correo «Gracias por enviar tu reseña» (en revisión). Al publicarla en el panel, «Tu reseña ya es pública». La caja «Permiso de publicación» muestra cuándo lo aceptó el autor, su correo (no se publica) y si salieron los dos avisos |
 | `reclamacion` | nombre*, email*, tipoDoc*, numDoc*, celular*, domicilio*, servicio*, descripcion*, tipo*, detalle*, pedido*, acepta*, apoderado (* si `menor`), monto, fecha, codigo, identificacion, menor | Sunqu › Libro de reclamaciones (con la constancia de la aceptación del tratamiento de datos) + correo al consumidor y a la empresa |
 
-Los obligatorios del servidor son los mismos que marca el formulario de la web.
+Los obligatorios del servidor son los de siempre; los campos nuevos (celular, país, grupo, correo de la reseña) se validan si llegan, así un formulario anterior que quede en caché sigue funcionando. En la web, celular, país y el correo de la reseña son obligatorios. Los correos a la persona salen en el idioma de la página, con la marca, «Responder» le escribe a Sunqu y como máximo 5 por dirección cada 24 horas ([FORMULARIOS.md](FORMULARIOS.md)).
 
 - **Respuestas:** `{ "ok": true }` (la reclamación agrega `"codigo"`); el ID interno ya no se devuelve. Los errores devuelven `{ "code", "message" }` con estado:
   - 400: falta un campo o el correo no es válido;
@@ -397,22 +397,36 @@ Recomendado: copias de seguridad diarias.
 - **Reseñas › Pendientes**: revisa, completa (Tema, «Qué vivió o compró») y **Publica**.
 - **Sunqu › Solicitudes de viaje** y **Sunqu › Libro de reclamaciones**: cada envío con todos sus datos. Son privados y no salen por la API.
 
-### 8.7 Traducir la web (Sunqu › Idiomas + Loco Translate)
+### 8.7 Idiomas: URLs, detección y traducción (Sunqu › Idiomas + Loco Translate)
 
-La web está escrita en español (sus URLs no llevan prefijo). El inglés y el portugués se sirven en `/en/…` y `/pt/…`.
+**URLs.** Cada idioma tiene las suyas, con el mismo camino y los mismos slugs: `/es/`, `/es/descubre`, `/es/journeys/alma` · `/en/`, `/en/descubre`, `/en/journeys/alma`. Idiomas listos para activar: inglés, portugués, francés, alemán, italiano y ruso (el español siempre está activo, porque es el idioma en que se escribe el contenido).
+- La **raíz** (`https://sunqujourneys.com/`) no tiene idioma: lleva (302, sin caché) a `/es/` o `/en/`.
+- Las URLs de antes sin prefijo (`/descubre`, `/journeys/alma`, `/diario/…`) eran en español: redirigen 301 a `/es/…`.
+- Un idioma conocido pero no activo (`/fr/…`) redirige (302) a la misma página en español.
 
+**Cómo se elige el idioma en la raíz** (`server/lib/idiomas.php › sunqu_idioma_inicial`), en este orden:
+1. **Preferencia guardada**: la cookie `sunqu_language` que escribe el selector de idioma. Si después la persona entra a una URL de otro idioma, la URL manda y la preferencia pasa a ser ese idioma.
+2. **Idioma del navegador** (`Accept-Language`, en su orden de preferencia: `en-US` → `en`), si está activo.
+3. **País aproximado por IP**, solo como respaldo: español para Sudamérica, Centroamérica, España, México y el Caribe hispanohablante; portugués para Brasil; ruso para Rusia; inglés para el resto. Necesita un servicio configurado en el `.env` de la web (`GEOIP_URL`, ver `.env.example`) o una CDN que mande el país; si no, se salta. Excepciones por país en Sunqu › Idiomas (`FR=fr`).
+4. **Inglés** (o español mientras el inglés no esté activo).
+
+Una URL con idioma (`/es/…`) nunca se redirige: la autodetección solo corre en la raíz. Los buscadores no pasan por la consulta de país.
+
+**Activar y traducir un idioma:**
 1. **Plugins › Añadir nuevo › «Loco Translate»** › Activar.
-2. **Sunqu › Idiomas**: marca **Activo** en cada idioma, elige su variante (`en_US`/`en_GB`, `pt_BR`/`pt_PT`) y guarda. El selector de idioma de la web (cabecera y menú) aparece solo cuando hay más de un idioma; se puede apagar en la misma página.
+2. **Sunqu › Idiomas**: marca **Activo**, elige la variante (`en_US`/`en_GB`, `pt_BR`/`pt_PT`…) y guarda. El selector de idioma de la web (cabecera y menú) aparece cuando hay más de un idioma; se puede ocultar mientras se traduce.
 3. **Loco Translate › Plugins › Sunqu CMS › Nuevo idioma**: el mismo idioma y variante, ubicación **Personalizado** (`wp-content/languages/loco/plugins/`: no se pierde al actualizar el plugin). Traduce y **Guarda**.
-4. La web muestra las traducciones en unos minutos (al instante con Sunqu › Conexión › **Vaciar caché de la web**). Sunqu › Idiomas muestra el porcentaje traducido de las páginas y del contenido.
-5. Cuando la traducción esté completa, marca **Publicar en buscadores**. Hasta entonces `/en/…` se puede visitar pero lleva `noindex` y no entra al sitemap ni a los `hreflang` ([SEO.md › 9](SEO.md)).
+4. La web muestra las traducciones en unos minutos (al instante con Sunqu › Conexión › **Vaciar caché de la web**). Sunqu › Idiomas muestra el porcentaje traducido de **Páginas**, **SEO** y **Contenido**.
+5. Cuando la traducción esté completa y revisada, marca **Publicar en buscadores**. Hasta entonces el idioma se puede visitar pero lleva `noindex` y no entra al sitemap ni a los `hreflang` ([SEO.md › 9](SEO.md)).
 
-Qué se traduce:
-- **Textos fijos de las páginas** (botones, títulos, formularios, aviso de cookies, mensajes de error): los junta `tools/extraer-textos.py` en `wordpress/sunqu-cms/i18n/textos-web.php`. Si cambias un texto de una plantilla, de `js/` o de `server/`, vuelve a correrlo (`python3 tools/extraer-textos.py`) y empaqueta el plugin.
-- **Contenido** (journeys, Diario, legales, Sitio…): todos sus textos, tal como están publicados en español. No se traducen slugs, imágenes, colores, enlaces ni datos de contacto.
-- La plantilla `languages/sunqu-cms.pot` junta las dos cosas, con dónde aparece cada texto. El plugin la regenera cuando cambia el contenido; en Loco, abre el idioma y pulsa **Sincronizar** para ver lo nuevo.
-- Un texto del contenido que cambia en español vuelve a quedar sin traducir (en Loco aparece como nuevo): así nunca se muestra una traducción vieja de un texto distinto.
-- Lo que no tiene traducción se muestra en español. Los slugs son los mismos en todos los idiomas (`/en/journeys/alma`).
+El **inglés es el idioma por defecto** para quien no coincide con ninguno: actívalo cuando tenga traducciones, porque desde ese momento lo verán los visitantes de otros países (lo que falte se muestra en español).
+
+**Qué se traduce.** La plantilla `languages/sunqu-cms.pot` trae todos los textos, separados por **contexto** (columna «Contexto» en Loco):
+- `interfaz`: textos fijos de las páginas, de `js/` y del servidor (botones, formularios, aviso de cookies, mensajes de error, correos a la persona). Los junta `tools/extraer-textos.py` en `wordpress/sunqu-cms/i18n/textos-web.php`: si cambias un texto de una plantilla, de `js/` o de `server/`, vuelve a correrlo y empaqueta el plugin;
+- `seo`: títulos y descripciones de Sunqu › Sitio › SEO (cada idioma tiene los suyos; conviene escribirlos, no traducirlos palabra por palabra);
+- `contenido`: journeys, experiencias, Diario, legales y ajustes, tal como están publicados en español. No se traducen slugs, imágenes, colores, enlaces ni datos de contacto.
+
+El plugin regenera la plantilla cuando cambia el contenido; en Loco, abre el idioma y pulsa **Sincronizar**. Un texto que cambia en español vuelve a quedar sin traducir, así nunca se muestra una traducción vieja. Lo que no tiene traducción se muestra en español, y fuera de producción la consola del navegador avisa de los textos de `js/` sin traducir. El ruso se ve con la fuente del sistema: Aeonik no trae letras cirílicas.
 
 ### 8.8 Tag Manager, Analytics u otros scripts (Sunqu › Scripts y seguimiento)
 
@@ -457,7 +471,8 @@ Más detalles (eventos, GTM, consentimiento) en [ANALYTICS.md › 7](ANALYTICS.m
 | Los formularios responden «Formulario desconocido» | Plugin anterior a esta versión: el campo `tipo` del libro de reclamaciones pisaba el tipo de la ruta. Actualiza `sunqu-cms` |
 | Docker se queda en «Created» y no arranca contenedores | El uso compartido de archivos de Docker Desktop quedó trabado. Reinicia Docker Desktop (`docker desktop restart`) y revisa Settings › Resources › File sharing |
 | `wp sunqu verificar` muestra diferencias | Alguien editó en el panel después de importar (es normal) o cambió la estructura sin regenerar el esquema |
-| `/en/…` responde 404 | El idioma no está activo en Sunqu › Idiomas (o la web todavía tiene la caché anterior: Vaciar caché de la web) |
+| `/en/…` lleva a `/es/…` | El idioma no está activo en Sunqu › Idiomas (o la web todavía tiene la caché anterior: Vaciar caché de la web) |
+| La raíz siempre lleva al mismo idioma | Es la preferencia guardada (cookie `sunqu_language`) o el idioma del navegador. Prueba en una ventana privada o cambia de idioma con el selector |
 | Una traducción de Loco no aparece | Revisa que esté en la ubicación **Personalizado** y con la misma variante elegida en Sunqu › Idiomas; luego Vaciar caché de la web. Un texto que cambió en español necesita su traducción nueva |
 | Un servicio de Scripts y seguimiento no mide | Consola del navegador: si la CSP lo bloquea, agrega el dominio en «Dominios adicionales». Si el script es «Con permiso», solo carga después de «Aceptar» en el aviso de cookies |
 
@@ -474,7 +489,15 @@ Más detalles (eventos, GTM, consentimiento) en [ANALYTICS.md › 7](ANALYTICS.m
 - **CORS:** el origen de la web recibe `Access-Control-Allow-Origin`; otro origen no.
 - **Purga:** editar el título de un journey con WP-CLI se ve en la web en la petición siguiente. El endpoint rechaza GET, POST sin token y token incorrecto (403).
 
-**Idiomas y scripts (plugin 1.4.0)**, probados en Docker con WordPress 7.1.2, PHP 8.3, Loco Translate y una traducción de prueba al inglés:
+**Formularios e idiomas (plugin 1.5.0)**, probados en Docker con WordPress 7.1.2, PHP 8.3, Loco Translate y una traducción de prueba al inglés:
+- Raíz: `en-US` → `/en/` (navegador); `es-PE` → `/es/`; navegador en un idioma no activo + país PE o MX → `/es/` (IP); cookie `sunqu_language=es` con navegador en inglés → `/es/` (preferencia); sin datos → `/en/`. Los buscadores no consultan el país. La respuesta de la raíz no se guarda en caché.
+- `/descubre`, `/journeys/alma`, `/journey.html?j=alma` → 301 a `/es/…`; `/fr/…` (no activo) → 302 a `/es/…`; `/es`, `/en` → `/es/`, `/en/`.
+- Servicio de país simulado: caché por red sin guardar la IP, corte a los 800 ms, pausa tras un fallo e IPs privadas sin consulta.
+- En el navegador: el selector guarda `sunqu_language` y mide `language_changed`; la raíz mide `language_detected` con su fuente; una URL `/es/…` manda sobre la preferencia y la actualiza.
+- «Diseña tu viaje» en las tres páginas y «Comparte tu viaje», en español y en inglés: país con buscador (sin tildes, por teclado), prefijo con bandera que sigue al país, «+51 …» escrito en el número pasa al selector, Mi grupo con límites. La solicitud llega a Sunqu y la copia completa a la persona (en inglés desde `/en/`); la reseña envía «en revisión» y, al publicarla con WP-CLI, «ya es pública» una sola vez. El correo del autor no sale por la API.
+- Formularios anteriores (sin los campos nuevos) siguen funcionando; un grupo manipulado se recorta a los límites.
+
+**Idiomas y scripts (plugin 1.4.0)**, probados en Docker con WordPress 7.1.2, PHP 8.3, Loco Translate y una traducción de prueba al inglés (con las URLs de entonces: español sin prefijo):
 - `?lang=en` entrega el contenido y los textos fijos traducidos; `?lang=pt` sin traducciones y un idioma inactivo devuelven el español. Con el panel en inglés, `/pt` sigue en español (no toma las traducciones de otro idioma).
 - `/en`, `/en/descubre`, `/en/journeys/alma`, `/en/diario/…`, `/en/terminos`, `/en/libro-de-reclamaciones` y `/en/recuerda` responden 200 con `<html lang="en">`, canonical y `hreflang`; `/es/…` redirige a la URL sin prefijo y un idioma inactivo da 404. Las 8 páginas cargan sin errores en la consola.
 - El selector de idioma (cabecera y menú) abre la misma página en el otro idioma, con sus filtros y su ancla.

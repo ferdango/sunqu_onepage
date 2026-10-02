@@ -55,7 +55,7 @@ function sunqu_sitemap(): string {
 			foreach ($idiomas as $l) {
 				$alternos .= '<xhtml:link rel="alternate" hreflang="' . $l . '" href="' . htmlspecialchars(sunqu_url_idioma($u['ruta'], $l), ENT_XML1) . '"/>';
 			}
-			$alternos .= '<xhtml:link rel="alternate" hreflang="x-default" href="' . htmlspecialchars(sunqu_url_idioma($u['ruta'], SUNQU_IDIOMA_BASE), ENT_XML1) . '"/>';
+			$alternos .= '<xhtml:link rel="alternate" hreflang="x-default" href="' . htmlspecialchars(sunqu_url_idioma($u['ruta'], sunqu_idioma_defecto_indexable()), ENT_XML1) . '"/>';
 		}
 		foreach ($idiomas as $l) {
 			$x[] = '  <url><loc>' . htmlspecialchars(sunqu_url_idioma($u['ruta'], $l), ENT_XML1) . '</loc>'

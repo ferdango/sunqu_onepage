@@ -32,7 +32,7 @@ Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fecha
 `journey.html?j=<slug>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Su contenido viene de `content/journeys.json` (bloques `ficha` y `plan`), `content/anfitriones.json` y los `principios`/`galeria` comunes del mismo archivo.
 
 ## Overview
-Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idioma base: español. Inglés y portugués en `/en/…` y `/pt/…` cuando se activan en WordPress › Sunqu › Idiomas y se traducen con Loco Translate (`docs/WORDPRESS.md › 8.7`); el selector ES/EN/PT lleva a la misma página en el otro idioma.
+Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idiomas: cada uno con sus URLs (`/es/…`, `/en/…`; también portugués, francés, alemán, italiano y ruso cuando se activan en WordPress › Sunqu › Idiomas y se traducen con Loco Translate). La raíz elige el idioma de quien entra: su elección anterior, el idioma de su navegador, su país (respaldo por IP) o el inglés (`docs/WORDPRESS.md › 8.7`).
 
 Repo destino: `ferdango/sunqu_onepage` (rama `master`, actualmente vacío).
 
@@ -110,7 +110,7 @@ Para producción **se mantuvo este frontend** y se le agregó una capa PHP delan
 - `index.html` … `reclamaciones.html` — plantillas de las páginas · `Sunqu Journeys v2.dc.html` — fuente de `index.html`
 - `support.js` — runtime de las plantillas (lo arranca `js/sunqu-content.js` cuando el contenido está listo)
 - `content/` — contenido de toda la web (JSON)
-- `js/sunqu-config.js`, `js/sunqu-content.js` y `js/sunqu-analytics.js` — conexión con WordPress (hosting estático), capa de contenido y medición
+- `js/sunqu-config.js`, `js/sunqu-content.js`, `js/sunqu-analytics.js` y `js/sunqu-campos.js` — conexión con WordPress (hosting estático), capa de contenido, medición y campos de los formularios (País, Celular con prefijo, Mi grupo)
 - `server/`, `.htaccess`, `.env.example` — producción en Hostinger (`docs/ARCHITECTURE.md`)
 - `wordpress/` — plugin «Sunqu CMS», tema headless, entorno Docker y generador del esquema
 - `vendor/` — React y d3 servidos desde el propio sitio · `tools/` — scripts de mantenimiento (vendor, imágenes, fuentes, `extraer-textos.py` para las traducciones y `empaquetar-wordpress.sh`, que arma los zips del plugin y del tema)

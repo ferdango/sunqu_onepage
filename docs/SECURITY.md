@@ -23,7 +23,7 @@ WordPress ──POST + token──► web /_sunqu/purge          WordPress ─�
 
 | Pieza | Qué expone | Datos que guarda |
 |---|---|---|
-| Web (`sunqujourneys.com`) | Páginas (GET/HEAD), `sitemap.xml`, `robots.txt`, `/_sunqu/purge` (POST + token), `/_sunqu/csp` (POST, reportes), `/_sunqu/salud` (GET) | Ninguno personal. No tiene base de datos, sesiones ni cookies propias (la preferencia de cookies va en `localStorage`) |
+| Web (`sunqujourneys.com`) | Páginas (GET/HEAD), `sitemap.xml`, `robots.txt`, `/_sunqu/purge` (POST + token), `/_sunqu/csp` (POST, reportes), `/_sunqu/salud` (GET) | Ninguno personal. No tiene base de datos ni sesiones. Cookies propias, solo funcionales y sin datos personales: `sunqu_language` (el idioma que eligió la persona, 1 año) y `sunqu_lang_src` (cómo se eligió el idioma en la raíz, 2 minutos, para la medición). La preferencia de cookies va en `localStorage` |
 | CMS (`cms.sunqujourneys.com`) | Panel (`/wp-admin`, `/wp-login.php`), `/wp-json/sunqu/v1/contenido` (lectura pública, solo lo publicado), `/wp-json/sunqu/v1/formularios/*` (POST público con anti-spam), `/wp-content/uploads` (medios) | Contenido, solicitudes de viaje, reseñas pendientes y el libro de reclamaciones (datos personales) |
 
 **Límites de confianza:**
@@ -37,7 +37,7 @@ WordPress ──POST + token──► web /_sunqu/purge          WordPress ─�
 | Riesgo | Medida | Dónde |
 |---|---|---|
 | **XSS** | React escapa todo texto. El servidor escapa con `htmlspecialchars` el `<head>` y el bloque sin JavaScript. El JSON incrustado usa `JSON_HEX_TAG`, así que un «`</script>`» no corta el script. URLs `javascript:`, `vbscript:` y `data:` que no sean imagen → `#`, en el servidor y en el navegador. CSP **sin `'unsafe-inline'` en scripts**: solo corren los dos scripts en línea de la web, autorizados por su hash SHA-256 | `server/lib/content.php` › `sunqu_sanear`, `js/sunqu-content.js` › `sanear`, `server/lib/security.php`, `page.php` › `sunqu_hashes_en_linea` |
-| **CSRF** | La web no tiene sesiones ni cookies. La purga exige un token. Las acciones del panel llevan nonce y capacidad. La API de WordPress con cookie exige nonce (núcleo). Los formularios son públicos, sin autoridad de sesión, y además rechazan otros orígenes | `server/index.php`, plugin `admin.php`, `avisos.php`, `formularios.php` |
+| **CSRF** | La web no tiene sesiones ni cookies de autenticación. La purga exige un token. Las acciones del panel llevan nonce y capacidad. La API de WordPress con cookie exige nonce (núcleo). Los formularios son públicos, sin autoridad de sesión, y además rechazan otros orígenes | `server/index.php`, plugin `admin.php`, `avisos.php`, `formularios.php` |
 | **Inyección SQL** | La web no usa base de datos. El plugin usa las funciones de WordPress; la única consulta directa (código correlativo del libro) va con `$wpdb->prepare` | `formularios.php` › `sunqu_codigo_reclamacion` |
 | **Inyección de comandos** | No hay `exec`, `shell_exec`, `system` ni similares en el código que corre en el servidor (solo en herramientas locales de `tools/`) | revisado con búsqueda en todo el repositorio |
 | **Path traversal** | Plantillas y secciones de contenido de listas fijas. Slugs validados con `[a-z0-9-]`. Ningún nombre de archivo sale del visitante: las fotos se guardan como `resena-{id}-{n}` | `routes.php`, `content.php`, `formularios.php` |
@@ -314,6 +314,8 @@ No hay `package.json` ni dependencias de npm en producción. `tools/vendor.mjs` 
 | Datos personales en el CMS (reclamaciones) | Medio | Obligación legal | Acceso solo de Editores y Administradores, copias protegidas, sección 6 |
 | JavaScript de terceros desde Sunqu › Scripts y seguimiento | Medio | Es la función del módulo: lo que se pega corre en la web | Solo administradores con `unfiltered_html`, historial y aviso por correo, permiso de cookies para medición, CSP por hash y dominios. `CMS_SCRIPTS=off` lo apaga. Revisar el historial cuando llegue un aviso |
 | Un servicio del panel carga dominios que no aparecen en su código | Bajo | La CSP los bloquea (falla «seguro») | Se ve en la consola; agregarlos en «Dominios adicionales» |
+| IP del visitante enviada a un servicio de geolocalización (si se configura `GEOIP_URL`) | Bajo | Es el respaldo pedido para el idioma; solo se consulta en la raíz, cuando el navegador no está en un idioma activo y nunca para buscadores | Desde el servidor (la clave no llega al navegador), solo https, espera máxima corta, caché de 30 días por red con hash (no se guarda la IP) y pausa si falla. Mencionarlo en la política de privacidad (pendiente legal) |
+| Correos de los formularios a direcciones de terceros (alguien escribe el correo de otra persona) | Bajo | La web confirma lo que se envió a la dirección escrita | Máximo 5 correos por dirección cada 24 horas, sin enlaces de acción, «Responder» a Sunqu |
 
 ## 14. Procedimiento ante incidente
 
@@ -375,6 +377,9 @@ Entorno Docker con la web (Apache + PHP 8.3 + el mismo `.htaccess`), WordPress *
 | Scripts «Con permiso» antes y después de «Aceptar» | Inertes (`type="text/plain"`) / se ejecutan una vez, sin violaciones de CSP. «Solo necesarias» recarga la página sin ellos |
 | `CMS_SCRIPTS=off` | Ningún script del panel en las páginas ni en la CSP |
 | Idiomas (1.4.0): `/pt` sin traducciones con el panel de WordPress en inglés | Español: no toma traducciones de otro idioma |
+| País por IP (1.5.0) con un servicio simulado | Caché sin la IP (solo un hash de la red y el país), IPs privadas sin consulta, corte a los 800 ms, pausa de 5 minutos tras un fallo, buscadores sin consulta |
+| Reseña con correo (1.5.0) | El correo queda solo en el panel; la API de reseñas no lo incluye. Un correo inválido da 400 |
+| Mi grupo manipulado (1.5.0): 99 adultos, números negativos, habitaciones vacías o de más | Se recorta a los límites (1–8 adultos, 0–6 niños, 0–4 bebés, hasta 6 habitaciones) |
 
 **Hallazgos durante las pruebas (ya corregidos):**
 - **Secure Custom Fields anulaba el bloqueo de la API.** Engancha al filtro `rest_pre_dispatch` una función que no devuelve nada (`ACF_Rest_Api::initialize`), y eso borraba cualquier bloqueo aplicado antes.

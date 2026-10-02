@@ -10,6 +10,7 @@
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="descubre"></script>
 		<script src="js/sunqu-analytics.js" defer></script>
+		<script src="js/sunqu-campos.js" defer></script>
 	</head>
 	<body>
 		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
@@ -256,7 +257,7 @@
 															<span class="dc-price-t">{{ j.total }}</span>
 														</div>
 														<div class="dc-actions">
-															<button type="button" class="dc-fav" onClick="{{ j.toggleFav }}" aria-pressed="{{ j.favOn }}" aria-label="{{ j.favLabel }}">
+															<button type="button" class="dc-fav {{ j.favCls }}" onClick="{{ j.toggleFav }}" aria-pressed="{{ j.favOn }}" aria-label="{{ j.favLabel }}">
 																<img src="assets/diamond-orange.png" alt="">
 															</button>
 															<a href="{{ j.href }}" class="btn dc-go">Conocer<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
@@ -315,7 +316,7 @@
 												<div class="dc-card-sep"></div>
 												<p class="dc-loc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.3 11.8a1 1 0 0 0 1.4 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"></path></svg>{{ e.place }}</p>
 											</div>
-											<button type="button" class="dc-fav" onClick="{{ e.toggleFav }}" aria-pressed="{{ e.favOn }}" aria-label="{{ e.favLabel }}">
+											<button type="button" class="dc-fav {{ e.favCls }}" onClick="{{ e.toggleFav }}" aria-pressed="{{ e.favOn }}" aria-label="{{ e.favLabel }}">
 												<img src="assets/diamond-orange.png" alt="">
 											</button>
 										</div>
@@ -363,23 +364,49 @@
 										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · diseñamos contigo</span>
 										<div class="sj-form-row">
 											<div class="field">
-												<label for="f-name">Nombre</label>
-												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tu nombre">
+												<label for="f-name">Nombres completos</label>
+												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tus nombres y apellidos">
 											</div>
 											<div class="field">
 												<label for="f-mail">Email</label>
 												<input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com">
 											</div>
 										</div>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-tel">Celular</label>
+												<div data-sunqu-campo="celular" data-id="f-tel" data-required="1"></div>
+											</div>
+											<div class="field">
+												<label for="f-country">País</label>
+												<div data-sunqu-campo="pais" data-id="f-country" data-required="1"></div>
+											</div>
+										</div>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-month">¿Cuándo te gustaría viajar?</label>
+												<select id="f-month" name="mes" class="input">
+													<option value="no-se">Aún no lo sé</option>
+													<option value="ene-mar">Enero – marzo</option>
+													<option value="abr-jun">Abril – junio</option>
+													<option value="jul-sep">Julio – septiembre</option>
+													<option value="oct-dic">Octubre – diciembre</option>
+												</select>
+											</div>
+											<div class="field">
+												<label for="f-source">¿Cómo nos encontraste?</label>
+												<select id="f-source" name="fuente" class="input">
+													<option value="">Elige una opción</option>
+													<option value="instagram">Instagram</option>
+													<option value="youtube">YouTube</option>
+													<option value="tiktok">TikTok</option>
+													<option value="conocidos">Conocidos o familiares</option>
+												</select>
+											</div>
+										</div>
 										<div class="field">
-											<label for="f-month">¿Cuándo te gustaría viajar?</label>
-											<select id="f-month" name="mes" class="input">
-												<option>Aún no lo sé</option>
-												<option>Enero – marzo</option>
-												<option>Abril – junio</option>
-												<option>Julio – septiembre</option>
-												<option>Octubre – diciembre</option>
-											</select>
+											<label for="f-group">Mi grupo</label>
+											<div data-sunqu-campo="grupo" data-id="f-group"></div>
 										</div>
 										<fieldset class="field">
 											<legend class="sj-label">¿Qué quieres sentir?</legend>
@@ -559,7 +586,7 @@
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
 							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados</span>
 							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
-							<span style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75)">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></span>
+							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Diseñado por Wuality (se abre en una pestaña nueva)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
 						</div>
 					</div>
@@ -601,7 +628,7 @@
 		</x-dc>
 		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
 class Component extends DCLogic {
-  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, page: 0, sent: false, onb: false, onbStep: 0, onbFav0: 0, onbNudge: false, sentFav: 0, attachFav: true };
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, favPop: null, page: 0, sent: false, onb: false, onbStep: 0, onbFav0: 0, onbNudge: false, sentFav: 0, attachFav: true };
   burgerRef = React.createRef();
   closeRef = React.createRef();
   NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
@@ -624,8 +651,11 @@ class Component extends DCLogic {
     this.setState((s) => {
       const fav = { ...s.fav }; if (fav[key]) delete fav[key]; else fav[key] = { t: title, k: key.indexOf('j-') === 0 ? 'Journey' : 'Experiencia' };
       try { window.localStorage.setItem('sunqu-fav', JSON.stringify(fav)); } catch (e) {}
-      return { fav, favOnly: s.favOnly && Object.keys(fav).length > 0 };
+      // Microanimación solo del botón tocado (is-pop al guardar, is-unpop al quitar): no al cargar ni al filtrar
+      return { fav, favOnly: s.favOnly && Object.keys(fav).length > 0, favPop: { key, on: !!fav[key] } };
     });
+    clearTimeout(this.favPopT);
+    this.favPopT = setTimeout(() => this.setState({ favPop: null }), 750);
   }
   goTo(id) { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: this.motion ? 'smooth' : 'auto' }); }
   goPage(i) { this.setState({ page: Math.max(0, i) }, () => this.goTo('experiencias')); }
@@ -807,7 +837,8 @@ class Component extends DCLogic {
     const month = st.from ? day(st.from).getMonth() : -1;
     const win = st.from && st.to ? Math.round((day(st.to) - day(st.from)) / 864e5) + 1 : 0;
     const pax = st.pax, paxWord = pax === 1 ? 'viajero' : 'viajeros';
-    const favOf = (key, label) => ({ favOn: st.fav[key] ? 'true' : 'false', favLabel: (st.fav[key] ? 'Quitar de guardados: ' : 'Guardar: ') + label, toggleFav: () => this.toggleFav(key, label) });
+    const favOf = (key, label) => ({ favOn: st.fav[key] ? 'true' : 'false', favLabel: (st.fav[key] ? 'Quitar de guardados: ' : 'Guardar: ') + label, toggleFav: () => this.toggleFav(key, label),
+      favCls: st.favPop && st.favPop.key === key ? (st.favPop.on ? 'is-pop' : 'is-unpop') : '' });
     const listMode = st.view === 'list';
 
     const journeys = this.JOURNEYS.map((j) => ({ ...j, key: 'j-' + j.id, hay: [j.title, j.region, j.why, j.kicker, j.kw, ...j.c.map((c) => CL[c]), ...j.dest.map((d) => DL[d])].join(' ') })).filter(ok).map((j, i) => {

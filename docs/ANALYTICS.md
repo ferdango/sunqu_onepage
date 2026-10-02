@@ -71,6 +71,10 @@ Todos los eventos llevan `pagina`: home, journey, descubre…
 | `share` | Compartir un artículo | `method` (whatsapp, facebook, x, linkedin), `content_type: articulo`, `item_id` | — |
 | `cta_click` | «Diseña tu viaje» (cabecera, menú, secciones) | `ubicacion` | — |
 | `outbound_click` | Enlace a otro dominio | `link_domain` | — |
+| `language_detected` | Primera página de cada visita | `language` (`es`, `en`…), `source`: `saved_preference` (eligió antes), `browser`, `ip`, `default` (la raíz eligió por la persona) o `url` (entró directo a `/es/…`) | — |
+| `language_changed` | Cambio de idioma con el selector (se mide en la página nueva) | `from`, `to`, `source: manual` | — |
+
+**Idiomas:** `language_detected` y `language_changed` no llevan datos de la persona, solo códigos. La fuente `ip` no incluye el país ni la IP. El idioma de cada página también se ve en la URL (`/es/…`, `/en/…`), útil como dimensión en GA4.
 
 **Contexto inicial en `dataLayer`:**
 - `pagina`;

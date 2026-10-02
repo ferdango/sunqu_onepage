@@ -73,7 +73,8 @@
     return window.location.origin + window.location.pathname + (q.length ? '?' + q.join('&') : '');
   }
   var PERMITIDOS = ['form_name', 'ubicacion', 'experience_id', 'experience_name', 'list_name', 'search_term', 'content_type', 'content_id',
-    'item_id', 'item_name', 'item_category', 'item_variant', 'method', 'link_domain', 'pagina', 'items'];
+    'item_id', 'item_name', 'item_category', 'item_variant', 'method', 'link_domain', 'pagina', 'items',
+    'language', 'source', 'from', 'to']; // language_detected / language_changed (códigos de idioma y de origen)
   function valor(v) {
     if (typeof v === 'number' || typeof v === 'boolean') return v;
     if (typeof v !== 'string') return undefined;

@@ -15,15 +15,16 @@ Qué pasa con cada formulario de la web, cómo hacer que llegue a **sunqujourney
       │    (límite por IP, campo trampa, tiempo mínimo y, si se activa, Cloudflare Turnstile)
       │ 2. lo guarda en el panel
       │ 3. envía un correo HTML a sunqujourneys@gmail.com  ──► «Responder» le escribe directo al visitante
-      │ 4. (opcional) aviso al celular: Telegram o webhook
+      │ 4. envía a la persona su correo, con la marca y en su idioma (copia de la solicitud, reseña «en revisión»)
+      │ 5. (opcional) aviso al celular: Telegram o webhook
       ▼
  la web muestra la confirmación («Añay. Gracias.»)
 ```
 
 | Formulario | Página | Queda en el panel | Correo que llega |
 |---|---|---|---|
-| Diseña tu viaje | Inicio, ficha de cada journey, Descubre | **Sunqu › Solicitudes de viaje** | «Nueva solicitud de viaje · Nombre», con sus datos, los guardados adjuntos y la página de origen (p. ej. «Ficha del journey «Sunqu Origen»») |
-| Comparte tu viaje | Recuerda | **Reseñas › Pendientes**, con sus fotos | «Nueva reseña para revisar · Nombre». La reseña se publica recién cuando la apruebas |
+| Diseña tu viaje | Inicio, ficha de cada journey, Descubre | **Sunqu › Solicitudes de viaje** | «Nueva solicitud de viaje · Nombre», con sus datos (nombres completos, correo, celular con prefijo, país, cuándo, Mi grupo por habitación, qué quiere sentir, cómo nos encontró), los guardados adjuntos y la página de origen. **La persona recibe una copia completa** («Recibimos tu solicitud de viaje») |
+| Comparte tu viaje | Recuerda | **Reseñas › Pendientes**, con sus fotos | «Nueva reseña para revisar · Nombre». La persona recibe «Gracias por enviar tu reseña» (en revisión) y, cuando la **publicas**, «Tu reseña ya es pública» |
 | Libro de reclamaciones | /libro-de-reclamaciones | **Sunqu › Libro de reclamaciones** | «Libro de reclamaciones · SJ-2026-00012 · Nombre». Además, el consumidor recibe su **constancia** por correo |
 
 **Dónde queda cada envío:**
@@ -32,6 +33,21 @@ Qué pasa con cada formulario de la web, cómo hacer que llegue a **sunqujourney
 - **En las listas** de solicitudes y reclamaciones, la columna **Aviso por correo** muestra ✔ o ✖.
 
 El destinatario por defecto es **sunqujourneys@gmail.com**. Para cambiarlo o agregar más correos, separados por comas: **Sunqu › Conexión y herramientas › Avisos de los formularios › Correos que reciben los avisos**.
+
+### Correos a la persona que llenó el formulario
+
+| Cuándo | Asunto | Qué incluye |
+|---|---|---|
+| Envía «Diseña tu viaje» | Recibimos tu solicitud de viaje | Todo lo que envió, el plazo de respuesta (48 horas) y un botón a WhatsApp |
+| Envía «Comparte tu viaje» | Gracias por enviar tu reseña | Estado «En revisión», su nombre, país, calificación, comentario y enlace |
+| Publicas la reseña en el panel (Pendiente → Publicada) | Tu reseña ya es pública | Estado «Publicada», su comentario y un botón a Recuerda |
+
+- **Con la marca** (logo, franja de colores, pie de Sunqu) y **en el idioma de la página** desde la que se envió (`?lang=`, traducido en Loco › contexto `interfaz`). El aviso de publicación usa el idioma guardado con la reseña.
+- **«Responder»** le escribe a Sunqu (el primer correo de los avisos).
+- **Límite:** 5 correos por dirección cada 24 horas, para que nadie use la web para llenar el buzón de otra persona. Si se supera, el envío se guarda igual y la ficha lo anota.
+- **«Tu reseña ya es pública»** se envía una sola vez; si el correo falló, se reintenta la próxima vez que se publique.
+- **Dónde se ve:** la caja «Aviso a Sunqu» de cada solicitud dice si salió la copia; la caja «Permiso de publicación» de cada reseña muestra el correo del autor (no se publica) y si salieron los dos avisos.
+- El correo de la reseña se guarda solo en el panel: no es un campo de la reseña y nunca sale por la API.
 
 ---
 
@@ -185,5 +201,6 @@ Seguridad de los formularios (origen, límites, fotos sin EXIF, Turnstile): [SEC
   - **Configuración (fuera del repositorio):** `wp-config.php` del CMS define el SMTP (`SUNQU_SMTP_*`) y, opcionalmente, el token de Telegram (`SUNQU_TELEGRAM_TOKEN`) y el destinatario (`SUNQU_CORREO_AVISOS`).
   - **Destinatarios y canales (desde el panel):** Sunqu › Conexión y herramientas › Avisos de los formularios.
   - **Web:** envía con `SunquContent.enviar(tipo, datos)` (`js/sunqu-content.js`). En producción necesita `WORDPRESS_API_URL`.
-- **Idiomas.** En `/en/…` y `/pt/…` la web agrega `?lang=en` (o `pt`) al envío: los mensajes de error para la persona («Falta el campo…», «El correo no es válido»…) llegan traducidos con Loco Translate. Lo que se guarda en el panel, los correos a Sunqu y la constancia del libro de reclamaciones siguen en español.
+- **Idiomas.** Fuera del español, la web agrega `?lang=en` (o el idioma de la página) al envío: los mensajes de error («Falta el campo…», «El celular no es válido»…) y los correos a la persona llegan traducidos con Loco Translate. Lo que se guarda en el panel, los avisos a Sunqu y la constancia del libro de reclamaciones siguen en español.
+- **Campos de la web** (`js/sunqu-campos.js`): País (lista con buscador; nombres del navegador en el idioma de la página), Celular (prefijo con bandera, con buscador; banderas de `vendor/TwemojiCountryFlags.woff2` para Windows) y Mi grupo (hasta 6 habitaciones: adultos de 11 años o más, 1–8; niños de 3 a 10, 0–6; bebés de 0 a 2, 0–4). El servidor vuelve a validar y recortar todo.
 - **Otro canal.** Para agregar uno (por ejemplo, Slack directo), súmalo en `sunqu_push()`. Recibe tipo, título, texto y URL, sin datos personales.

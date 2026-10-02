@@ -30,6 +30,9 @@ const SUNQU_DEFAULTS = [
 	'CSP_INLINE_SCRIPTS' => 'hash',        // hash (seguro) | allow (solo si GTM usa etiquetas «HTML personalizado»)
 	'CMS_SCRIPTS' => 'on',                 // on | off: insertar los scripts de WordPress › Sunqu › Scripts y seguimiento
 	'TURNSTILE_SITE_KEY' => '',            // opcional: Cloudflare Turnstile en los formularios (con SUNQU_TURNSTILE_SECRET en WordPress)
+	'GEOIP_URL' => '',                     // opcional: servicio país-por-IP para elegir el idioma en la raíz ({ip} se reemplaza)
+	'GEOIP_CAMPO' => 'country',            // campo del JSON con el código de país (vacío = la respuesta es el código en texto)
+	'GEOIP_TIMEOUT_MS' => '800',           // espera máxima del servicio, en milisegundos
 ];
 
 function sunqu_env_file(): ?string {
@@ -90,6 +93,9 @@ function sunqu_config(): array {
 	}
 	if (!preg_match('/^[0-9A-Za-z_-]{10,100}$/', $cfg['TURNSTILE_SITE_KEY'])) {
 		$cfg['TURNSTILE_SITE_KEY'] = '';
+	}
+	if (!preg_match('/^[A-Za-z0-9_.]{0,60}$/', $cfg['GEOIP_CAMPO'])) {
+		$cfg['GEOIP_CAMPO'] = 'country';
 	}
 	if (!in_array($cfg['CSP_INLINE_SCRIPTS'], ['hash', 'allow'], true)) {
 		$cfg['CSP_INLINE_SCRIPTS'] = 'hash';

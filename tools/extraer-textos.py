@@ -2,7 +2,7 @@
 """
 Extrae los textos fijos de la web para traducirlos con Loco Translate (WordPress › Loco › Plugins › Sunqu CMS).
 
-Lee las 8 plantillas, js/sunqu-content.js, js/sunqu-analytics.js, server/lib/*.php y el plugin, y escribe
+Lee las 8 plantillas, js/sunqu-content.js, js/sunqu-analytics.js, js/sunqu-campos.js, server/lib/*.php y el plugin, y escribe
 wordpress/sunqu-cms/i18n/textos-web.php: la lista de textos de la interfaz con dónde aparece cada uno. El
 plugin la junta con los textos del contenido (journeys, Diario, legales…) en languages/sunqu-cms.pot, la
 plantilla que usa Loco.
@@ -23,7 +23,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 PLANTILLAS = ['index.html', 'journey.html', 'descubre.html', 'recuerda.html', 'blog.html', 'articulo.html', 'terminos.html', 'reclamaciones.html']
-JS = ['js/sunqu-content.js', 'js/sunqu-analytics.js']
+JS = ['js/sunqu-content.js', 'js/sunqu-analytics.js', 'js/sunqu-campos.js']
 PHP = sorted(str(p.relative_to(RAIZ)) for p in [*RAIZ.glob('server/lib/*.php'), *RAIZ.glob('wordpress/sunqu-cms/includes/*.php')])
 SALIDA = RAIZ / 'wordpress/sunqu-cms/i18n/textos-web.php'
 ATRIBUTOS = ('alt', 'aria-label', 'placeholder', 'title')
