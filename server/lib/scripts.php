@@ -19,6 +19,40 @@ declare(strict_types=1);
 
 const SUNQU_SCRIPTS_LUGARES = ['head', 'body_inicio', 'body_fin'];
 
+/**
+ * Servicios que envían datos a dominios que no aparecen en su código (además de los subdominios, que se autorizan
+ * solos). Google y Meta van aparte, en sunqu_csp().
+ */
+const SUNQU_SCRIPTS_SERVICIOS = [
+	'contentsquare.' => ['https://*.contentsquare.net', 'https://*.contentsquare.com'],
+	'hotjar.' => ['https://*.hotjar.com', 'https://*.hotjar.io', 'wss://*.hotjar.com', 'https://*.contentsquare.net', 'https://*.contentsquare.com'],
+	'clarity.ms' => ['https://*.clarity.ms', 'https://c.bing.com'],
+	'tiktok.com' => ['https://*.tiktok.com', 'https://*.tiktokw.us'],
+	'linkedin.com' => ['https://*.linkedin.com', 'https://px.ads.linkedin.com'],
+	'licdn.com' => ['https://*.licdn.com', 'https://*.linkedin.com'],
+	'tawk.to' => ['https://*.tawk.to', 'wss://*.tawk.to', 'https://cdn.jsdelivr.net'],
+];
+
+/** Alojamientos donde cualquiera publica: solo se autoriza el subdominio exacto, nunca *.dominio. */
+const SUNQU_SCRIPTS_COMPARTIDOS = ['github.io', 'githubusercontent.com', 'netlify.app', 'vercel.app', 'pages.dev', 'workers.dev',
+	'herokuapp.com', 'cloudfront.net', 'amazonaws.com', 'googleapis.com', 'googleusercontent.com', 'appspot.com', 'web.app',
+	'firebaseapp.com', 'azurewebsites.net', 'blogspot.com', 'wordpress.com', 'glitch.me', 'onrender.com', 'jsdelivr.net', 'unpkg.com'];
+
+/**
+ * Dominio base de un host (t.contentsquare.net → contentsquare.net; www.google.com.pe → google.com.pe), para
+ * autorizar todos sus subdominios: los servicios cargan el script de uno y envían los datos a otros.
+ */
+function sunqu_dominio_base(string $host): string {
+	$p = explode('.', strtolower($host));
+	$n = count($p);
+	if ($n <= 2) {
+		return implode('.', $p);
+	}
+	// Segundo nivel de país: com.pe, co.uk, com.br…
+	$sld = in_array($p[$n - 2], ['com', 'co', 'org', 'net', 'gob', 'gov', 'edu', 'ac'], true) && strlen($p[$n - 1]) === 2;
+	return implode('.', array_slice($p, $sld ? -3 : -2));
+}
+
 /** Dominio válido para la CSP (https://x.y, https://*.x.y, wss://…); '' si no lo es. */
 function sunqu_dominio_csp(string $d): string {
 	$d = strtolower(trim($d));
@@ -44,11 +78,21 @@ function sunqu_script_preparar(string $codigo, string $categoria): array {
 		$codigo = preg_replace('#<noscript\b[^>]*>.*?</noscript>#is', '', $codigo) ?? '';
 		$codigo = preg_replace('#<(img|iframe)\b[^>]*>(?:\s*</\1>)?#is', '', $codigo) ?? '';
 	}
-	// Dominios de lo que queda (lo quitado no se carga: no hace falta autorizarlo)
+	// Dominios de lo que queda (lo quitado no se carga: no hace falta autorizarlo), con sus subdominios
 	$dominios = [];
 	if (preg_match_all('#(?:https?:)?//((?:[a-z0-9-]+\.)+[a-z]{2,})(?=[/:"\'\s?]|$)#i', $codigo, $m)) {
 		foreach ($m[1] as $h) {
-			$dominios[] = 'https://' . strtolower($h);
+			$h = strtolower($h);
+			$base = sunqu_dominio_base($h);
+			$dominios[] = 'https://' . $h;
+			if (!in_array($base, SUNQU_SCRIPTS_COMPARTIDOS, true)) {
+				array_push($dominios, 'https://' . $base, 'https://*.' . $base);
+			}
+			foreach (SUNQU_SCRIPTS_SERVICIOS as $clave => $otros) {
+				if (str_contains($h, $clave)) {
+					array_push($dominios, ...$otros);
+				}
+			}
 		}
 	}
 	$hashes = [];

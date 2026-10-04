@@ -77,6 +77,51 @@ function sunqu_scripts_limpiar_codigo(string $c): string {
 	return trim(str_replace("\r\n", "\n", $c));
 }
 
+/** JavaScript pegado sin <script>…</script> (se vería como texto en la página): se envuelve. */
+function sunqu_scripts_envolver(string $c): string {
+	if ($c === '' || preg_match('#<\s*(script|noscript|link|meta|style|iframe|img|div)\b#i', $c)) {
+		return $c;
+	}
+	return "<script>\n" . $c . "\n</script>";
+}
+
+/**
+ * Problemas conocidos de un código que harían que no mida o que la web lo bloquee. Devuelve los avisos (texto).
+ * Se muestran al guardar y cada vez que se abre esta página.
+ */
+function sunqu_scripts_revisar(array $s): array {
+	$c = $s['codigo'];
+	$n = '«' . ($s['nombre'] ?: 'Script') . '»: ';
+	$a = [];
+	// Google Tag Manager: el ID del contenedor es GTM-XXXXXXX
+	if (preg_match_all('#googletagmanager\.com/(?:gtm\.js|ns\.html)\?id=([\w-]+)#i', $c, $m)
+		|| preg_match_all("#gtm\.js\?id=['\"]\s*\+\s*i.*?\(\s*window\s*,\s*document\s*,\s*['\"]script['\"]\s*,\s*['\"]\w+['\"]\s*,\s*['\"]([\w-]+)['\"]#is", $c, $m)) {
+		foreach (array_unique($m[1]) as $id) {
+			if (!preg_match('/^GTM-[A-Z0-9]+$/', $id)) {
+				$a[] = $n . 'es el código de Google Tag Manager pero usa el ID «' . $id . '»' . (str_starts_with($id, 'G-') ? ', que es de Google Analytics' : '')
+					. '. En Tag Manager el ID es GTM-XXXXXXX (Tag Manager › tu contenedor, arriba a la derecha). Si solo usas Analytics, pega en su lugar el código «Etiqueta de Google» (gtag.js) de Analytics › Administrar › Flujos de datos › Ver instrucciones de etiquetas.';
+			}
+		}
+	}
+	// gtag.js (Google Analytics)
+	if (preg_match('#googletagmanager\.com/gtag/js\?id=([\w-]+)#i', $c, $m)) {
+		if (str_starts_with($m[1], 'GTM-')) {
+			$a[] = $n . 'carga gtag.js con un ID de Tag Manager (' . $m[1] . '). Para Tag Manager pega el código del contenedor (gtm.js); para Analytics, el ID es G-XXXXXXXXXX.';
+		} elseif (!preg_match('#gtag\s*\(\s*[\'"]config[\'"]#', $c)) {
+			$a[] = $n . 'carga gtag.js pero le falta la línea gtag(\'config\', \'' . $m[1] . '\'): sin ella Google Analytics no recibe nada. Copia el código completo de Analytics.';
+		}
+	}
+	// Medición o publicidad de terceros que se carga sin permiso
+	if ($s['categoria'] === 'necesario' && preg_match('#hotjar|contentsquare|clarity\.ms|connect\.facebook\.net|fbq\(|tiktok|linkedin|licdn|doubleclick|googleadservices#i', $c)) {
+		$a[] = $n . 'mide o hace publicidad y está como «Siempre (necesario)»: se carga sin pedir permiso. Ponlo en «Con permiso de analítica» (Hotjar, Clarity) o «de marketing» (Pixel, TikTok, LinkedIn, Google Ads).';
+	}
+	// Con permiso, los <noscript>, <img> e <iframe> se quitan: si no queda un <script>, no hace nada
+	if ($s['categoria'] !== 'necesario' && !preg_match('#<script\b#i', preg_replace('#<noscript\b.*?</noscript>#is', '', $c) ?? '')) {
+		$a[] = $n . 'no tiene ningún <script> que ejecutar (con permiso se quitan <noscript>, <img> e <iframe>). Si es la parte <noscript> de Tag Manager, no hace falta: puedes quitarlo.';
+	}
+	return $a;
+}
+
 add_action('admin_menu', function () {
 	add_submenu_page('sunqu', 'Scripts y seguimiento', 'Scripts y seguimiento', 'manage_options', 'sunqu-scripts', 'sunqu_pagina_scripts');
 }, 16);
@@ -94,7 +139,7 @@ add_action('admin_post_sunqu_scripts_guardar', function () {
 		if (!is_array($f)) {
 			continue;
 		}
-		$codigo = sunqu_scripts_limpiar_codigo((string) ($f['codigo'] ?? ''));
+		$codigo = sunqu_scripts_envolver(sunqu_scripts_limpiar_codigo((string) ($f['codigo'] ?? '')));
 		if ($codigo === '') {
 			continue;
 		}
@@ -203,6 +248,14 @@ function sunqu_pagina_scripts(): void {
 			<li>La web autoriza en su política de seguridad (CSP) los dominios que aparecen en cada código. Si un servicio carga otros dominios, agrégalos en «Dominios adicionales» (lo verás como error en la consola del navegador).</li>
 			<li><strong>Todo lo que pegas aquí es público</strong> (se ve en el código de la página): nunca contraseñas ni claves secretas. Cada cambio queda en el historial y se avisa por correo.</li>
 		</ul>
+		<?php foreach ($s['lista'] as $x) :
+			if (!$x['activo']) {
+				continue;
+			}
+			foreach (sunqu_scripts_revisar($x) as $aviso) : ?>
+				<div class="notice notice-warning inline"><p><strong>Revisa:</strong> <?php echo esc_html($aviso); ?></p></div>
+			<?php endforeach;
+		endforeach; ?>
 		<?php if (!$puede) : ?>
 			<div class="notice notice-error inline"><p>Tu usuario no puede guardar HTML sin filtrar (<code>unfiltered_html</code>): solo un administrador del sitio puede cambiar los scripts.</p></div>
 		<?php endif; ?>

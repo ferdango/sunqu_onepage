@@ -1,7 +1,7 @@
 === Sunqu CMS ===
 Requires at least: 6.4
 Requires PHP: 8.1
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 
 Administra el contenido de la web de Sunqu Journeys y lo entrega en /wp-json/sunqu/v1 con el mismo formato que content/*.json.
 
@@ -34,6 +34,10 @@ Manual completo: docs/WORDPRESS.md en el repositorio de la web.
 schema.json se genera con wordpress/tools/generar-schema.py a partir de content/*.json. No lo edites a mano: agrega o cambia claves en los JSON y vuelve a generar.
 
 == Cambios ==
+
+= 1.5.1 =
+* Scripts y seguimiento: revisa cada código activo y avisa de lo que impediría medir (Tag Manager con un ID de Analytics G-… en vez de GTM-…, gtag.js sin gtag('config'), Hotjar o un Pixel cargados sin permiso, un código sin <script>).
+* Un JavaScript pegado sin <script>…</script> se envuelve al guardar (antes se veía como texto en la página).
 
 = 1.5.0 =
 * Idiomas: francés, alemán, italiano y ruso, además de inglés y portugués. La web usa /es/… y /en/… y su raíz elige el idioma (preferencia guardada, navegador, país por IP o inglés); «Idioma por país» con excepciones (FR=fr).

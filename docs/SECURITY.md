@@ -196,7 +196,7 @@ Formularios: **Diseña tu viaje** (inicio, journey, Descubre), **Comparte tu via
 | Fotos de Unsplash | `img-src https://images.unsplash.com` |
 | WordPress (`WORDPRESS_API_URL`) | `img-src`, `media-src` y `connect-src` del CMS |
 | Instagram / TikTok (reels de Recuerda) | `frame-src https://www.instagram.com https://www.tiktok.com` |
-| GA4 o GTM | `script-src https://www.googletagmanager.com https://*.googletagmanager.com`; `img-src`/`connect-src` `https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.google.com.pe` |
+| GA4 o GTM | `script-src https://www.googletagmanager.com https://*.googletagmanager.com`; `img-src`/`connect-src` `https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.google.com.pe` |
 | Vista previa de GTM | `https://tagmanager.google.com`, `https://fonts.googleapis.com`, `https://fonts.gstatic.com`, `https://ssl.gstatic.com`, `https://www.gstatic.com` |
 | Meta Pixel | `script-src https://connect.facebook.net`; `img-src`/`connect-src https://www.facebook.com https://connect.facebook.net` |
 | Turnstile | `script-src` y `frame-src https://challenges.cloudflare.com` |

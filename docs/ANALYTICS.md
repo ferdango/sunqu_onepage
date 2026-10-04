@@ -149,7 +149,8 @@ Para que el equipo agregue o cambie servicios de medición sin tocar el servidor
 | **Dónde**: `<head>` · al empezar el `<body>` · al final del `<body>` | Inserta el código ahí, en todas las páginas e idiomas, con un comentario `<!-- Nombre (Sunqu › Scripts y seguimiento) -->` |
 | **Con permiso de analítica** / **de marketing** | Cada `<script>` llega inerte (`type="text/plain" data-sunqu-consent="analitica"`, `src` → `data-src`) y se activa al aceptar, en el mismo orden. Se quitan sus `<noscript>`, `<img>` e `<iframe>` (sin JavaScript no se puede pedir permiso). El aviso nombra el servicio |
 | **Siempre (necesario)** | Se inserta tal cual, sin aviso. Si es de Google (GTM o gtag.js), funciona en Consent Mode: el aviso aparece igual y Google no usa cookies hasta que la persona acepta |
-| **Dominios adicionales** | Se suman a la CSP de la web, además de los que aparecen en cada código. Con un código de Google o Meta se autorizan solos sus dominios de envío (google-analytics.com, facebook.com…) |
+| **Dominios adicionales** | Se suman a la CSP de la web, además de los que aparecen en cada código y sus subdominios (`*.dominio`, salvo alojamientos compartidos como github.io o cloudfront.net). Con un código de Google, Meta, Hotjar/Contentsquare, Clarity, TikTok, LinkedIn o Tawk.to se autorizan solos sus dominios de envío (`SUNQU_SCRIPTS_SERVICIOS` en `server/lib/scripts.php`) |
+| **Avisos «Revisa: …»** | El panel revisa cada código activo: Tag Manager con un ID que no es `GTM-…`, gtag.js sin `gtag('config')`, medición o publicidad marcada «Siempre», un código sin `<script>` con permiso |
 
 **Eventos de la web** (tabla de la sección 3) con scripts del panel:
 - llegan a `dataLayer` como `{ event, …parámetros }`: un **GTM** pegado en el panel los recibe igual que con `GTM_ID` (configúralo como en la sección 4);

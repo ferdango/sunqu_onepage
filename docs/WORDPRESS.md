@@ -436,7 +436,8 @@ Para agregar Google Tag Manager, Google Analytics, Meta Pixel, Hotjar, Clarity, 
    - **Con permiso de analítica / de marketing** (lo normal para medición y publicidad): el código queda inerte hasta que la persona acepta en el aviso de cookies, que aparece solo y nombra cada servicio. Sus `<noscript>`, `<img>` e `<iframe>` se quitan.
    - **Siempre (necesario)**: se inserta tal cual, sin pedir permiso. Solo para lo imprescindible. Un código de Google (GTM o gtag.js) marcado así funciona en *Consent Mode*: carga desde el principio, sin cookies hasta que la persona acepta.
 2. **Guardar scripts**. La web los aplica en segundos en todas las páginas e idiomas.
-3. Si la consola del navegador muestra que la política de seguridad (CSP) bloqueó algo del servicio, agrega su dominio en **Dominios adicionales** (`https://*.hotjar.com`, `wss://…`). Los dominios que aparecen en el código y los de Google y Meta se autorizan solos.
+3. Si aparece un aviso amarillo **«Revisa: …»**, corrígelo: el panel revisa cada código activo (p. ej. un Tag Manager con el ID `G-…` de Analytics en vez de `GTM-…`, o Hotjar marcado «Siempre»). Un JavaScript pegado sin `<script>…</script>` se envuelve solo.
+4. La web autoriza sola los dominios que aparecen en el código **y todos sus subdominios** (`t.contentsquare.net` → `*.contentsquare.net`), los de Google y Meta, y los conocidos de Hotjar/Contentsquare, Clarity, TikTok, LinkedIn y Tawk.to. Si aun así la consola del navegador muestra que la política de seguridad (CSP) bloqueó algo, agrega ese dominio en **Dominios adicionales** (`https://*.servicio.com`, `wss://…`).
 
 Más detalles (eventos, GTM, consentimiento) en [ANALYTICS.md › 7](ANALYTICS.md) y la decisión de seguridad en [SECURITY.md](SECURITY.md). Usa esta vía **o** los IDs del `.env` (`GTM_ID`, `GA4_ID`, `META_PIXEL_ID`), no las dos.
 
