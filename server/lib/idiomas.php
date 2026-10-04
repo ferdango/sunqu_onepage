@@ -17,6 +17,8 @@
  *   3. el idioma del navegador (Accept-Language), si está activo;
  *   4. el país aproximado por IP (server/lib/geo.php), con el mapa SUNQU_PAISES_IDIOMA;
  *   5. el inglés (SUNQU_IDIOMA_DEFECTO), o el español si el inglés no está activo.
+ * Un buscador (sunqu_es_bot) va siempre a un idioma con «Publicar en buscadores»: el de su Accept-Language si se
+ * indexa; si no, sunqu_idioma_defecto_indexable() (el español mientras el inglés no se publique).
  */
 
 declare(strict_types=1);
@@ -142,7 +144,7 @@ function sunqu_idioma_pais(string $pais): string {
 
 /** ¿Es un buscador o una herramienta automática? (no se les consulta el país por IP). */
 function sunqu_es_bot(): bool {
-	return (bool) preg_match('/bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|lighthouse|pagespeed|headless|curl|wget|python|java\//i', (string) ($_SERVER['HTTP_USER_AGENT'] ?? ''));
+	return (bool) preg_match('/bot|crawl|spider|slurp|inspectiontool|google-site-verification|google-extended|yandex|duckduck|bingpreview|facebookexternalhit|embedly|lighthouse|pagespeed|headless|curl|wget|python|java\//i', (string) ($_SERVER['HTTP_USER_AGENT'] ?? ''));
 }
 
 /**
@@ -151,6 +153,12 @@ function sunqu_es_bot(): bool {
  */
 function sunqu_idioma_inicial(): array {
 	$web = sunqu_idiomas_web();
+	// Un buscador (sin cookie ni país) va siempre a un idioma que se indexa: si no, la raíz del dominio terminaría en
+	// una página con noindex (p. ej. /en/ sin «Publicar en buscadores») y Google no indexaría la portada
+	if (sunqu_es_bot()) {
+		$navegador = sunqu_idioma_navegador((string) ($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? ''));
+		return [in_array($navegador, sunqu_idiomas_indexables(), true) ? $navegador : sunqu_idioma_defecto_indexable(), 'default'];
+	}
 	$guardado = (string) ($_COOKIE[SUNQU_COOKIE_IDIOMA] ?? '');
 	if (isset($web[$guardado])) {
 		return [$guardado, 'saved_preference'];
@@ -159,12 +167,10 @@ function sunqu_idioma_inicial(): array {
 	if ($navegador !== '') {
 		return [$navegador, 'browser'];
 	}
-	if (!sunqu_es_bot()) {
-		$pais = sunqu_pais_visitante();
-		$porPais = $pais !== '' ? sunqu_idioma_pais($pais) : '';
-		if (isset($web[$porPais])) {
-			return [$porPais, 'ip'];
-		}
+	$pais = sunqu_pais_visitante();
+	$porPais = $pais !== '' ? sunqu_idioma_pais($pais) : '';
+	if (isset($web[$porPais])) {
+		return [$porPais, 'ip'];
 	}
 	return [sunqu_idioma_defecto(), 'default'];
 }

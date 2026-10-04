@@ -48,7 +48,7 @@ switch ($ruta['tipo']) {
 		[$lang, $fuente] = sunqu_idioma_inicial();
 		header('Location: ' . $cfg['SITE_URL'] . sunqu_ruta_idioma('/', $lang) . $ruta['query'], true, 302);
 		header('Cache-Control: private, no-store');
-		header('Vary: Accept-Language, Cookie');
+		header('Vary: Accept-Language, Cookie, User-Agent'); // los buscadores van a un idioma que se indexa
 		header('X-LiteSpeed-Cache-Control: no-cache');
 		// Cómo se eligió el idioma, para el evento language_detected de la medición (js/sunqu-content.js lo lee y lo borra)
 		setcookie('sunqu_lang_src', $fuente, ['expires' => time() + 120, 'path' => '/', 'secure' => str_starts_with($cfg['SITE_URL'], 'https://'), 'samesite' => 'Lax']);

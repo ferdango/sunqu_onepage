@@ -262,7 +262,7 @@ francés, alemán, italiano y ruso (el español siempre está). Traducción: Loc
 | sitemap.xml | Sí, con `xhtml:link` alternos | No |
 | `<html lang>`, `og:locale`, `inLanguage` (JSON-LD) | El del idioma | El del idioma |
 
-- **La raíz** (`/`) no es una página: redirige (302, `Cache-Control: private, no-store`, `Vary: Accept-Language, Cookie`) al idioma de la persona (preferencia guardada, navegador, país por IP o inglés) y no entra al sitemap. Los buscadores, que no mandan preferencias, terminan en el idioma por defecto; cada versión se descubre por los `hreflang` y el sitemap.
+- **La raíz** (`/`) no es una página: redirige (302, `Cache-Control: private, no-store`, `Vary: Accept-Language, Cookie, User-Agent`) al idioma de la persona (preferencia guardada, navegador, país por IP o inglés) y no entra al sitemap. Los buscadores van siempre a un idioma con «Publicar en buscadores» (el inglés si se publica; si no, el español): antes Googlebot terminaba en `/en/` con `noindex` y Google no indexaba la portada. Cada versión se descubre por los `hreflang` y el sitemap.
 - **Una URL con idioma nunca se redirige** según el navegador o el país: así cada versión es rastreable.
 - **Migración desde las URLs sin prefijo:** `/descubre`, `/journeys/{slug}`, `/diario/{slug}`, `/recuerda`, `/terminos`, `/libro-de-reclamaciones` y las `.html` antiguas redirigen **301** a su versión `/es/…` (eran las páginas en español), conservando los parámetros útiles y de campañas. En Search Console: enviar de nuevo `sitemap.xml` y revisar en «Páginas» que las URLs nuevas se indexen.
 - **Idioma no activo** (`/fr/…` antes de activarlo): 302 a la misma página en español.
