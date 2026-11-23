@@ -80,6 +80,10 @@
     {
       "slug": "lima",
       "label": "Lima"
+    },
+    {
+      "slug": "ica",
+      "label": "Ica y Paracas"
     }
   ],
   "duraciones": [

@@ -2,7 +2,7 @@
 
 **Producción:** https://sunqujourneys.com. Corre en Hostinger con la capa PHP `server/` y WordPress headless en `cms.sunqujourneys.com`.
 **Publicación actual (estática):** https://sunqujourneys.com sirve la rama `master` desde GitHub Pages (dominio en `CNAME`; DNS en Hostinger: registros A de GitHub Pages en `@` y CNAME `www` → `ferdango.github.io`). Las páginas ya no llevan `noindex`. En este modo no corren `server/` ni `.htaccess`: las URLs limpias (`/es/…`, `/journeys/alma`) y los formularios esperan a la migración a Hostinger (`docs/DEPLOYMENT.md`); `https://ferdango.github.io/sunqu_onepage/` redirige al dominio.
-**Catálogo:** 3 journeys (`origen`, `sabor`, `corto`) y 3 experiencias (Machu Picchu, Valle Sagrado, Vinicunca), en `content/journeys.json` y `content/experiencias.json`.
+**Catálogo:** 3 journeys (`origen`, `sabor`, `corto`) y 3 experiencias (Lima colonial y catacumbas, Museo Larco, Huacachina), en `content/journeys.json` y `content/experiencias.json`.
 
 | Documento | Para qué |
 |---|---|

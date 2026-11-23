@@ -2,38 +2,40 @@
   "_info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias».",
   "items": [
     {
-      "slug": "machu-picchu-primero-la-piedra",
-      "t": "Machu Picchu: primero la piedra",
-      "place": "Machu Picchu, Cusco",
-      "dest": "machu",
-      "img": "1567597243073-2d274aabecec",
-      "alt": "2.430 m",
-      "dur": "Día completo",
+      "slug": "lima-colonial-y-catacumbas-de-san-francisco",
+      "t": "Lima colonial y las catacumbas de San Francisco",
+      "place": "Centro Histórico, Lima",
+      "dest": "lima",
+      "img": "1568805647297-df963b524678",
+      "alt": "154 m",
+      "dur": "2 horas · tarde",
+      "c": [
+        "historia",
+        "sabor"
+      ]
+    },
+    {
+      "slug": "museo-larco-el-peru-antes-de-los-incas",
+      "t": "Museo Larco: el Perú antes de los incas",
+      "place": "Pueblo Libre, Lima",
+      "dest": "lima",
+      "img": "1771258854735-3c469668cd62",
+      "alt": "154 m",
+      "dur": "1 h 15 min · mañana",
       "c": [
         "historia"
       ]
     },
     {
-      "slug": "el-urubamba-y-el-valle-sagrado",
-      "t": "El Urubamba y el Valle Sagrado",
-      "place": "Valle Sagrado, Cusco",
-      "dest": "cusco",
-      "img": "1541637593725-923467404d17",
-      "alt": "2.870 m",
-      "dur": "Día completo",
+      "slug": "huacachina-vinedo-tubulares-y-picnic",
+      "t": "Huacachina: viñedo, tubulares y picnic al atardecer",
+      "place": "Paracas · Huacachina, Ica",
+      "dest": "ica",
+      "img": "1527736848781-72dc3b2ee00f",
+      "alt": "406 m",
+      "dur": "Día completo · desde Lima",
       "c": [
-        "historia"
-      ]
-    },
-    {
-      "slug": "vinicunca-con-una-familia-alpaquera",
-      "t": "Vinicunca con una familia alpaquera",
-      "place": "Cusco",
-      "dest": "cusco",
-      "img": "1578362646678-a1b282e43ff8",
-      "alt": "5.036 m",
-      "dur": "Día completo",
-      "c": [
+        "sabor",
         "gente"
       ]
     }
