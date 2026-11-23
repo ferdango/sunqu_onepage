@@ -1,7 +1,8 @@
 # Sunqu Journeys — web
 
 **Producción:** https://sunqujourneys.com. Corre en Hostinger con la capa PHP `server/` y WordPress headless en `cms.sunqujourneys.com`.
-**Vista previa estática:** https://ferdango.github.io/sunqu_onepage/ (GitHub Pages, rama `master`, raíz; lleva `noindex`).
+**Publicación actual (estática):** https://sunqujourneys.com sirve la rama `master` desde GitHub Pages (dominio en `CNAME`; DNS en Hostinger: registros A de GitHub Pages en `@` y CNAME `www` → `ferdango.github.io`). Las páginas ya no llevan `noindex`. En este modo no corren `server/` ni `.htaccess`: las URLs limpias (`/es/…`, `/journeys/alma`) y los formularios esperan a la migración a Hostinger (`docs/DEPLOYMENT.md`); `https://ferdango.github.io/sunqu_onepage/` redirige al dominio.
+**Catálogo:** 3 journeys (`origen`, `sabor`, `corto`) y 3 experiencias (Machu Picchu, Valle Sagrado, Vinicunca), en `content/journeys.json` y `content/experiencias.json`.
 
 | Documento | Para qué |
 |---|---|
@@ -29,7 +30,7 @@ Descubre abre un onboarding (bienvenida + 5 pasos con foco: palabra clave, fecha
 `recuerda.html` combina el muro de reseñas (videos, fotos y comentarios; los posts reales de Instagram/TikTok se muestran con su embed oficial poniendo su enlace en `url`) y la tienda de merch del manual de marca, con bolsa y compra por WhatsApp. Reseñas en `content/resenas.json` (las actuales son de ejemplo) y tienda en `content/productos.json` (precios de referencia).
 `blog.html` (listado con categorías) y `articulo.html?a=<slug>` (artículo) leen los artículos de `content/diario.json` (en WordPress: Entradas y Categorías).
 `terminos.html` (Términos y condiciones, enlazado desde «Legales» del footer) y `reclamaciones.html` (Libro de reclamaciones virtual, enlazado desde el footer; header solo con el logo). El libro necesita un backend o servicio de correo para registrar y enviar cada hoja; el RUC y la dirección se completan en `content/sitio.json › empresa` (WordPress: Sunqu › Sitio). Con WordPress conectado, cada hoja se registra en Sunqu › Libro de reclamaciones y se envía por correo.
-`journey.html?j=<slug>` es la ficha de un journey (`alma`, `sabor`, `profundo`, `origen`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Su contenido viene de `content/journeys.json` (bloques `ficha` y `plan`), `content/anfitriones.json` y los `principios`/`galeria` comunes del mismo archivo.
+`journey.html?j=<slug>` es la ficha de un journey (`origen`, `sabor`, `corto`); los botones "Ver journey" de la one-page enlazan ahí. Su contenido viene de `content/journeys.json` (bloques `ficha` y `plan`), `content/anfitriones.json` y los `principios`/`galeria` comunes del mismo archivo.
 
 ## Overview
 Landing one-page inmersiva para **Sunqu Journeys**, agencia de viajes premium al Perú ("Viaja al corazón del Perú"). Presenta la marca, el Círculo Dorado (Why/How/What), los 6 principios, los journeys, anfitriones, la ruta en mapa, el acompañamiento antes/durante/después, blog, Instagram y un formulario de contacto. Idiomas: cada uno con sus URLs (`/es/…`, `/en/…`; también portugués, francés, alemán, italiano y ruso cuando se activan en WordPress › Sunqu › Idiomas y se traducen con Loco Translate). La raíz elige el idioma de quien entra: su elección anterior, el idioma de su navegador, su país (respaldo por IP) o el inglés (`docs/WORDPRESS.md › 8.7`).
