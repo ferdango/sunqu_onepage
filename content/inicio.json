@@ -6,16 +6,16 @@
       "caption": "Machu Picchu · una ciudadela del siglo XV"
     },
     {
-      "img": "1568805778796-96b66708d6e0",
-      "caption": "Chinchero · tejidos teñidos con plantas"
+      "img": "1620417396507-9a57523d16a6",
+      "caption": "Lago Titicaca · islas flotantes hechas de totora"
     },
     {
       "img": "1535399831218-d5bd36d1a6b3",
       "caption": "Lima · el ceviche, patrimonio de la UNESCO"
     },
     {
-      "img": "1532996152552-eaffc4edfc1a",
-      "caption": "Machu Picchu · una de las nuevas siete maravillas"
+      "img": "1779231913794-ff973fe40adf",
+      "caption": "El cóndor andino · hasta tres metros de alas"
     }
   ],
   "principios": [
@@ -37,7 +37,7 @@
       "title": "Te contamos la historia",
       "q": "Detrás de cada piedra, cada plato y cada tejido hay una historia. Te la contamos.",
       "icon": "assets/diamond-yellow.png",
-      "photo": "1568805647297-df963b524678"
+      "photo": "1640525040855-52d40e5f6372"
     },
     {
       "bg": "#f4a700",
@@ -57,7 +57,7 @@
       "title": "Participas, no solo miras",
       "q": "Pruebas, preguntas, participas. Lo vives con tus propias manos, no desde la ventana del bus.",
       "icon": "assets/diamond-lime.png",
-      "photo": "1568805778796-96b66708d6e0"
+      "photo": "1578314874366-1975eac6e32a"
     },
     {
       "bg": "#736d47",
@@ -67,7 +67,7 @@
       "title": "Lo armamos para ti",
       "q": "Tu ritmo, tus gustos y tus fechas. Cada viaje se ajusta a ti.",
       "icon": "assets/diamond-olive.png",
-      "photo": "1526697675318-89790adec369"
+      "photo": "1499591934245-40b55745b905"
     },
     {
       "bg": "#48725E",
@@ -77,14 +77,14 @@
       "title": "Antes, durante y después",
       "q": "Estamos contigo desde que sueñas el viaje hasta que vuelves a casa.",
       "icon": "assets/diamond-teal.png",
-      "photo": "1730423284218-a8a7e9422ebf"
+      "photo": "1666067722589-97df1969b51a"
     }
   ],
   "formas": [
     {
       "title": "Sunqu Journeys",
       "sub": "Viajes de 9 a 14 días por la costa, los Andes y la selva",
-      "img": "1567597243073-2d274aabecec",
+      "img": "1645740718142-4611e21c6dee",
       "href": "descubre.html",
       "cta": "Ver los journeys"
     },
@@ -105,7 +105,7 @@
     {
       "title": "Sunqu Marketplace",
       "sub": "Recuerdos con nombre y apellido",
-      "img": "1568805647297-df963b524678",
+      "img": "1780762983589-fe57c675c0f7",
       "href": "recuerda.html#tienda",
       "cta": "Ir a la tienda"
     }
@@ -309,7 +309,7 @@
       "title": "Todo listo antes de volar",
       "body": "La historia de los lugares que vas a conocer, tus primeras palabras en quechua y quiénes te van a recibir.",
       "img": "assets/pattern-pair.png",
-      "photo": "1541637593725-923467404d17"
+      "photo": "1516546453174-5e1098a4b4af"
     },
     {
       "bg": "#83b300",

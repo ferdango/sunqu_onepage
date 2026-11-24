@@ -6,16 +6,16 @@
       "caption": "Machu Picchu · a 15th-century citadel"
     },
     {
-      "img": "1568805778796-96b66708d6e0",
-      "caption": "Chinchero · textiles dyed with plants"
+      "img": "1620417396507-9a57523d16a6",
+      "caption": "Lake Titicaca · floating islands made of totora reeds"
     },
     {
       "img": "1535399831218-d5bd36d1a6b3",
       "caption": "Lima · ceviche, UNESCO heritage"
     },
     {
-      "img": "1532996152552-eaffc4edfc1a",
-      "caption": "Machu Picchu · one of the New Seven Wonders"
+      "img": "1779231913794-ff973fe40adf",
+      "caption": "The Andean condor · a wingspan of up to three meters"
     }
   ],
   "principios": [
@@ -37,7 +37,7 @@
       "title": "We tell you the story",
       "q": "Behind every stone, every dish and every weave there's a story. We tell it to you.",
       "icon": "/assets/diamond-yellow.png",
-      "photo": "1568805647297-df963b524678"
+      "photo": "1640525040855-52d40e5f6372"
     },
     {
       "bg": "#f4a700",
@@ -57,7 +57,7 @@
       "title": "You take part, you don't just watch",
       "q": "You taste, you ask, you take part. You live it with your own hands, not through a bus window.",
       "icon": "/assets/diamond-lime.png",
-      "photo": "1568805778796-96b66708d6e0"
+      "photo": "1578314874366-1975eac6e32a"
     },
     {
       "bg": "#736d47",
@@ -67,7 +67,7 @@
       "title": "We build it for you",
       "q": "Your pace, your tastes and your dates. Every trip adapts to you.",
       "icon": "/assets/diamond-olive.png",
-      "photo": "1526697675318-89790adec369"
+      "photo": "1499591934245-40b55745b905"
     },
     {
       "bg": "#48725E",
@@ -77,14 +77,14 @@
       "title": "Before, during and after",
       "q": "We're with you from the moment you dream of the trip until you're back home.",
       "icon": "/assets/diamond-teal.png",
-      "photo": "1730423284218-a8a7e9422ebf"
+      "photo": "1666067722589-97df1969b51a"
     }
   ],
   "formas": [
     {
       "title": "Sunqu Journeys",
       "sub": "Trips of 9 to 14 days across the coast, the Andes and the jungle",
-      "img": "1567597243073-2d274aabecec",
+      "img": "1645740718142-4611e21c6dee",
       "href": "descubre.html",
       "cta": "See the journeys"
     },
@@ -105,7 +105,7 @@
     {
       "title": "Sunqu Marketplace",
       "sub": "Keepsakes with a first and last name",
-      "img": "1568805647297-df963b524678",
+      "img": "1780762983589-fe57c675c0f7",
       "href": "recuerda.html#tienda",
       "cta": "Go to the shop"
     }
@@ -309,7 +309,7 @@
       "title": "All set before you fly",
       "body": "The story of the places you're going to see, your first words in Quechua and who is going to welcome you.",
       "img": "/assets/pattern-pair.png",
-      "photo": "1541637593725-923467404d17"
+      "photo": "1516546453174-5e1098a4b4af"
     },
     {
       "bg": "#83b300",

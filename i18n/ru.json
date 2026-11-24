@@ -784,11 +784,7 @@
  "Tejedora": "Ткачиха",
  "Chinchero, Cusco": "Чинчеро, Куско",
  "teñido natural y telar de cintura.": "натуральному окрашиванию и работе на поясном станке.",
- "Tejedora en su telar": "Ткачиха за своим станком",
- "Retrato — tejedora en su telar": "Портрет — ткачиха за своим станком",
  "Picantera": "Пикантера",
- "Anfitrionas con trajes tradicionales": "Хозяйки в традиционных костюмах",
- "Retrato — picantera en su cocina": "Портрет — пикантера на своей кухне",
  "Familia anfitriona": "Принимающая семья",
  "Isla Amantaní, lago Titicaca": "Остров Амантани, озеро Титикака",
  "su vida en el lago: cenas y duermes en su casa.": "жизни на озере: вы ужинаете и ночуете у них дома.",
@@ -1156,7 +1152,6 @@
  "Cena en una isla del lago Titicaca, mira volar al cóndor y prueba Lima bocado a bocado. Somos una agencia peruana y diseñamos tu viaje a medida, con la gente que vive el Perú todos los días.": "Поужинайте на острове посреди Титикаки, посмотрите, как парит кондор, и попробуйте Лиму на вкус. Мы — перуанское агентство и создаём путешествие под вас вместе с людьми, для которых Перу — это дом.",
  "¿Te apasiona la historia, la comida o conocer gente? Cuéntanos qué te mueve y armamos el viaje desde ahí, no desde un catálogo.": "Вас вдохновляют история, еда или новые знакомства? Расскажите, что вам интересно, и мы построим путешествие от этого, а не от каталога.",
  "Antes de venir, conoce un poco más del Perú.": "Узнайте Перу чуть лучше ещё до поездки.",
- "Chinchero · tejidos teñidos con plantas": "Чинчеро · ткани, окрашенные растениями",
  "Machu Picchu · una ciudadela del siglo XV": "Мачу-Пикчу · цитадель XV века",
  "Para quien quiere entender el Perú entero: el desierto, los Andes, el lago Titicaca y la selva, en un solo viaje.": "Для тех, кто хочет понять Перу целиком: пустыня, Анды, озеро Титикака и сельва — в одном путешествии.",
  "Para quien tiene diez días y no quiere elegir entre Machu Picchu y la Amazonía: aquí vives las dos.": "Для тех, у кого десять дней и кто не хочет выбирать между Мачу-Пикчу и Амазонией: здесь будет и то и другое.",
@@ -1183,5 +1178,8 @@
  "Antes de los incas hubo miles de años de historia. En el Museo Larco, una casona del siglo XVIII construida sobre una pirámide precolombina, los descubres con un guía: la religión de los Andes, los textiles, los rituales, el oro y la famosa galería erótica, el «Kamasutra andino».": "До инков были тысячи лет истории. В музее Ларко — особняке XVIII века, построенном на доколумбовой пирамиде, — вы откроете их вместе с гидом: религию Анд, текстиль, ритуалы, золото и знаменитую эротическую галерею — «андскую Камасутру».",
  "Un día completo desde Lima: almuerzo en el viñedo La Caravedo, en Ica, donde se hace pisco desde hace más de 400 años; el oasis de Huacachina; tubulares y sandboard por las dunas, y un picnic para ver caer el sol sobre el desierto.": "Целый день из Лимы: обед на винодельне La Caravedo в Ике, где писко делают уже более 400 лет; оазис Уакачина; багги и сэндбординг по дюнам и пикник, чтобы увидеть, как солнце садится над пустыней.",
  "Lima · el ceviche, patrimonio de la UNESCO": "Лима · севиче, наследие ЮНЕСКО",
- "Machu Picchu · una de las nuevas siete maravillas": "Мачу-Пикчу · одно из новых семи чудес света"
+ "Lago Titicaca · islas flotantes hechas de totora": "Озеро Титикака · плавучие острова из тоторы",
+ "El cóndor andino · hasta tres metros de alas": "Андский кондор · размах крыльев до трёх метров",
+ "Tejedora tiñendo lana con tintes naturales": "Ткачиха окрашивает шерсть натуральными красителями",
+ "Cocinera sirviendo comida en un mercado": "Повар раздаёт еду на рынке"
 }
