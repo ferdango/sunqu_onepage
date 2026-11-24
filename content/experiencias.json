@@ -1,43 +1,297 @@
 {
-  "_info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias».",
+  "_info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias». Cada experiencia tiene además su ficha (experiencia.html?e=<slug>): resumen, datos, itinerario, incluye, noIncluye, llevar, notas y galeria.",
   "items": [
     {
       "slug": "lima-colonial-y-catacumbas-de-san-francisco",
       "t": "Lima colonial y las catacumbas de San Francisco",
       "place": "Centro Histórico, Lima",
       "dest": "lima",
-      "img": "1568805647297-df963b524678",
+      "img": "https://limaexperience.com/wp-content/uploads/2024/10/IMG_7911-1.jpg",
       "alt": "154 m",
       "dur": "2 horas · tarde",
       "c": [
         "historia",
         "sabor"
-      ]
+      ],
+      "resumen": "Dos horas a pie por el centro histórico de Lima al caer la tarde: del parque de la Muralla a las catacumbas bajo el convento de San Francisco, con una parada en la antigua estación de tren y cierre en la Plaza Mayor.",
+      "datos": [
+        [
+          "Duración",
+          "2 horas"
+        ],
+        [
+          "Horario",
+          "4:30 p. m. a 6:30 p. m. (encuentro 4:15 p. m.)"
+        ],
+        [
+          "Punto de encuentro",
+          "Parque de la Muralla, Jr. Amazonas 101, Centro Histórico"
+        ],
+        [
+          "Idiomas",
+          "Español e inglés"
+        ],
+        [
+          "Grupo",
+          "Pequeño"
+        ],
+        [
+          "Salidas",
+          "Todos los días"
+        ]
+      ],
+      "itinerario": [
+        [
+          "4:30 p. m.",
+          "Parque de la Muralla: introducción a la cultura y la sociedad limeña, con el cerro San Cristóbal al frente."
+        ],
+        [
+          "4:50 p. m.",
+          "Iglesia y convento de San Francisco: el claustro, la biblioteca y las catacumbas subterráneas. Probamos churros peruanos."
+        ],
+        [
+          "5:40 p. m.",
+          "Casa de la Literatura: la antigua estación de tren, las lenguas originarias del Perú y su primer ferrocarril (cerrada los lunes)."
+        ],
+        [
+          "6:00 p. m.",
+          "Plaza Mayor: historia y arquitectura frente a Palacio de Gobierno y la Catedral."
+        ]
+      ],
+      "incluye": [
+        "Guía certificado que habla inglés",
+        "Grupo pequeño",
+        "Entradas"
+      ],
+      "noIncluye": [
+        "Comidas",
+        "Propinas",
+        "Seguro de viaje",
+        "Recojo en tu alojamiento (opcional, con costo): Barranco 3:40, Miraflores 3:45, San Isidro 3:55 y Centro 4:00 p. m."
+      ],
+      "llevar": [
+        "Casaca ligera",
+        "Bloqueador, lentes de sol y gorra",
+        "Zapatillas",
+        "Pasaporte físico, una foto clara de él o el documento con el que entraste al Perú (no vale la licencia de conducir)"
+      ],
+      "notas": [
+        "No es apto para sillas de ruedas ni coches de bebé.",
+        "Cancelación gratuita hasta 24 horas antes.",
+        "En feriados los horarios pueden cambiar y algunos lugares pueden cerrar."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_64942-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_7854-1.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_6931-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_8994-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_3588-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_3638-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/a-fun-lima-city-tour-and-catacombs-all-included/"
     },
     {
       "slug": "museo-larco-el-peru-antes-de-los-incas",
       "t": "Museo Larco: el Perú antes de los incas",
       "place": "Pueblo Libre, Lima",
       "dest": "lima",
-      "img": "1771258854735-3c469668cd62",
+      "img": "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4267-2-scaled.jpg",
       "alt": "154 m",
       "dur": "1 h 15 min · mañana",
       "c": [
         "historia"
-      ]
+      ],
+      "resumen": "Una visita guiada al Museo Larco para entender el Perú antiguo: la historia y la religión de los Andes, la galería erótica conocida como el «Kamasutra andino», los textiles, los rituales de sacrificio y muerte, y el oro y la joyería.",
+      "datos": [
+        [
+          "Duración",
+          "1 hora 15 minutos"
+        ],
+        [
+          "Horario",
+          "11:30 a. m. a 12:45 p. m. (encuentro 11:25 a. m.)"
+        ],
+        [
+          "Punto de encuentro",
+          "Entrada principal del Museo Larco"
+        ],
+        [
+          "Idiomas",
+          "Inglés y español"
+        ],
+        [
+          "Grupo",
+          "Pequeño (también en privado)"
+        ],
+        [
+          "Salidas",
+          "Todos los días"
+        ]
+      ],
+      "itinerario": [
+        [
+          "11:25 a. m.",
+          "Encuentro con tu guía en la entrada principal."
+        ],
+        [
+          "11:30 a. m.",
+          "Introducción a la historia y la religión de los Andes y del Perú."
+        ],
+        [
+          "12:15 p. m.",
+          "Galería erótica, el «Kamasutra andino»: cómo pensaban las culturas antiguas."
+        ],
+        [
+          "12:30 p. m.",
+          "Cultura y textiles, sacrificio y muerte en el Perú antiguo, y la sala de oro y joyería."
+        ],
+        [
+          "12:45 p. m.",
+          "Fin de la visita."
+        ]
+      ],
+      "incluye": [
+        "Guía certificado que habla inglés",
+        "Entradas",
+        "Grupo pequeño"
+      ],
+      "noIncluye": [
+        "Comidas",
+        "Propinas",
+        "Seguro de viaje",
+        "Recojo en tu alojamiento (opcional, con costo): Barranco 10:40, Miraflores 10:45, Centro 10:50 y San Isidro 10:55 a. m.; regreso 1:15 p. m."
+      ],
+      "llevar": [
+        "Casaca ligera",
+        "Zapatillas",
+        "Pasaporte físico, una foto clara de él o el documento con el que entraste al Perú (no vale la licencia de conducir)"
+      ],
+      "notas": [
+        "Llega 10 minutos antes de la hora de encuentro.",
+        "El museo abre todos los días de 9:00 a. m. a 7:00 p. m.",
+        "Cancelación gratuita hasta 24 horas antes.",
+        "En feriados los horarios pueden cambiar."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_41271-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4160-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_42239-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4218-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4521-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4222-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/tour-museo-larco/"
     },
     {
       "slug": "huacachina-vinedo-tubulares-y-picnic",
       "t": "Huacachina: viñedo, tubulares y picnic al atardecer",
       "place": "Paracas · Huacachina, Ica",
       "dest": "ica",
-      "img": "1527736848781-72dc3b2ee00f",
+      "img": "https://limaexperience.com/wp-content/uploads/2024/09/oasis-huacachina-scaled.jpg",
       "alt": "406 m",
       "dur": "Día completo · desde Lima",
       "c": [
         "sabor",
         "gente"
-      ]
+      ],
+      "resumen": "Un día completo desde Lima: almuerzo y recorrido en el viñedo La Caravedo, tarde en el oasis de Huacachina, tubulares y sandboard por las dunas, y un picnic para ver caer el sol sobre el desierto.",
+      "datos": [
+        [
+          "Duración",
+          "Día completo (unas 16 horas)"
+        ],
+        [
+          "Salida",
+          "Entre 6:20 y 6:45 a. m. desde tu alojamiento en Centro, San Isidro, Miraflores o Barranco"
+        ],
+        [
+          "Regreso",
+          "Hacia las 11:00 p. m., al mismo lugar"
+        ],
+        [
+          "Idioma",
+          "Inglés"
+        ],
+        [
+          "Grupo",
+          "Bus de 35 asientos"
+        ],
+        [
+          "Salidas",
+          "Todos los días"
+        ]
+      ],
+      "itinerario": [
+        [
+          "6:30 a. m.",
+          "Recojo y bus a Paracas, unas 4 horas y media de viaje."
+        ],
+        [
+          "11:20 a. m.",
+          "Paracas: te recibe tu guía y sigues en su bus."
+        ],
+        [
+          "12:50 p. m.",
+          "Viñedo La Caravedo: recorrido, almuerzo y cata de pisco opcional."
+        ],
+        [
+          "2:30 p. m.",
+          "Camino a Huacachina."
+        ],
+        [
+          "3:10 p. m.",
+          "Oasis de Huacachina: tiempo libre para caminar y tomar fotos. Puedes encargar tu cena para llevar."
+        ],
+        [
+          "4:00 p. m.",
+          "Tubulares por las dunas durante dos horas, con sandboard para deslizarte."
+        ],
+        [
+          "6:00 p. m.",
+          "Picnic en las dunas al atardecer."
+        ],
+        [
+          "6:30 p. m.",
+          "Regreso a Lima."
+        ]
+      ],
+      "incluye": [
+        "Recojo y retorno a tu alojamiento",
+        "Bus con aire acondicionado, USB y baño",
+        "Guía certificado que habla inglés",
+        "Recorrido y almuerzo en el viñedo (opciones vegetarianas y veganas)",
+        "Tubulares y sandboard, con casco",
+        "Picnic al atardecer",
+        "Entradas"
+      ],
+      "noIncluye": [
+        "Desayuno y cena",
+        "Bebidas alcohólicas después de la cata",
+        "Propinas"
+      ],
+      "llevar": [
+        "Pasaporte físico (envía una foto 24 horas antes)",
+        "Desayunar antes del recojo",
+        "Casaca impermeable y cortavientos",
+        "Bloqueador, lentes de sol y gorra",
+        "Pantalón cómodo y zapatillas (no sandalias)"
+      ],
+      "notas": [
+        "Los menores necesitan autorización de sus padres para los tubulares.",
+        "Quienes pesan más de 100 kg pagan un asiento adicional en el tubular o el bus.",
+        "Las embarazadas solo pueden ir en tour privado y hasta el cuarto mes.",
+        "Si está nublado, el atardecer puede no verse.",
+        "Cancelación gratuita hasta 24 horas antes."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2024/09/OASIS-AT-NIGHT-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/caravedo-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/IMG_9115-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/IMG_4783-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_0214-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/picnic-1-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/huacachina-tour-vineyard-buggy-and-desert-picnic/"
     }
   ]
 }

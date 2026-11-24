@@ -2,138 +2,173 @@
   "_info": "Journeys. Cada journey tiene datos base y cuatro bloques: ficha (journey.html), plan (consejos, notas y temporada), catalogo (tarjeta de descubre.html) e inicio (tarjeta de la portada). En WordPress: tipo de contenido «Journeys». principios y galeria son comunes a todas las fichas.",
   "items": [
     {
-      "slug": "origen",
-      "title": "Sunqu Origen",
+      "slug": "costa-andes-amazonia",
+      "title": "El Perú completo: costa, Andes y Amazonía",
       "c": [
-        "sabor",
-        "historia"
+        "historia",
+        "gente"
       ],
-      "days": "9 días",
-      "alt": "3.500 m",
+      "days": "14 días",
+      "alt": "5.036 m",
       "ficha": {
-        "momentAlt": "Familia anfitriona",
-        "sub": "Del mercado a la montaña",
-        "kicker": "Journey insignia · El sabor · La historia",
-        "price": "Journey insignia",
-        "priceShort": "Journey insignia",
+        "momentAlt": "Selva de Tambopata",
+        "sub": "De la costa a la selva",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Arequipa",
+          "Colca",
+          "Titicaca",
+          "Cusco",
+          "Machu Picchu",
+          "Tambopata"
+        ],
+        "what": "Journey de 14 días por costa, Andes y Amazonía: Lima, Ica, Arequipa, el Colca, el Titicaca, Cusco, Machu Picchu y Tambopata.",
+        "whatLong": "Un journey de 14 días que cruza las tres regiones del Perú: el desierto de Ica, los Andes del sur entre el Colca, el Titicaca y Cusco, y la selva de Tambopata.",
+        "storyTitle": "Tres regiones, un solo viaje.",
+        "story": [
+          "El recorrido sube de a poco: empieza a nivel del mar, pasa por Arequipa a 2.335 m y el Colca antes de llegar al Titicaca y a Cusco, y termina bajando a la selva.",
+          "En el camino duermes una noche con una familia en la isla de Amantaní y dos noches en un lodge sobre el río Tambopata."
+        ],
+        "how": "06",
+        "howText": "Te acompañamos antes, durante y después: traslados, trenes, buses nocturnos y asistencia humana las 24 horas, todos los días del viaje.",
+        "hosts": [
+          "tejedora",
+          "familia"
+        ],
+        "vivTitle": "Catorce días, del desierto a la selva.",
+        "vivText": "Toca cada día para ver qué vives y dónde duermes.",
+        "chartTitle": "Del nivel del mar a 5.036 m, y de vuelta a la selva.",
+        "chartText": "La altura sube por etapas, de Arequipa al Colca y al Titicaca, antes de Cusco y Vinicunca. Toca un punto de la curva para ver cada día.",
+        "kicker": "Journey · La historia · La gente",
+        "price": "Precio a consultar",
+        "priceShort": "A consultar",
         "priceKicker": "Precio a consultar",
         "priceNote": "precio a consultar con tu Travel Advisor",
         "altLabel": "Altitud máxima",
-        "region": "Lima · Valle Sagrado · Cusco",
-        "route": [
-          "Lima",
-          "Valle Sagrado",
-          "Moray y Maras",
-          "Machu Picchu",
-          "Cusco"
-        ],
-        "card": "1632913582499-381c7c798787",
-        "why": "Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
-        "what": "Journey insignia de 9 días: del plato terminado en Lima a la tierra y la familia en los Andes.",
-        "whatLong": "Un journey insignia de 9 días que empieza en el plato terminado, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia.",
-        "storyTitle": "El orden de los días no se puede alterar.",
-        "story": [
-          "El itinerario sigue el ingrediente en reversa. Empieza en el plato terminado en Lima, pasa por la técnica y la altitud en MIL, Moray y Maras, y termina en la tierra y la familia, en la pachamanca del día 6.",
-          "Por eso el orden de los días no se puede cambiar sin destruir el viaje: cada etapa prepara la siguiente."
-        ],
-        "moment": "La pachamanca del día 6, cocinada bajo tierra con una familia quechua.",
-        "how": "or",
-        "howText": "Del plato terminado al origen del ingrediente: así se vive la gastronomía en Sunqu. No es un tour de restaurantes, es un camino de vuelta a la tierra.",
-        "hosts": [
-          "familia"
-        ],
-        "mp": "origen",
-        "vivTitle": "Nueve días, del plato a la tierra.",
-        "vivText": "Cada día lleva un título que cuenta la historia. Toca un día para ver qué vives.",
-        "chartTitle": "Del nivel del mar a 3.500 m, sin prisa.",
-        "chartText": "Subimos por etapas: primero el Valle Sagrado a 2.800 m, después la técnica de la altura en Moray. Toca un punto de la curva para ver cada día.",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonía",
+        "card": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+        "why": "El Perú no cabe en una sola región: lo recorres del desierto a la selva, pasando por los Andes y el Titicaca.",
+        "moment": "La primera noche en el lodge de Tambopata, después de cruzar el Perú de la costa a la selva.",
+        "mp": null,
         "itin": [
           {
-            "t": "El plato terminado",
-            "m": 160,
+            "t": "Lima, bocado a bocado",
+            "m": 154,
             "stage": "DESCUBRE",
-            "body": "Llegada a Lima. Cena en Central o Kjolle: el punto de llegada de todo lo que se verá después."
+            "body": "Te recogemos en el aeropuerto. Por la tarde, centro histórico y mercados de Lima probando 12 bocados peruanos; al final, un pisco sour si te animas."
           },
           {
-            "t": "Dónde empieza el mercado",
-            "m": 160,
+            "t": "Del mar al desierto",
+            "m": 406,
             "stage": "VIVE",
-            "body": "Mercado N.º 1 de Surquillo con un cocinero anfitrión. Compras y cocinas."
+            "body": "Lancha a las islas Ballestas (lobos marinos, pingüinos de Humboldt y el Candelabro), almuerzo en un viñedo pisquero y tubulares con sandboard en Huacachina hasta el atardecer."
           },
           {
-            "t": "Subir despacio",
-            "m": 2800,
+            "t": "La Ciudad Blanca",
+            "m": 2335,
+            "stage": "DESCUBRE",
+            "body": "Vuelo a Arequipa y recorrido privado por su centro colonial de sillar, con los volcanes de fondo."
+          },
+          {
+            "t": "Rumbo al Colca",
+            "m": 3635,
             "stage": "CONECTA",
-            "body": "Vuelo a Cusco y traslado directo al Valle Sagrado. Tarde de aclimatación."
+            "body": "Cruzas los Andes hacia el cañón del Colca y terminas el día en aguas termales. Noche en Chivay."
           },
           {
-            "t": "La técnica de la altura",
-            "m": 3500,
+            "t": "El vuelo del cóndor",
+            "m": 3827,
             "stage": "VIVE",
-            "body": "MIL Centro y Moray: los andenes como laboratorio agrícola inca."
+            "body": "Mirador de cóndores andinos en el Colca y ruta a Puno, la puerta del Titicaca."
           },
           {
-            "t": "La sal que viene de la montaña",
+            "t": "Una noche en el lago",
+            "m": 3850,
+            "stage": "CONECTA",
+            "body": "Islas flotantes de los Uros y la isla de Amantaní, donde cenas y duermes en casa de una familia local."
+          },
+          {
+            "t": "Taquile y la ruta a Cusco",
+            "m": 3810,
+            "stage": "VIVE",
+            "body": "Isla de Taquile y miradores del lago. Por la noche, bus a Cusco."
+          },
+          {
+            "t": "La capital inca",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Recorrido privado por la capital inca y sus miradores."
+          },
+          {
+            "t": "El Valle Sagrado",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Salineras de Maras, Moray, Chinchero y Ollantaytambo. Por la tarde, tren panorámico a Aguas Calientes."
+          },
+          {
+            "t": "Primero la piedra",
             "m": 2430,
             "stage": "VIVE",
-            "body": "Salineras de Maras con una familia salinera. Machu Picchu."
+            "body": "Machu Picchu con guía privado. Regreso en tren y traslado privado a Cusco."
           },
           {
-            "t": "La tierra",
-            "m": 3400,
-            "stage": "CONECTA",
-            "body": "Pachamanca con una familia quechua. El Momento Sunqu del viaje."
-          },
-          {
-            "t": "El mercado de los Andes",
-            "m": 3400,
+            "t": "La Montaña de Colores",
+            "m": 5036,
             "stage": "VIVE",
-            "body": "Mercado San Pedro y Chicha por Gastón Acurio, en Cusco."
+            "body": "Caminata a Vinicunca, a más de 5.000 m. Por la noche, bus a Puerto Maldonado."
           },
           {
-            "t": "Lo que se lleva",
-            "m": 3400,
-            "stage": "RECUERDA",
-            "body": "Cusco libre. Cierre con los anfitriones y entrega del recuerdo."
+            "t": "El río Tambopata",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "Navegas el río Tambopata hasta el lodge. Caminata guiada por la selva y salida nocturna para ver monos, caimanes y aves."
           },
           {
-            "t": "Regreso",
-            "m": 160,
+            "t": "La collpa de los guacamayos",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "Amanecer en la collpa Chuncho, donde llegan loros y guacamayos. Después, lagos y senderos de la selva."
+          },
+          {
+            "t": "Despedida de la selva",
+            "m": 183,
             "stage": "RECUERDA",
-            "body": "Traslado a Lima y salida internacional."
+            "body": "Última mañana en la selva, regreso en bote a Puerto Maldonado y asistencia para tu salida."
           }
         ],
-        "momentImg": "1730423284218-a8a7e9422ebf",
+        "momentImg": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
         "slides": [
           {
-            "img": "1535399831218-d5bd36d1a6b3",
-            "caption": "Lima · el plato terminado"
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+            "caption": "Huacachina · picnic al atardecer"
           },
           {
-            "img": "1535400875775-0269e7a919af",
-            "caption": "Dónde empieza el mercado"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_2400-scaled-r4pe9lu4wxs4ybz0uephpksidc3o1g0lffomjidhmw.jpg",
+            "caption": "Maras · Valle Sagrado"
           },
           {
-            "img": "1632913582499-381c7c798787",
-            "caption": "Moray y Maras · 3.500 m"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
           },
           {
-            "img": "1730423284218-a8a7e9422ebf",
-            "caption": "Día 6 · la tierra"
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
+            "caption": "Tambopata · la selva"
           }
         ]
       },
       "plan": {
         "tips": [
-          "La cena del día 1 en Central o Kjolle se reserva con meses de anticipación: la gestionamos en cuanto confirmas tu fecha.",
-          "No te saltes la tarde de aclimatación del día 3: al día siguiente subes a 3.500 m en Moray.",
-          "Deja espacio en la maleta: la sal de Maras es el recuerdo que casi todos se llevan a casa."
+          "Los vuelos internos y los hoteles de Lima, Arequipa, Puno y Cusco no están incluidos: tu Travel Advisor te los cotiza aparte.",
+          "A la selva lleva solo lo necesario: el resto del equipaje se guarda sin costo hasta tu regreso.",
+          "Al tren a Machu Picchu se sube con un equipaje de mano de hasta 5 kg."
         ],
-        "access": "Moray, Maras y Machu Picchu tienen escaleras de piedra y terreno irregular.",
+        "access": "Hay madrugadas, dos buses nocturnos y caminatas en altura (Vinicunca supera los 5.000 m). Avísanos con tiempo si tienes alguna condición médica o restricción alimentaria.",
         "season": {
-          "text": "Lima y los Andes tienen estaciones opuestas. De mayo a septiembre la sierra está seca y, después de la cosecha, los mercados andinos están en su mejor momento; Lima, en cambio, amanece gris y fresca.",
-          "clima": "Costa gris, sierra soleada",
-          "temp": "De 3 °C a 20 °C",
+          "text": "Costa, Andes y selva tienen climas distintos el mismo día. De mayo a septiembre los Andes y la Amazonía están en temporada seca: cielos despejados en la sierra y menos lluvia en la selva; Lima, en cambio, amanece gris y fresca.",
+          "clima": "Desierto, sierra y selva",
+          "temp": "De 0 °C a 32 °C",
           "cal": "De mayo a septiembre",
           "months": [
             0,
@@ -153,106 +188,184 @@
       },
       "catalogo": {
         "orden": 1,
-        "kicker": "Journey insignia · Del mercado a la montaña",
-        "why": "Seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
-        "region": "Lima · Valle Sagrado · Cusco",
+        "kicker": "Journey · 14 días de la costa a la selva",
+        "why": "El Perú no cabe en una sola región: lo recorres del desierto a la selva, pasando por los Andes y el Titicaca.",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonía",
         "dest": [
           "lima",
+          "ica",
+          "arequipa",
+          "titicaca",
           "cusco",
-          "machu"
+          "machu",
+          "amazonia"
         ],
         "dur": "journey",
         "price": 0,
-        "priceKicker": "Precio por adulto",
-        "kw": "mercado surquillo central kjolle moray maras mil pachamanca machu picchu",
+        "priceKicker": "Precio a consultar",
+        "kw": "ballestas huacachina arequipa colca condor titicaca uros amantani taquile cusco machu picchu vinicunca tambopata selva amazonia",
         "imagenes": [
-          "1632913582499-381c7c798787",
-          "1730423284218-a8a7e9422ebf"
+          "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg"
         ]
       },
       "inicio": {
-        "region": "Lima · Valle Sagrado · Cusco",
-        "price": "Journey insignia",
-        "icon": "assets/diamond-yellow.png",
-        "ph": "Foto — Moray o salineras de Maras",
-        "why": "Del mercado a la montaña: seguimos el ingrediente en reversa, del plato terminado hasta la tierra.",
-        "moment": "La pachamanca del sexto día, cocinada bajo tierra con una familia quechua.",
-        "img": "1632913582499-381c7c798787"
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonía",
+        "price": "Precio a consultar",
+        "icon": "assets/diamond-teal.png",
+        "ph": "Foto — Huacachina",
+        "why": "El Perú no cabe en una sola región: lo recorres del desierto a la selva, pasando por los Andes y el Titicaca.",
+        "moment": "La primera noche en el lodge de Tambopata, después de cruzar el Perú de la costa a la selva.",
+        "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg"
       }
     },
     {
-      "slug": "sabor",
-      "title": "El Perú que se Saborea",
+      "slug": "esencial-con-amazonia",
+      "title": "Lo esencial del Perú, con Amazonía",
       "c": [
-        "sabor",
-        "gente"
+        "historia",
+        "sabor"
       ],
       "days": "10 días",
-      "alt": "2.335 m",
+      "alt": "5.036 m",
       "ficha": {
-        "momentAlt": "Plato de picantería",
-        "kicker": "Journey · El sabor · La gente",
-        "price": "Desde USD 5.400",
-        "priceShort": "USD 5.400",
-        "priceKicker": "Desde · por persona",
-        "priceNote": "por persona · precio desde",
-        "altLabel": "Altitud de Arequipa",
-        "region": "Arequipa · Colca",
+        "momentAlt": "Selva de Tambopata",
+        "sub": "Desierto, montaña y selva",
         "route": [
-          "Arequipa",
-          "Valle del Colca"
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Valle Sagrado",
+          "Machu Picchu",
+          "Vinicunca",
+          "Tambopata"
         ],
-        "card": "1535399831218-d5bd36d1a6b3",
-        "why": "La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.",
-        "what": "Journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.",
-        "whatLong": "Un journey de 10 días por el eje Arequipa-Colca, fuera de la ruta Lima-Cusco-Valle Sagrado.",
-        "storyTitle": "Elegir el destino correcto, no el obvio.",
+        "what": "Journey de 10 días por Lima, Ica, Cusco, Machu Picchu y la selva de Tambopata.",
+        "whatLong": "Un journey de 10 días con lo esencial del Perú: los sabores de Lima, el desierto de Ica, Cusco y Machu Picchu, la Montaña de Colores y dos noches en la Amazonía.",
+        "storyTitle": "Lo imprescindible, sin prisa.",
         "story": [
-          "Arequipa no se eligió porque sea mejor que Cusco, sino porque la picantería arequipeña es un formato culinario con anfitriona de nombre propio: algo que un restaurante de autor no ofrece.",
-          "Por eso el viaje se construye fuera de la ruta de siempre. Curar con disciplina es elegir el lugar donde la cocina todavía tiene nombre y apellido."
+          "Diez días alcanzan para el desierto, los Andes y la selva si el orden es el correcto: primero la costa, luego Cusco con un día libre para aclimatarte, y al final la Amazonía.",
+          "En Cusco y Machu Picchu te guía alguien solo para ti; en la selva, dos noches en un lodge sobre el río Tambopata."
         ],
-        "moment": "La picantería, con la picantera nombrada y tú cocinando con ella. Te llevas la receta.",
-        "how": "01",
-        "howText": "Curar es elegir una experiencia y renunciar a otras diez. Aquí significa que la picantería no es una parada gastronómica: es el centro del viaje, con una persona que te enseña.",
+        "how": "02",
+        "howText": "Contamos historias: en Cusco y Machu Picchu tienes guía privado para que cada piedra tenga contexto, no solo acceso.",
         "hosts": [
-          "picantera"
+          "tejedora"
         ],
+        "vivTitle": "Diez días, de la costa a la selva.",
+        "vivText": "Toca cada día para ver qué vives y dónde duermes.",
+        "chartTitle": "Del nivel del mar a 5.036 m.",
+        "chartText": "Llegas a Cusco el tercer día y tienes un día libre antes de subir a Vinicunca. Toca un punto de la curva para ver cada día.",
+        "kicker": "Journey · La historia · El sabor",
+        "price": "Precio a consultar",
+        "priceShort": "A consultar",
+        "priceKicker": "Precio a consultar",
+        "priceNote": "precio a consultar con tu Travel Advisor",
+        "altLabel": "Altitud máxima",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonía",
+        "card": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+        "why": "Desierto, montaña y selva en diez días: lo imprescindible del Perú sin dejar fuera la Amazonía.",
+        "moment": "La primera noche en el lodge, escuchando la selva.",
         "mp": null,
-        "vivTitle": "Diez días, del mercado a la cocina.",
-        "vivText": "La picantería es el centro del viaje: ahí cocinas con la picantera y te llevas su receta.",
-        "itin": null,
-        "momentImg": "1535399831218-d5bd36d1a6b3",
+        "itin": [
+          {
+            "t": "Lima, bocado a bocado",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "Te recogemos en el aeropuerto. Por la tarde, centro histórico y mercados de Lima probando 12 bocados peruanos; al final, un pisco sour si te animas."
+          },
+          {
+            "t": "Del mar al desierto",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Lancha a las islas Ballestas (lobos marinos, pingüinos de Humboldt y el Candelabro), almuerzo en un viñedo pisquero y tubulares con sandboard en Huacachina hasta el atardecer."
+          },
+          {
+            "t": "La capital inca",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Vuelo a Cusco y recorrido privado por la capital inca y sus miradores."
+          },
+          {
+            "t": "El Valle Sagrado",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Salineras de Maras, Moray, Chinchero y Ollantaytambo. Por la tarde, tren panorámico a Aguas Calientes."
+          },
+          {
+            "t": "Primero la piedra",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu con guía privado. Regreso en tren y traslado privado a Cusco."
+          },
+          {
+            "t": "Un día para ti",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Día libre en Cusco para descansar, caminar sin rumbo o probar la cocina local."
+          },
+          {
+            "t": "La Montaña de Colores",
+            "m": 5036,
+            "stage": "VIVE",
+            "body": "Caminata a Vinicunca, a más de 5.000 m. Por la noche, bus a Puerto Maldonado."
+          },
+          {
+            "t": "El río Tambopata",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "Navegas el río Tambopata hasta el lodge. Caminata guiada por la selva y salida nocturna para ver monos, caimanes y aves."
+          },
+          {
+            "t": "La collpa de los guacamayos",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "Amanecer en la collpa Chuncho, donde llegan loros y guacamayos. Después, lagos y senderos de la selva."
+          },
+          {
+            "t": "Despedida de la selva",
+            "m": 183,
+            "stage": "RECUERDA",
+            "body": "Última mañana en la selva, regreso en bote a Puerto Maldonado y asistencia para tu salida."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg",
         "slides": [
           {
-            "img": "1535399831218-d5bd36d1a6b3",
-            "caption": "Arequipa · picantería"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_8024-scaled-rof6spxtm9d8zssztwiwrrbu97w0gqz31pwle4nf60.jpg",
+            "caption": "Huacachina · picnic al atardecer"
           },
           {
-            "img": "1535400875775-0269e7a919af",
-            "caption": "Mercado y producto local"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/2A4F0E76-D246-4A02-8BFC-AA83373A5BCF-1-scaled-qwyqogdjk48v5nu25vypga2p7v5lbsk2chr1ko1214.jpg",
+            "caption": "Cusco"
           },
           {
-            "img": "1566793772361-1d5d9cefbd12",
-            "caption": "Cocina con nombre propio"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
           },
           {
-            "img": "1541637593725-923467404d17",
-            "caption": "Paisaje andino"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-Copia-de-Copia-de-Copia-de-Copia-de-Montana-de-colores-1-scaled-r4pffaye3cv1zlekcxkotjzn1okui2jxhtj1yejrm0.jpg",
+            "caption": "Vinicunca"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+            "caption": "Tambopata · la selva"
           }
         ]
       },
       "plan": {
         "tips": [
-          "Llega con hambre y sin prisa: en Arequipa la picantería se vive al mediodía, como lo hacen los arequipeños.",
-          "El Colca está más alto que Arequipa: subimos por etapas y te enviamos el plan de aclimatación antes de salir.",
-          "Lleva protector solar, gafas de sol y una capa abrigadora: el sol de altura es intenso y las noches, frías."
+          "Los vuelos internos y los hoteles de Lima y Cusco no están incluidos: tu Travel Advisor te los cotiza aparte.",
+          "Usa el día libre en Cusco para aclimatarte antes de subir a Vinicunca.",
+          "A la selva lleva solo lo necesario: el resto del equipaje se guarda sin costo hasta tu regreso."
         ],
-        "access": "En el Colca hay miradores y caminatas por terreno irregular a más de 3.600 m.",
+        "access": "Hay madrugadas, un bus nocturno y caminatas en altura (Vinicunca supera los 5.000 m). Avísanos con tiempo si tienes alguna condición médica o restricción alimentaria.",
         "season": {
-          "text": "Arequipa tiene sol casi todo el año. De mayo a octubre el Colca está seco y el cielo, despejado: la mejor época para ver al cóndor. De enero a marzo llueve en la sierra.",
-          "clima": "Soleado y seco",
-          "temp": "Día 22 °C · noche 5 °C",
-          "cal": "De mayo a octubre",
+          "text": "Costa, Andes y selva tienen climas distintos el mismo día. De mayo a septiembre los Andes y la Amazonía están en temporada seca: cielos despejados en la sierra y menos lluvia en la selva; Lima, en cambio, amanece gris y fresca.",
+          "clima": "Desierto, sierra y selva",
+          "temp": "De 0 °C a 32 °C",
+          "cal": "De mayo a septiembre",
           "months": [
             0,
             0,
@@ -263,148 +376,224 @@
             2,
             2,
             2,
-            2,
             1,
-            1
+            1,
+            0
           ]
         }
       },
       "catalogo": {
         "orden": 2,
-        "kicker": "Journey · Fuera de la ruta de siempre",
-        "why": "La comida es el registro más honesto de una cultura.",
-        "region": "Arequipa · Colca",
+        "kicker": "Journey · 10 días de desierto, montaña y selva",
+        "why": "Desierto, montaña y selva en diez días: lo imprescindible del Perú sin dejar fuera la Amazonía.",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonía",
         "dest": [
-          "arequipa"
+          "lima",
+          "ica",
+          "cusco",
+          "machu",
+          "amazonia"
         ],
         "dur": "journey",
-        "price": 5400,
-        "kw": "picanteria picantera condor colca cocina",
+        "price": 0,
+        "priceKicker": "Precio a consultar",
+        "kw": "lima bocados ballestas viñedo pisco huacachina cusco valle sagrado maras moray machu picchu vinicunca tambopata selva amazonia",
         "imagenes": [
-          "1535399831218-d5bd36d1a6b3",
-          "1566793772361-1d5d9cefbd12"
+          "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg"
         ]
       },
       "inicio": {
-        "region": "Arequipa · Colca",
-        "price": "Desde USD 5.400",
-        "icon": "assets/diamond-orange.png",
-        "ph": "Foto — picantería arequipeña",
-        "why": "La comida es el registro más honesto de una cultura: cuenta quién llegó, qué se sembró y qué se resistió a desaparecer.",
-        "moment": "Cocinar en la picantería junto a la picantera, y llevarte su receta.",
-        "img": "1535399831218-d5bd36d1a6b3"
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonía",
+        "price": "Precio a consultar",
+        "icon": "assets/diamond-lime.png",
+        "ph": "Foto — Selva de Tambopata",
+        "why": "Desierto, montaña y selva en diez días: lo imprescindible del Perú sin dejar fuera la Amazonía.",
+        "moment": "La primera noche en el lodge, escuchando la selva.",
+        "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg"
       }
     },
     {
-      "slug": "corto",
-      "title": "Módulo gastronómico",
+      "slug": "lo-mejor-del-peru",
+      "title": "Lo mejor del Perú en 9 días",
       "c": [
         "sabor",
-        "gente"
+        "historia"
       ],
-      "days": "3–4 días",
-      "alt": "2.335 m",
+      "days": "9 días",
+      "alt": "5.036 m",
       "ficha": {
-        "momentAlt": "Mercado y producto local",
-        "kicker": "Escapada corta · El sabor · La gente",
-        "price": "USD 600 – 900",
-        "priceShort": "USD 600 – 900",
-        "priceKicker": "Escapada corta",
-        "priceNote": "por persona · rango de precio",
-        "altLabel": "Altitud",
-        "region": "Escapada corta",
+        "momentAlt": "Laguna Humantay",
+        "sub": "De Lima a los Andes",
         "route": [
-          "Módulo autónomo",
-          "3 a 4 días"
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Valle Sagrado",
+          "Machu Picchu",
+          "Humantay",
+          "Vinicunca"
         ],
-        "card": "1535400875775-0269e7a919af",
-        "why": "Que puedas vivir un Momento Sunqu antes de comprometerte con un Journey completo.",
-        "what": "Módulo autónomo de 3 a 4 días, que se reserva por separado.",
-        "whatLong": "Un módulo autónomo de 3 a 4 días que se reserva por separado.",
-        "storyTitle": "La puerta de entrada a Sunqu.",
+        "what": "Journey de 9 días por Lima, Ica, Cusco y Machu Picchu, con las caminatas a Humantay y Vinicunca.",
+        "whatLong": "Un journey de 9 días con lo mejor de la costa y los Andes: Lima, Paracas y Huacachina, Cusco, el Valle Sagrado, Machu Picchu, la laguna Humantay, una clase de cocina y la Montaña de Colores.",
+        "storyTitle": "La altura, de a poco.",
         "story": [
-          "Es la forma de vivir un Momento Sunqu antes de comprometerte con un Journey completo: el mismo encuentro con nombre propio, en tres o cuatro días.",
-          "También es donde validamos personalmente a cada anfitrión antes de integrarlo en un viaje largo. Si funciona aquí, forma parte de un Journey."
+          "Después de Machu Picchu viene un día libre en Cusco: el cuerpo se acostumbra a la altura antes de las dos caminatas grandes del viaje, Humantay y Vinicunca.",
+          "Entre una y otra, una mañana en el mercado con un chef y una clase para cocinar un plato peruano."
         ],
-        "moment": "El mismo encuentro con nombre propio que luego forma parte de un Journey.",
-        "how": "01",
-        "howText": "Curamos, también en su vertiente de validación: cada experiencia se prueba personalmente antes de venderse en un viaje largo.",
+        "how": "or",
+        "howText": "Del mercado a la cocina: el día 8 recorres un mercado de Cusco con un chef y cocinas con él lo que compraron juntos.",
         "hosts": [
-          "picantera"
+          "tejedora"
         ],
+        "vivTitle": "Nueve días, de la costa a la montaña.",
+        "vivText": "Toca cada día para ver qué vives y dónde duermes.",
+        "chartTitle": "Del nivel del mar a 5.036 m.",
+        "chartText": "Llegas a Cusco el tercer día y descansas el sexto antes de Humantay y Vinicunca. Toca un punto de la curva para ver cada día.",
+        "kicker": "Journey · El sabor · La historia",
+        "price": "Precio a consultar",
+        "priceShort": "A consultar",
+        "priceKicker": "Precio a consultar",
+        "priceNote": "precio a consultar con tu Travel Advisor",
+        "altLabel": "Altitud máxima",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "card": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+        "why": "Nueve días para la costa y los Andes: de los bocados de Lima a la cocina cusqueña, con Machu Picchu, Humantay y Vinicunca.",
+        "moment": "La llegada a la laguna Humantay, turquesa al pie de los nevados.",
         "mp": null,
-        "vivTitle": "Tres o cuatro días, un encuentro.",
-        "vivText": "Un Momento Sunqu completo, pensado para vivirlo por separado o antes de un Journey.",
-        "itin": null,
-        "momentImg": "1535400875775-0269e7a919af",
+        "itin": [
+          {
+            "t": "Lima, bocado a bocado",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "Te recogemos en el aeropuerto. Por la tarde, centro histórico y mercados de Lima probando 12 bocados peruanos; al final, un pisco sour si te animas."
+          },
+          {
+            "t": "Del mar al desierto",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Lancha a las islas Ballestas (lobos marinos, pingüinos de Humboldt y el Candelabro), almuerzo en un viñedo pisquero y tubulares con sandboard en Huacachina hasta el atardecer."
+          },
+          {
+            "t": "La capital inca",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Vuelo a Cusco y recorrido privado por la capital inca, con cierre en un mirador sobre la ciudad."
+          },
+          {
+            "t": "El Valle Sagrado",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Salineras de Maras, Moray, Chinchero y Ollantaytambo. Por la tarde, tren panorámico a Aguas Calientes."
+          },
+          {
+            "t": "Primero la piedra",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu con guía privado. Regreso en tren y traslado privado a Cusco."
+          },
+          {
+            "t": "Descanso",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Día libre en Cusco para descansar, caminar o probar la cocina local."
+          },
+          {
+            "t": "La laguna Humantay",
+            "m": 4200,
+            "stage": "VIVE",
+            "body": "Caminata de día completo a la laguna Humantay, de agua turquesa al pie de los nevados."
+          },
+          {
+            "t": "Del mercado a la cocina",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Recorres un mercado local con un chef y cocinas con él un plato tradicional peruano."
+          },
+          {
+            "t": "La Montaña de Colores",
+            "m": 5036,
+            "stage": "RECUERDA",
+            "body": "Caminata a Vinicunca, a más de 5.000 m. Después, traslado al aeropuerto de Cusco para tu salida."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
         "slides": [
           {
-            "img": "1535400875775-0269e7a919af",
-            "caption": "Mercado y producto local"
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/oasis-huacachina-scaled.jpg",
+            "caption": "Huacachina · el oasis"
           },
           {
-            "img": "1535399831218-d5bd36d1a6b3",
-            "caption": "Picantería"
+            "img": "https://limaexperience.com/wp-content/uploads/2025/09/IMG_2205-scaled.jpg",
+            "caption": "Machu Picchu"
           },
           {
-            "img": "1566793772361-1d5d9cefbd12",
-            "caption": "Anfitrionas con nombre propio"
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
+            "caption": "Laguna Humantay"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_30319-scaled.jpg",
+            "caption": "Cusco"
           }
         ]
       },
       "plan": {
         "tips": [
-          "Úsalo como primer contacto: si después quieres un Journey completo, tu Travel Advisor parte de lo que viviste aquí.",
-          "Se combina bien antes o después de otro viaje por el Perú: dinos tus fechas y lo encajamos.",
-          "Ven con hambre y ganas de cocinar: aquí no solo pruebas, te llevas la receta."
+          "Los vuelos internos y el alojamiento no están incluidos: tu Travel Advisor te los cotiza aparte.",
+          "No te saltes el día libre en Cusco: los dos días siguientes caminas por encima de los 4.000 m.",
+          "Al tren a Machu Picchu se sube con un equipaje de mano de hasta 5 kg."
         ],
-        "access": "Casi todo ocurre en cocinas y mercados, con poca caminata.",
+        "access": "Hay madrugadas y dos caminatas de día completo en altura (Humantay y Vinicunca). Avísanos con tiempo si tienes alguna condición médica o restricción alimentaria.",
         "season": {
-          "text": "Es una escapada de cocina y mercado, así que funciona todo el año. Arequipa tiene sol casi todos los días; de enero a marzo llueve en la sierra, pero la cocina no cambia.",
-          "clima": "Sol casi todo el año",
-          "temp": "Día 22 °C · noche 9 °C",
-          "cal": "Todo el año",
+          "text": "De mayo a septiembre la sierra está seca y despejada, la mejor época para las caminatas a Humantay y Vinicunca; Lima, en cambio, amanece gris y fresca.",
+          "clima": "Costa gris, sierra soleada",
+          "temp": "De 0 °C a 22 °C",
+          "cal": "De mayo a septiembre",
           "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
             1,
             1,
-            1,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
+            0
           ]
         }
       },
       "catalogo": {
         "orden": 3,
-        "kicker": "Escapada corta · La puerta de entrada",
-        "why": "Vive un Momento Sunqu antes de comprometerte con un Journey completo.",
-        "region": "Arequipa · escapada",
+        "kicker": "Journey · 9 días entre la costa y los Andes",
+        "why": "Nueve días para la costa y los Andes: de los bocados de Lima a la cocina cusqueña, con Machu Picchu, Humantay y Vinicunca.",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
         "dest": [
-          "arequipa"
+          "lima",
+          "ica",
+          "cusco",
+          "machu"
         ],
-        "dur": "escapada",
-        "price": 600,
-        "priceMax": 900,
-        "kw": "picanteria picantera cocina receta corto",
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Precio a consultar",
+        "kw": "lima bocados ballestas viñedo pisco huacachina cusco valle sagrado machu picchu humantay laguna vinicunca clase de cocina mercado",
         "imagenes": [
-          "1535400875775-0269e7a919af",
-          "1535400255456-984241443b29"
+          "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg"
         ]
       },
       "inicio": {
-        "region": "Escapada corta",
-        "price": "USD 600 – 900",
-        "icon": "assets/diamond-olive.png",
-        "ph": "Foto — mercado y producto local",
-        "why": "Vive un Momento Sunqu antes de comprometerte con un Journey completo.",
-        "moment": "El mismo encuentro con nombre propio que luego forma parte de un Journey.",
-        "img": "1535400875775-0269e7a919af"
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "price": "Precio a consultar",
+        "icon": "assets/diamond-yellow.png",
+        "ph": "Foto — Perú",
+        "why": "Nueve días para la costa y los Andes: de los bocados de Lima a la cocina cusqueña, con Machu Picchu, Humantay y Vinicunca.",
+        "moment": "La llegada a la laguna Humantay, turquesa al pie de los nevados.",
+        "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg"
       }
     }
   ],

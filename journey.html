@@ -1058,7 +1058,7 @@ class Component extends DCLogic {
     const W = Math.max(200, st.chartW || 900), small = W < 560;
     const H = small ? Math.round(Math.max(260, Math.min(340, W * 0.9))) : Math.round(Math.min(400, Math.max(280, W * 0.3)));
     const padX = small ? 20 : 44, padT = 56, padB = 10;
-    const yOf = (m) => +(padT + (1 - m / 4200) * (H - padT - padB)).toFixed(1);
+    const top = Math.max(4200, ...D.map((d) => d.m + 200)); const yOf = (m) => +(padT + (1 - m / top) * (H - padT - padB)).toFixed(1);
     const xOf = (i) => +(padX + i * (W - 2 * padX) / Math.max(1, na - 1)).toFixed(1);
     const ai = Math.min(Math.max(0, na - 1), Math.max(0, st.altIdx));
     const pts = D.map((d, i) => [xOf(i), yOf(d.m)]);

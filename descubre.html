@@ -307,12 +307,12 @@
 								<sc-for list="{{ exps }}" as="e" hint-placeholder-count="8">
 									<article class="dc-card" data-reveal="">
 										<div class="dc-card-img">
-											<img src="{{ e.img }}" srcSet="{{ e.srcset }}" sizes="(max-width: 767px) 45vw, 350px" alt="{{ e.t }}" loading="lazy" decoding="async">
+											<a href="{{ e.href }}" tabIndex="-1" aria-hidden="true"><img src="{{ e.img }}" srcSet="{{ e.srcset }}" sizes="(max-width: 767px) 45vw, 350px" alt="" loading="lazy" decoding="async"></a>
 											<span class="dc-tags"><span class="dc-tag">{{ e.dur }}</span><span class="dc-tag">{{ e.alt }}</span></span>
 										</div>
 										<div class="dc-card-body">
 											<div>
-												<h3>{{ e.t }}</h3>
+												<h3><a href="{{ e.href }}" style="color:inherit;text-decoration:none">{{ e.t }}</a></h3>
 												<div class="dc-card-sep"></div>
 												<p class="dc-loc"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7 11.5 7.3 11.8a1 1 0 0 0 1.4 0C13 21.5 20 15.4 20 10a8 8 0 0 0-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"></path></svg>{{ e.place }}</p>
 											</div>
@@ -862,7 +862,7 @@ class Component extends DCLogic {
 
     const exAll = this.EXPS.map((e, i) => ({ ...e, durLabel: e.dur, key: 'e-' + e.slug, dest: [e.dest], dur: 'exp', hay: [e.t, e.place, DL[e.dest], ...e.c.map((c) => CL[c])].join(' ') })).filter(ok);
     const per = 8, nPages = Math.max(1, Math.ceil(exAll.length / per)), page = Math.min(st.page, nPages - 1);
-    const exps = exAll.slice(page * per, page * per + per).map((e) => ({ t: e.t, place: e.place, img: U(e.img, 800), srcset: SunquContent.srcset(e.img, [400, 800], 72), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
+    const exps = exAll.slice(page * per, page * per + per).map((e) => ({ href: 'experiencia.html?e=' + e.slug, t: e.t, place: e.place, img: U(e.img, 800), srcset: SunquContent.srcset(e.img, [400, 800], 72), alt: e.alt, dur: e.durLabel, ...favOf(e.key, e.t) }));
 
     const tog = (k, v) => () => this.setState((s) => ({ [k]: s[k].includes(v) ? s[k].filter((x) => x !== v) : [...s[k], v], page: 0 }));
     const pills = (k, map) => Object.keys(map).map((v) => ({ label: map[v], icon: CI[v] || '', on: st[k].includes(v) ? 'true' : 'false', toggle: tog(k, v) }));

@@ -84,6 +84,14 @@
     {
       "slug": "ica",
       "label": "Ica y Paracas"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Lago Titicaca"
+    },
+    {
+      "slug": "amazonia",
+      "label": "Amazonía · Tambopata"
     }
   ],
   "duraciones": [
@@ -97,7 +105,7 @@
     },
     {
       "slug": "journey",
-      "label": "Journeys · 8–10 días"
+      "label": "Journeys · 9–14 días"
     }
   ]
 }

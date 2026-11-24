@@ -51,6 +51,7 @@
     home: ['sitio', 'inicio', 'journeys', 'anfitriones', 'diario'],
     journey: ['sitio', 'journeys', 'anfitriones'],
     descubre: ['sitio', 'journeys', 'experiencias'],
+    experiencia: ['sitio', 'experiencias'],
     recuerda: ['sitio', 'resenas', 'productos'],
     blog: ['sitio', 'diario'],
     articulo: ['sitio', 'diario'],
@@ -88,7 +89,7 @@
   }
   // Página de origen de un formulario: «journey:alma», «home», «descubre»…
   function origen() {
-    var k = PAGE === 'journey' ? param('j') : PAGE === 'articulo' ? param('a') : '';
+    var k = PAGE === 'journey' ? param('j') : PAGE === 'articulo' ? param('a') : PAGE === 'experiencia' ? param('e') : '';
     return PAGE + (k ? ':' + k : '');
   }
   // Evento de medición (lo procesa js/sunqu-analytics.js; si todavía no cargó, queda en cola).
@@ -326,6 +327,10 @@
     },
   };
   views.articulo = views.blog;
+  views.experiencia = function (c) {
+    var s = c.sitio;
+    return { CL: dict(s.conceptos, 'slug', 'label'), DL: dict(s.destinos, 'slug', 'label'), EXPS: c.experiencias.items };
+  };
 
   // ── Formularios ───────────────────────────────────────────────────────────
   // tipo: 'solicitud' (Diseña tu viaje), 'resena' (Comparte tu viaje), 'reclamacion' (Libro de reclamaciones).
