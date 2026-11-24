@@ -1,0 +1,32 @@
+{
+  "_info": "Anfitriones (Sunqu Collective). Los usan la portada (Conecta) y la ficha de cada journey. En WordPress: tipo de contenido «Anfitriones».",
+  "items": [
+    {
+      "slug": "tejedora",
+      "role": "Weaver",
+      "place": "Chinchero, Cusco",
+      "teach": "natural dyeing and the backstrap loom.",
+      "img": "1568805778796-96b66708d6e0",
+      "alt": "Weaver at her loom",
+      "altInicio": "Portrait — weaver at her loom"
+    },
+    {
+      "slug": "picantera",
+      "role": "Picantera",
+      "place": "Arequipa",
+      "teach": "a dish from a picantería, Arequipa's traditional kitchen, and you take the recipe home.",
+      "img": "1566793772361-1d5d9cefbd12",
+      "alt": "Hosts in traditional dress",
+      "altInicio": "Portrait — picantera in her kitchen"
+    },
+    {
+      "slug": "familia",
+      "role": "Host family",
+      "place": "Amantaní Island, Lake Titicaca",
+      "teach": "their life on the lake: you have dinner and sleep in their home.",
+      "img": "1730423284218-a8a7e9422ebf",
+      "alt": "Host family",
+      "altInicio": "Portrait — host family"
+    }
+  ]
+}

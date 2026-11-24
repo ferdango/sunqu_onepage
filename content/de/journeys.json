@@ -1,0 +1,672 @@
+{
+  "_info": "Journeys. Cada journey tiene datos base y cuatro bloques: ficha (journey.html), plan (consejos, notas y temporada), catalogo (tarjeta de descubre.html) e inicio (tarjeta de la portada). En WordPress: tipo de contenido «Journeys». principios y galeria son comunes a todas las fichas.",
+  "items": [
+    {
+      "slug": "costa-andes-amazonia",
+      "title": "Das ganze Peru: Küste, Anden und Amazonas",
+      "c": [
+        "historia",
+        "gente"
+      ],
+      "days": "14 Tage",
+      "alt": "5.036 m",
+      "ficha": {
+        "momentAlt": "Regenwald von Tambopata",
+        "sub": "Von der Küste in den Regenwald",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Arequipa",
+          "Colca",
+          "Titicaca",
+          "Cusco",
+          "Machu Picchu",
+          "Tambopata"
+        ],
+        "what": "Journey über 14 Tage an der Küste, in den Anden und im Amazonas: Lima, Ica, Arequipa, der Colca, der Titicacasee, Cusco, Machu Picchu und Tambopata.",
+        "whatLong": "Vierzehn Tage, um die drei Regionen Perus zu durchqueren: die Wüste von Ica, die südlichen Anden mit dem Colca, dem Titicacasee und Cusco, und den Regenwald von Tambopata.",
+        "storyTitle": "Drei Regionen, eine Reise.",
+        "story": [
+          "Du steigst langsam auf, so wie es sein soll: Du startest auf Meereshöhe, kommst über Arequipa (2.335 m) und den Colca, und wenn du in Cusco ankommst, kennt dein Körper die Höhe schon. Zum Schluss geht es hinunter in den Regenwald.",
+          "Unterwegs verbringst du eine Nacht bei einer Familie auf der Insel Amantaní im Titicacasee und zwei Nächte in einer Lodge am Río Tambopata."
+        ],
+        "how": "06",
+        "howText": "Wir begleiten dich vorher, währenddessen und danach: Transfers, Züge, Nachtbusse und eine Person aus unserem Team, die rund um die Uhr erreichbar ist, an jedem Tag der Reise.",
+        "hosts": [
+          "tejedora",
+          "familia"
+        ],
+        "vivTitle": "Vierzehn Tage, von der Wüste in den Regenwald.",
+        "vivText": "Tippe auf jeden Tag, um zu sehen, was du erlebst und wo du schläfst.",
+        "chartTitle": "Von Meereshöhe auf 5.036 m und zurück in den Regenwald.",
+        "chartText": "Die Höhe steigt in Etappen: Arequipa, der Colca und der Titicacasee, vor Cusco und Vinicunca. Tippe auf einen Punkt der Kurve, um jeden Tag zu sehen.",
+        "kicker": "Journey · Geschichte · Menschen",
+        "price": "Preis je nach Reisedaten",
+        "priceShort": "Je nach Reisedaten",
+        "priceKicker": "Preis je nach Reisedaten",
+        "priceNote": "dein Travel Advisor schickt ihn dir innerhalb von 48 Stunden",
+        "altLabel": "Maximale Höhe",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonas",
+        "card": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+        "why": "Für alle, die ganz Peru verstehen wollen: die Wüste, die Anden, den Titicacasee und den Regenwald, auf einer einzigen Reise.",
+        "moment": "Deine erste Nacht im Regenwald von Tambopata, wenn du dem Wald lauschst, nachdem du ganz Peru durchquert hast.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, Bissen für Bissen",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "Wir holen dich am Flughafen ab. Am Nachmittag erkundest du Limas historisches Zentrum, UNESCO-Welterbe, und seine Märkte und probierst 12 peruanische Häppchen. Zum Abschluss ein Pisco Sour, wenn du Lust hast."
+          },
+          {
+            "t": "Vom Meer in die Wüste",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Bootsfahrt zu den Ballestas-Inseln, der Heimat von Seelöwen und Humboldtpinguinen, vorbei am Kandelaber, einer riesigen Zeichnung im Sand, deren Ursprung niemand sicher kennt. Mittagessen auf einem Pisco-Weingut und Buggyfahrt mit Sandboarding in Huacachina bis zum Sonnenuntergang."
+          },
+          {
+            "t": "Die Weiße Stadt",
+            "m": 2335,
+            "stage": "DESCUBRE",
+            "body": "Flug nach Arequipa und private Führung durch das koloniale Zentrum, erbaut aus Sillar, einem weißen Vulkangestein: Deshalb heißt sie die Weiße Stadt. Im Hintergrund der Vulkan Misti."
+          },
+          {
+            "t": "Richtung Colca",
+            "m": 3635,
+            "stage": "CONECTA",
+            "body": "Du überquerst die Anden zum Colca-Canyon, fast doppelt so tief wie der Grand Canyon, und beendest den Tag in heißen Quellen. Übernachtung in Chivay."
+          },
+          {
+            "t": "Der Flug des Kondors",
+            "m": 3827,
+            "stage": "VIVE",
+            "body": "Vom Aussichtspunkt im Colca siehst du den Andenkondor gleiten, mit bis zu drei Metern Flügelspannweite. Danach Fahrt nach Puno, dem Tor zum Titicacasee."
+          },
+          {
+            "t": "Eine Nacht auf dem See",
+            "m": 3850,
+            "stage": "CONECTA",
+            "body": "Du fährst über den Titicacasee, den höchsten schiffbaren See der Welt: zuerst die schwimmenden Inseln der Uros, von Hand aus Totora-Schilf gebaut, dann Amantaní, wo du bei einer einheimischen Familie zu Abend isst und übernachtest."
+          },
+          {
+            "t": "Taquile und der Weg nach Cusco",
+            "m": 3810,
+            "stage": "VIVE",
+            "body": "Die Insel Taquile, wo die Männer stricken und deren Textilkunst immaterielles UNESCO-Kulturerbe ist. Abends Bus nach Cusco."
+          },
+          {
+            "t": "Die Hauptstadt der Inka",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Private Führung durch Cusco, die Hauptstadt des Inkareichs, wo du Inkamauern unter Kolonialkirchen siehst. Zum Abschluss die Aussichtspunkte."
+          },
+          {
+            "t": "Das Heilige Tal",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Die Salinen von Maras, die schon vor den Inka bewirtschaftet wurden; die kreisförmigen Terrassen von Moray; die Textilien von Chinchero und Ollantaytambo, ein Inkadorf, das bis heute bewohnt ist. Am Nachmittag Panoramazug nach Aguas Calientes."
+          },
+          {
+            "t": "Zuerst der Stein",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu mit privatem Guide: die Inka-Zitadelle aus dem 15. Jahrhundert, eines der neuen sieben Weltwunder. Rückfahrt mit dem Zug und privater Transfer nach Cusco."
+          },
+          {
+            "t": "Der Regenbogenberg",
+            "m": 5036,
+            "stage": "VIVE",
+            "body": "Wanderung nach Vinicunca, dem Regenbogenberg, auf über 5.000 m: Seine Streifen stammen von den Mineralien im Boden. Abends Bus nach Puerto Maldonado."
+          },
+          {
+            "t": "Der Río Tambopata",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "Du fährst mit dem Boot auf dem Río Tambopata zur Lodge, in eine der artenreichsten Regionen der Erde. Geführte Wanderung durch den Regenwald und nächtlicher Ausflug zu Affen, Kaimanen und Vögeln."
+          },
+          {
+            "t": "Die Lehmlecke der Aras",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "Bei Sonnenaufgang kommen Hunderte Papageien und Aras zur Lehmlecke Chuncho, um Lehm zu fressen. Danach Seen und Pfade im Regenwald."
+          },
+          {
+            "t": "Abschied vom Regenwald",
+            "m": 183,
+            "stage": "RECUERDA",
+            "body": "Letzter Morgen im Regenwald, mit dem Boot zurück nach Puerto Maldonado und Unterstützung bei deiner Abreise."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+            "caption": "Huacachina · Picknick bei Sonnenuntergang"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_2400-scaled-r4pe9lu4wxs4ybz0uephpksidc3o1g0lffomjidhmw.jpg",
+            "caption": "Maras · Heiliges Tal"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
+            "caption": "Tambopata · der Regenwald"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Inlandsflüge und Hotels in Lima, Arequipa, Puno und Cusco sind nicht inklusive: Dein Travel Advisor macht dir dafür ein eigenes Angebot.",
+          "Nimm in den Regenwald nur das Nötigste mit: Das restliche Gepäck wird bis zu deiner Rückkehr kostenlos aufbewahrt.",
+          "In den Zug nach Machu Picchu darfst du Handgepäck bis 5 kg mitnehmen."
+        ],
+        "access": "Es gibt frühe Starts, zwei Nachtbusse und Wanderungen in der Höhe (Vinicunca liegt über 5.000 m). Sag uns rechtzeitig Bescheid, wenn du eine Erkrankung oder eine Ernährungseinschränkung hast.",
+        "season": {
+          "text": "Küste, Anden und Regenwald haben am selben Tag unterschiedliches Klima. Von Mai bis September ist in den Anden und im Amazonas Trockenzeit: klarer Himmel im Hochland und weniger Regen im Regenwald; Lima dagegen wacht grau und kühl auf.",
+          "clima": "Wüste, Hochland und Regenwald",
+          "temp": "Von 0 °C bis 32 °C",
+          "cal": "Von Mai bis September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 1,
+        "kicker": "Journey · 14 Tage von der Küste in den Regenwald",
+        "why": "Für alle, die ganz Peru verstehen wollen: die Wüste, die Anden, den Titicacasee und den Regenwald, auf einer einzigen Reise.",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonas",
+        "dest": [
+          "lima",
+          "ica",
+          "arequipa",
+          "titicaca",
+          "cusco",
+          "machu",
+          "amazonia"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Preis je nach Reisedaten",
+        "kw": "ballestas huacachina arequipa colca kondor titicaca uros amantani taquile cusco machu picchu regenbogenberg vinicunca tambopata regenwald dschungel amazonas",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazonas",
+        "price": "Preis je nach Reisedaten",
+        "icon": "/assets/diamond-teal.png",
+        "ph": "Foto — Huacachina",
+        "why": "Für alle, die ganz Peru verstehen wollen: die Wüste, die Anden, den Titicacasee und den Regenwald, auf einer einzigen Reise.",
+        "moment": "Deine erste Nacht im Regenwald von Tambopata, wenn du dem Wald lauschst, nachdem du ganz Peru durchquert hast.",
+        "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg"
+      }
+    },
+    {
+      "slug": "esencial-con-amazonia",
+      "title": "Das Wesentliche Perus, mit Amazonas",
+      "c": [
+        "historia",
+        "sabor"
+      ],
+      "days": "10 Tage",
+      "alt": "5.036 m",
+      "ficha": {
+        "momentAlt": "Regenwald von Tambopata",
+        "sub": "Wüste, Berge und Regenwald",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Heiliges Tal",
+          "Machu Picchu",
+          "Vinicunca",
+          "Tambopata"
+        ],
+        "what": "Journey über 10 Tage durch Lima, Ica, Cusco, Machu Picchu und den Regenwald von Tambopata.",
+        "whatLong": "Eine 10-tägige Journey mit dem Wesentlichen Perus: die Geschmäcker Limas, die Wüste von Ica, Cusco und Machu Picchu, der Regenbogenberg und zwei Nächte im Amazonas.",
+        "storyTitle": "Das Wesentliche, ohne Eile.",
+        "story": [
+          "Zehn Tage reichen für Wüste, Anden und Regenwald, wenn die Reihenfolge stimmt: zuerst die Küste, dann Cusco mit einem freien Tag zum Akklimatisieren und zum Schluss der Amazonas.",
+          "In Cusco und Machu Picchu führt dich jemand nur für dich; im Regenwald zwei Nächte in einer Lodge am Río Tambopata."
+        ],
+        "how": "02",
+        "howText": "Wir erzählen dir die Geschichte: In Cusco und Machu Picchu hast du einen privaten Guide, damit jeder Stein Sinn ergibt und nicht nur ein Foto bleibt.",
+        "hosts": [
+          "tejedora"
+        ],
+        "vivTitle": "Zehn Tage, von der Küste in den Regenwald.",
+        "vivText": "Tippe auf jeden Tag, um zu sehen, was du erlebst und wo du schläfst.",
+        "chartTitle": "Von Meereshöhe auf 5.036 m.",
+        "chartText": "Du kommst am dritten Tag in Cusco an und hast einen freien Tag, bevor es nach Vinicunca geht. Tippe auf einen Punkt der Kurve, um jeden Tag zu sehen.",
+        "kicker": "Journey · Geschichte · Essen",
+        "price": "Preis je nach Reisedaten",
+        "priceShort": "Je nach Reisedaten",
+        "priceKicker": "Preis je nach Reisedaten",
+        "priceNote": "dein Travel Advisor schickt ihn dir innerhalb von 48 Stunden",
+        "altLabel": "Maximale Höhe",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonas",
+        "card": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+        "why": "Für alle mit zehn Tagen, die sich nicht zwischen Machu Picchu und dem Amazonas entscheiden wollen: Hier erlebst du beides.",
+        "moment": "Deine erste Nacht in der Lodge, wenn du dem Regenwald lauschst.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, Bissen für Bissen",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "Wir holen dich am Flughafen ab. Am Nachmittag erkundest du Limas historisches Zentrum, UNESCO-Welterbe, und seine Märkte und probierst 12 peruanische Häppchen. Zum Abschluss ein Pisco Sour, wenn du Lust hast."
+          },
+          {
+            "t": "Vom Meer in die Wüste",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Bootsfahrt zu den Ballestas-Inseln, der Heimat von Seelöwen und Humboldtpinguinen, vorbei am Kandelaber, einer riesigen Zeichnung im Sand, deren Ursprung niemand sicher kennt. Mittagessen auf einem Pisco-Weingut und Buggyfahrt mit Sandboarding in Huacachina bis zum Sonnenuntergang."
+          },
+          {
+            "t": "Die Hauptstadt der Inka",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Flug nach Cusco und private Führung durch die Hauptstadt des Inkareichs, wo du Inkamauern unter Kolonialkirchen siehst. Zum Abschluss die Aussichtspunkte."
+          },
+          {
+            "t": "Das Heilige Tal",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Die Salinen von Maras, die schon vor den Inka bewirtschaftet wurden; die kreisförmigen Terrassen von Moray; die Textilien von Chinchero und Ollantaytambo, ein Inkadorf, das bis heute bewohnt ist. Am Nachmittag Panoramazug nach Aguas Calientes."
+          },
+          {
+            "t": "Zuerst der Stein",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu mit privatem Guide: die Inka-Zitadelle aus dem 15. Jahrhundert, eines der neuen sieben Weltwunder. Rückfahrt mit dem Zug und privater Transfer nach Cusco."
+          },
+          {
+            "t": "Ein Tag für dich",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Freier Tag in Cusco, um auszuruhen, ziellos durch die Stadt zu streifen oder die lokale Küche zu probieren."
+          },
+          {
+            "t": "Der Regenbogenberg",
+            "m": 5036,
+            "stage": "VIVE",
+            "body": "Wanderung nach Vinicunca, dem Regenbogenberg, auf über 5.000 m: Seine Streifen stammen von den Mineralien im Boden. Abends Bus nach Puerto Maldonado."
+          },
+          {
+            "t": "Der Río Tambopata",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "Du fährst mit dem Boot auf dem Río Tambopata zur Lodge, in eine der artenreichsten Regionen der Erde. Geführte Wanderung durch den Regenwald und nächtlicher Ausflug zu Affen, Kaimanen und Vögeln."
+          },
+          {
+            "t": "Die Lehmlecke der Aras",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "Bei Sonnenaufgang kommen Hunderte Papageien und Aras zur Lehmlecke Chuncho, um Lehm zu fressen. Danach Seen und Pfade im Regenwald."
+          },
+          {
+            "t": "Abschied vom Regenwald",
+            "m": 183,
+            "stage": "RECUERDA",
+            "body": "Letzter Morgen im Regenwald, mit dem Boot zurück nach Puerto Maldonado und Unterstützung bei deiner Abreise."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_8024-scaled-rof6spxtm9d8zssztwiwrrbu97w0gqz31pwle4nf60.jpg",
+            "caption": "Huacachina · Picknick bei Sonnenuntergang"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/2A4F0E76-D246-4A02-8BFC-AA83373A5BCF-1-scaled-qwyqogdjk48v5nu25vypga2p7v5lbsk2chr1ko1214.jpg",
+            "caption": "Cusco"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-Copia-de-Copia-de-Copia-de-Copia-de-Montana-de-colores-1-scaled-r4pffaye3cv1zlekcxkotjzn1okui2jxhtj1yejrm0.jpg",
+            "caption": "Vinicunca"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+            "caption": "Tambopata · der Regenwald"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Inlandsflüge und Hotels in Lima und Cusco sind nicht inklusive: Dein Travel Advisor macht dir dafür ein eigenes Angebot.",
+          "Nutze den freien Tag in Cusco zum Akklimatisieren, bevor es nach Vinicunca geht.",
+          "Nimm in den Regenwald nur das Nötigste mit: Das restliche Gepäck wird bis zu deiner Rückkehr kostenlos aufbewahrt."
+        ],
+        "access": "Es gibt frühe Starts, einen Nachtbus und Wanderungen in der Höhe (Vinicunca liegt über 5.000 m). Sag uns rechtzeitig Bescheid, wenn du eine Erkrankung oder eine Ernährungseinschränkung hast.",
+        "season": {
+          "text": "Küste, Anden und Regenwald haben am selben Tag unterschiedliches Klima. Von Mai bis September ist in den Anden und im Amazonas Trockenzeit: klarer Himmel im Hochland und weniger Regen im Regenwald; Lima dagegen wacht grau und kühl auf.",
+          "clima": "Wüste, Hochland und Regenwald",
+          "temp": "Von 0 °C bis 32 °C",
+          "cal": "Von Mai bis September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 2,
+        "kicker": "Journey · 10 Tage Wüste, Berge und Regenwald",
+        "why": "Für alle mit zehn Tagen, die sich nicht zwischen Machu Picchu und dem Amazonas entscheiden wollen: Hier erlebst du beides.",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonas",
+        "dest": [
+          "lima",
+          "ica",
+          "cusco",
+          "machu",
+          "amazonia"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Preis je nach Reisedaten",
+        "kw": "lima häppchen essen ballestas weingut pisco huacachina cusco heiliges tal maras moray machu picchu regenbogenberg vinicunca tambopata regenwald dschungel amazonas",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazonas",
+        "price": "Preis je nach Reisedaten",
+        "icon": "/assets/diamond-lime.png",
+        "ph": "Foto — Regenwald von Tambopata",
+        "why": "Für alle mit zehn Tagen, die sich nicht zwischen Machu Picchu und dem Amazonas entscheiden wollen: Hier erlebst du beides.",
+        "moment": "Deine erste Nacht in der Lodge, wenn du dem Regenwald lauschst.",
+        "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg"
+      }
+    },
+    {
+      "slug": "lo-mejor-del-peru",
+      "title": "Das Beste von Peru in 9 Tagen",
+      "c": [
+        "sabor",
+        "historia"
+      ],
+      "days": "9 Tage",
+      "alt": "5.036 m",
+      "ficha": {
+        "momentAlt": "Humantay-Lagune",
+        "sub": "Von Lima in die Anden",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Heiliges Tal",
+          "Machu Picchu",
+          "Humantay",
+          "Vinicunca"
+        ],
+        "what": "Journey über 9 Tage durch Lima, Ica, Cusco und Machu Picchu, mit den Wanderungen zur Humantay-Lagune und nach Vinicunca.",
+        "whatLong": "Eine 9-tägige Journey mit dem Besten von Küste und Anden: Lima, Paracas und Huacachina, Cusco, das Heilige Tal, Machu Picchu, die Humantay-Lagune, ein Kochkurs und der Regenbogenberg.",
+        "storyTitle": "Die Höhe, Schritt für Schritt.",
+        "story": [
+          "Nach Machu Picchu kommt ein freier Tag in Cusco: Der Körper gewöhnt sich an die Höhe, bevor die zwei großen Wanderungen der Reise folgen, Humantay und Vinicunca.",
+          "Dazwischen ein Vormittag auf dem Markt mit einem Koch und ein Kurs, in dem du mit ihm ein peruanisches Gericht kochst."
+        ],
+        "how": "or",
+        "howText": "Vom Markt in die Küche: An Tag 8 gehst du mit einem Koch über einen Markt in Cusco und kochst mit ihm, was ihr gemeinsam gekauft habt.",
+        "hosts": [
+          "tejedora"
+        ],
+        "vivTitle": "Neun Tage, von der Küste in die Berge.",
+        "vivText": "Tippe auf jeden Tag, um zu sehen, was du erlebst und wo du schläfst.",
+        "chartTitle": "Von Meereshöhe auf 5.036 m.",
+        "chartText": "Du kommst am dritten Tag in Cusco an und ruhst dich am sechsten aus, vor Humantay und Vinicunca. Tippe auf einen Punkt der Kurve, um jeden Tag zu sehen.",
+        "kicker": "Journey · Essen · Geschichte",
+        "price": "Preis je nach Reisedaten",
+        "priceShort": "Je nach Reisedaten",
+        "priceKicker": "Preis je nach Reisedaten",
+        "priceNote": "dein Travel Advisor schickt ihn dir innerhalb von 48 Stunden",
+        "altLabel": "Maximale Höhe",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "card": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+        "why": "Für alle, die gutes Essen und Bergwanderungen lieben: von Limas Häppchen bis zur Humantay-Lagune, mit Machu Picchu dazwischen.",
+        "moment": "An der Humantay-Lagune ankommen, türkis am Fuß der Schneegipfel, und still werden.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, Bissen für Bissen",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "Wir holen dich am Flughafen ab. Am Nachmittag erkundest du Limas historisches Zentrum, UNESCO-Welterbe, und seine Märkte und probierst 12 peruanische Häppchen. Zum Abschluss ein Pisco Sour, wenn du Lust hast."
+          },
+          {
+            "t": "Vom Meer in die Wüste",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Bootsfahrt zu den Ballestas-Inseln, der Heimat von Seelöwen und Humboldtpinguinen, vorbei am Kandelaber, einer riesigen Zeichnung im Sand, deren Ursprung niemand sicher kennt. Mittagessen auf einem Pisco-Weingut und Buggyfahrt mit Sandboarding in Huacachina bis zum Sonnenuntergang."
+          },
+          {
+            "t": "Die Hauptstadt der Inka",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Flug nach Cusco und private Führung durch die Hauptstadt des Inkareichs, wo du Inkamauern unter Kolonialkirchen siehst. Zum Abschluss ein Aussichtspunkt über der Stadt."
+          },
+          {
+            "t": "Das Heilige Tal",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "Die Salinen von Maras, die schon vor den Inka bewirtschaftet wurden; die kreisförmigen Terrassen von Moray; die Textilien von Chinchero und Ollantaytambo, ein Inkadorf, das bis heute bewohnt ist. Am Nachmittag Panoramazug nach Aguas Calientes."
+          },
+          {
+            "t": "Zuerst der Stein",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu mit privatem Guide: die Inka-Zitadelle aus dem 15. Jahrhundert, eines der neuen sieben Weltwunder. Rückfahrt mit dem Zug und privater Transfer nach Cusco."
+          },
+          {
+            "t": "Ruhetag",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Freier Tag in Cusco, um auszuruhen, spazieren zu gehen oder die lokale Küche zu probieren."
+          },
+          {
+            "t": "Die Humantay-Lagune",
+            "m": 4200,
+            "stage": "VIVE",
+            "body": "Ganztägige Wanderung zur Humantay-Lagune, deren türkisfarbenes Wasser aus dem Schmelzwasser des Humantay-Gletschers stammt."
+          },
+          {
+            "t": "Vom Markt in die Küche",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Du gehst mit einem Koch über einen lokalen Markt, zwischen einigen der mehr als 3.000 Kartoffelsorten Perus, und kochst mit ihm ein traditionelles Gericht."
+          },
+          {
+            "t": "Der Regenbogenberg",
+            "m": 5036,
+            "stage": "RECUERDA",
+            "body": "Wanderung nach Vinicunca, dem Regenbogenberg, auf über 5.000 m: Seine Streifen stammen von den Mineralien im Boden. Danach Transfer zum Flughafen Cusco für deine Abreise."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/oasis-huacachina-scaled.jpg",
+            "caption": "Huacachina · die Oase"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2025/09/IMG_2205-scaled.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
+            "caption": "Humantay-Lagune"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_30319-scaled.jpg",
+            "caption": "Cusco"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Inlandsflüge und Unterkunft sind nicht inklusive: Dein Travel Advisor macht dir dafür ein eigenes Angebot.",
+          "Lass den freien Tag in Cusco nicht aus: An den zwei folgenden Tagen wanderst du über 4.000 m.",
+          "In den Zug nach Machu Picchu darfst du Handgepäck bis 5 kg mitnehmen."
+        ],
+        "access": "Es gibt frühe Starts und zwei ganztägige Wanderungen in der Höhe (Humantay und Vinicunca). Sag uns rechtzeitig Bescheid, wenn du eine Erkrankung oder eine Ernährungseinschränkung hast.",
+        "season": {
+          "text": "Von Mai bis September ist das Hochland trocken und klar, die beste Zeit für die Wanderungen zur Humantay-Lagune und nach Vinicunca; Lima dagegen wacht grau und kühl auf.",
+          "clima": "Graue Küste, sonniges Hochland",
+          "temp": "Von 0 °C bis 22 °C",
+          "cal": "Von Mai bis September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 3,
+        "kicker": "Journey · 9 Tage zwischen Küste und Anden",
+        "why": "Für alle, die gutes Essen und Bergwanderungen lieben: von Limas Häppchen bis zur Humantay-Lagune, mit Machu Picchu dazwischen.",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "dest": [
+          "lima",
+          "ica",
+          "cusco",
+          "machu"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Preis je nach Reisedaten",
+        "kw": "lima häppchen essen ballestas weingut pisco huacachina cusco heiliges tal machu picchu humantay lagune regenbogenberg vinicunca kochkurs markt",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "price": "Preis je nach Reisedaten",
+        "icon": "/assets/diamond-yellow.png",
+        "ph": "Foto — Peru",
+        "why": "Für alle, die gutes Essen und Bergwanderungen lieben: von Limas Häppchen bis zur Humantay-Lagune, mit Machu Picchu dazwischen.",
+        "moment": "An der Humantay-Lagune ankommen, türkis am Fuß der Schneegipfel, und still werden.",
+        "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg"
+      }
+    }
+  ],
+  "principios": [
+    {
+      "id": "01",
+      "kicker": "01 · Wir wählen aus",
+      "title": "Wenig, aber gut gewählt",
+      "q": "Wir packen deinen Tag nicht mit Besichtigungen voll: Wir wählen aus, was deine Zeit wirklich wert ist.",
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "photo": "1567597243073-2d274aabecec"
+    },
+    {
+      "id": "02",
+      "kicker": "02 · Wir erzählen",
+      "title": "Wir erzählen dir die Geschichte",
+      "q": "Du betrittst die Orte nicht nur: Du verstehst, was dort geschah und warum es wichtig ist.",
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "photo": "1568805647297-df963b524678"
+    },
+    {
+      "id": "06",
+      "kicker": "06 · Wir begleiten dich",
+      "title": "Vorher, währenddessen und danach",
+      "q": "Wir sind für dich da, vom ersten Reisetraum bis zu deiner Rückkehr nach Hause.",
+      "bg": "#48725E",
+      "fg": "#e9eef1",
+      "photo": "1730423284218-a8a7e9422ebf"
+    },
+    {
+      "id": "or",
+      "kicker": "So wird es erlebt",
+      "title": "Vom Teller zum Ursprung",
+      "q": "Du gehst über den Markt, erfährst, woher jede Zutat kommt, und kochst mit deinen eigenen Händen.",
+      "bg": "#df5f0c",
+      "fg": "#1c1c1c",
+      "photo": "1632913582499-381c7c798787"
+    }
+  ],
+  "galeria": [
+    {
+      "img": "1526697675318-89790adec369",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1568805778734-f0a5a77d7272",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1535400255456-984241443b29",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1578362646678-a1b282e43ff8",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1730424508745-29ea708ae698",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1559160671-cc23bc25eb94",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1567597243073-2d274aabecec",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1568805647297-df963b524678",
+      "ratio": "3/4"
+    }
+  ]
+}

@@ -7,6 +7,7 @@
 		<!-- sunqu:seo --><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/journey.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-idiomas.js"></script>
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="journey"></script>
 		<script src="js/sunqu-analytics.js" defer></script>
@@ -179,10 +180,10 @@
 						</div>
 					</section>
 
-					<!-- Sección · Por qué existe este viaje -->
-					<section class="jr-intro sj-dark" data-bg="dark" aria-label="Por qué existe este viaje">
+					<!-- Sección · Por qué este viaje -->
+					<section class="jr-intro sj-dark" data-bg="dark" aria-label="Por qué este viaje">
 						<div class="jr-intro-col">
-							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Por qué existe este viaje</span>
+							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Por qué este viaje</span>
 							<p class="jr-why" data-reveal="" data-delay="80">“{{ j.why }}”</p>
 							<p class="jr-what" data-reveal="" data-delay="160">{{ j.whatLong }}</p>
 							<div class="jr-specs" data-reveal="">
@@ -206,7 +207,7 @@
 									<h2 class="sj-h2" data-reveal="" style="max-width:14ch">{{ j.storyTitle }}</h2>
 									<div class="jr-story">
 										<sc-for list="{{ j.story }}" as="p" hint-placeholder-count="2"><p data-reveal="">{{ p }}</p></sc-for>
-										<p class="jr-moment-line" data-reveal=""><b>Momento Sunqu:</b> {{ j.moment }}</p>
+										<p class="jr-moment-line" data-reveal=""><b>El momento que vas a recordar:</b> {{ j.moment }}</p>
 									</div>
 									<div class="jr-principle">
 										<div class="jr-pcard" data-reveal="" style="background:{{ j.how.bg }};color:{{ j.how.fg }}">
@@ -215,7 +216,7 @@
 											<h3 style="color:{{ j.how.fg }}">{{ j.how.title }}</h3>
 										</div>
 										<div class="jr-principle-txt" data-reveal="" data-delay="120">
-											<span class="jr-meta-label">El principio que guía este viaje</span>
+											<span class="jr-meta-label">Lo que hace distinto este viaje</span>
 											<h3>{{ j.how.name }}</h3>
 											<p>{{ j.how.text }}</p>
 											<span class="jr-q">{{ j.how.q }}</span>
@@ -235,7 +236,7 @@
 									</ul>
 									<a href="#reservar" class="btn btn-primary">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
 									<a href="{{ waHref }}" target="_blank" rel="noopener" class="btn btn-secondary">Escríbenos por WhatsApp</a>
-									<p class="jr-book-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+									<p class="jr-book-note">Es gratis y sin compromiso. Un Travel Advisor te responde en menos de 48 horas.</p>
 								</div>
 							</aside>
 						</div>
@@ -258,7 +259,7 @@
 											<button type="button" class="jr-day-btn" onClick="{{ d.toggle }}" aria-expanded="{{ d.open }}" aria-controls="{{ d.pid }}">
 												<span class="jr-day-n">{{ d.n }}</span>
 												<span class="jr-day-t">{{ d.title }}</span>
-												<span class="jr-stage" data-s="{{ d.stage }}">{{ d.stage }}</span>
+												<span class="jr-stage" data-s="{{ d.stage }}">{{ d.stageLabel }}</span>
 												<span class="jr-day-m">{{ d.m }}</span>
 												<span class="jr-day-ico" aria-hidden="true">
 													<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
@@ -277,7 +278,7 @@
 									<div>
 										<h3>El día a día lo diseñamos contigo</h3>
 										<p>{{ j.whatLong }} Tu Travel Advisor te envía el itinerario completo, con precio y altitud claros desde el primer día.</p>
-										<a href="#reservar" class="btn btn-primary" style="margin-top:22px">Pedir el itinerario<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
+										<a href="#reservar" class="btn btn-primary" style="margin-top:22px">Pedir el itinerario completo<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
 									</div>
 									<ul>
 										<li>Duración<b>{{ j.days }}</b></li>
@@ -304,7 +305,7 @@
 								<figure class="blueprint sj-alt jr-chart" data-reveal="" role="group" aria-label="Curva de altitud día a día">
 									<div class="sj-alt-bar">
 										<span class="sj-alt-leg"><i class="sj-alt-key"></i>Altitud del viaje</span>
-										<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Umbral del soroche · 3.400 m</span>
+										<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Altura de Cusco · 3.400 m</span>
 									</div>
 									<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
 										<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
@@ -340,7 +341,7 @@
 									<div class="sj-alt-detail" aria-live="polite">
 										<div class="sj-alt-dhead">
 											<span class="sj-alt-dday">{{ alt.selD }}</span>
-											<span class="jr-stage" data-s="{{ alt.selStage }}">{{ alt.selStage }}</span>
+											<span class="jr-stage" data-s="{{ alt.selStage }}">{{ alt.selStageLabel }}</span>
 										</div>
 										<div class="sj-alt-dmain"><h3>{{ alt.selTitle }}</h3><span>{{ alt.selM }}</span></div>
 										<p>{{ alt.selBody }}</p>
@@ -367,7 +368,7 @@
 							<div data-expand-text="" class="jr-mo-text" style="opacity:0">
 								<span class="sj-eyebrow" style="color:#83b300">Momento Sunqu</span>
 								<blockquote class="jr-mo-quote">{{ j.moment }}</blockquote>
-								<ul class="jr-mo-conds" aria-label="Las cuatro condiciones de un Momento Sunqu">
+								<ul class="jr-mo-conds" aria-label="Qué hace especial a un Momento Sunqu">
 									<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4"><li><img src="{{ c.icon }}" alt="">{{ c.title }}</li></sc-for>
 								</ul>
 							</div>
@@ -526,7 +527,7 @@
 											<path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
 										</svg>
 									</span>
-									<p>Cada comunidad anfitriona sabe qué recibe de tu viaje. Lo publicamos en nuestra <a href="#conecta">Ficha de reciprocidad</a>.</p>
+									<p>Cada comunidad que te recibe sabe qué le deja tu viaje. Te lo contamos en nuestra <a href="#conecta">Ficha de reciprocidad</a>.</p>
 								</article>
 								<article class="blueprint jr-note" data-reveal="" data-delay="180">
 									<span class="jr-note-ico" aria-hidden="true">
@@ -566,7 +567,7 @@
 									<div>
 										<span class="jr-ayni-k">Ayni · reciprocidad</span>
 										<h3>Ficha de reciprocidad</h3>
-										<p>Publicamos qué recibe cada comunidad anfitriona, cómo se decidió y quién lo administra. La comunidad tiene poder de veto sobre cómo se cuenta su historia.</p>
+										<p>Te contamos qué recibe cada comunidad que te recibe, cómo se acordó y quién lo administra. Y es la comunidad la que decide cómo se cuenta su historia.</p>
 										<sc-if value="{{ j.hasAyniNote }}" hint-placeholder-val="{{ false }}"><b>{{ j.ayniNote }}</b></sc-if>
 									</div>
 								</div>
@@ -675,7 +676,7 @@
 										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · diseñamos contigo</span>
 										<div class="sj-form-row">
 											<div class="field">
-												<label for="f-name">Nombres completos</label>
+												<label for="f-name">Nombre y apellido</label>
 												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tus nombres y apellidos">
 											</div>
 											<div class="field">
@@ -685,7 +686,7 @@
 										</div>
 										<div class="sj-form-row">
 											<div class="field">
-												<label for="f-tel">Celular</label>
+												<label for="f-tel">WhatsApp o celular</label>
 												<div data-sunqu-campo="celular" data-id="f-tel" data-required="1"></div>
 											</div>
 											<div class="field">
@@ -716,19 +717,19 @@
 											</div>
 										</div>
 										<div class="field">
-											<label for="f-group">Mi grupo</label>
+											<label for="f-group">Viajeros y habitaciones</label>
 											<div data-sunqu-campo="grupo" data-id="f-group"></div>
 										</div>
 										<fieldset class="field">
-											<legend class="sj-label">¿Qué quieres sentir?</legend>
+											<legend class="sj-label">¿Qué te interesa más?</legend>
 											<div class="sj-chips">
 												<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
-												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>La comida</label>
 												<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
 											</div>
 										</fieldset>
 										<div class="field">
-											<label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label>
+											<label for="f-msg">Cuéntanos sobre tu viaje <span class="sj-optional">Opcional</span></label>
 											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea>
 										</div>
 										<div class="sj-attach {{ attach.cls }}">
@@ -754,15 +755,15 @@
 										</div>
 										<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
 										<div class="sj-form-foot">
-											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
-											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Enviar mi solicitud<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<p class="sj-form-note">Es gratis y sin compromiso. Un Travel Advisor te responde en menos de 48 horas.</p>
 										</div>
 									</form>
 								</sc-if>
 								<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
 									<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
 										<img src="assets/diamond-lime.png" alt="" style="width:56px">
-										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay, gracias. Recibimos tu solicitud.</h3>
 										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
 										<sc-if value="{{ sentFavOn }}" hint-placeholder-val="{{ false }}">
 											<p class="sj-attach-ok"><img src="assets/diamond-lime.png" alt="">{{ sentFavText }}</p>
@@ -861,8 +862,8 @@
 							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
 								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
 								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
-								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a>
-								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viajes</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reseñas y tienda</a>
 								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
 								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
@@ -911,7 +912,7 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   stripRef = React.createRef();
   chartRef = React.createRef();
-  NAV = [['descubre', 'Descubre'], ['vive', 'Día a día'], ['conecta', 'Conecta'], ['recuerda', 'Recuerda']];
+  NAV = [['descubre', 'El viaje'], ['vive', 'Día a día'], ['conecta', 'Anfitriones'], ['recuerda', 'Qué incluye']];
   PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
   U = (id, w = 1800) => SunquContent.img(id, w, 72);
   S = (id, ws) => SunquContent.srcset(id, ws, 72);
@@ -923,6 +924,8 @@ class Component extends DCLogic {
   PLAN = SunquView.PLAN;
   MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   GAL = SunquView.GAL;
+  // Etapa de cada día: data-s (colores) usa la clave; el texto se muestra traducido
+  ETAPA = { DESCUBRE: 'Descubre', CONECTA: 'Conecta', VIVE: 'Vive', RECUERDA: 'Recuerda' };
   jid = (() => { const q = SunquContent.param('j'); return this.J[q] ? q : this.J.alma ? 'alma' : this.ORDER[0]; })();
 
   lock() { document.body.style.overflow = (this.state.menuOpen || this.state.reel || this.state.lb >= 0) ? 'hidden' : ''; }
@@ -1068,9 +1071,9 @@ class Component extends DCLogic {
       line: pts.map((q) => q.join(',')).join(' '), area: `${pts[0][0]},${yOf(0)} ` + pts.map((q) => q.join(',')).join(' ') + ` ${pts[na - 1][0]},${yOf(0)}`,
       gx: pts[ai][0], gy: pts[ai][1], clip: st.chartIn ? '0%' : '100%',
       tipX: pts[ai][0], tipY: pts[ai][1], tipTx: ai === 0 ? '-14px' : ai === na - 1 ? 'calc(-100% + 14px)' : '-50%', selM: fmt(D[ai].m),
-      selD: 'Día ' + (ai + 1), selTitle: D[ai].t, selBody: D[ai].body, selStage: D[ai].stage,
+      selD: 'Día ' + (ai + 1), selTitle: D[ai].t, selBody: D[ai].body, selStage: D[ai].stage, selStageLabel: this.ETAPA[D[ai].stage] || D[ai].stage,
       prev: () => { const i = (ai - 1 + na) % na; this.setState({ altIdx: i, day: i }); }, next: () => { const i = (ai + 1) % na; this.setState({ altIdx: i, day: i }); },
-      pts: D.map((d, i) => ({ x: pts[i][0], y: pts[i][1], d: 'D' + (i + 1), on: i === ai ? 'true' : 'false', label: `Día ${i + 1}, ${d.t}, ${fmt(d.m)}`, pick: () => pick(i) })),
+      pts: D.map((d, i) => ({ x: pts[i][0], y: pts[i][1], d: small && na > 9 && i % 2 && i !== ai ? '' : 'D' + (i + 1), on: i === ai ? 'true' : 'false', label: `Día ${i + 1}, ${d.t}, ${fmt(d.m)}`, pick: () => pick(i) })),
       move: (e) => { const r = e.currentTarget.getBoundingClientRect(); const x = e.clientX - r.left; let best = 0, bd = Infinity; pts.forEach((q, i) => { const dd = Math.abs(q[0] - x); if (dd < bd) { bd = dd; best = i; } }); pick(best); },
     } : {};
     const waHref = SunquView.site.waLink('Hola Sunqu, quiero saber más del journey ' + J.title);
@@ -1093,7 +1096,7 @@ class Component extends DCLogic {
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([k, label]) => ({ href: this.PAGES[k] || '#' + k, label, current: !this.PAGES[k] && st.nav === k ? 'true' : 'false' })),
-      menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      menuLinks: [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
       langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef, stripRef: this.stripRef, chartRef: this.chartRef,
@@ -1113,23 +1116,23 @@ class Component extends DCLogic {
       hosts: J.hosts.map((k) => { const h = this.HOSTS[k]; return { ...h, img: U(h.img, 1000), srcset: this.S(h.img, [480, 720, 1000]) }; }),
       hostsCls: J.hosts.length > 1 ? 'is-n2' : 'is-n1',
       hasDays: na > 0, noDays: na === 0, alt,
-      days: D.map((d, i) => { const open = st.day === i; return { n: 'Día ' + (i + 1), title: d.t, stage: d.stage, m: fmt(d.m), body: d.body, pid: 'jr-day-' + i, open: open ? 'true' : 'false', cls: open ? 'is-open' : '', toggle: () => this.setState((s) => (s.day === i ? { day: -1 } : { day: i, altIdx: i })) }; }),
+      days: D.map((d, i) => { const open = st.day === i; return { n: 'Día ' + (i + 1), title: d.t, stage: d.stage, stageLabel: this.ETAPA[d.stage] || d.stage, m: fmt(d.m), body: d.body, pid: 'jr-day-' + i, open: open ? 'true' : 'false', cls: open ? 'is-open' : '', toggle: () => this.setState((s) => (s.day === i ? { day: -1 } : { day: i, altIdx: i })) }; }),
       phases: [
-        { kicker: 'Antes', color: '#676140', title: 'Kit de preparación', body: 'Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.', img: U('1541637593725-923467404d17', 900), srcset: this.S('1541637593725-923467404d17', [480, 720, 900]) },
-        { kicker: 'Durante', color: '#4a7300', title: 'Acompañamiento', body: 'Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.', img: U('1593460915132-fcb729cc4597', 900), srcset: this.S('1593460915132-fcb729cc4597', [480, 720, 900]) },
-        { kicker: 'Después', color: '#8f6100', title: 'Diario del viaje', body: 'Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.', img: U('1568805778734-f0a5a77d7272', 900), srcset: this.S('1568805778734-f0a5a77d7272', [480, 720, 900]) },
+        { kicker: 'Antes', color: '#676140', title: 'Todo listo antes de volar', body: 'La historia de los lugares que vas a conocer, tus primeras palabras en quechua y quiénes te van a recibir.', img: U('1541637593725-923467404d17', 900), srcset: this.S('1541637593725-923467404d17', [480, 720, 900]) },
+        { kicker: 'Durante', color: '#4a7300', title: 'Siempre acompañado', body: 'Un Travel Advisor pendiente de ti, un plan pensado para la altura y un itinerario que se adapta a cómo te sientes.', img: U('1593460915132-fcb729cc4597', 900), srcset: this.S('1593460915132-fcb729cc4597', [480, 720, 900]) },
+        { kicker: 'Después', color: '#8f6100', title: 'Tu diario de viaje', body: 'Lo que viviste y los nombres de quienes lo hicieron posible, para que la amistad siga viva.', img: U('1568805778734-f0a5a77d7272', 900), srcset: this.S('1568805778734-f0a5a77d7272', [480, 720, 900]) },
       ],
       gallery: this.GAL.map(([gid, ratio], i) => ({ src: U(gid, 900), srcset: this.S(gid, [360, 600, 900]), ratio, label: 'Ampliar foto ' + (i + 1), open: () => this.openLb(i) })),
       lbCls: st.lb >= 0 ? 'is-open' : '', lbSrc: st.lb >= 0 ? U(this.GAL[st.lb][0], 2000) : '', lbCount: st.lb >= 0 ? `Foto ${st.lb + 1} de ${this.GAL.length}` : '',
       closeLb: () => this.closeLb(), lbPrev: () => this.stepLb(-1), lbNext: () => this.stepLb(1),
-      concepts: [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'El sabor'], ['gente', 'La gente']].map(([cid, label]) => ({
+      concepts: [['todo', 'Todo'], ['historia', 'La historia'], ['sabor', 'La comida'], ['gente', 'La gente']].map(([cid, label]) => ({
         label, bg: cid === st.concept ? '#e9eef1' : 'transparent', color: cid === st.concept ? '#1c1c1c' : '#e9eef1', pressed: cid === st.concept ? 'true' : 'false',
         onClick: () => { this.setState({ concept: cid }); const sec = document.getElementById('otros'); sec && window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); },
       })),
       tips: PL.tips.map((text) => ({ text })), access: PL.access, season,
       others, journeyCount: String(others.length).padStart(2, '0') + ' journeys',
       steps: [
-        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
+        { n: '01', title: 'Elige cómo sentir el Perú', body: '¿Te apasiona la historia, la comida o conocer gente? Cuéntanos qué te mueve y armamos el viaje desde ahí, no desde un catálogo.' },
         { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
         { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
       ],

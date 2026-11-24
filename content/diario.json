@@ -7,7 +7,7 @@
     },
     {
       "slug": "sabor",
-      "label": "Sabor"
+      "label": "Cocina"
     },
     {
       "slug": "comunidad",
@@ -26,23 +26,26 @@
       "read": 6,
       "img": "1541637593725-923467404d17",
       "title": "Cómo aclimatarte en los Andes sin perder el primer día",
-      "excerpt": "Por qué entramos por el Valle Sagrado y qué comer, beber y evitar las primeras 48 horas.",
+      "excerpt": "Cómo subimos de a poco en cada journey y qué comer, beber y evitar las primeras 48 horas.",
       "author": "Equipo Sunqu",
       "role": "Travel Advisors",
-      "lead": "El soroche no avisa. Llega en la primera noche en Cusco, a 3.400 metros, y se lleva el día que tanto planeaste. Por eso lo tratamos como una variable de diseño y no como una advertencia en letra pequeña.",
+      "lead": "El soroche, el mal de altura, no avisa. Puede llegar en tu primera noche en Cusco, a 3.400 metros, y quitarte el día que tanto esperaste. Por eso lo tenemos en cuenta desde que diseñamos tu viaje, y no como una advertencia en letra pequeña.",
       "sections": [
         {
-          "h": "Empezar más abajo",
+          "h": "Subir de a poco",
           "blocks": [
             {
-              "p": "La decisión más importante del viaje se toma antes de aterrizar: por dónde entras a los Andes. Si llegas directo a Cusco, tu cuerpo pasa del nivel del mar a 3.400 metros en una hora de vuelo."
+              "p": "Si vuelas directo de Lima a Cusco, tu cuerpo pasa del nivel del mar a 3.400 metros en poco más de una hora. Por eso el orden de los días importa tanto como los lugares."
             },
             {
-              "p": "En nuestros journeys entramos por el Valle Sagrado, a unos 2.800 metros, y dejamos Cusco para el final. Son 600 metros menos que cambian por completo cómo se siente el primer día."
+              "p": "En El Perú completo, nuestro journey de 14 días, no llegas a Cusco de golpe: antes pasas por Arequipa (2.335 m), el cañón del Colca y el lago Titicaca. Cuando llegas a Cusco, el día 8, tu cuerpo ya conoce la altura."
+            },
+            {
+              "p": "En los journeys de 9 y 10 días vuelas a Cusco el día 3 y al día siguiente bajas al Valle Sagrado, unos 600 metros más abajo. Después de Machu Picchu tienes un día libre en Cusco, antes de las caminatas más altas."
             },
             {
               "quote": "Queremos que tu primer día en los Andes sea tuyo, no de tu dolor de cabeza.",
-              "cite": "Principio 06 · Acompañamos antes, durante y después"
+              "cite": "Equipo Sunqu"
             }
           ]
         },
@@ -50,7 +53,7 @@
           "h": "Las primeras 48 horas",
           "blocks": [
             {
-              "p": "El cuerpo se adapta solo si le das tiempo. Estas son las reglas que repetimos a cada viajero:"
+              "p": "El cuerpo se adapta solo si le das tiempo. Esto le recomendamos a cada viajero:"
             },
             {
               "ul": [
@@ -78,17 +81,17 @@
           ]
         },
         {
-          "h": "Subir por etapas",
+          "h": "Antes de las caminatas altas",
           "blocks": [
             {
-              "p": "La curva de altitud de cada journey sube de a poco: primero el valle, después las mesetas de Moray y Maras, y al final Cusco. Cada día tiene su altura publicada, para que sepas qué esperar antes de preguntar."
+              "p": "La laguna Humantay (unos 4.200 m) y Vinicunca, la Montaña de Colores (más de 5.000 m), son los puntos más altos de nuestros journeys. Por eso siempre llegan después de varios días en altura, nunca al aterrizar."
             },
             {
               "img": "1590835192370-3941b97e93fd",
-              "cap": "Valle Sagrado: la puerta de entrada más amable a los Andes."
+              "cap": "Valle Sagrado: 600 metros más abajo que Cusco."
             },
             {
-              "p": "Tu Travel Advisor te envía el plan de aclimatación con el itinerario, y durante el viaje lo ajustamos contigo si el cuerpo pide más tiempo."
+              "p": "La página de cada journey muestra la altitud de cada día, para que sepas qué esperar. Tu Travel Advisor te envía consejos para la altura junto con tu itinerario y, durante el viaje, lo ajustamos contigo si tu cuerpo pide más tiempo."
             }
           ]
         }
@@ -153,7 +156,7 @@
               "p": "Arequipa no se eligió porque sea mejor que Cusco, sino porque la picantería es un formato culinario que un restaurante de autor no ofrece: una persona con nombre propio que te enseña y te recibe."
             },
             {
-              "p": "Por eso es el centro del journey El Perú que se Saborea, y la puerta de entrada del Módulo gastronómico."
+              "p": "Si tu viaje pasa por Arequipa, como El Perú completo, pídele a tu Travel Advisor un almuerzo en una picantería."
             }
           ]
         }
@@ -199,7 +202,7 @@
           "h": "Quién cuenta la historia",
           "blocks": [
             {
-              "p": "La comunidad tiene poder de veto sobre cómo se cuenta su historia: qué fotos se publican, qué palabras se usan y qué partes de su vida no son parte del viaje."
+              "p": "La comunidad decide cómo se cuenta su historia: qué fotos se publican, qué palabras se usan y qué partes de su vida no son parte del viaje."
             },
             {
               "quote": "No vendemos comunidades. Viajamos con ellas.",
@@ -268,8 +271,8 @@
               "p": "Una foto en un mirador no es un Momento Sunqu. Tampoco una clase de cocina en un hotel ni una visita a un mercado donde nadie te habla."
             },
             {
-              "quote": "La pachamanca del día 6, cocinada bajo tierra con una familia quechua.",
-              "cite": "El Momento Sunqu de Sunqu Origen"
+              "quote": "Cenar y dormir en casa de una familia en la isla de Amantaní, en el lago Titicaca.",
+              "cite": "Un Momento Sunqu de El Perú completo"
             }
           ]
         },
@@ -289,17 +292,17 @@
       "date": "2026-07-10",
       "read": 5,
       "img": "1532996152552-eaffc4edfc1a",
-      "title": "Machu Picchu al principio: por qué cambiamos el orden del viaje",
-      "excerpt": "Cuando el monumento es la premisa y no el clímax, lo que viene después se vuelve lo más importante.",
+      "title": "Machu Picchu no es el final del viaje",
+      "excerpt": "Por qué en nuestros journeys la ciudadela no es el último día, y lo que viene después también importa.",
       "author": "Equipo Sunqu",
       "role": "Diseño de experiencias",
-      "lead": "Casi todos los itinerarios guardan Machu Picchu para el final. Nosotros, en Perú Profundo, lo ponemos al inicio. No es una excentricidad: es la historia que queremos contar.",
+      "lead": "Muchos viajes guardan Machu Picchu para el último día, como el gran final. En nuestros journeys no es así: después de la ciudadela, el Perú sigue sorprendiéndote.",
       "sections": [
         {
-          "h": "El problema del clímax",
+          "h": "El problema del gran final",
           "blocks": [
             {
-              "p": "Cuando Machu Picchu es el clímax, todo lo anterior se vuelve preparación y todo lo posterior, anticlímax. Los días en las comunidades se sienten como relleno."
+              "p": "Cuando Machu Picchu es el cierre, todo lo anterior se siente como espera y todo lo posterior, como despedida. Los días con la gente quedan como relleno."
             }
           ]
         },
@@ -307,15 +310,15 @@
           "h": "Primero la piedra, después la gente",
           "blocks": [
             {
-              "p": "Al ver la ciudadela primero, el viaje cambia de pregunta. Ya no es cómo llegar al monumento, sino quiénes son hoy los descendientes de quienes lo construyeron."
+              "p": "Cuando la ciudadela no es el final, el viaje cambia de pregunta. Ya no es cómo llegar al monumento, sino quiénes son hoy los herederos de quienes lo construyeron."
             },
             {
               "img": "1567597243073-2d274aabecec",
-              "cap": "Machu Picchu, a 2.430 metros: la premisa del viaje."
+              "cap": "Machu Picchu, a 2.430 metros: más abajo que Cusco."
             },
             {
-              "quote": "Lo que recordarás no es la piedra.",
-              "cite": "Perú Profundo"
+              "quote": "Lo que recordarás no es solo la piedra.",
+              "cite": "Equipo Sunqu"
             }
           ]
         },
@@ -325,16 +328,16 @@
             {
               "ul": [
                 {
-                  "b": "Inmersión comunitaria.",
-                  "t": "Días con una familia anfitriona, con su ritmo y sus tareas."
+                  "b": "Lo mejor del Perú en 9 días.",
+                  "t": "La laguna Humantay, una clase de cocina con un chef en Cusco y la Montaña de Colores."
                 },
                 {
-                  "b": "Ficha de reciprocidad.",
-                  "t": "En este viaje es un requisito, no un extra."
+                  "b": "Lo esencial del Perú, con Amazonía (10 días).",
+                  "t": "La Montaña de Colores y dos noches en la selva de Tambopata."
                 },
                 {
-                  "b": "Tiempo sin agenda.",
-                  "t": "Espacio para que las conversaciones sucedan."
+                  "b": "El Perú completo (14 días).",
+                  "t": "La Montaña de Colores y dos noches junto al río Tambopata."
                 }
               ]
             }
@@ -416,25 +419,25 @@
       "date": "2026-06-12",
       "read": 6,
       "img": "1632913582499-381c7c798787",
-      "title": "Del mercado a la montaña: seguir un ingrediente en reversa",
-      "excerpt": "Cómo se diseñó Sunqu Origen: del plato terminado en Lima a la chacra en los Andes.",
+      "title": "Del mercado a la montaña: el Perú se entiende comiendo",
+      "excerpt": "De los doce bocados de Lima a la clase de cocina en Cusco: así se come el Perú en nuestros journeys.",
       "author": "Equipo Sunqu",
       "role": "Diseño de experiencias",
-      "lead": "Sunqu Origen empieza donde casi todos los viajes gastronómicos terminan: en el plato. Desde ahí, el itinerario camina hacia atrás hasta la tierra y la familia que lo siembra.",
+      "lead": "En el Perú, la comida es la forma más rápida de entender un lugar. Por eso nuestros journeys empiezan en la mesa: el primer día, en Lima, ya estás probando el país bocado a bocado.",
       "sections": [
         {
-          "h": "El plato terminado",
+          "h": "Lima, bocado a bocado",
           "blocks": [
             {
-              "p": "El día 1 es una cena en Lima: el punto de llegada de todo lo que verás después. Al día siguiente, el mercado de Surquillo con un cocinero anfitrión."
+              "p": "El día 1, por la tarde, caminas el centro histórico y sus mercados probando doce bocados peruanos. Al final, un pisco sour si te animas. Es tu primera conversación con el Perú, y es con la boca llena."
             }
           ]
         },
         {
-          "h": "La técnica y la altura",
+          "h": "Del mar al desierto",
           "blocks": [
             {
-              "p": "En el Valle Sagrado, los andenes de Moray muestran cómo se cultivaba a distintas alturas, y las salineras de Maras cómo se cosecha la sal de la montaña."
+              "p": "Al día siguiente, después de ver lobos marinos y pingüinos en las islas Ballestas, almuerzas en un viñedo de pisco en Ica. Ahí entiendes que el pisco no es solo un trago: es parte de la historia de la costa."
             },
             {
               "img": "1535400255456-984241443b29",
@@ -443,14 +446,14 @@
           ]
         },
         {
-          "h": "La tierra",
+          "h": "La cocina de Cusco",
           "blocks": [
             {
-              "p": "El día 6 llega la pachamanca con una familia quechua: carnes y tubérculos cocinados bajo tierra con piedras calientes. Es el Momento Sunqu del viaje."
+              "p": "En Lo mejor del Perú en 9 días, el día 8 recorres un mercado de Cusco con un chef: eliges los ingredientes, preguntas de dónde vienen y después cocinas con él un plato tradicional."
             },
             {
-              "quote": "El orden de los días no se puede cambiar sin destruir el viaje.",
-              "cite": "Sunqu Origen · Journey insignia"
+              "quote": "Saber de dónde viene lo que tienes en el plato también es parte del viaje.",
+              "cite": "Equipo Sunqu"
             }
           ]
         }
@@ -463,7 +466,7 @@
       "read": 5,
       "img": "1566793772361-1d5d9cefbd12",
       "title": "El telar de cintura de Chinchero, hilo por hilo",
-      "excerpt": "Teñido natural, iconografía y el tiempo que toma un textil hecho a mano.",
+      "excerpt": "Teñido natural, los dibujos y el tiempo que toma un textil hecho a mano.",
       "author": "Equipo Sunqu",
       "role": "Relación con comunidades",
       "lead": "Un textil de Chinchero no se compra: se entiende. Detrás de cada pieza hay semanas de trabajo, tintes que salen de plantas e insectos, y dibujos que cuentan de dónde viene quien lo tejió.",
@@ -508,7 +511,7 @@
           "h": "Lo que te llevas",
           "blocks": [
             {
-              "p": "En El Alma de los Andes pasas una mañana en el telar con la tejedora. Si compras un textil, la etiqueta lleva su nombre y el de su comunidad."
+              "p": "En nuestros journeys, el día del Valle Sagrado pasas por Chinchero, el pueblo de las tejedoras. Si compras un textil, pregunta quién lo tejió: te lo contarán con orgullo."
             },
             {
               "quote": "Sé exactamente a quién se lo compré.",

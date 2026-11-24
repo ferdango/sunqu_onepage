@@ -1,0 +1,583 @@
+{
+  "_info": "Diario Sunqu (blog.html y articulo.html; la portada muestra los 3 más recientes). En WordPress: Entradas y Categorías nativas; el cuerpo de cada artículo se edita en el editor de bloques.",
+  "categorias": [
+    {
+      "slug": "guia",
+      "label": "Ratgeber"
+    },
+    {
+      "slug": "sabor",
+      "label": "Küche"
+    },
+    {
+      "slug": "comunidad",
+      "label": "Gemeinschaft"
+    },
+    {
+      "slug": "historia",
+      "label": "Geschichte"
+    }
+  ],
+  "posts": [
+    {
+      "slug": "aclimatarte-en-los-andes",
+      "cat": "guia",
+      "date": "2026-09-12",
+      "read": 6,
+      "img": "1541637593725-923467404d17",
+      "title": "So akklimatisierst du dich in den Anden, ohne den ersten Tag zu verlieren",
+      "excerpt": "Wie wir auf jeder Journey langsam aufsteigen, und was du in den ersten 48 Stunden essen, trinken und meiden solltest.",
+      "author": "Sunqu-Team",
+      "role": "Travel Advisors",
+      "lead": "Soroche, die Höhenkrankheit, kündigt sich nicht an. Sie kann in deiner ersten Nacht in Cusco auf 3.400 Metern kommen und dir den Tag nehmen, auf den du dich so gefreut hast. Deshalb berücksichtigen wir sie schon bei der Planung deiner Reise und nicht als Warnung im Kleingedruckten.",
+      "sections": [
+        {
+          "h": "Langsam aufsteigen",
+          "blocks": [
+            {
+              "p": "Wenn du direkt von Lima nach Cusco fliegst, geht dein Körper in etwas mehr als einer Stunde von Meereshöhe auf 3.400 Meter. Deshalb zählt die Reihenfolge der Tage genauso viel wie die Orte."
+            },
+            {
+              "p": "Auf Das ganze Peru, unserer 14-tägigen Journey, kommst du nicht schlagartig in Cusco an: Vorher geht es über Arequipa (2.335 m), den Colca-Canyon und den Titicacasee. Wenn du an Tag 8 Cusco erreichst, kennt dein Körper die Höhe schon."
+            },
+            {
+              "p": "Auf den 9- und 10-tägigen Journeys fliegst du an Tag 3 nach Cusco und fährst am nächsten Tag ins Heilige Tal hinunter, etwa 600 Meter tiefer. Nach Machu Picchu hast du einen freien Tag in Cusco, vor den höchsten Wanderungen."
+            },
+            {
+              "quote": "Wir möchten, dass dein erster Tag in den Anden dir gehört, nicht deinen Kopfschmerzen.",
+              "cite": "Sunqu-Team"
+            }
+          ]
+        },
+        {
+          "h": "Die ersten 48 Stunden",
+          "blocks": [
+            {
+              "p": "Der Körper passt sich von allein an, wenn du ihm Zeit gibst. Das empfehlen wir allen Reisenden:"
+            },
+            {
+              "ul": [
+                {
+                  "b": "Geh langsam.",
+                  "t": "Am ersten Tag keine langen Wanderungen und keine Treppen im Eiltempo."
+                },
+                {
+                  "b": "Trink den ganzen Tag Wasser.",
+                  "t": "Die Höhe entzieht dem Körper mehr Wasser, als man denkt."
+                },
+                {
+                  "b": "Iss leicht.",
+                  "t": "Suppen, Kohlenhydrate und kleine Portionen zum Abendessen."
+                },
+                {
+                  "b": "Heb dir den Alkohol für später auf.",
+                  "t": "Ein Glas in der Höhe wirkt wie drei auf Meereshöhe."
+                }
+              ]
+            },
+            {
+              "p": "Koka-Tee hilft vielen Reisenden, ersetzt aber keine Ruhe. Wenn du eine Erkrankung hast, sprich vor der Reise mit deiner Ärztin oder deinem Arzt."
+            }
+          ]
+        },
+        {
+          "h": "Vor den hohen Wanderungen",
+          "blocks": [
+            {
+              "p": "Die Humantay-Lagune (etwa 4.200 m) und Vinicunca, der Regenbogenberg (über 5.000 m), sind die höchsten Punkte unserer Journeys. Deshalb kommen sie immer erst nach mehreren Tagen in der Höhe, nie direkt nach der Landung."
+            },
+            {
+              "img": "1590835192370-3941b97e93fd",
+              "cap": "Heiliges Tal: 600 Meter tiefer als Cusco."
+            },
+            {
+              "p": "Die Seite jeder Journey zeigt die Höhe jedes Tages, damit du weißt, was dich erwartet. Dein Travel Advisor schickt dir mit deinem Reiseverlauf Tipps für die Höhe, und während der Reise passen wir ihn mit dir an, wenn dein Körper mehr Zeit braucht."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "la-picanteria-arequipena",
+      "cat": "sabor",
+      "date": "2026-08-28",
+      "read": 5,
+      "img": "1535399831218-d5bd36d1a6b3",
+      "title": "Die Picantería von Arequipa, erklärt von einer Picantera",
+      "excerpt": "Chupe, Rocoto relleno und Chicha de guiñapo: die Küche, die sich weigert zu verschwinden.",
+      "author": "Sunqu-Team",
+      "role": "Erlebnisgestaltung",
+      "lead": "Eine Picantería ist kein Restaurant mit anderem Namen. Es ist eine Küche mit einer Gastgeberin, die einen Namen hat, mit einer Speisekarte, die sich nach dem Wochentag richtet, und mit Rezepten, die von der Mutter an die Tochter weitergegeben werden.",
+      "sections": [
+        {
+          "h": "Eine Küche mit Kalender",
+          "blocks": [
+            {
+              "p": "In Arequipa hat jeder Tag sein Gericht. Die Picantería folgt diesem Kalender seit Generationen: Das Menü wird nicht gewählt, es wird respektiert."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Chupe de camarones.",
+                  "t": "Die sämige Garnelensuppe, auf die viele in Arequipa die ganze Woche warten."
+                },
+                {
+                  "b": "Rocoto relleno.",
+                  "t": "Scharfe gefüllte Paprika, im Ofen gebacken und mit Kartoffelauflauf serviert."
+                },
+                {
+                  "b": "Chicha de guiñapo.",
+                  "t": "Gekeimter und fermentierter violetter Mais, serviert im großen Glas."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Wer am Herd steht",
+          "blocks": [
+            {
+              "p": "Die Picanteras halten die Tradition am Leben. Viele kochen noch über Holzfeuer und mit dem Batán, dem Mahlstein, der den Chilis ihre Textur gibt."
+            },
+            {
+              "quote": "Hierher kommst du nicht zum Probieren: Du kommst, um mit mir zu kochen. Und das Rezept nimmst du mit.",
+              "cite": "Picantera und Gastgeberin · Arequipa"
+            },
+            {
+              "img": "1535400875775-0269e7a919af",
+              "cap": "Chilis, Mais und Geduld: die Grundlage der Küche Arequipas."
+            }
+          ]
+        },
+        {
+          "h": "Warum wir sie gewählt haben",
+          "blocks": [
+            {
+              "p": "Arequipa wurde nicht gewählt, weil es besser wäre als Cusco, sondern weil die Picantería eine Form der Küche ist, die ein Sternerestaurant nicht bietet: ein Mensch mit Namen, der dir etwas beibringt und dich empfängt."
+            },
+            {
+              "p": "Wenn deine Reise über Arequipa führt, wie Das ganze Peru, frag deinen Travel Advisor nach einem Mittagessen in einer Picantería."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ayni-ficha-de-reciprocidad",
+      "cat": "comunidad",
+      "date": "2026-08-09",
+      "read": 5,
+      "img": "1568805778796-96b66708d6e0",
+      "title": "Ayni: Was jede Gemeinschaft erhält, die dich empfängt",
+      "excerpt": "Unser Gegenseitigkeitsblatt, Schritt für Schritt, und wer entscheidet, wie es verwendet wird.",
+      "author": "Sunqu-Team",
+      "role": "Beziehungen zu Gemeinschaften",
+      "lead": "Ayni ist die andine Gegenseitigkeit: Heute helfe ich dir, morgen hilfst du mir. Wir haben es zu einer Arbeitsregel gemacht und veröffentlichen es in einem Blatt, damit alle Reisenden es lesen können.",
+      "sections": [
+        {
+          "h": "Was das Blatt ist",
+          "blocks": [
+            {
+              "p": "Jede Gastgemeinschaft hat ein Gegenseitigkeitsblatt. Es sagt, was sie von deiner Reise erhält, wie diese Vereinbarung beschlossen wurde und wer sie verwaltet."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Was sie erhält.",
+                  "t": "Die Bezahlung für das Erlebnis und den Beitrag zum Gemeinschaftsfonds."
+                },
+                {
+                  "b": "Wie es beschlossen wurde.",
+                  "t": "In einer Versammlung, mit der Gemeinschaft und nicht nur mit einem Vermittler."
+                },
+                {
+                  "b": "Wer es verwaltet.",
+                  "t": "Eine Person oder ein Komitee, das die Gemeinschaft selbst gewählt hat."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Wer die Geschichte erzählt",
+          "blocks": [
+            {
+              "p": "Die Gemeinschaft entscheidet, wie ihre Geschichte erzählt wird: welche Fotos veröffentlicht werden, welche Worte verwendet werden und welche Teile ihres Lebens nicht Teil der Reise sind."
+            },
+            {
+              "quote": "Wir verkaufen keine Gemeinschaften. Wir reisen mit ihnen.",
+              "cite": "Kulturschutz · Sunqu Journeys"
+            }
+          ]
+        },
+        {
+          "h": "So liest du es vor der Buchung",
+          "blocks": [
+            {
+              "img": "1730423284218-a8a7e9422ebf",
+              "cap": "Das Blatt wird jedes Jahr mit jeder Gastgemeinschaft überprüft."
+            },
+            {
+              "p": "Du findest das Blatt auf der Seite jeder Journey im Bereich Begegnen. Wenn eine Gemeinschaft kein veröffentlichtes Blatt hat, wird dieses Erlebnis noch nicht verkauft."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "que-es-un-momento-sunqu",
+      "cat": "comunidad",
+      "date": "2026-07-24",
+      "read": 4,
+      "img": "1593460915132-fcb729cc4597",
+      "title": "Was ein Sunqu-Moment ist (und was nicht)",
+      "excerpt": "Vier Bedingungen, damit ein Erlebnis einen eigenen Namen verdient.",
+      "author": "Sunqu-Team",
+      "role": "Erlebnisgestaltung",
+      "lead": "Eine Reise kann voller Aktivitäten sein und keinen einzigen Moment haben, an den du dich erinnerst. Ein Sunqu-Moment ist das Gegenteil: wenig, aber mit Namen.",
+      "sections": [
+        {
+          "h": "Die vier Bedingungen",
+          "blocks": [
+            {
+              "p": "Damit ein Erlebnis ein Sunqu-Moment ist, muss es alle vier erfüllen, nicht nur einige:"
+            },
+            {
+              "ul": [
+                {
+                  "b": "Es hat einen Namen.",
+                  "t": "Dahinter steht ein Mensch, den du beim Namen kennst, kein Dienstleister."
+                },
+                {
+                  "b": "Du machst etwas.",
+                  "t": "Du kochst, webst, säst. Du siehst nicht nur zu."
+                },
+                {
+                  "b": "Es gibt es nur auf der Reise.",
+                  "t": "Man kann es nicht per App buchen oder zu Hause wiederholen."
+                },
+                {
+                  "b": "Du nimmst etwas mit.",
+                  "t": "Ein Rezept, ein Textil, ein Wort, eine Verbindung."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Was es nicht ist",
+          "blocks": [
+            {
+              "p": "Ein Foto an einem Aussichtspunkt ist kein Sunqu-Moment. Ebenso wenig ein Kochkurs im Hotel oder ein Marktbesuch, bei dem niemand mit dir spricht."
+            },
+            {
+              "quote": "Bei einer Familie auf der Insel Amantaní im Titicacasee zu Abend essen und übernachten.",
+              "cite": "Ein Sunqu-Moment aus Das ganze Peru"
+            }
+          ]
+        },
+        {
+          "h": "Mindestens einer pro Reise",
+          "blocks": [
+            {
+              "p": "Jede Journey wird um mindestens einen Sunqu-Moment herum geplant. Alles andere, Transport, Hotels und Zeiten, ist dazu da, dass dieser Moment gut gelingt."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "machu-picchu-al-principio",
+      "cat": "historia",
+      "date": "2026-07-10",
+      "read": 5,
+      "img": "1532996152552-eaffc4edfc1a",
+      "title": "Machu Picchu ist nicht das Ende der Reise",
+      "excerpt": "Warum die Zitadelle auf unseren Journeys nicht der letzte Tag ist, und warum auch zählt, was danach kommt.",
+      "author": "Sunqu-Team",
+      "role": "Erlebnisgestaltung",
+      "lead": "Viele Reisen heben sich Machu Picchu für den letzten Tag auf, als großes Finale. Auf unseren Journeys nicht: Nach der Zitadelle überrascht dich Peru weiter.",
+      "sections": [
+        {
+          "h": "Das Problem mit dem großen Finale",
+          "blocks": [
+            {
+              "p": "Wenn Machu Picchu der Schluss ist, fühlt sich alles davor wie Warten an und alles danach wie ein Abschied. Die Tage mit den Menschen werden zum Lückenfüller."
+            }
+          ]
+        },
+        {
+          "h": "Zuerst der Stein, dann die Menschen",
+          "blocks": [
+            {
+              "p": "Wenn die Zitadelle nicht das Ende ist, stellt die Reise eine andere Frage. Es geht nicht mehr darum, wie man zum Monument kommt, sondern wer heute die Erben derer sind, die es gebaut haben."
+            },
+            {
+              "img": "1567597243073-2d274aabecec",
+              "cap": "Machu Picchu auf 2.430 Metern: tiefer als Cusco."
+            },
+            {
+              "quote": "Woran du dich erinnern wirst, ist nicht nur der Stein.",
+              "cite": "Sunqu-Team"
+            }
+          ]
+        },
+        {
+          "h": "Was danach kommt",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "Das Beste von Peru in 9 Tagen.",
+                  "t": "Die Humantay-Lagune, ein Kochkurs mit einem Koch in Cusco und der Regenbogenberg."
+                },
+                {
+                  "b": "Das Wesentliche Perus, mit Amazonas (10 Tage).",
+                  "t": "Der Regenbogenberg und zwei Nächte im Regenwald von Tambopata."
+                },
+                {
+                  "b": "Das ganze Peru (14 Tage).",
+                  "t": "Der Regenbogenberg und zwei Nächte am Río Tambopata."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "primeras-palabras-en-quechua",
+      "cat": "guia",
+      "date": "2026-06-26",
+      "read": 4,
+      "img": "1568805778734-f0a5a77d7272",
+      "title": "Deine ersten Wörter auf Quechua vor dem Abflug",
+      "excerpt": "Sunqu, añay, ayni und weitere Wörter, die in den Anden Gespräche eröffnen.",
+      "author": "Sunqu-Team",
+      "role": "Travel Advisors",
+      "lead": "Du musst kein Quechua sprechen, um durch die Anden zu reisen. Aber in der Sprache derer zu grüßen, die dich empfangen, verändert das erste Gespräch. Diese Wörter sind in deinem Vorbereitungspaket enthalten.",
+      "sections": [
+        {
+          "h": "Zum Grüßen",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "Allillanchu.",
+                  "t": "Geht es dir gut? Das ist der häufigste Gruß."
+                },
+                {
+                  "b": "Allillanmi.",
+                  "t": "Mir geht es gut. Die Antwort."
+                },
+                {
+                  "b": "Sulpayki.",
+                  "t": "Danke, im Quechua von Cusco."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Die Wörter unserer Marke",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "Sunqu.",
+                  "t": "Herz. Daher kommt unser Name."
+                },
+                {
+                  "b": "Ayni.",
+                  "t": "Gegenseitigkeit: heute für dich, morgen für mich."
+                },
+                {
+                  "b": "Añay.",
+                  "t": "Danke, in mehreren Regionen der Anden."
+                }
+              ]
+            },
+            {
+              "quote": "Tupananchiskama: bis wir uns wiedersehen.",
+              "cite": "Der Abschied, den unsere Gastgeber am häufigsten sagen"
+            }
+          ]
+        },
+        {
+          "h": "So übst du sie",
+          "blocks": [
+            {
+              "p": "Dein Travel Advisor schickt dir vor der Reise Audios mit der Aussprache. Und am ersten Tag korrigieren dich deine Gastgeber mit viel mehr Geduld, als du dir vorstellst."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "del-mercado-a-la-montana",
+      "cat": "sabor",
+      "date": "2026-06-12",
+      "read": 6,
+      "img": "1632913582499-381c7c798787",
+      "title": "Vom Markt in die Berge: Peru versteht man beim Essen",
+      "excerpt": "Von den zwölf Häppchen Limas bis zum Kochkurs in Cusco: So isst man Peru auf unseren Journeys.",
+      "author": "Sunqu-Team",
+      "role": "Erlebnisgestaltung",
+      "lead": "In Peru ist das Essen der schnellste Weg, einen Ort zu verstehen. Deshalb beginnen unsere Journeys am Tisch: Schon am ersten Tag in Lima probierst du das Land Bissen für Bissen.",
+      "sections": [
+        {
+          "h": "Lima, Bissen für Bissen",
+          "blocks": [
+            {
+              "p": "An Tag 1 gehst du am Nachmittag durch das historische Zentrum und seine Märkte und probierst zwölf peruanische Häppchen. Zum Abschluss ein Pisco Sour, wenn du Lust hast. Es ist dein erstes Gespräch mit Peru, und zwar mit vollem Mund."
+            }
+          ]
+        },
+        {
+          "h": "Vom Meer in die Wüste",
+          "blocks": [
+            {
+              "p": "Am nächsten Tag, nachdem du auf den Ballestas-Inseln Seelöwen und Pinguine gesehen hast, isst du auf einem Pisco-Weingut in Ica zu Mittag. Dort verstehst du, dass Pisco nicht nur ein Getränk ist: Er ist Teil der Geschichte der Küste."
+            },
+            {
+              "img": "1535400255456-984241443b29",
+              "cap": "Was auf den Teller kommt, begann viele Kilometer und Höhenmeter weiter oben."
+            }
+          ]
+        },
+        {
+          "h": "Die Küche Cuscos",
+          "blocks": [
+            {
+              "p": "Auf Das Beste von Peru in 9 Tagen gehst du an Tag 8 mit einem Koch über einen Markt in Cusco: Du wählst die Zutaten aus, fragst, woher sie kommen, und kochst dann mit ihm ein traditionelles Gericht."
+            },
+            {
+              "quote": "Zu wissen, woher kommt, was auf deinem Teller liegt, gehört auch zur Reise.",
+              "cite": "Sunqu-Team"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "el-telar-de-chinchero",
+      "cat": "historia",
+      "date": "2026-05-29",
+      "read": 5,
+      "img": "1566793772361-1d5d9cefbd12",
+      "title": "Der Rückengurtwebstuhl von Chinchero, Faden für Faden",
+      "excerpt": "Natürliches Färben, die Muster und die Zeit, die ein handgewebtes Textil braucht.",
+      "author": "Sunqu-Team",
+      "role": "Beziehungen zu Gemeinschaften",
+      "lead": "Ein Textil aus Chinchero kauft man nicht einfach: Man versteht es. Hinter jedem Stück stecken Wochen Arbeit, Farben aus Pflanzen und Insekten und Muster, die erzählen, woher die Weberin kommt.",
+      "sections": [
+        {
+          "h": "Vom Vlies zum Faden",
+          "blocks": [
+            {
+              "p": "Die Schaf- oder Alpakawolle wird gewaschen, mit einer Pushka von Hand gesponnen und gefärbt. Alles, bevor das Weben beginnt."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Rot.",
+                  "t": "Aus der Cochenille, einem Insekt, das auf Kakteen lebt."
+                },
+                {
+                  "b": "Gelb.",
+                  "t": "Aus Blüten und Blättern andiner Pflanzen."
+                },
+                {
+                  "b": "Blau.",
+                  "t": "Aus Indigo, der Farbe, die am längsten zum Fixieren braucht."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Der Rückengurtwebstuhl",
+          "blocks": [
+            {
+              "p": "Ein Ende des Webstuhls wird an einem Pfosten befestigt, das andere an der Taille der Weberin, die die Spannung mit ihrem eigenen Körper steuert. Deshalb ist jedes Textil einzigartig."
+            },
+            {
+              "img": "1568805778796-96b66708d6e0",
+              "cap": "Die Spannung des Fadens hängt vom Körper der Weberin ab."
+            }
+          ]
+        },
+        {
+          "h": "Was du mitnimmst",
+          "blocks": [
+            {
+              "p": "Auf unseren Journeys kommst du am Tag im Heiligen Tal durch Chinchero, das Dorf der Weberinnen. Wenn du ein Textil kaufst, frag, wer es gewebt hat: Man wird es dir mit Stolz erzählen."
+            },
+            {
+              "quote": "Ich weiß genau, von wem ich es gekauft habe.",
+              "cite": "Was wir nach der Rückkehr am häufigsten hören"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cuando-viajar-al-peru",
+      "cat": "guia",
+      "date": "2026-05-15",
+      "read": 5,
+      "img": "1590835192370-3941b97e93fd",
+      "title": "Wann nach Peru reisen: Reisezeiten ohne Mythen",
+      "excerpt": "Trockenzeit, Regen und Übergangsmonate, Reiseziel für Reiseziel.",
+      "author": "Sunqu-Team",
+      "role": "Travel Advisors",
+      "lead": "Es gibt keinen schlechten Monat für eine Peru-Reise, aber bessere Monate für jede Reise. Küste und Anden haben fast gegensätzliche Jahreszeiten, und das verändert, welche Journey zu dir passt.",
+      "sections": [
+        {
+          "h": "Die Anden",
+          "blocks": [
+            {
+              "p": "Von Mai bis September ist Trockenzeit: klarer Himmel, milde Tage und kalte Nächte. Von Dezember bis März regnet es, und im Februar ist der Inka-Trail wegen Wartungsarbeiten geschlossen."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Ideal.",
+                  "t": "Von Mai bis September."
+                },
+                {
+                  "b": "Gut.",
+                  "t": "April, Oktober und November, mit weniger Reisenden."
+                },
+                {
+                  "b": "Regen.",
+                  "t": "Von Dezember bis März."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Arequipa und die Küste",
+          "blocks": [
+            {
+              "p": "In Arequipa scheint fast das ganze Jahr die Sonne. In Lima ist der Himmel von Mai bis November morgens grau und kühl; von Dezember bis April ist Sommer."
+            },
+            {
+              "img": "1541637593725-923467404d17",
+              "cap": "Trockenzeit in den Anden: die beste Zeit zum Wandern."
+            }
+          ]
+        },
+        {
+          "h": "So wählst du",
+          "blocks": [
+            {
+              "p": "Jede Journey-Seite hat ihren Kalender mit den idealen Monaten. Wenn deine Daten nicht passen, ändert dein Travel Advisor die Reihenfolge der Reise, um das Wetter optimal zu nutzen."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

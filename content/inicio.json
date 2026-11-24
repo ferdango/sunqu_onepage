@@ -3,19 +3,19 @@
   "heroSlides": [
     {
       "img": "1590835192370-3941b97e93fd",
-      "caption": "Valle Sagrado · 2.800 m"
+      "caption": "Machu Picchu · una ciudadela del siglo XV"
     },
     {
       "img": "1568805778796-96b66708d6e0",
-      "caption": "Chinchero · telar de cintura"
+      "caption": "Chinchero · tejidos teñidos con plantas"
     },
     {
       "img": "1535399831218-d5bd36d1a6b3",
-      "caption": "Lima · cocina peruana"
+      "caption": "Lima · el ceviche, patrimonio de la UNESCO"
     },
     {
       "img": "1532996152552-eaffc4edfc1a",
-      "caption": "Machu Picchu · 2.430 m"
+      "caption": "Machu Picchu · una de las nuevas siete maravillas"
     }
   ],
   "principios": [
@@ -23,9 +23,9 @@
       "bg": "#1c1c1c",
       "fg": "#e9eef1",
       "n": "01",
-      "layer": "Selección",
-      "title": "Curamos, no acumulamos",
-      "q": "¿Es la experiencia correcta, o solo una más disponible?",
+      "layer": "Elegimos",
+      "title": "Pocas cosas, bien elegidas",
+      "q": "No te llenamos el día de visitas. Elegimos lo que de verdad vale tu tiempo.",
       "icon": "assets/diamond-orange.png",
       "photo": "1567597243073-2d274aabecec"
     },
@@ -33,9 +33,9 @@
       "bg": "#83b300",
       "fg": "#1c1c1c",
       "n": "02",
-      "layer": "Ejecución",
-      "title": "Contamos historias",
-      "q": "Recibes contexto y significado, no solo acceso.",
+      "layer": "Contamos",
+      "title": "Te contamos la historia",
+      "q": "Detrás de cada piedra, cada plato y cada tejido hay una historia. Te la contamos.",
       "icon": "assets/diamond-yellow.png",
       "photo": "1568805647297-df963b524678"
     },
@@ -43,9 +43,9 @@
       "bg": "#f4a700",
       "fg": "#1c1c1c",
       "n": "03",
-      "layer": "Selección",
-      "title": "Conectamos con personas",
-      "q": "Detrás de cada experiencia hay un anfitrión con nombre propio.",
+      "layer": "Conectamos",
+      "title": "Te presentamos a su gente",
+      "q": "Detrás de cada experiencia hay una persona con nombre propio.",
       "icon": "assets/diamond-teal.png",
       "photo": "1566793772361-1d5d9cefbd12"
     },
@@ -53,9 +53,9 @@
       "bg": "#df5f0c",
       "fg": "#1c1c1c",
       "n": "04",
-      "layer": "Ejecución",
-      "title": "Te hacemos participante",
-      "q": "Haces algo con las manos. No solo miras.",
+      "layer": "Participas",
+      "title": "Participas, no solo miras",
+      "q": "Pruebas, preguntas, participas. Lo vives con tus propias manos, no desde la ventana del bus.",
       "icon": "assets/diamond-lime.png",
       "photo": "1568805778796-96b66708d6e0"
     },
@@ -63,9 +63,9 @@
       "bg": "#736d47",
       "fg": "#ffffff",
       "n": "05",
-      "layer": "Ejecución",
-      "title": "Personalizamos",
-      "q": "Cada viaje se siente diseñado para ti.",
+      "layer": "A tu medida",
+      "title": "Lo armamos para ti",
+      "q": "Tu ritmo, tus gustos y tus fechas. Cada viaje se ajusta a ti.",
       "icon": "assets/diamond-olive.png",
       "photo": "1526697675318-89790adec369"
     },
@@ -73,9 +73,9 @@
       "bg": "#48725E",
       "fg": "#e9eef1",
       "n": "06",
-      "layer": "Ejecución",
+      "layer": "Te acompañamos",
       "title": "Antes, durante y después",
-      "q": "La relación empieza antes del vuelo y sigue después del regreso.",
+      "q": "Estamos contigo desde que sueñas el viaje hasta que vuelves a casa.",
       "icon": "assets/diamond-teal.png",
       "photo": "1730423284218-a8a7e9422ebf"
     }
@@ -83,28 +83,28 @@
   "formas": [
     {
       "title": "Sunqu Journeys",
-      "sub": "Viajes de 9 a 14 días con anfitriones",
+      "sub": "Viajes de 9 a 14 días por la costa, los Andes y la selva",
       "img": "1567597243073-2d274aabecec",
       "href": "descubre.html",
       "cta": "Ver los journeys"
     },
     {
       "title": "Sunqu Private",
-      "sub": "Experiencias diseñadas a tu medida",
+      "sub": "Tu viaje, diseñado a tu medida",
       "img": "1526697675318-89790adec369",
       "href": "#contacto",
       "cta": "Diseñar mi viaje"
     },
     {
       "title": "Sunqu Collective",
-      "sub": "Tejedoras, picanteras, guías y familias",
+      "sub": "Las tejedoras, cocineras, guías y familias que te reciben",
       "img": "1730424508745-29ea708ae698",
       "href": "#conecta",
       "cta": "Conocer a los anfitriones"
     },
     {
       "title": "Sunqu Marketplace",
-      "sub": "Lo que te llevas tiene nombre",
+      "sub": "Recuerdos con nombre y apellido",
       "img": "1568805647297-df963b524678",
       "href": "recuerda.html#tienda",
       "cta": "Ir a la tienda"
@@ -114,25 +114,25 @@
     {
       "n": "01",
       "title": "Tiene nombre propio",
-      "body": "Conoces a la persona y su historia. Nunca es folclore anónimo.",
+      "body": "Conoces a la persona y su historia. Nunca es un show para turistas.",
       "icon": "assets/diamond-orange.png"
     },
     {
       "n": "02",
       "title": "Tú haces algo",
-      "body": "Participas con las manos: cocinas, tejes, siembras. No es una demostración.",
+      "body": "Cocinas, tejes, siembras. Participas, no solo miras.",
       "icon": "assets/diamond-yellow.png"
     },
     {
       "n": "03",
       "title": "No se compra por separado",
-      "body": "No lo encontrarás en ninguna plataforma de reservas. Solo existe dentro del viaje.",
+      "body": "No está en ninguna web de reservas. Solo lo vives dentro de tu viaje.",
       "icon": "assets/diamond-lime.png"
     },
     {
       "n": "04",
       "title": "Te llevas algo",
-      "body": "Un objeto, una receta, una técnica, una palabra en quechua. Un vínculo.",
+      "body": "Una receta, una técnica, una palabra en quechua. Y una amistad.",
       "icon": "assets/diamond-olive.png"
     }
   ],
@@ -144,63 +144,111 @@
         "short": "Lima",
         "m": 154,
         "status": "Nivel del mar",
-        "body": "Llegas a Lima y duermes a nivel del mar. Primera cena peruana, sin prisa."
+        "body": "Llegas a Lima y empiezas por su cocina: doce bocados peruanos en el centro histórico."
       },
       {
         "d": "D2",
-        "place": "Valle Sagrado",
-        "short": "Valle",
-        "m": 2800,
-        "status": "600 m bajo Cusco",
-        "body": "Llegamos directo al Valle Sagrado, 600 m por debajo de Cusco. Tu primer día en los Andes es tuyo, no del soroche."
+        "place": "Paracas y Huacachina",
+        "short": "Ica",
+        "m": 406,
+        "status": "Desierto",
+        "body": "Islas Ballestas por la mañana, un viñedo de pisco al mediodía y las dunas de Huacachina al atardecer."
       },
       {
         "d": "D3",
-        "place": "Valle Sagrado",
-        "short": "Valle",
-        "m": 2800,
-        "status": "Aclimatación",
-        "body": "Te quedas a la misma altura: telar de cintura con la tejedora y tiempo para que el cuerpo se acostumbre."
+        "place": "Arequipa",
+        "short": "Arequipa",
+        "m": 2335,
+        "status": "Primer escalón",
+        "body": "Vuelas a la Ciudad Blanca. A 2.335 m tu cuerpo empieza a conocer la altura, sin esfuerzo."
       },
       {
         "d": "D4",
-        "place": "Maras y Moray",
-        "short": "Maras",
-        "m": 3300,
-        "status": "Subes y vuelves a bajar",
-        "body": "Primer ascenso de ida y vuelta: las salineras de Maras y los andenes circulares de Moray."
+        "place": "Cañón del Colca",
+        "short": "Colca",
+        "m": 3635,
+        "status": "Subes de a poco",
+        "body": "Cruzas los Andes hasta el Colca y terminas el día en aguas termales."
       },
       {
         "d": "D5",
-        "place": "Machu Picchu",
-        "short": "M. Picchu",
-        "m": 2430,
-        "status": "Bajo el umbral",
-        "body": "Bajamos a la ciudadela por la mañana. Primero la piedra."
+        "place": "Colca y Puno",
+        "short": "Puno",
+        "m": 3827,
+        "status": "Ya en lo alto",
+        "body": "Ves volar al cóndor andino y sigues hacia Puno, a orillas del Titicaca."
       },
       {
         "d": "D6",
-        "place": "Comunidad",
-        "short": "Comunidad",
-        "m": 3500,
-        "status": "Ya aclimatado",
-        "body": "Después, la gente: pachamanca cocinada bajo tierra con una familia quechua."
+        "place": "Lago Titicaca",
+        "short": "Amantaní",
+        "m": 3850,
+        "status": "Noche en el lago",
+        "body": "Islas de los Uros y Amantaní, donde cenas y duermes en casa de una familia."
       },
       {
         "d": "D7",
-        "place": "Cusco",
-        "short": "Cusco",
-        "m": 3400,
-        "status": "En el umbral, sin soroche",
-        "body": "Llegas a Cusco al final, cuando tu cuerpo ya conoce la altura."
+        "place": "Taquile",
+        "short": "Taquile",
+        "m": 3810,
+        "status": "Aclimatado",
+        "body": "La isla de Taquile y, por la noche, bus a Cusco."
       },
       {
         "d": "D8",
-        "place": "Lima",
-        "short": "Lima",
-        "m": 154,
-        "status": "De vuelta a la costa",
-        "body": "Regreso a Lima con una receta, una técnica y los nombres de quienes te recibieron."
+        "place": "Cusco",
+        "short": "Cusco",
+        "m": 3400,
+        "status": "Llegas aclimatado",
+        "body": "Llegas a Cusco cuando tu cuerpo ya conoce la altura. Recorrido privado por la capital inca."
+      },
+      {
+        "d": "D9",
+        "place": "Valle Sagrado",
+        "short": "Valle",
+        "m": 2800,
+        "status": "Bajas al valle",
+        "body": "Maras, Moray, Chinchero y Ollantaytambo. Por la tarde, tren a Aguas Calientes."
+      },
+      {
+        "d": "D10",
+        "place": "Machu Picchu",
+        "short": "M. Picchu",
+        "m": 2430,
+        "status": "Más abajo que Cusco",
+        "body": "Machu Picchu con guía privado y regreso a Cusco."
+      },
+      {
+        "d": "D11",
+        "place": "Vinicunca",
+        "short": "Vinicunca",
+        "m": 5036,
+        "status": "El punto más alto",
+        "body": "Caminata a la Montaña de Colores, a más de 5.000 m. Por la noche, bus a Puerto Maldonado."
+      },
+      {
+        "d": "D12",
+        "place": "Río Tambopata",
+        "short": "Selva",
+        "m": 200,
+        "status": "Selva",
+        "body": "Navegas el río Tambopata hasta el lodge y sales de noche a buscar monos y caimanes."
+      },
+      {
+        "d": "D13",
+        "place": "Tambopata",
+        "short": "Selva",
+        "m": 200,
+        "status": "Selva",
+        "body": "Al amanecer, loros y guacamayos en la collpa Chuncho."
+      },
+      {
+        "d": "D14",
+        "place": "Puerto Maldonado",
+        "short": "Salida",
+        "m": 183,
+        "status": "Despedida",
+        "body": "Última mañana en la selva y regreso en bote para tu vuelo."
       }
     ],
     "habitual": [
@@ -258,8 +306,8 @@
       "bg": "#1c1c1c",
       "fg": "#e9eef1",
       "kicker": "Antes",
-      "title": "Kit de preparación",
-      "body": "Contexto del territorio, tus primeras palabras en quechua y la presentación de tus anfitriones.",
+      "title": "Todo listo antes de volar",
+      "body": "La historia de los lugares que vas a conocer, tus primeras palabras en quechua y quiénes te van a recibir.",
       "img": "assets/pattern-pair.png",
       "photo": "1541637593725-923467404d17"
     },
@@ -267,8 +315,8 @@
       "bg": "#83b300",
       "fg": "#1c1c1c",
       "kicker": "Durante",
-      "title": "Acompañamiento",
-      "body": "Un Travel Advisor contigo, un plan de aclimatación pensado día a día y un itinerario que se adapta.",
+      "title": "Siempre acompañado",
+      "body": "Un Travel Advisor pendiente de ti, un plan pensado para la altura y un itinerario que se adapta a cómo te sientes.",
       "img": "assets/pattern-flower.png",
       "photo": "1593460915132-fcb729cc4597"
     },
@@ -276,8 +324,8 @@
       "bg": "#f4a700",
       "fg": "#1c1c1c",
       "kicker": "Después",
-      "title": "Diario del viaje",
-      "body": "Lo que viviste, con los nombres de quienes lo hicieron posible. Para que el vínculo siga vivo.",
+      "title": "Tu diario de viaje",
+      "body": "Lo que viviste y los nombres de quienes lo hicieron posible, para que la amistad siga viva.",
       "img": "assets/pattern-steps.png",
       "photo": "1568805778734-f0a5a77d7272"
     }
@@ -303,7 +351,7 @@
     {
       "n": "01",
       "title": "Elige cómo sentir el Perú",
-      "body": "La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo."
+      "body": "¿Te apasiona la historia, la comida o conocer gente? Cuéntanos qué te mueve y armamos el viaje desde ahí, no desde un catálogo."
     },
     {
       "n": "02",

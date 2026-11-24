@@ -25,7 +25,7 @@
       "cat": "ropa",
       "price": 24,
       "img": "assets/merch/polo.jpg",
-      "desc": "Algodón peinado con el patrón andino de la marca.",
+      "desc": "Algodón peinado con el patrón andino de Sunqu.",
       "sizes": [
         "S",
         "M",
@@ -41,7 +41,7 @@
       "cat": "ropa",
       "price": 18,
       "img": "assets/merch/gorra.jpg",
-      "desc": "Gris, con el isotipo bordado al frente.",
+      "desc": "Gris, con el símbolo de Sunqu bordado al frente.",
       "sizes": [],
       "tag": "Talla única",
       "pos": "center 35%"
@@ -52,7 +52,7 @@
       "cat": "ropa",
       "price": 59,
       "img": "assets/merch/chaleco.jpg",
-      "desc": "Liviano y abrigador para las noches andinas.",
+      "desc": "Liviano y abrigador, para las noches frías de los Andes.",
       "sizes": [
         "S",
         "M",
@@ -90,7 +90,7 @@
       "cat": "accesorios",
       "price": 12,
       "img": "assets/merch/pines.jpg",
-      "desc": "Los símbolos de la marca, para la mochila o la casaca.",
+      "desc": "Los símbolos de Sunqu, para tu mochila o tu casaca.",
       "sizes": [],
       "tag": "Souvenir",
       "pos": "center"
@@ -101,7 +101,7 @@
       "cat": "papeleria",
       "price": 14,
       "img": "assets/merch/lapiceros.jpg",
-      "desc": "Uno por cada color de la paleta Sunqu.",
+      "desc": "Uno por cada color de Sunqu.",
       "sizes": [],
       "tag": "Papelería",
       "pos": "center"

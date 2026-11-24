@@ -1,0 +1,111 @@
+{
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "contacto": {
+    "email": "hola@sunqujourneys.com",
+    "telefono": "+51 000 000 000",
+    "telefonoHref": "+51000000000",
+    "oficina": "Лима, Перу",
+    "whatsapp": "51966461384"
+  },
+  "redes": {
+    "youtube": "#",
+    "instagram": "#",
+    "facebook": "#",
+    "tiktok": "#",
+    "instagramUsuario": "@sunqujourneys"
+  },
+  "empresa": {
+    "name": "Sunqu Journeys Perú S.A.C.",
+    "ruc": "por confirmar",
+    "address": "Лима, Перу"
+  },
+  "seo": {
+    "paginas": {
+      "inicio": {
+        "title": "Sunqu Journeys — Индивидуальные путешествия в сердце Перу",
+        "description": "Перуанское агентство индивидуальных путешествий. Почувствуйте историю, кухню и людей Перу с местными хозяевами и Travel Advisor рядом с вами до, во время и после поездки."
+      },
+      "descubre": {
+        "title": "Journeys и впечатления в Перу — Sunqu Journeys",
+        "description": "Journeys на 9–14 дней и однодневные впечатления в Перу. Выбирайте по интересам, направлению или количеству дней."
+      },
+      "recuerda": {
+        "title": "Вспомнить · Отзывы и магазин — Sunqu Journeys",
+        "description": "Отзывы, фото и видео путешественников и магазин Sunqu, чтобы носить Перу с собой."
+      },
+      "diario": {
+        "title": "Журнал Sunqu: советы и истории для поездки в Перу",
+        "description": "Советы по подготовке к поездке, перуанская кухня и общины, которые вас принимают, — от команды Sunqu."
+      },
+      "terminos": {
+        "title": "Условия и положения — Sunqu Journeys",
+        "description": "Эти условия объясняют, как бронировать в Sunqu, как платить, что делать, если нужно перенести или отменить поездку, и как мы защищаем ваши данные."
+      },
+      "reclamaciones": {
+        "title": "Книга жалоб — Sunqu Journeys",
+        "description": "Если что-то пошло не так, как мы обещали, мы хотим об этом знать. Онлайн-форма жалобы в соответствии с законом Перу № 29571."
+      }
+    }
+  },
+  "conceptos": [
+    {
+      "slug": "historia",
+      "label": "История",
+      "icon": "/assets/diamond-orange.png"
+    },
+    {
+      "slug": "sabor",
+      "label": "Еда",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "slug": "gente",
+      "label": "Люди",
+      "icon": "/assets/diamond-lime.png"
+    }
+  ],
+  "destinos": [
+    {
+      "slug": "cusco",
+      "label": "Куско и Священная долина"
+    },
+    {
+      "slug": "machu",
+      "label": "Мачу-Пикчу"
+    },
+    {
+      "slug": "arequipa",
+      "label": "Арекипа и Колка"
+    },
+    {
+      "slug": "lima",
+      "label": "Лима"
+    },
+    {
+      "slug": "ica",
+      "label": "Ика и Паракас"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Озеро Титикака"
+    },
+    {
+      "slug": "amazonia",
+      "label": "Амазония · Тамбопата"
+    }
+  ],
+  "duraciones": [
+    {
+      "slug": "exp",
+      "label": "Однодневные впечатления"
+    },
+    {
+      "slug": "escapada",
+      "label": "Короткие поездки · 3–4 дня"
+    },
+    {
+      "slug": "journey",
+      "label": "Journeys · 9–14 дней"
+    }
+  ]
+}

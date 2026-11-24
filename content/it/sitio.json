@@ -1,0 +1,111 @@
+{
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "contacto": {
+    "email": "hola@sunqujourneys.com",
+    "telefono": "+51 000 000 000",
+    "telefonoHref": "+51000000000",
+    "oficina": "Lima, Perù",
+    "whatsapp": "51966461384"
+  },
+  "redes": {
+    "youtube": "#",
+    "instagram": "#",
+    "facebook": "#",
+    "tiktok": "#",
+    "instagramUsuario": "@sunqujourneys"
+  },
+  "empresa": {
+    "name": "Sunqu Journeys Perú S.A.C.",
+    "ruc": "por confirmar",
+    "address": "Lima, Perù"
+  },
+  "seo": {
+    "paginas": {
+      "inicio": {
+        "title": "Sunqu Journeys — Viaggi su misura nel cuore del Perù",
+        "description": "Agenzia peruviana di viaggi su misura. Vivi la storia, la cucina e la gente del Perù con padroni di casa locali e un Travel Advisor al tuo fianco prima, durante e dopo."
+      },
+      "descubre": {
+        "title": "Scopri journey ed esperienze in Perù — Sunqu Journeys",
+        "description": "Journey da 9 a 14 giorni ed esperienze di un giorno in Perù. Scegli in base a ciò che ti interessa, alla destinazione o ai giorni che hai."
+      },
+      "recuerda": {
+        "title": "Ricorda · Recensioni e negozio — Sunqu Journeys",
+        "description": "Recensioni, foto e video di viaggiatori, e il negozio Sunqu per portare il Perù addosso."
+      },
+      "diario": {
+        "title": "Diario Sunqu: guide e storie per viaggiare in Perù",
+        "description": "Guide per preparare il tuo viaggio, la cucina peruviana e le comunità che ti accolgono, raccontate dal team di Sunqu."
+      },
+      "terminos": {
+        "title": "Termini e condizioni — Sunqu Journeys",
+        "description": "Questi termini spiegano come prenoti con Sunqu, come paghi, cosa succede se devi rimandare o cancellare e come proteggiamo i tuoi dati."
+      },
+      "reclamaciones": {
+        "title": "Libro dei reclami — Sunqu Journeys",
+        "description": "Se qualcosa non è andato come ti abbiamo promesso, vogliamo saperlo. Modulo di reclamo online ai sensi della legge peruviana n. 29571."
+      }
+    }
+  },
+  "conceptos": [
+    {
+      "slug": "historia",
+      "label": "La storia",
+      "icon": "/assets/diamond-orange.png"
+    },
+    {
+      "slug": "sabor",
+      "label": "Il cibo",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "slug": "gente",
+      "label": "La gente",
+      "icon": "/assets/diamond-lime.png"
+    }
+  ],
+  "destinos": [
+    {
+      "slug": "cusco",
+      "label": "Cusco e Valle Sacra"
+    },
+    {
+      "slug": "machu",
+      "label": "Machu Picchu"
+    },
+    {
+      "slug": "arequipa",
+      "label": "Arequipa e Colca"
+    },
+    {
+      "slug": "lima",
+      "label": "Lima"
+    },
+    {
+      "slug": "ica",
+      "label": "Ica e Paracas"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Lago Titicaca"
+    },
+    {
+      "slug": "amazonia",
+      "label": "Amazzonia · Tambopata"
+    }
+  ],
+  "duraciones": [
+    {
+      "slug": "exp",
+      "label": "Esperienze di un giorno"
+    },
+    {
+      "slug": "escapada",
+      "label": "Fughe · 3–4 giorni"
+    },
+    {
+      "slug": "journey",
+      "label": "Journey · 9–14 giorni"
+    }
+  ]
+}

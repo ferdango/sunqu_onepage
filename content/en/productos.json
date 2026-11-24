@@ -1,0 +1,121 @@
+{
+  "_info": "Tienda de merch (recuerda.html#tienda). Precios en USD. En WordPress: tipo de contenido «Productos».",
+  "categorias": [
+    {
+      "slug": "todo",
+      "label": "All"
+    },
+    {
+      "slug": "ropa",
+      "label": "Clothing"
+    },
+    {
+      "slug": "accesorios",
+      "label": "Accessories"
+    },
+    {
+      "slug": "papeleria",
+      "label": "Stationery and art"
+    }
+  ],
+  "items": [
+    {
+      "id": "polo",
+      "name": "Sunqu T-shirt · Andean flower",
+      "cat": "ropa",
+      "price": 24,
+      "img": "/assets/merch/polo.jpg",
+      "desc": "Combed cotton with Sunqu's Andean pattern.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Clothing",
+      "pos": "center"
+    },
+    {
+      "id": "gorra",
+      "name": "Sunqu cap",
+      "cat": "ropa",
+      "price": 18,
+      "img": "/assets/merch/gorra.jpg",
+      "desc": "Gray, with the Sunqu symbol embroidered on the front.",
+      "sizes": [],
+      "tag": "One size",
+      "pos": "center 35%"
+    },
+    {
+      "id": "chaleco",
+      "name": "Sunqu padded vest",
+      "cat": "ropa",
+      "price": 59,
+      "img": "/assets/merch/chaleco.jpg",
+      "desc": "Light and warm, for the cold nights of the Andes.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Clothing",
+      "pos": "center 30%"
+    },
+    {
+      "id": "bolso",
+      "name": "Sunqu crossbody bag",
+      "cat": "accesorios",
+      "price": 34,
+      "img": "/assets/merch/bolso.jpg",
+      "desc": "Forest green, with front pockets for every day.",
+      "sizes": [],
+      "tag": "Accessory",
+      "pos": "center"
+    },
+    {
+      "id": "llaveros",
+      "name": "Sunqu keychains · set of 2",
+      "cat": "accesorios",
+      "price": 9,
+      "img": "/assets/merch/llaveros.jpg",
+      "desc": "Enameled metal, in white and lime.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "pines",
+      "name": "Sunqu pins · set of 4",
+      "cat": "accesorios",
+      "price": 12,
+      "img": "/assets/merch/pines.jpg",
+      "desc": "Sunqu's symbols, for your backpack or your jacket.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "lapiceros",
+      "name": "Sunqu pens · set of 6",
+      "cat": "papeleria",
+      "price": 14,
+      "img": "/assets/merch/lapiceros.jpg",
+      "desc": "One for each Sunqu color.",
+      "sizes": [],
+      "tag": "Stationery",
+      "pos": "center"
+    },
+    {
+      "id": "poster",
+      "name": "Sunqu poster · Symbols",
+      "cat": "papeleria",
+      "price": 22,
+      "img": "/assets/merch/poster.jpg",
+      "desc": "A2 print on matte paper.",
+      "sizes": [],
+      "tag": "Art",
+      "pos": "center"
+    }
+  ]
+}

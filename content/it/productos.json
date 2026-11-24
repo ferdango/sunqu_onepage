@@ -1,0 +1,121 @@
+{
+  "_info": "Tienda de merch (recuerda.html#tienda). Precios en USD. En WordPress: tipo de contenido «Productos».",
+  "categorias": [
+    {
+      "slug": "todo",
+      "label": "Tutto"
+    },
+    {
+      "slug": "ropa",
+      "label": "Abbigliamento"
+    },
+    {
+      "slug": "accesorios",
+      "label": "Accessori"
+    },
+    {
+      "slug": "papeleria",
+      "label": "Cartoleria e arte"
+    }
+  ],
+  "items": [
+    {
+      "id": "polo",
+      "name": "T-shirt Sunqu · Fiore andino",
+      "cat": "ropa",
+      "price": 24,
+      "img": "/assets/merch/polo.jpg",
+      "desc": "Cotone pettinato con il motivo andino di Sunqu.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Abbigliamento",
+      "pos": "center"
+    },
+    {
+      "id": "gorra",
+      "name": "Cappellino Sunqu",
+      "cat": "ropa",
+      "price": 18,
+      "img": "/assets/merch/gorra.jpg",
+      "desc": "Grigio, con il simbolo di Sunqu ricamato sul davanti.",
+      "sizes": [],
+      "tag": "Taglia unica",
+      "pos": "center 35%"
+    },
+    {
+      "id": "chaleco",
+      "name": "Gilet imbottito Sunqu",
+      "cat": "ropa",
+      "price": 59,
+      "img": "/assets/merch/chaleco.jpg",
+      "desc": "Leggero e caldo, per le notti fredde delle Ande.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Abbigliamento",
+      "pos": "center 30%"
+    },
+    {
+      "id": "bolso",
+      "name": "Borsa a tracolla Sunqu",
+      "cat": "accesorios",
+      "price": 34,
+      "img": "/assets/merch/bolso.jpg",
+      "desc": "Verde bosco, con tasche frontali per tutti i giorni.",
+      "sizes": [],
+      "tag": "Accessorio",
+      "pos": "center"
+    },
+    {
+      "id": "llaveros",
+      "name": "Portachiavi Sunqu · set da 2",
+      "cat": "accesorios",
+      "price": 9,
+      "img": "/assets/merch/llaveros.jpg",
+      "desc": "Metallo smaltato, in bianco e lime.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "pines",
+      "name": "Spille Sunqu · set da 4",
+      "cat": "accesorios",
+      "price": 12,
+      "img": "/assets/merch/pines.jpg",
+      "desc": "I simboli di Sunqu, per il tuo zaino o la tua giacca.",
+      "sizes": [],
+      "tag": "Souvenir",
+      "pos": "center"
+    },
+    {
+      "id": "lapiceros",
+      "name": "Penne Sunqu · set da 6",
+      "cat": "papeleria",
+      "price": 14,
+      "img": "/assets/merch/lapiceros.jpg",
+      "desc": "Una per ogni colore di Sunqu.",
+      "sizes": [],
+      "tag": "Cartoleria",
+      "pos": "center"
+    },
+    {
+      "id": "poster",
+      "name": "Poster Sunqu · Simboli",
+      "cat": "papeleria",
+      "price": 22,
+      "img": "/assets/merch/poster.jpg",
+      "desc": "Stampa A2 su carta opaca.",
+      "sizes": [],
+      "tag": "Arte",
+      "pos": "center"
+    }
+  ]
+}

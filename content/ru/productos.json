@@ -1,0 +1,121 @@
+{
+  "_info": "Tienda de merch (recuerda.html#tienda). Precios en USD. En WordPress: tipo de contenido «Productos».",
+  "categorias": [
+    {
+      "slug": "todo",
+      "label": "Все"
+    },
+    {
+      "slug": "ropa",
+      "label": "Одежда"
+    },
+    {
+      "slug": "accesorios",
+      "label": "Аксессуары"
+    },
+    {
+      "slug": "papeleria",
+      "label": "Канцелярия и арт"
+    }
+  ],
+  "items": [
+    {
+      "id": "polo",
+      "name": "Футболка Sunqu · Андский цветок",
+      "cat": "ropa",
+      "price": 24,
+      "img": "/assets/merch/polo.jpg",
+      "desc": "Гребенной хлопок с андским узором Sunqu.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Одежда",
+      "pos": "center"
+    },
+    {
+      "id": "gorra",
+      "name": "Кепка Sunqu",
+      "cat": "ropa",
+      "price": 18,
+      "img": "/assets/merch/gorra.jpg",
+      "desc": "Серая, с вышитым символом Sunqu спереди.",
+      "sizes": [],
+      "tag": "Один размер",
+      "pos": "center 35%"
+    },
+    {
+      "id": "chaleco",
+      "name": "Стёганый жилет Sunqu",
+      "cat": "ropa",
+      "price": 59,
+      "img": "/assets/merch/chaleco.jpg",
+      "desc": "Лёгкий и тёплый — для холодных ночей в Андах.",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tag": "Одежда",
+      "pos": "center 30%"
+    },
+    {
+      "id": "bolso",
+      "name": "Сумка через плечо Sunqu",
+      "cat": "accesorios",
+      "price": 34,
+      "img": "/assets/merch/bolso.jpg",
+      "desc": "Лесной зелёный, с передними карманами на каждый день.",
+      "sizes": [],
+      "tag": "Аксессуар",
+      "pos": "center"
+    },
+    {
+      "id": "llaveros",
+      "name": "Брелоки Sunqu · набор из 2",
+      "cat": "accesorios",
+      "price": 9,
+      "img": "/assets/merch/llaveros.jpg",
+      "desc": "Эмалированный металл, белый и лаймовый.",
+      "sizes": [],
+      "tag": "Сувенир",
+      "pos": "center"
+    },
+    {
+      "id": "pines",
+      "name": "Значки Sunqu · набор из 4",
+      "cat": "accesorios",
+      "price": 12,
+      "img": "/assets/merch/pines.jpg",
+      "desc": "Символы Sunqu — для рюкзака или куртки.",
+      "sizes": [],
+      "tag": "Сувенир",
+      "pos": "center"
+    },
+    {
+      "id": "lapiceros",
+      "name": "Ручки Sunqu · набор из 6",
+      "cat": "papeleria",
+      "price": 14,
+      "img": "/assets/merch/lapiceros.jpg",
+      "desc": "По одной на каждый цвет Sunqu.",
+      "sizes": [],
+      "tag": "Канцелярия",
+      "pos": "center"
+    },
+    {
+      "id": "poster",
+      "name": "Постер Sunqu · Символы",
+      "cat": "papeleria",
+      "price": 22,
+      "img": "/assets/merch/poster.jpg",
+      "desc": "Печать A2 на матовой бумаге.",
+      "sizes": [],
+      "tag": "Арт",
+      "pos": "center"
+    }
+  ]
+}

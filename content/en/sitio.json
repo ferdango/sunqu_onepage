@@ -1,0 +1,111 @@
+{
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "contacto": {
+    "email": "hola@sunqujourneys.com",
+    "telefono": "+51 000 000 000",
+    "telefonoHref": "+51000000000",
+    "oficina": "Lima, Peru",
+    "whatsapp": "51966461384"
+  },
+  "redes": {
+    "youtube": "#",
+    "instagram": "#",
+    "facebook": "#",
+    "tiktok": "#",
+    "instagramUsuario": "@sunqujourneys"
+  },
+  "empresa": {
+    "name": "Sunqu Journeys Perú S.A.C.",
+    "ruc": "por confirmar",
+    "address": "Lima, Peru"
+  },
+  "seo": {
+    "paginas": {
+      "inicio": {
+        "title": "Sunqu Journeys — Tailor-made trips to the heart of Peru",
+        "description": "Peruvian agency for tailor-made trips. Live the history, the food and the people of Peru with local hosts and a Travel Advisor by your side before, during and after."
+      },
+      "descubre": {
+        "title": "Discover journeys and experiences in Peru — Sunqu Journeys",
+        "description": "Journeys of 9 to 14 days and one-day experiences in Peru. Filter by what interests you, the destination or the days you have."
+      },
+      "recuerda": {
+        "title": "Remember · Reviews and shop — Sunqu Journeys",
+        "description": "Reviews, photos and videos from travelers, and the Sunqu shop to wear Peru with you."
+      },
+      "diario": {
+        "title": "Sunqu Journal: guides and stories for traveling to Peru",
+        "description": "Guides to prepare your trip, Peruvian food and the communities that welcome you, told by the Sunqu team."
+      },
+      "terminos": {
+        "title": "Terms and conditions — Sunqu Journeys",
+        "description": "These terms explain how you book with Sunqu, how you pay, what happens if you need to postpone or cancel, and how we look after your data."
+      },
+      "reclamaciones": {
+        "title": "Complaints book — Sunqu Journeys",
+        "description": "If something didn't go as we promised, we want to know. Virtual complaint form under Peruvian Law No. 29571."
+      }
+    }
+  },
+  "conceptos": [
+    {
+      "slug": "historia",
+      "label": "History",
+      "icon": "/assets/diamond-orange.png"
+    },
+    {
+      "slug": "sabor",
+      "label": "Food",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "slug": "gente",
+      "label": "People",
+      "icon": "/assets/diamond-lime.png"
+    }
+  ],
+  "destinos": [
+    {
+      "slug": "cusco",
+      "label": "Cusco and the Sacred Valley"
+    },
+    {
+      "slug": "machu",
+      "label": "Machu Picchu"
+    },
+    {
+      "slug": "arequipa",
+      "label": "Arequipa and Colca"
+    },
+    {
+      "slug": "lima",
+      "label": "Lima"
+    },
+    {
+      "slug": "ica",
+      "label": "Ica and Paracas"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Lake Titicaca"
+    },
+    {
+      "slug": "amazonia",
+      "label": "Amazon · Tambopata"
+    }
+  ],
+  "duraciones": [
+    {
+      "slug": "exp",
+      "label": "One-day experiences"
+    },
+    {
+      "slug": "escapada",
+      "label": "Getaways · 3–4 days"
+    },
+    {
+      "slug": "journey",
+      "label": "Journeys · 9–14 days"
+    }
+  ]
+}

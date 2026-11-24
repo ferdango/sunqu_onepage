@@ -23,19 +23,19 @@
     "paginas": {
       "inicio": {
         "title": "Sunqu Journeys — Viajes a medida al corazón del Perú",
-        "description": "El Perú no es un destino. Es una relación. Viaja al corazón del Perú: viajes a medida con anfitriones que tienen nombre propio."
+        "description": "Agencia peruana de viajes a medida. Vive la historia, la cocina y la gente del Perú con anfitriones locales y un Travel Advisor contigo antes, durante y después."
       },
       "descubre": {
         "title": "Descubre journeys y experiencias en el Perú — Sunqu Journeys",
-        "description": "Journeys de autor y experiencias con nombre propio. Filtra por lo que quieres sentir, el destino o el tiempo que tienes."
+        "description": "Journeys de 9 a 14 días y experiencias de un día en el Perú. Elige por lo que te interesa, el destino o los días que tienes."
       },
       "recuerda": {
         "title": "Recuerda · Reseñas y tienda — Sunqu Journeys",
-        "description": "Videos, fotos y comentarios de viajeros que vivieron un Journey, compraron un souvenir con nombre propio o se llevaron el merch de Sunqu."
+        "description": "Reseñas, fotos y videos de viajeros, y la tienda de Sunqu para llevarte el Perú puesto."
       },
       "diario": {
         "title": "Diario Sunqu: guías e historias para viajar al Perú",
-        "description": "Guías para prepararte, cocinas con nombre propio y las comunidades que te reciben, contadas por el equipo de Sunqu."
+        "description": "Guías para preparar tu viaje, la cocina peruana y las comunidades que te reciben, contadas por el equipo de Sunqu."
       },
       "terminos": {
         "title": "Términos y condiciones — Sunqu Journeys",
@@ -43,7 +43,7 @@
       },
       "reclamaciones": {
         "title": "Libro de reclamaciones — Sunqu Journeys",
-        "description": "Si algo no estuvo a la altura de lo que te prometimos, queremos saberlo. Hoja de reclamación virtual conforme a la Ley N° 29571."
+        "description": "Si algo no salió como te prometimos, queremos saberlo. Hoja de reclamación virtual conforme a la Ley N° 29571."
       }
     }
   },
@@ -55,7 +55,7 @@
     },
     {
       "slug": "sabor",
-      "label": "El sabor",
+      "label": "La comida",
       "icon": "assets/diamond-yellow.png"
     },
     {

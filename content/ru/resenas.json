@@ -1,0 +1,250 @@
+{
+  "_info": "Reseñas de viajeros (recuerda.html). sample: true muestra la etiqueta «Ejemplo». Si url apunta a un post de Instagram o TikTok, se muestra su embed oficial. En WordPress: tipo de contenido «Reseñas».",
+  "temas": [
+    {
+      "slug": "viaje",
+      "label": "Путешествия",
+      "one": "Путешествие",
+      "icon": "/assets/diamond-lime.png"
+    },
+    {
+      "slug": "souvenir",
+      "label": "Сувениры",
+      "one": "Сувенир",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "slug": "merch",
+      "label": "Мерч",
+      "one": "Мерч",
+      "icon": "/assets/diamond-orange.png"
+    }
+  ],
+  "plataformas": [
+    {
+      "slug": "tiktok",
+      "label": "TikTok"
+    },
+    {
+      "slug": "instagram",
+      "label": "Instagram"
+    },
+    {
+      "slug": "web",
+      "label": "Отзыв Sunqu"
+    }
+  ],
+  "items": [
+    {
+      "sample": true,
+      "id": "r1",
+      "kind": "video",
+      "plat": "tiktok",
+      "name": "Camila R.",
+      "country": "Chile",
+      "when": "mayo de 2026",
+      "topic": "viaje",
+      "what": "El Perú que se Saborea",
+      "caption": "Cociné con una picantera en Arequipa y me llevé su receta. Nadie me había explicado así un plato.",
+      "video": "assets/resenas/reel-picanteria.mp4",
+      "poster": "assets/resenas/reel-picanteria.jpg",
+      "dur": "0:09",
+      "likes": "12,4 mil",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r2",
+      "kind": "comment",
+      "plat": "web",
+      "name": "James P.",
+      "country": "Estados Unidos",
+      "when": "junio de 2026",
+      "topic": "merch",
+      "what": "Polo y pines Sunqu",
+      "stars": 5,
+      "caption": "Me llevé el polo Sunqu y los pines para mis hijos. El diseño es el mismo patrón que vimos en los textiles de Chinchero: ahora lo usan para ir al colegio.",
+      "photos": [
+        "assets/merch/polo.jpg",
+        "assets/merch/pines.jpg"
+      ],
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r3",
+      "kind": "photo",
+      "plat": "instagram",
+      "name": "Lena S.",
+      "country": "Alemania",
+      "when": "julio de 2026",
+      "topic": "viaje",
+      "what": "Sunqu Origen",
+      "caption": "La pachamanca del día 6. Ninguna foto le hace justicia al olor de la tierra.",
+      "photos": [
+        "1593460915132-fcb729cc4597",
+        "1730423284218-a8a7e9422ebf",
+        "1632913582499-381c7c798787"
+      ],
+      "likes": "1.284",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r4",
+      "kind": "video",
+      "plat": "instagram",
+      "name": "Thomas B.",
+      "country": "Francia",
+      "when": "mayo de 2026",
+      "topic": "viaje",
+      "what": "El Alma de los Andes",
+      "caption": "Primer día en el Valle Sagrado y nada de soroche. Empezar 600 metros más abajo fue la mejor decisión del viaje.",
+      "video": "assets/resenas/reel-valle.mp4",
+      "poster": "assets/resenas/reel-valle.jpg",
+      "dur": "0:09",
+      "likes": "3.912",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r5",
+      "kind": "comment",
+      "plat": "web",
+      "name": "Sofía R.",
+      "country": "España",
+      "when": "agosto de 2026",
+      "topic": "souvenir",
+      "what": "Textil de Chinchero",
+      "stars": 5,
+      "caption": "Compré un textil a la tejedora que nos enseñó el telar. En la etiqueta está su nombre y su comunidad: sé exactamente a quién se lo compré.",
+      "photos": [
+        "1568805778796-96b66708d6e0",
+        "1568805778734-f0a5a77d7272"
+      ],
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r6",
+      "kind": "photo",
+      "plat": "instagram",
+      "name": "Nora L.",
+      "country": "Canadá",
+      "when": "junio de 2026",
+      "topic": "viaje",
+      "what": "Perú Profundo",
+      "caption": "Primero la piedra, después la gente. Ver Machu Picchu al inicio cambió todo lo que vino después.",
+      "photos": [
+        "1567597243073-2d274aabecec",
+        "1532996152552-eaffc4edfc1a"
+      ],
+      "likes": "2.051",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r7",
+      "kind": "video",
+      "plat": "tiktok",
+      "name": "Mateo V.",
+      "country": "México",
+      "when": "septiembre de 2026",
+      "topic": "viaje",
+      "what": "Islas de los Uros",
+      "caption": "Balsa de totora en el Titicaca. Nos enseñaron a remar y terminamos riéndonos todos.",
+      "video": "assets/resenas/reel-titicaca.mp4",
+      "poster": "assets/resenas/reel-titicaca.jpg",
+      "dur": "0:09",
+      "likes": "8,7 mil",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r8",
+      "kind": "comment",
+      "plat": "web",
+      "name": "Martin K.",
+      "country": "Alemania",
+      "when": "julio de 2026",
+      "topic": "merch",
+      "what": "Bolso bandolera Sunqu",
+      "stars": 4,
+      "caption": "El bolso aguantó todo el viaje, de Lima a Puno. Le pondría un bolsillo interior más, pero lo sigo usando a diario.",
+      "photos": [
+        "assets/merch/bolso.jpg"
+      ],
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r9",
+      "kind": "photo",
+      "plat": "tiktok",
+      "name": "Júlia M.",
+      "country": "Brasil",
+      "when": "agosto de 2026",
+      "topic": "souvenir",
+      "what": "Maíces nativos",
+      "caption": "Lo que traje de vuelta: maíces de la chacra del Valle Sagrado y la historia de la familia que los siembra.",
+      "photos": [
+        "1632913582499-381c7c798787",
+        "1535400875775-0269e7a919af"
+      ],
+      "likes": "5.330",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r10",
+      "kind": "comment",
+      "plat": "web",
+      "name": "Lucía F.",
+      "country": "Argentina",
+      "when": "septiembre de 2026",
+      "topic": "merch",
+      "what": "Llaveros Sunqu",
+      "stars": 5,
+      "caption": "Los llaveros fueron el regalo perfecto para la familia: chiquitos, bonitos y con la historia de Sunqu detrás.",
+      "photos": [
+        "assets/merch/llaveros.jpg"
+      ],
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r11",
+      "kind": "photo",
+      "plat": "instagram",
+      "name": "Daniel O.",
+      "country": "Reino Unido",
+      "when": "abril de 2026",
+      "topic": "viaje",
+      "what": "Ceviche en Surquillo",
+      "caption": "Ceviche con el cocinero anfitrión. Compramos todo en el mercado esa misma mañana.",
+      "photos": [
+        "1535399831218-d5bd36d1a6b3",
+        "1535400255456-984241443b29"
+      ],
+      "likes": "964",
+      "url": ""
+    },
+    {
+      "sample": true,
+      "id": "r12",
+      "kind": "comment",
+      "plat": "web",
+      "name": "Valentina P.",
+      "country": "Colombia",
+      "when": "agosto de 2026",
+      "topic": "viaje",
+      "what": "Módulo gastronómico",
+      "stars": 5,
+      "caption": "Hice el módulo gastronómico antes de decidirme por un Journey completo. Ya reservé el de diez días.",
+      "photos": [
+        "1566793772361-1d5d9cefbd12"
+      ],
+      "url": ""
+    }
+  ]
+}

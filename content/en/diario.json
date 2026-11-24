@@ -1,0 +1,583 @@
+{
+  "_info": "Diario Sunqu (blog.html y articulo.html; la portada muestra los 3 más recientes). En WordPress: Entradas y Categorías nativas; el cuerpo de cada artículo se edita en el editor de bloques.",
+  "categorias": [
+    {
+      "slug": "guia",
+      "label": "Guide"
+    },
+    {
+      "slug": "sabor",
+      "label": "Food"
+    },
+    {
+      "slug": "comunidad",
+      "label": "Community"
+    },
+    {
+      "slug": "historia",
+      "label": "History"
+    }
+  ],
+  "posts": [
+    {
+      "slug": "aclimatarte-en-los-andes",
+      "cat": "guia",
+      "date": "2026-09-12",
+      "read": 6,
+      "img": "1541637593725-923467404d17",
+      "title": "How to acclimatize in the Andes without losing your first day",
+      "excerpt": "How we go up little by little on every journey, and what to eat, drink and avoid in the first 48 hours.",
+      "author": "Sunqu team",
+      "role": "Travel Advisors",
+      "lead": "Soroche, altitude sickness, gives no warning. It can arrive on your first night in Cusco, at 3,400 meters, and take away the day you were so looking forward to. That's why we factor it in from the moment we design your trip, not as a warning in the fine print.",
+      "sections": [
+        {
+          "h": "Going up little by little",
+          "blocks": [
+            {
+              "p": "If you fly straight from Lima to Cusco, your body goes from sea level to 3,400 meters in just over an hour. That's why the order of the days matters as much as the places."
+            },
+            {
+              "p": "On The Complete Peru, our 14-day journey, you don't land in Cusco all at once: first you pass through Arequipa (2,335 m), the Colca Canyon and Lake Titicaca. When you reach Cusco, on day 8, your body already knows the altitude."
+            },
+            {
+              "p": "On the 9- and 10-day journeys you fly to Cusco on day 3 and the next day you go down to the Sacred Valley, about 600 meters lower. After Machu Picchu you have a free day in Cusco, before the highest hikes."
+            },
+            {
+              "quote": "We want your first day in the Andes to be yours, not your headache's.",
+              "cite": "Sunqu team"
+            }
+          ]
+        },
+        {
+          "h": "The first 48 hours",
+          "blocks": [
+            {
+              "p": "Your body adapts on its own if you give it time. This is what we recommend to every traveler:"
+            },
+            {
+              "ul": [
+                {
+                  "b": "Walk slowly.",
+                  "t": "On the first day, no long hikes or rushing up stairs."
+                },
+                {
+                  "b": "Drink water all day.",
+                  "t": "Altitude dehydrates you more than it seems."
+                },
+                {
+                  "b": "Eat light.",
+                  "t": "Soups, carbohydrates and small portions at dinner."
+                },
+                {
+                  "b": "Save the alcohol for later.",
+                  "t": "One drink at altitude hits like three at sea level."
+                }
+              ]
+            },
+            {
+              "p": "Coca tea helps many travelers, but it doesn't replace rest. If you have any medical condition, ask your doctor before traveling."
+            }
+          ]
+        },
+        {
+          "h": "Before the high hikes",
+          "blocks": [
+            {
+              "p": "Humantay Lake (about 4,200 m) and Vinicunca, Rainbow Mountain (above 5,000 m), are the highest points of our journeys. That's why they always come after several days at altitude, never right after landing."
+            },
+            {
+              "img": "1590835192370-3941b97e93fd",
+              "cap": "Sacred Valley: 600 meters lower than Cusco."
+            },
+            {
+              "p": "Each journey's page shows the altitude of every day, so you know what to expect. Your Travel Advisor sends you altitude tips along with your itinerary and, during the trip, we adjust it with you if your body needs more time."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "la-picanteria-arequipena",
+      "cat": "sabor",
+      "date": "2026-08-28",
+      "read": 5,
+      "img": "1535399831218-d5bd36d1a6b3",
+      "title": "The Arequipa picantería, explained by a picantera",
+      "excerpt": "Chupe, rocoto relleno and chicha de guiñapo: the cooking that refuses to disappear.",
+      "author": "Sunqu team",
+      "role": "Experience design",
+      "lead": "A picantería is not a restaurant by another name. It's a kitchen with a host who has a name, a menu that changes with the day of the week and recipes passed down from mother to daughter.",
+      "sections": [
+        {
+          "h": "A kitchen with a calendar",
+          "blocks": [
+            {
+              "p": "In Arequipa, every day has its dish. The picantería has followed that calendar for generations: the menu isn't chosen, it's respected."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Chupe de camarones.",
+                  "t": "The thick shrimp chowder many people in Arequipa wait for all week."
+                },
+                {
+                  "b": "Rocoto relleno.",
+                  "t": "Spicy stuffed pepper, baked and served with potato gratin."
+                },
+                {
+                  "b": "Chicha de guiñapo.",
+                  "t": "Sprouted and fermented purple corn, served in a big glass."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Who's behind the stove",
+          "blocks": [
+            {
+              "p": "The picanteras keep the tradition alive. Many still cook over firewood and use a batán, the grinding stone that gives the chili peppers their texture."
+            },
+            {
+              "quote": "You don't come here to taste: you come to cook with me. And you take the recipe home.",
+              "cite": "Host picantera · Arequipa"
+            },
+            {
+              "img": "1535400875775-0269e7a919af",
+              "cap": "Chili peppers, corn and patience: the base of Arequipa's cooking."
+            }
+          ]
+        },
+        {
+          "h": "Why we chose it",
+          "blocks": [
+            {
+              "p": "Arequipa wasn't chosen because it's better than Cusco, but because the picantería is a culinary format that a fine-dining restaurant doesn't offer: a person with a name who teaches you and welcomes you."
+            },
+            {
+              "p": "If your trip goes through Arequipa, like The Complete Peru, ask your Travel Advisor for lunch at a picantería."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ayni-ficha-de-reciprocidad",
+      "cat": "comunidad",
+      "date": "2026-08-09",
+      "read": 5,
+      "img": "1568805778796-96b66708d6e0",
+      "title": "Ayni: what each community that welcomes you receives",
+      "excerpt": "Our reciprocity sheet, step by step, and who decides how it's used.",
+      "author": "Sunqu team",
+      "role": "Community relations",
+      "lead": "Ayni is Andean reciprocity: today I help you, tomorrow you help me. We've made it a working rule and we publish it in a sheet so any traveler can read it.",
+      "sections": [
+        {
+          "h": "What the sheet is",
+          "blocks": [
+            {
+              "p": "Every host community has a reciprocity sheet. It says what it receives from your trip, how that agreement was decided and who manages it."
+            },
+            {
+              "ul": [
+                {
+                  "b": "What it receives.",
+                  "t": "The payment for the experience and the contribution to the community fund."
+                },
+                {
+                  "b": "How it was decided.",
+                  "t": "In an assembly, with the community and not just with an intermediary."
+                },
+                {
+                  "b": "Who manages it.",
+                  "t": "A person or committee chosen by the community itself."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Who tells the story",
+          "blocks": [
+            {
+              "p": "The community decides how its story is told: which photos are published, which words are used and which parts of its life are not part of the trip."
+            },
+            {
+              "quote": "We don't sell communities. We travel with them.",
+              "cite": "Cultural protection · Sunqu Journeys"
+            }
+          ]
+        },
+        {
+          "h": "How to read it before booking",
+          "blocks": [
+            {
+              "img": "1730423284218-a8a7e9422ebf",
+              "cap": "The sheet is reviewed every year with each host community."
+            },
+            {
+              "p": "You'll find the sheet on each journey's page, in the Connect section. If a community doesn't have a published sheet, that experience isn't sold yet."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "que-es-un-momento-sunqu",
+      "cat": "comunidad",
+      "date": "2026-07-24",
+      "read": 4,
+      "img": "1593460915132-fcb729cc4597",
+      "title": "What a Sunqu Moment is (and what it isn't)",
+      "excerpt": "Four conditions for an experience to deserve a name of its own.",
+      "author": "Sunqu team",
+      "role": "Experience design",
+      "lead": "A trip can be full of activities and not have a single moment you remember. A Sunqu Moment is the opposite: few things, but with names.",
+      "sections": [
+        {
+          "h": "The four conditions",
+          "blocks": [
+            {
+              "p": "For an experience to be a Sunqu Moment it has to meet all four, not just some:"
+            },
+            {
+              "ul": [
+                {
+                  "b": "It has a name.",
+                  "t": "Behind it there's a person you know by name, not a supplier."
+                },
+                {
+                  "b": "You do something.",
+                  "t": "You cook, weave, sow. You don't just watch."
+                },
+                {
+                  "b": "It only exists on the trip.",
+                  "t": "It can't be booked from an app or repeated at home."
+                },
+                {
+                  "b": "You take something home.",
+                  "t": "A recipe, a textile, a word, a bond."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "What it isn't",
+          "blocks": [
+            {
+              "p": "A photo at a viewpoint is not a Sunqu Moment. Neither is a cooking class at a hotel or a visit to a market where nobody talks to you."
+            },
+            {
+              "quote": "Having dinner and sleeping in a family's home on Amantaní Island, on Lake Titicaca.",
+              "cite": "A Sunqu Moment from The Complete Peru"
+            }
+          ]
+        },
+        {
+          "h": "At least one per trip",
+          "blocks": [
+            {
+              "p": "Every journey is designed around at least one Sunqu Moment. Everything else, transport, hotels and schedules, exists so that moment happens well."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "machu-picchu-al-principio",
+      "cat": "historia",
+      "date": "2026-07-10",
+      "read": 5,
+      "img": "1532996152552-eaffc4edfc1a",
+      "title": "Machu Picchu is not the end of the trip",
+      "excerpt": "Why on our journeys the citadel isn't the last day, and what comes after matters too.",
+      "author": "Sunqu team",
+      "role": "Experience design",
+      "lead": "Many trips save Machu Picchu for the last day, as the grand finale. Not on our journeys: after the citadel, Peru keeps surprising you.",
+      "sections": [
+        {
+          "h": "The problem with the grand finale",
+          "blocks": [
+            {
+              "p": "When Machu Picchu is the ending, everything before feels like waiting and everything after, like a goodbye. The days with the people end up as filler."
+            }
+          ]
+        },
+        {
+          "h": "First the stone, then the people",
+          "blocks": [
+            {
+              "p": "When the citadel isn't the end, the trip asks a different question. It's no longer how to reach the monument, but who the heirs of those who built it are today."
+            },
+            {
+              "img": "1567597243073-2d274aabecec",
+              "cap": "Machu Picchu, at 2,430 meters: lower than Cusco."
+            },
+            {
+              "quote": "What you'll remember isn't just the stone.",
+              "cite": "Sunqu team"
+            }
+          ]
+        },
+        {
+          "h": "What comes after",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "The Best of Peru in 9 days.",
+                  "t": "Humantay Lake, a cooking class with a chef in Cusco and Rainbow Mountain."
+                },
+                {
+                  "b": "The Essential Peru, with the Amazon (10 days).",
+                  "t": "Rainbow Mountain and two nights in the Tambopata jungle."
+                },
+                {
+                  "b": "The Complete Peru (14 days).",
+                  "t": "Rainbow Mountain and two nights by the Tambopata River."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "primeras-palabras-en-quechua",
+      "cat": "guia",
+      "date": "2026-06-26",
+      "read": 4,
+      "img": "1568805778734-f0a5a77d7272",
+      "title": "Your first words in Quechua before you fly",
+      "excerpt": "Sunqu, añay, ayni and other words that open conversations in the Andes.",
+      "author": "Sunqu team",
+      "role": "Travel Advisors",
+      "lead": "You don't need to speak Quechua to travel in the Andes. But greeting people in the language of whoever welcomes you changes the first conversation. These words come in your pre-trip kit.",
+      "sections": [
+        {
+          "h": "To say hello",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "Allillanchu.",
+                  "t": "Are you well? It's the most common greeting."
+                },
+                {
+                  "b": "Allillanmi.",
+                  "t": "I'm well. The reply."
+                },
+                {
+                  "b": "Sulpayki.",
+                  "t": "Thank you, in the Quechua of Cusco."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "The words behind our brand",
+          "blocks": [
+            {
+              "ul": [
+                {
+                  "b": "Sunqu.",
+                  "t": "Heart. That's where our name comes from."
+                },
+                {
+                  "b": "Ayni.",
+                  "t": "Reciprocity: today for you, tomorrow for me."
+                },
+                {
+                  "b": "Añay.",
+                  "t": "Thank you, in several regions of the Andes."
+                }
+              ]
+            },
+            {
+              "quote": "Tupananchiskama: until we meet again.",
+              "cite": "The goodbye our hosts say most often"
+            }
+          ]
+        },
+        {
+          "h": "How to practice them",
+          "blocks": [
+            {
+              "p": "Your Travel Advisor sends you audio clips with the pronunciation before the trip. And on the first day, your hosts correct you with much more patience than you'd imagine."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "del-mercado-a-la-montana",
+      "cat": "sabor",
+      "date": "2026-06-12",
+      "read": 6,
+      "img": "1632913582499-381c7c798787",
+      "title": "From the market to the mountains: Peru is understood by eating",
+      "excerpt": "From Lima's twelve bites to the cooking class in Cusco: this is how you eat Peru on our journeys.",
+      "author": "Sunqu team",
+      "role": "Experience design",
+      "lead": "In Peru, food is the fastest way to understand a place. That's why our journeys begin at the table: on the first day, in Lima, you're already tasting the country bite by bite.",
+      "sections": [
+        {
+          "h": "Lima, bite by bite",
+          "blocks": [
+            {
+              "p": "On day 1, in the afternoon, you walk through the historic center and its markets tasting twelve Peruvian bites. To finish, a pisco sour if you feel like it. It's your first conversation with Peru, and it's with your mouth full."
+            }
+          ]
+        },
+        {
+          "h": "From the sea to the desert",
+          "blocks": [
+            {
+              "p": "The next day, after seeing sea lions and penguins on the Ballestas Islands, you have lunch at a pisco vineyard in Ica. There you understand that pisco isn't just a drink: it's part of the history of the coast."
+            },
+            {
+              "img": "1535400255456-984241443b29",
+              "cap": "What reaches the plate started many kilometers and meters higher up."
+            }
+          ]
+        },
+        {
+          "h": "Cusco's cooking",
+          "blocks": [
+            {
+              "p": "On The Best of Peru in 9 days, on day 8 you walk through a Cusco market with a chef: you choose the ingredients, ask where they come from and then cook a traditional dish with him."
+            },
+            {
+              "quote": "Knowing where what's on your plate comes from is also part of the trip.",
+              "cite": "Sunqu team"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "el-telar-de-chinchero",
+      "cat": "historia",
+      "date": "2026-05-29",
+      "read": 5,
+      "img": "1566793772361-1d5d9cefbd12",
+      "title": "The backstrap loom of Chinchero, thread by thread",
+      "excerpt": "Natural dyes, the designs and the time a handmade textile takes.",
+      "author": "Sunqu team",
+      "role": "Community relations",
+      "lead": "A Chinchero textile isn't just bought: it's understood. Behind every piece there are weeks of work, dyes that come from plants and insects, and designs that tell where the weaver comes from.",
+      "sections": [
+        {
+          "h": "From fleece to thread",
+          "blocks": [
+            {
+              "p": "Sheep or alpaca wool is washed, spun by hand with a pushka and dyed. All before the weaving begins."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Red.",
+                  "t": "From cochineal, an insect that lives on cacti."
+                },
+                {
+                  "b": "Yellow.",
+                  "t": "From flowers and leaves of Andean plants."
+                },
+                {
+                  "b": "Blue.",
+                  "t": "From indigo, the color that takes longest to set."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "The backstrap loom",
+          "blocks": [
+            {
+              "p": "One end of the loom is tied to a post and the other to the weaver's waist, who controls the tension with her own body. That's why every textile is unique."
+            },
+            {
+              "img": "1568805778796-96b66708d6e0",
+              "cap": "The tension of the thread depends on the body of the person weaving."
+            }
+          ]
+        },
+        {
+          "h": "What you take home",
+          "blocks": [
+            {
+              "p": "On our journeys, on the Sacred Valley day you stop in Chinchero, the town of weavers. If you buy a textile, ask who wove it: they'll tell you with pride."
+            },
+            {
+              "quote": "I know exactly who I bought it from.",
+              "cite": "What we hear most when people come back"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cuando-viajar-al-peru",
+      "cat": "guia",
+      "date": "2026-05-15",
+      "read": 5,
+      "img": "1590835192370-3941b97e93fd",
+      "title": "When to travel to Peru: seasons without myths",
+      "excerpt": "Dry season, rains and transition months, destination by destination.",
+      "author": "Sunqu team",
+      "role": "Travel Advisors",
+      "lead": "There's no bad month to travel to Peru, but there are better months for each trip. The coast and the Andes have almost opposite seasons, and that changes which journey suits you.",
+      "sections": [
+        {
+          "h": "The Andes",
+          "blocks": [
+            {
+              "p": "From May to September is the dry season: clear skies, mild days and cold nights. From December to March it rains, and in February the Inca Trail closes for maintenance."
+            },
+            {
+              "ul": [
+                {
+                  "b": "Ideal.",
+                  "t": "From May to September."
+                },
+                {
+                  "b": "Good.",
+                  "t": "April, October and November, with fewer travelers."
+                },
+                {
+                  "b": "Rains.",
+                  "t": "From December to March."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "h": "Arequipa and the coast",
+          "blocks": [
+            {
+              "p": "Arequipa is sunny almost all year. In Lima, from May to November the sky wakes up gray and cool; from December to April it's summer."
+            },
+            {
+              "img": "1541637593725-923467404d17",
+              "cap": "Dry season in the Andes: the best time to hike."
+            }
+          ]
+        },
+        {
+          "h": "How to choose",
+          "blocks": [
+            {
+              "p": "Every journey page has its calendar with the ideal months. If your dates don't match, your Travel Advisor adjusts the order of the trip to make the most of the weather."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

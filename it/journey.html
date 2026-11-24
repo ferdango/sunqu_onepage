@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="it">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><link rel="icon" href="/assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
+		<link rel="stylesheet" href="/css/journey.min.css">
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script>window.SUNQU_I18N_DIC={"Mi grupo": "Il mio gruppo", "ene": "gen", "feb": "feb", "mar": "mar", "abr": "apr", "may": "mag", "jun": "giu", "jul": "lug", "ago": "ago", "sep": "set", "oct": "ott", "nov": "nov", "dic": "dic", "No se pudo cargar la verificación. Vuelve a intentarlo.": "Non è stato possibile caricare la verifica. Riprova.", "No pudimos verificar el envío. Vuelve a intentarlo.": "Non siamo riusciti a verificare l'invio. Riprova.", "La verificación tardó demasiado. Vuelve a intentarlo.": "La verifica ha richiesto troppo tempo. Riprova.", "medir cómo se usa la web": "misurare come viene usato il sito", "medir nuestros anuncios": "misurare i nostri annunci", "Cookies de medición": "Cookie di misurazione", "Con tu permiso usamos cookies para %s.": "Con il tuo permesso usiamo i cookie per %s.", "y": "e", "Nunca enviamos lo que escribes en los formularios.": "Non inviamo mai ciò che scrivi nei moduli.", "Protección de datos": "Protezione dei dati", "Solo necesarias": "Solo necessari", "Aceptar": "Accetta", "No encontramos ese país.": "Non abbiamo trovato questo paese.", "Busca tu país": "Cerca il tuo paese", "Elige un país de la lista.": "Scegli un paese dall'elenco.", "Países": "Paesi", "Busca un país o un código": "Cerca un paese o un prefisso", "Prefijo del país": "Prefisso internazionale", "Escribe un número de celular válido.": "Inserisci un numero di cellulare valido.", "Adultos": "Adulti", "11 años o más": "11 anni o più", "Niños": "Bambini", "De 3 a 10 años": "Da 3 a 10 anni", "Bebés": "Neonati", "De 0 a 2 años": "Da 0 a 2 anni", "1 habitación": "1 camera", "{n} habitaciones": "{n} camere", "1 huésped": "1 ospite", "{n} huéspedes": "{n} ospiti", "Necesito {habitaciones}, {huespedes}": "Mi servono {habitaciones}, {huespedes}", "Habitación {n}": "Camera {n}", "Menos {categoria} en la habitación {n}": "Meno {categoria} nella camera {n}", "Más {categoria} en la habitación {n}": "Più {categoria} nella camera {n}", "Quitar habitación": "Togli la camera", "Agregar habitación": "Aggiungi una camera"};</script>
+		<script src="/js/sunqu-idiomas.js"></script>
+		<script src="/js/sunqu-config.js"></script>
+		<script src="/js/sunqu-content.js" data-page="journey"></script>
+		<script src="/js/sunqu-analytics.js" defer></script>
+		<script src="/js/sunqu-campos.js" defer></script>
+	</head>
+	<body>
+		<a class="sj-skip" href="#contenido">Vai al contenuto</a>
+		<x-dc>
+			<helmet>
+				<title>Journey — Sunqu Journeys</title>
+			</helmet>
+			<div class="jr-wrap {{ wrapCls }}" style="background:{{ pageBg }}">
+
+				<!-- Header -->
+				<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+					<nav class="sj-nav" aria-label="Principale">
+						<a href="index.html" class="sj-logo" aria-label="Sunqu Journeys, vai alla home">
+							<img src="/assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}">
+							<img src="/assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}">
+						</a>
+						<ul class="sj-links">
+							<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+								<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+							</sc-for>
+						</ul>
+						<div class="sj-actions">
+							<a href="descubre.html" class="sj-back">Journey</a>
+							<a href="#reservar" class="btn btn-primary sj-cta">Progetta il tuo viaggio</a>
+							<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Apri il menu">
+								<span></span>
+								<span></span>
+							</button>
+						</div>
+					</nav>
+				</header>
+				<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+
+				<!-- Modal · Menú -->
+				<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menu">
+					<div class="sj-drawer-top">
+						<img src="/assets/logo-light.png" alt="Sunqu Journeys">
+						<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Chiudi il menu">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M18 6 6 18"></path>
+								<path d="m6 6 12 12"></path>
+							</svg>
+						</button>
+					</div>
+					<div>
+						<div class="sj-drawer-kicker sj-eyebrow">Viaggia nel cuore del Perù</div>
+
+						<!-- Menú lateral (móvil) -->
+						<nav class="sj-drawer-nav" aria-label="Menu principale">
+							<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+								<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link">
+									<span class="sj-drawer-n">{{ m.n }}</span>
+									<span>{{ m.label }}</span>
+									<img src="/assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg">
+								</a>
+							</sc-for>
+						</nav>
+					</div>
+					<div class="sj-drawer-sub">
+						<a href="index.html#sunqu" onClick="{{ closeMenu }}">Chi è Sunqu</a>
+						<a href="index.html#formas" onClick="{{ closeMenu }}">Modi di viaggiare</a>
+						<a href="blog.html" onClick="{{ closeMenu }}">Diario Sunqu</a>
+						<a href="index.html#contacto" onClick="{{ closeMenu }}">Contatti</a>
+					</div>
+					<div class="sj-drawer-foot">
+						<a href="#reservar" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Progetta il tuo viaggio</a>
+						<div class="sj-drawer-row">
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
+							<div class="sj-seg" role="group" aria-label="Lingua">
+								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
+								</sc-for>
+							</div>
+						</div>
+						<div class="sj-band sj-band--light" aria-hidden="true"></div>
+					</div>
+				</aside>
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+					</svg>
+					<span class="sj-wa-label">Ne parliamo?</span>
+				</a>
+				<div class="jr-bar {{ barCls }}" role="region" aria-label="Prenota">
+					<div><small>{{ j.priceKicker }}</small><b>{{ j.priceShort }}</b></div>
+					<a href="#reservar" class="btn btn-light">Progetta<img src="/assets/diamond-olive.png" alt="" class="sj-iso"></a>
+				</div>
+
+				<!-- Modal · El viaje en imágenes -->
+				<div class="jr-reel {{ reelCls }}" role="dialog" aria-modal="true" aria-label="Il viaggio in immagini">
+					<sc-for list="{{ reelSlides }}" as="r" hint-placeholder-count="4">
+						<img src="{{ r.src }}" srcSet="{{ r.srcset }}" sizes="100vw" alt="{{ r.alt }}" style="opacity:{{ r.op }};transform:scale({{ r.sc }})">
+					</sc-for>
+					<div class="jr-reel-shade"></div>
+					<div class="jr-reel-bars" aria-hidden="true">
+						<sc-for list="{{ reelSlides }}" as="r" hint-placeholder-count="4">
+							<span><b style="transform:scaleX({{ r.fill }});transition:{{ r.tr }}"></b></span>
+						</sc-for>
+					</div>
+					<button type="button" class="jr-x" onClick="{{ closeReel }}" aria-label="Chiudi">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+							<path d="M18 6 6 18"></path>
+							<path d="m6 6 12 12"></path>
+						</svg>
+					</button>
+					<button type="button" class="jr-nav-btn jr-nav-prev" onClick="{{ reelPrev }}" aria-label="Precedente">
+						<img src="/assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back">
+					</button>
+					<button type="button" class="jr-nav-btn jr-nav-next" onClick="{{ reelNext }}" aria-label="Successivo">
+						<img src="/assets/diamond-lime.png" alt="" class="sj-iso">
+					</button>
+					<div class="jr-reel-cap" aria-live="polite"><span>{{ j.title }}</span><h3>{{ reelTitle }}</h3></div>
+				</div>
+
+				<!-- Modal · Galería del viaje -->
+				<div class="jr-lb {{ lbCls }}" role="dialog" aria-modal="true" aria-label="Galleria del viaggio">
+					<span class="jr-lb-count">{{ lbCount }}</span>
+					<div class="jr-lb-img"><img src="{{ lbSrc }}" alt="Foto del viaggio"></div>
+					<button type="button" class="jr-x" onClick="{{ closeLb }}" aria-label="Chiudi">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+							<path d="M18 6 6 18"></path>
+							<path d="m6 6 12 12"></path>
+						</svg>
+					</button>
+					<button type="button" class="jr-nav-btn jr-nav-prev" onClick="{{ lbPrev }}" aria-label="Foto precedente">
+						<img src="/assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back">
+					</button>
+					<button type="button" class="jr-nav-btn jr-nav-next" onClick="{{ lbNext }}" aria-label="Foto successiva">
+						<img src="/assets/diamond-lime.png" alt="" class="sj-iso">
+					</button>
+				</div>
+
+				<!-- Contenido principal -->
+				<main id="contenido" tabIndex="-1">
+
+					<!-- Sección #inicio -->
+					<section id="inicio" class="jr-hero" data-bg="dark" aria-label="{{ j.title }}">
+						<div class="jr-hero-media">
+							<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4">
+								<img src="{{ s.src }}" srcSet="{{ s.srcset }}" sizes="100vw" fetchpriority="{{ s.fp }}" alt="" class="jr-hero-img" style="opacity:{{ s.op }};transform:scale({{ s.sc }})">
+							</sc-for>
+							<div class="jr-hero-shade"></div>
+							<nav class="jr-crumbs" aria-label="Percorso di navigazione">
+								<a href="descubre.html">Journey</a>
+								<span aria-hidden="true">/</span>
+								<span aria-current="page">{{ j.title }}</span>
+							</nav>
+							<div class="jr-chips"><span class="jr-chip-dark">{{ j.alt }}</span><span class="jr-chip-light">{{ j.days }}</span></div>
+							<div class="jr-hero-in">
+								<div>
+									<span class="jr-hero-kicker" data-reveal="" data-delay="150">{{ j.kicker }}</span>
+									<h1 data-reveal="" data-delay="250">{{ j.title }}<sc-if value="{{ j.hasSub }}" hint-placeholder-val="{{ false }}"><span class="jr-sub">{{ j.sub }}</span></sc-if></h1>
+								</div>
+								<div class="jr-hero-row" data-reveal="" data-delay="380">
+									<p>{{ j.what }}</p>
+									<div class="jr-hero-meta">
+										<span class="jr-hero-cap">{{ heroCaption }}</span>
+										<div class="jr-bars" aria-hidden="true">
+											<sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="4"><span style="background:{{ s.bar }}"></span></sc-for>
+										</div>
+										<button type="button" class="btn btn-ghost-light" onClick="{{ openReel }}"><svg class="jr-play-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14z" fill="currentColor"></path></svg>Vedi il viaggio</button>
+										<a href="#reservar" class="btn btn-light">Progetta il mio viaggio<img src="/assets/diamond-olive.png" alt="" class="sj-iso"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección · Por qué este viaje -->
+					<section class="jr-intro sj-dark" data-bg="dark" aria-label="Perché questo viaggio">
+						<div class="jr-intro-col">
+							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Perché questo viaggio</span>
+							<p class="jr-why" data-reveal="" data-delay="80">«{{ j.why }}»</p>
+							<p class="jr-what" data-reveal="" data-delay="160">{{ j.whatLong }}</p>
+							<div class="jr-specs" data-reveal="">
+								<div><span class="jr-meta-label">Durata</span><ul><li>{{ j.days }}</li></ul></div>
+								<div><span class="jr-meta-label">Prezzo</span><ul><li>{{ j.price }}</li></ul></div>
+								<div><span class="jr-meta-label">Percorso</span><ul><sc-for list="{{ j.route }}" as="r" hint-placeholder-count="3"><li>{{ r }}</li></sc-for></ul></div>
+								<div>
+									<span class="jr-meta-label">Ideale per</span>
+									<ul><sc-for list="{{ j.concepts }}" as="c" hint-placeholder-count="2"><li>{{ c }}</li></sc-for></ul>
+								</div>
+							</div>
+						</div>
+					</section>
+					<div class="sj-light" data-bg="light">
+						<div class="sj-in sj-pad jr-layout">
+							<div class="jr-main">
+
+								<!-- Sección #descubre -->
+								<section id="descubre">
+									<span class="sj-eyebrow" data-reveal="">Scopri</span>
+									<h2 class="sj-h2" data-reveal="" style="max-width:14ch">{{ j.storyTitle }}</h2>
+									<div class="jr-story">
+										<sc-for list="{{ j.story }}" as="p" hint-placeholder-count="2"><p data-reveal="">{{ p }}</p></sc-for>
+										<p class="jr-moment-line" data-reveal=""><b>Il momento che ricorderai:</b> {{ j.moment }}</p>
+									</div>
+									<div class="jr-principle">
+										<div class="jr-pcard" data-reveal="" style="background:{{ j.how.bg }};color:{{ j.how.fg }}">
+											<div class="jr-pcard-img"><img src="{{ j.how.photo }}" srcSet="{{ j.how.photoSet }}" sizes="160px" loading="lazy" decoding="async" alt=""></div>
+											<span>{{ j.how.kicker }}</span>
+											<h3 style="color:{{ j.how.fg }}">{{ j.how.title }}</h3>
+										</div>
+										<div class="jr-principle-txt" data-reveal="" data-delay="120">
+											<span class="jr-meta-label">Cosa rende diverso questo viaggio</span>
+											<h3>{{ j.how.name }}</h3>
+											<p>{{ j.how.text }}</p>
+											<span class="jr-q">{{ j.how.q }}</span>
+										</div>
+									</div>
+								</section>
+							</div>
+							<aside class="jr-aside" aria-label="Prenota">
+								<div class="blueprint jr-book">
+									<span class="sj-eyebrow">Sunqu Journey</span>
+									<div class="jr-book-price">{{ j.price }}<small>{{ j.priceNote }}</small></div>
+									<ul>
+										<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>Durata<b>{{ j.days }}</b></li>
+										<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>{{ j.altLabel }}<b>{{ j.alt }}</b></li>
+										<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>Percorso<b>{{ j.region }}</b></li>
+										<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>Assistenza<b>Travel Advisor</b></li>
+									</ul>
+									<a href="#reservar" class="btn btn-primary">Progetta il mio viaggio<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></a>
+									<a href="{{ waHref }}" target="_blank" rel="noopener" class="btn btn-secondary">Scrivici su WhatsApp</a>
+									<p class="jr-book-note">È gratis e senza impegno. Un Travel Advisor ti risponde entro 48 ore.</p>
+								</div>
+							</aside>
+						</div>
+					</div>
+
+					<!-- Sección #vive · Día a día -->
+					<section id="vive" class="sj-alt-bg" data-bg="alt" aria-label="Giorno per giorno">
+						<div class="sj-in sj-pad">
+							<div class="jr-vive-head">
+								<div>
+									<span class="sj-eyebrow" data-reveal="">Vivi · Giorno per giorno</span>
+									<h2 class="sj-h2" data-reveal="" style="max-width:13ch">{{ j.vivTitle }}</h2>
+								</div>
+								<p class="sj-lead" data-reveal="">{{ j.vivText }}</p>
+							</div>
+							<sc-if value="{{ hasDays }}" hint-placeholder-val="{{ true }}">
+								<div class="jr-days" style="margin-top:clamp(32px,4vw,52px)">
+									<sc-for list="{{ days }}" as="d" hint-placeholder-count="8">
+										<div class="jr-day {{ d.cls }}">
+											<button type="button" class="jr-day-btn" onClick="{{ d.toggle }}" aria-expanded="{{ d.open }}" aria-controls="{{ d.pid }}">
+												<span class="jr-day-n">{{ d.n }}</span>
+												<span class="jr-day-t">{{ d.title }}</span>
+												<span class="jr-stage" data-s="{{ d.stage }}">{{ d.stageLabel }}</span>
+												<span class="jr-day-m">{{ d.m }}</span>
+												<span class="jr-day-ico" aria-hidden="true">
+													<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+														<path d="M5 12h14"></path>
+														<path d="M12 5v14"></path>
+													</svg>
+												</span>
+											</button>
+											<div class="jr-day-panel" id="{{ d.pid }}"><div><p class="jr-day-inner">{{ d.body }}</p></div></div>
+										</div>
+									</sc-for>
+								</div>
+							</sc-if>
+							<sc-if value="{{ noDays }}" hint-placeholder-val="{{ false }}">
+								<div class="blueprint jr-medida" data-reveal="">
+									<div>
+										<h3>Il giorno per giorno lo progettiamo con te</h3>
+										<p>{{ j.whatLong }} Il tuo Travel Advisor ti invia l'itinerario completo, con prezzi e altitudini chiari fin dal primo giorno.</p>
+										<a href="#reservar" class="btn btn-primary" style="margin-top:22px">Richiedi l'itinerario completo<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></a>
+									</div>
+									<ul>
+										<li>Durata<b>{{ j.days }}</b></li>
+										<li>Percorso<b>{{ j.region }}</b></li>
+										<li>{{ j.altLabel }}<b>{{ j.alt }}</b></li>
+										<li>Prezzo<b>{{ j.price }}</b></li>
+									</ul>
+								</div>
+							</sc-if>
+						</div>
+					</section>
+					<sc-if value="{{ hasDays }}" hint-placeholder-val="{{ true }}">
+
+						<!-- Sección #altitud · Curva de altitud -->
+						<section id="altitud" class="sj-dark" data-bg="dark" aria-label="Curva di altitudine">
+							<div class="sj-in sj-pad">
+								<div class="jr-vive-head">
+									<div>
+										<span class="sj-eyebrow" data-reveal="" style="color:#83b300">Curva di altitudine</span>
+										<h2 class="sj-h2" data-reveal="" style="color:#e9eef1;max-width:14ch">{{ j.chartTitle }}</h2>
+									</div>
+									<p class="sj-lead" data-reveal="">{{ j.chartText }}</p>
+								</div>
+								<figure class="blueprint sj-alt jr-chart" data-reveal="" role="group" aria-label="Curva di altitudine giorno per giorno">
+									<div class="sj-alt-bar">
+										<span class="sj-alt-leg"><i class="sj-alt-key"></i>Altitudine del viaggio</span>
+										<span class="sj-alt-leg"><i class="sj-alt-key sj-alt-key--th"></i>Altitudine di Cusco · 3.400 m</span>
+									</div>
+									<div class="sj-alt-plot" ref="{{ chartRef }}" onPointerMove="{{ alt.move }}" onPointerDown="{{ alt.move }}" style="height:{{ alt.h }}px">
+										<div class="sj-alt-reveal" style="clip-path:inset(0 {{ alt.clip }} 0 0)">
+											<svg width="100%" height="100%" viewBox="{{ alt.vb }}" aria-hidden="true" style="display:block">
+												<defs>
+													<linearGradient id="jrAltFill" x1="0" y1="0" x2="0" y2="1">
+														<stop offset="0" stopColor="#83b300" stopOpacity=".38"></stop>
+														<stop offset="1" stopColor="#83b300" stopOpacity="0"></stop>
+													</linearGradient>
+												</defs>
+												<rect x="0" y="0" width="{{ alt.w }}" height="{{ alt.yTh }}" fill="rgba(223,95,12,.07)"></rect>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y4000 }}" y2="{{ alt.y4000 }}" stroke="rgba(233,238,241,.1)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.y2000 }}" y2="{{ alt.y2000 }}" stroke="rgba(233,238,241,.1)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yBase }}" y2="{{ alt.yBase }}" stroke="rgba(233,238,241,.28)"></line>
+												<line x1="0" x2="{{ alt.w }}" y1="{{ alt.yTh }}" y2="{{ alt.yTh }}" stroke="#df5f0c" strokeWidth="1.5" strokeDasharray="6 6"></line>
+												<polygon points="{{ alt.area }}" fill="url(#jrAltFill)"></polygon>
+												<line x1="{{ alt.gx }}" x2="{{ alt.gx }}" y1="{{ alt.gy }}" y2="{{ alt.yBase }}" stroke="rgba(244,167,0,.7)" strokeDasharray="2 4"></line>
+												<polyline points="{{ alt.line }}" fill="none" stroke="#83b300" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round"></polyline>
+											</svg>
+											<span class="sj-alt-y" style="top:{{ alt.y4000 }}px">4.000 m</span>
+											<span class="sj-alt-y" style="top:{{ alt.y2000 }}px">2.000 m</span>
+											<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8">
+												<button type="button" class="sj-alt-pt" data-on="{{ pt.on }}" style="left:{{ pt.x }}px;top:{{ pt.y }}px" onClick="{{ pt.pick }}" onFocus="{{ pt.pick }}" aria-label="{{ pt.label }}" aria-pressed="{{ pt.on }}">
+													<span></span>
+												</button>
+											</sc-for>
+											<div class="sj-alt-tip" style="left:{{ alt.tipX }}px;top:{{ alt.tipY }}px;transform:translate({{ alt.tipTx }},-100%)">{{ alt.selM }}</div>
+										</div>
+									</div>
+									<div class="sj-alt-x" aria-hidden="true">
+										<sc-for list="{{ alt.pts }}" as="pt" hint-placeholder-count="8"><span data-on="{{ pt.on }}" style="left:{{ pt.x }}px">{{ pt.d }}</span></sc-for>
+									</div>
+									<div class="sj-alt-detail" aria-live="polite">
+										<div class="sj-alt-dhead">
+											<span class="sj-alt-dday">{{ alt.selD }}</span>
+											<span class="jr-stage" data-s="{{ alt.selStage }}">{{ alt.selStageLabel }}</span>
+										</div>
+										<div class="sj-alt-dmain"><h3>{{ alt.selTitle }}</h3><span>{{ alt.selM }}</span></div>
+										<p>{{ alt.selBody }}</p>
+										<div class="sj-alt-nav">
+											<button type="button" onClick="{{ alt.prev }}" aria-label="Giorno precedente">
+												<img src="/assets/diamond-lime.png" alt="" class="sj-iso sj-iso--back">
+											</button>
+											<button type="button" onClick="{{ alt.next }}" aria-label="Giorno successivo"><img src="/assets/diamond-lime.png" alt="" class="sj-iso"></button>
+										</div>
+									</div>
+								</figure>
+							</div>
+						</section>
+					</sc-if>
+
+					<!-- Sección #momento · Momento Sunqu -->
+					<section id="momento" class="sj-dark" data-expand="" data-bg="dark" aria-label="Momento Sunqu" style="height:240vh;position:relative">
+						<div class="sj-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden">
+							<span class="sj-eyebrow jr-mo-kicker" data-expand-kicker="">Momento Sunqu</span>
+							<div data-expand-media="" style="position:absolute;inset:0;overflow:hidden;clip-path:inset(22% 30% round 28px)">
+								<img src="{{ j.momentImg }}" srcSet="{{ j.momentSrcset }}" sizes="100vw" loading="lazy" decoding="async" alt="{{ j.momentAlt }}" style="width:100%;height:100%;object-fit:cover;transform:scale(1.25)">
+								<div class="jr-mo-shade"></div>
+							</div>
+							<div data-expand-text="" class="jr-mo-text" style="opacity:0">
+								<span class="sj-eyebrow" style="color:#83b300">Momento Sunqu</span>
+								<blockquote class="jr-mo-quote">{{ j.moment }}</blockquote>
+								<ul class="jr-mo-conds" aria-label="Cosa rende speciale un Momento Sunqu">
+									<sc-for list="{{ conditions }}" as="c" hint-placeholder-count="4"><li><img src="{{ c.icon }}" alt="">{{ c.title }}</li></sc-for>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #temporada · El mejor momento para visitar -->
+					<section id="temporada" class="sj-light" data-bg="light" aria-label="Il momento migliore per partire">
+						<div class="sj-in sj-pad jr-season">
+							<div class="jr-season-main">
+								<span class="sj-eyebrow" data-reveal="">Stagioni di viaggio</span>
+								<h2 class="jr-sec-t" data-reveal="">Il momento migliore per partire</h2>
+								<p class="sj-lead" data-reveal="">{{ season.text }}</p>
+								<div class="jr-months" data-reveal="" role="img" aria-label="{{ season.label }}">
+									<sc-for list="{{ season.months }}" as="mo" hint-placeholder-count="12">
+										<span class="jr-month" data-l="{{ mo.level }}" title="{{ mo.tip }}"><i></i><small>{{ mo.m }}</small></span>
+									</sc-for>
+								</div>
+								<div class="jr-months-key" data-reveal="" aria-hidden="true">
+									<span data-l="2">Ideale</span>
+									<span data-l="1">Buona</span>
+									<span data-l="0">Stagione delle piogge</span>
+								</div>
+								<ul class="jr-facts">
+									<li class="jr-fact" data-reveal="">
+										<span class="jr-fact-ico" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M12 2v2M4.93 4.93l1.41 1.41M20 12h2M19.07 4.93l-1.41 1.41"></path>
+												<path d="M15.95 12.65a4 4 0 0 0-5.93-4.13"></path>
+												<path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"></path>
+											</svg>
+										</span>
+										<div><b class="jr-fact-k">Clima</b><span class="jr-fact-v">{{ season.clima }}</span></div>
+									</li>
+									<li class="jr-fact" data-reveal="" data-delay="90">
+										<span class="jr-fact-ico" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path>
+												<path d="M12 9v6"></path>
+											</svg>
+										</span>
+										<div><b class="jr-fact-k">Temperatura</b><span class="jr-fact-v">{{ season.temp }}</span></div>
+									</li>
+									<li class="jr-fact" data-reveal="">
+										<span class="jr-fact-ico" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+												<rect x="3" y="4" width="18" height="18" rx="2"></rect>
+												<path d="M16 2v4M8 2v4M3 10h18"></path>
+												<path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"></path>
+											</svg>
+										</span>
+										<div><b class="jr-fact-k">Calendario</b><span class="jr-fact-v">{{ season.cal }}</span></div>
+									</li>
+									<li class="jr-fact" data-reveal="" data-delay="90">
+										<span class="jr-fact-ico" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+												<path d="M8 12h8M8 8.5h5"></path>
+											</svg>
+										</span>
+										<div>
+											<b class="jr-fact-k">Consigli e altro</b>
+											<span class="jr-fact-v">Tutto quello che devi sapere, <a href="{{ waHref }}" target="_blank" rel="noopener">chiedilo qui</a></span>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="jr-season-art" aria-hidden="true">
+								<svg viewBox="0 0 640 960" preserveAspectRatio="xMinYMid slice" focusable="false">
+									<g class="ss-p ss-sun" data-reveal="" data-delay="0">
+										<circle cx="452" cy="170" r="120" fill="#f4a700"/>
+										<circle class="ss-ring" cx="452" cy="170" r="152" fill="none" stroke="#f4a700" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round" opacity=".7"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="80">
+										<rect class="" x="56" y="64" width="156" height="156" rx="36" fill="#df5f0c"/>
+										<rect class="" x="146" y="154" width="108" height="108" rx="32" fill="#e9eef1"/>
+										<rect class="" x="160" y="168" width="80" height="80" rx="24" fill="#736d47"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="160">
+										<path class="" d="M246,326 L246,542 Q246,568 272,568 L312,568 Q338,568 338,594 L338,662 Q338,688 312,688 L144,688 Q118,688 118,662 L118,444 Q118,418 92,418 L52,418 Q26,418 26,392 L26,326 Q26,300 52,300 L220,300 Q246,300 246,326 Z" fill="#48725E"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="240">
+										<path class="" d="M484,398 L484,568 Q484,594 510,594 L550,594 Q576,594 576,620 L576,688 Q576,714 550,714 L382,714 Q356,714 356,688 L356,516 Q356,490 330,490 L290,490 Q264,490 264,464 L264,398 Q264,372 290,372 L458,372 Q484,372 484,398 Z" fill="#83b300"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="320">
+										<path class="" d="M722,470 L722,596 Q722,622 748,622 L788,622 Q814,622 814,648 L814,716 Q814,742 788,742 L620,742 Q594,742 594,716 L594,588 Q594,562 568,562 L528,562 Q502,562 502,536 L502,470 Q502,444 528,444 L696,444 Q722,444 722,470 Z" fill="#736d47"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="400">
+										<g class="ss-heart"><image href="/assets/diamond-lime.png" x="24" y="470" width="72" height="84.2"/></g>
+									</g>
+									<g class="ss-p ss-rain" data-reveal="" data-delay="200">
+										<rect class="" x="44" y="742" width="22" height="64" rx="11" fill="#48725E"/>
+										<rect class="" x="90" y="716" width="22" height="80" rx="11" fill="#48725E"/>
+										<rect class="" x="136" y="756" width="22" height="58" rx="11" fill="#48725E"/>
+										<rect class="" x="182" y="730" width="22" height="72" rx="11" fill="#48725E"/>
+										<rect class="" x="228" y="764" width="22" height="50" rx="11" fill="#48725E"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="280">
+										<path class="" d="M528,792 L528,900 Q528,926 554,926 L594,926 Q620,926 620,952 L620,1020 Q620,1046 594,1046 L426,1046 Q400,1046 400,1020 L400,896 Q400,870 374,870 L334,870 Q308,870 308,844 L308,792 Q308,766 334,766 L502,766 Q528,766 528,792 Z" fill="#f4a700"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="360">
+										<rect class="" x="546" y="784" width="140" height="124" rx="32" fill="#48725E"/>
+										<rect class="" x="566" y="804" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="566" y="834" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="566" y="864" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="596" y="804" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="596" y="834" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="596" y="864" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="626" y="804" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="626" y="834" width="14" height="14" rx="4" fill="#e9eef1"/>
+										<rect class="" x="626" y="864" width="14" height="14" rx="4" fill="#e9eef1"/>
+									</g>
+									<g class="ss-p " data-reveal="" data-delay="120"><rect class="" x="-40" y="872" width="300" height="170" rx="40" fill="#736d47"/></g>
+								</svg>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #planifica · Consejos y notas importantes -->
+					<section id="planifica" class="sj-alt-bg" data-bg="alt" aria-label="Consigli e note importanti">
+						<div class="sj-in sj-pad jr-plan">
+							<div class="jr-plan-top">
+								<div>
+									<span class="sj-eyebrow" data-reveal="">Prima di partire</span>
+									<h2 class="jr-sec-t" data-reveal=""><span class="jr-plus" aria-hidden="true">+</span>Consigli Sunqu</h2>
+								</div>
+								<ul class="jr-tips">
+									<sc-for list="{{ tips }}" as="t" hint-placeholder-count="3">
+										<li data-reveal="">
+											<span class="jr-tip-ico" aria-hidden="true">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M20 6 9 17l-5-5"></path>
+												</svg>
+											</span>
+											<p>{{ t.text }}</p>
+										</li>
+									</sc-for>
+								</ul>
+							</div>
+							<h2 class="jr-sec-t jr-notes-t" data-reveal="">Note importanti</h2>
+							<div class="jr-notes">
+								<article class="blueprint jr-note" data-reveal="">
+									<span class="jr-note-ico" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<rect x="3" y="4" width="18" height="18" rx="2"></rect>
+											<path d="M16 2v4M8 2v4M3 10h18"></path>
+											<path d="m9 16 2 2 4-4"></path>
+										</svg>
+									</span>
+									<p>Rimanda senza costi fino a <b>20 giorni prima</b> della partenza. Lo vedi accanto al prezzo, non in piccolo.</p>
+								</article>
+								<article class="blueprint jr-note" data-reveal="" data-delay="90">
+									<span class="jr-note-ico" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+											<path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+										</svg>
+									</span>
+									<p>Ogni comunità che ti accoglie sa cosa le lascia il tuo viaggio. Lo raccontiamo nella nostra <a href="#conecta">Scheda di reciprocità</a>.</p>
+								</article>
+								<article class="blueprint jr-note" data-reveal="" data-delay="180">
+									<span class="jr-note-ico" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<circle cx="16" cy="4" r="1"></circle>
+											<path d="m18 19 1-7-6 1"></path>
+											<path d="m5 8 3-3 5.5 3-2.36 3.5"></path>
+											<path d="M4.24 14.5a5 5 0 0 0 6.88 6"></path>
+											<path d="M13.76 17.5a5 5 0 0 0-6.88-6"></path>
+										</svg>
+									</span>
+									<p>{{ access }} Se hai mobilità ridotta, <a href="#reservar">diccelo e lo adattiamo</a>.</p>
+								</article>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #conecta · Te reciben -->
+					<section id="conecta" class="sj-light" data-bg="light" aria-label="Ti accolgono">
+						<div class="sj-in sj-pad">
+							<span class="sj-eyebrow" data-reveal="">Incontra · Ti accolgono</span>
+							<h2 class="sj-h2" data-reveal="" style="max-width:14ch">Viaggi con persone, non con fornitori.</h2>
+							<div class="jr-conecta {{ hostsCls }}">
+								<div class="jr-hosts" aria-label="Padroni di casa">
+									<sc-for list="{{ hosts }}" as="h" hint-placeholder-count="2">
+										<article class="blueprint jr-host" data-reveal="">
+											<div class="duotone jr-host-img"><img src="{{ h.img }}" srcSet="{{ h.srcset }}" sizes="(max-width: 767px) 75vw, 430px" loading="lazy" decoding="async" alt="{{ h.alt }}"></div>
+											<div class="jr-host-body">
+												<div class="jr-host-head"><h3>{{ h.role }}</h3><small>{{ h.place }}</small></div>
+												<p><strong>Ti insegna · </strong>{{ h.teach }}</p>
+											</div>
+										</article>
+									</sc-for>
+								</div>
+								<div class="blueprint jr-ayni" data-reveal="">
+									<img src="/assets/pattern-ring.png" alt="">
+									<div>
+										<span class="jr-ayni-k">Ayni · reciprocità</span>
+										<h3>Scheda di reciprocità</h3>
+										<p>Ti diciamo cosa riceve ogni comunità che ti accoglie, come è stato concordato e chi lo gestisce. Ed è la comunità a decidere come si racconta la sua storia.</p>
+										<sc-if value="{{ j.hasAyniNote }}" hint-placeholder-val="{{ false }}"><b>{{ j.ayniNote }}</b></sc-if>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #recuerda · Antes, durante y después -->
+					<section id="recuerda" class="sj-alt-bg" data-bg="alt" aria-label="Prima, durante e dopo">
+						<div class="sj-in sj-pad">
+							<span class="sj-eyebrow" data-reveal="">Ricorda · Cosa è incluso</span>
+							<h2 class="sj-h2" data-reveal="" style="max-width:15ch">Il viaggio comincia prima del volo e continua dopo.</h2>
+							<div class="jr-phases">
+								<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+									<article class="blueprint jr-phase" data-reveal="">
+										<div class="jr-phase-img"><img src="{{ ph.img }}" srcSet="{{ ph.srcset }}" sizes="(max-width: 767px) 90vw, 430px" alt="" loading="lazy" decoding="async"></div>
+										<div class="jr-phase-body">
+											<span class="jr-phase-k" style="color:{{ ph.color }}">{{ ph.kicker }}</span>
+											<h3>{{ ph.title }}</h3>
+											<p>{{ ph.body }}</p>
+										</div>
+									</article>
+								</sc-for>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #galeria · Galería del viaje -->
+					<section id="galeria" class="sj-light" data-bg="light" aria-label="Galleria del viaggio">
+						<div class="sj-in sj-pad">
+							<span class="sj-eyebrow" data-reveal="">Galleria</span>
+							<h2 class="sj-h2" data-reveal="">Ecco com'è il viaggio.</h2>
+							<div class="jr-gal">
+								<sc-for list="{{ gallery }}" as="g" hint-placeholder-count="8">
+									<button type="button" onClick="{{ g.open }}" aria-label="{{ g.label }}" style="aspect-ratio:{{ g.ratio }}">
+										<img src="{{ g.src }}" srcSet="{{ g.srcset }}" sizes="(max-width: 767px) 45vw, 330px" alt="Foto del viaggio" loading="lazy" decoding="async">
+									</button>
+								</sc-for>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #otros · Otros journeys -->
+					<section id="otros" class="sj-dark" data-hscroll="" data-bg="dark" aria-label="Altri journey" style="position:relative;height:300vh;color:#e9eef1">
+						<div class="sj-sticky sj-h-sticky" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,3vh,36px);padding-top:64px;box-sizing:border-box">
+							<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap" class="sj-h-head">
+								<div>
+									<span class="sj-eyebrow" style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#f4a700">Altri journey · {{ journeyCount }}</span>
+									<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4.4vw,72px);line-height:1;margin:10px 0 0;max-width:13ch;color:#e9eef1">Come vuoi sentire il Perù?</h2>
+								</div>
+								<div class="sj-filters" role="group" aria-label="Filtra i journey" style="display:flex;border:1px solid rgba(233,238,241,.3);border-radius:999px;padding:4px;flex-wrap:wrap;gap:2px">
+									<sc-for list="{{ concepts }}" as="c" hint-placeholder-count="4">
+										<button type="button" onClick="{{ c.onClick }}" aria-pressed="{{ c.pressed }}" style="border:0;border-radius:999px;font-family:var(--font-heading);font-size:15px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;background:{{ c.bg }};color:{{ c.color }};cursor:pointer;transition:background .3s">{{ c.label }}</button>
+									</sc-for>
+								</div>
+							</div>
+							<div data-htrack="" ref="{{ stripRef }}" style="display:flex;gap:24px;width:max-content;padding:0 max(clamp(20px,4vw,56px),calc((100vw - 1440px)/2 + 56px));will-change:transform">
+								<sc-for list="{{ others }}" as="oj" hint-placeholder-count="4">
+									<article class="sj-jcard" style="flex:0 0 min(78vw,400px);display:flex;flex-direction:column;background:#26262a;border-radius:20px;overflow:hidden;border:1px solid rgba(233,238,241,.08)">
+										<div class="sj-jimg" style="position:relative;height:min(38vh,320px);overflow:hidden">
+											<img src="{{ oj.img }}" srcSet="{{ oj.srcset }}" sizes="(max-width: 767px) 80vw, 400px" loading="lazy" decoding="async" alt="{{ oj.ph }}" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.1,1)" style-hover="transform:scale(1.06)">
+											<span style="position:absolute;top:14px;left:14px;background:rgba(28,28,28,.6);backdrop-filter:blur(8px);border-radius:999px;padding:6px 12px;font-size:14px;color:#e9eef1">{{ oj.alt }}</span>
+											<span style="position:absolute;top:14px;right:14px;background:#e9eef1;color:#1c1c1c;border-radius:999px;padding:6px 12px;font-size:14px;text-transform:uppercase">{{ oj.days }}</span>
+										</div>
+										<div style="padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1">
+											<span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(233,238,241,.65)">{{ oj.region }}</span>
+											<h3 style="letter-spacing:-.02em;font-size:26px;line-height:1.08;margin:0;color:#e9eef1">{{ oj.title }}</h3>
+											<p class="sj-jwhy" style="margin:0;font-size:15px;line-height:1.5;color:rgba(233,238,241,.8);text-wrap:pretty">{{ oj.why }}</p>
+											<div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(233,238,241,.14)">
+												<span class="sj-jprice" style="font-family:var(--font-heading);font-size:20px;color:#e9eef1">{{ oj.price }}</span>
+												<a href="{{ oj.href }}" class="sj-jlink" style="color:#f4a700;text-decoration:none;font-size:14px;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;display:inline-flex;align-items:center;gap:8px">Vedi il journey<img src="/assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+											</div>
+										</div>
+									</article>
+								</sc-for>
+							</div>
+							<div style="max-width:1440px;width:100%;margin:0 auto;padding:0 clamp(20px,4vw,56px);box-sizing:border-box">
+								<div style="height:2px;background:rgba(233,238,241,.18)">
+									<div data-hbar="" style="height:100%;background:#f4a700;transform-origin:left;transform:scaleX(0)"></div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #reservar · Diseña tu viaje -->
+					<section id="reservar" class="sj-light" data-bg="light" aria-label="Progetta il tuo viaggio" style="border-top:1px solid rgba(28,28,28,.16)">
+						<div class="sj-contact-grid" style="max-width:1440px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(40px,6vw,96px)">
+							<div>
+								<h2 data-reveal="" style="letter-spacing:-.02em;font-size:clamp(30px,3.8vw,59px);line-height:1.06;margin:0 0 clamp(24px,3.0vw,41px)">Vuoi conoscere il Perù e far parte della sua storia?</h2>
+								<ol class="sj-steps" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+									<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+										<li data-reveal="" style="display:grid;grid-template-columns:64px 1fr;gap:16px;padding:20px 0;border-top:1px solid rgba(28,28,28,.16)">
+											<span style="font-family:var(--font-heading);font-size:36px;line-height:1;color:#676140">{{ s.n }}</span>
+											<div>
+												<h3 style="letter-spacing:-.02em;font-size:19px;margin:0 0 4px">{{ s.title }}</h3>
+												<p style="margin:0;font-size:15px;color:#424244;line-height:1.5">{{ s.body }}</p>
+											</div>
+										</li>
+									</sc-for>
+								</ol>
+							</div>
+							<div data-reveal="" data-delay="120" class="blueprint sj-form-card" style="align-self:start" aria-live="polite">
+								<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+									<form onSubmit="{{ submit }}" class="sj-form" data-form="solicitud" aria-busy="{{ sending }}">
+										<div class="sj-hp" aria-hidden="true"><label for="hp-web">Lascia vuoto questo campo</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
+										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · lo progettiamo con te</span>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-name">Nome e cognome</label>
+												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Il tuo nome e cognome">
+											</div>
+											<div class="field">
+												<label for="f-mail">Email</label>
+												<input id="f-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="tu@email.com">
+											</div>
+										</div>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-tel">WhatsApp o cellulare</label>
+												<div data-sunqu-campo="celular" data-id="f-tel" data-required="1"></div>
+											</div>
+											<div class="field">
+												<label for="f-country">Paese</label>
+												<div data-sunqu-campo="pais" data-id="f-country" data-required="1"></div>
+											</div>
+										</div>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="f-month">Quando ti piacerebbe viaggiare?</label>
+												<select id="f-month" name="mes" class="input">
+													<option value="no-se">Non lo so ancora</option>
+													<option value="ene-mar">Gennaio – marzo</option>
+													<option value="abr-jun">Aprile – giugno</option>
+													<option value="jul-sep">Luglio – settembre</option>
+													<option value="oct-dic">Ottobre – dicembre</option>
+												</select>
+											</div>
+											<div class="field">
+												<label for="f-source">Come ci hai conosciuto?</label>
+												<select id="f-source" name="fuente" class="input">
+													<option value="">Scegli un'opzione</option>
+													<option value="instagram">Instagram</option>
+													<option value="youtube">YouTube</option>
+													<option value="tiktok">TikTok</option>
+													<option value="conocidos">Amici o familiari</option>
+												</select>
+											</div>
+										</div>
+										<div class="field">
+											<label for="f-group">Viaggiatori e camere</label>
+											<div data-sunqu-campo="grupo" data-id="f-group"></div>
+										</div>
+										<fieldset class="field">
+											<legend class="sj-label">Cosa ti interessa di più?</legend>
+											<div class="sj-chips">
+												<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La storia</label>
+												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>Il cibo</label>
+												<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
+											</div>
+										</fieldset>
+										<div class="field">
+											<label for="f-msg">Raccontaci del tuo viaggio <span class="sj-optional">Facoltativo</span></label>
+											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con chi viaggi, cosa ti emoziona, cosa non vuoi perderti…"></textarea>
+										</div>
+										<div class="sj-attach {{ attach.cls }}">
+											<label class="sj-switch">
+												<input type="checkbox" role="switch" checked="{{ attach.on }}" disabled="{{ attach.none }}" onChange="{{ attach.toggle }}" aria-describedby="sj-attach-d">
+												<span class="sj-switch-track" aria-hidden="true"><span class="sj-switch-thumb"></span></span>
+												<span class="sj-attach-t">Allega i miei preferiti<span class="sj-attach-n {{ attach.nCls }}">{{ attach.count }}</span></span>
+											</label>
+											<sc-if value="{{ attach.none }}" hint-placeholder-val="{{ false }}">
+												<p id="sj-attach-d" class="sj-attach-d">Non hai ancora preferiti. <a href="{{ attach.exploreHref }}">Esplora journey ed esperienze</a> e salvali per allegarli qui.</p>
+											</sc-if>
+											<sc-if value="{{ attach.some }}" hint-placeholder-val="{{ true }}">
+												<p id="sj-attach-d" class="sj-attach-d">{{ attach.desc }}</p>
+											</sc-if>
+											<sc-if value="{{ attach.on }}" hint-placeholder-val="{{ false }}">
+												<ul class="sj-attach-list" aria-label="Preferiti allegati">
+													<sc-for list="{{ attach.items }}" as="it" hint-placeholder-count="3">
+														<li><img src="/assets/diamond-lime.png" alt="">{{ it.t }}<small>{{ it.k }}</small></li>
+													</sc-for>
+												</ul>
+											</sc-if>
+											<input type="hidden" name="guardados" value="{{ attach.value }}">
+										</div>
+										<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
+										<div class="sj-form-foot">
+											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Invia la mia richiesta<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<p class="sj-form-note">È gratis e senza impegno. Un Travel Advisor ti risponde entro 48 ore.</p>
+										</div>
+									</form>
+								</sc-if>
+								<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+									<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+										<img src="/assets/diamond-lime.png" alt="" style="width:56px">
+										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay, grazie. Abbiamo ricevuto la tua richiesta.</h3>
+										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor di Sunqu ti scriverà entro 48 ore per iniziare a progettare il tuo viaggio.</p>
+										<sc-if value="{{ sentFavOn }}" hint-placeholder-val="{{ false }}">
+											<p class="sj-attach-ok"><img src="/assets/diamond-lime.png" alt="">{{ sentFavText }}</p>
+										</sc-if>
+									</div>
+								</sc-if>
+							</div>
+						</div>
+					</section>
+				</main>
+
+				<!-- Footer -->
+				<footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+					<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+					<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+						<div class="sj-foot-top" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+							<div class="sj-foot-art" aria-hidden="true">
+								<svg viewBox="0 0 860 172" preserveAspectRatio="xMidYMax meet" focusable="false">
+									<defs>
+										<mask id="faRouteM" maskUnits="userSpaceOnUse" x="0" y="-40" width="860" height="220">
+											<path class="fa-draw" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" pathLength="1" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+										</mask>
+										<clipPath id="faClip"><rect x="-20" y="-80" width="900" height="252"/></clipPath>
+										<clipPath id="faSunC"><rect x="0" y="-80" width="240" height="217"/></clipPath>
+									</defs>
+									<g clip-path="url(#faClip)">
+										<g clip-path="url(#faSunC)">
+											<g class="fa-l fa-sun">
+												<circle cx="96" cy="136" r="36" fill="#f4a700"/>
+												<circle class="fa-halo" cx="96" cy="136" r="50" fill="none" stroke="#f4a700" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>
+											</g>
+										</g>
+										<g class="fa-l fa-sea">
+											<path class="fa-wave fa-wave0" d="M34,143 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="18 10" stroke-dashoffset="0"/>
+											<path class="fa-wave fa-wave1" d="M8,152 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="12 12" stroke-dashoffset="9"/>
+											<path class="fa-wave fa-wave0" d="M48,161 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="22 9" stroke-dashoffset="4"/>
+											<path class="fa-wave fa-wave1" d="M20,170 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 13" stroke-dashoffset="14"/>
+											<path d="M73,143 H119" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M81,152 H111" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M87,161 H105" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M92,170 H100" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+										</g>
+										<g class="fa-l fa-back">
+											<path d="M262,172 L338,114 L378,134 L462,44 L544,108 L606,70 L690,140 L764,92 L846,166 L846,172 Z" fill="#736d47" stroke="#736d47" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M441.4,66 L452,60 L461,68 L472,60 L480.6,59 L462,44 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M593.4,80 L602,78 L610,84 L619,80 L606,70 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="10" stroke-linejoin="round"/>
+											<path d="M754,99 L762,97 L770,102 L774,100 L764,92 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="9" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-mid">
+											<path d="M300,172 L372,130 L404,146 L500,96 L576,150 L650,110 L724,160 L790,126 L838,170 L838,172 Z" fill="#48725E" stroke="#48725E" stroke-width="12" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-dunes"><path d="M214,172 C236,152 262,148 288,160 C306,150 330,150 352,172 Z" fill="#5e5939"/></g>
+										<g class="fa-l fa-front">
+											<clipPath id="faHillC"><path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z"/></clipPath>
+											<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z" fill="#83b300"/>
+											<g clip-path="url(#faHillC)">
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 9)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 18)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 27)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+											</g>
+										</g>
+										<path class="fa-route" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" fill="none" stroke="#e9eef1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5 8" mask="url(#faRouteM)"/>
+										<g class="fa-stop fa-stop1"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(226 164) rotate(45)" fill="#f4a700"/></g>
+										<g class="fa-stop fa-stop2"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(392 122) rotate(45)" fill="#df5f0c"/></g>
+										<g class="fa-heart"><g class="fa-heart-in"><image href="/assets/diamond-lime.png" x="446" y="-9" width="32" height="37.4"/></g></g>
+										<g class="fa-condor">
+											<path d="M604,30 Q612,22 621,32 Q630,22 638,30" fill="none" stroke="#e9eef1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-condor fa-condor2">
+											<path d="M660,15 Q666,10 672.5,17.5 Q679,10 685,15" fill="none" stroke="#e9eef1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+										</g>
+									</g>
+								</svg>
+							</div>
+							<div style="display:flex;flex-direction:column;gap:20px">
+								<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaggia nel cuore del Perù.</h2>
+								<a href="#reservar" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Progetta il tuo viaggio</a>
+							</div>
+							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Scrivici</span>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Chiamaci</span>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Ufficio</span>
+									<span>{{ site.office }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+							<img src="/assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+							<nav aria-label="Piè di pagina" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
+								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Home</a>
+								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Chi è Sunqu</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viaggi</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recensioni e negozio</a>
+								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
+								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
+								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Note legali</a>
+							</nav>
+							<div style="display:flex;gap:10px">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+										<path d="m10 15 5-3-5-3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</a>
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M16 3a5 5 0 0 0 5 5"></path>
+										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
+									</svg>
+								</a>
+							</div>
+						</div>
+						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+							<span>Copyright © 2026 Sunqu Journeys. Tutti i diritti riservati</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferenze sui cookie</button>
+							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Progettato da Wuality (si apre in una nuova scheda)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Progettato da<img src="/assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
+							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro dei reclami</a>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</x-dc>
+		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, barOn: false, nav: null, hero: 0, reel: false, reelIdx: 0, reelTick: 0, day: 0, altIdx: 0, chartW: 0, chartIn: false, lb: -1, sent: false, sentFav: 0, fav: {}, attachFav: true, concept: 'todo' };
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  stripRef = React.createRef();
+  chartRef = React.createRef();
+  NAV = [['descubre', 'Il viaggio'], ['vive', 'Giorno per giorno'], ['conecta', 'Padroni di casa'], ['recuerda', 'Cosa è incluso']];
+  PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
+  U = (id, w = 1800) => SunquContent.img(id, w, 72);
+  S = (id, ws) => SunquContent.srcset(id, ws, 72);
+  PRINCIPLES = SunquView.PRINCIPLES;
+  HOSTS = SunquView.HOSTS;
+  J = SunquView.J;
+  ORDER = SunquView.ORDER;
+  // Consejos, notas y temporada por journey. months: 0 lluvias · 1 buena · 2 ideal (ene → dic)
+  PLAN = SunquView.PLAN;
+  MONTHS = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+  GAL = SunquView.GAL;
+  // Etapa de cada día: data-s (colores) usa la clave; el texto se muestra traducido
+  ETAPA = { DESCUBRE: 'Scopri', CONECTA: 'Incontra', VIVE: 'Vivi', RECUERDA: 'Ricorda' };
+  jid = (() => { const q = SunquContent.param('j'); return this.J[q] ? q : this.J.alma ? 'alma' : this.ORDER[0]; })();
+
+  lock() { document.body.style.overflow = (this.state.menuOpen || this.state.reel || this.state.lb >= 0) ? 'hidden' : ''; }
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  openReel(i) { this.setState({ reel: true, reelIdx: i || 0, reelTick: Date.now() }, () => this.lock()); }
+  closeReel() { this.setState({ reel: false }, () => this.lock()); }
+  stepReel(d) { const n = this.J[this.jid].slides.length; this.setState((s) => ({ reelIdx: (s.reelIdx + d + n) % n, reelTick: Date.now() })); }
+  openLb(i) { this.setState({ lb: i }, () => this.lock()); }
+  closeLb() { this.setState({ lb: -1 }, () => this.lock()); }
+  stepLb(d) { const n = this.GAL.length; this.setState((s) => ({ lb: (s.lb + d + n) % n })); }
+  scrollTrack(ref, dir) { const t = ref.current; if (!t) return; const c = t.firstElementChild; t.scrollBy({ left: dir * (c ? c.getBoundingClientRect().width + 24 : 320), behavior: 'smooth' }); }
+
+  // Guardados (localStorage 'sunqu-fav', los crea Descubre) que se pueden adjuntar al formulario.
+  readFav() {
+    try { const f = JSON.parse(window.localStorage.getItem('sunqu-fav') || '{}'); return f && typeof f === 'object' ? f : {}; } catch (e) { return {}; }
+  }
+  attachVals(exploreHref) {
+    const st = this.state;
+    const items = Object.entries(st.fav || {}).map(([key, v]) => {
+      const k = key.indexOf('j-') === 0 ? 'Journey' : 'Esperienza';
+      return { t: v && typeof v === 'object' && v.t ? v.t : (k === 'Journey' ? 'Journey salvato' : 'Esperienza salvata'), k };
+    });
+    const n = items.length, on = n > 0 && st.attachFav !== false;
+    const what = n === 1 ? 'il tuo preferito' : `i tuoi ${n} preferiti`;
+    return {
+      cls: n === 0 ? 'is-none' : on ? 'is-on' : '', on, none: n === 0, some: n > 0,
+      count: String(n), nCls: n ? '' : 'is-zero', items, exploreHref,
+      toggle: (e) => this.setState({ attachFav: e.target.checked }),
+      desc: on ? `Il tuo Travel Advisor riceverà ${what} insieme a questa richiesta.` : 'I tuoi preferiti non verranno inviati con questa richiesta.',
+      value: on ? items.map((it) => `${it.k}: ${it.t}`).join(' | ') : '',
+    };
+  }
+  componentDidMount() {
+    this.setState({ fav: this.readFav() });
+    this.onStorage = (e) => { if (e.key === 'sunqu-fav') this.setState({ fav: this.readFav() }); };
+    window.addEventListener('storage', this.onStorage);
+    const j = this.J[this.jid];
+    this.pageTitle = SunquContent.titulo(j.title + ' — Sunqu Journeys');
+    document.title = this.pageTitle;
+    SunquContent.medir('view_experience', { experience_id: this.jid, experience_name: j.title });
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (!this.motion) this.setState({ chartIn: true });
+    this.ht = setInterval(() => this.setState((s) => ({ hero: (s.hero + 1) % j.slides.length })), 5200);
+    this.heroAll = () => setTimeout(() => this.setState({ heroAll: true }), 300);
+    if (document.readyState === 'complete') this.heroAll(); else window.addEventListener('load', this.heroAll, { once: true });
+    this.rt = setInterval(() => { if (this.state.reel && Date.now() - this.state.reelTick > 4400) this.stepReel(1); }, 250);
+    this.onKey = (e) => {
+      if (e.key === 'Escape') { if (this.state.lb >= 0) this.closeLb(); else if (this.state.reel) this.closeReel(); else if (this.state.menuOpen) this.setMenu(false); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const d = e.key === 'ArrowRight' ? 1 : -1; if (this.state.lb >= 0) this.stepLb(d); else if (this.state.reel) this.stepReel(d); }
+    };
+    this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    this.watchChart = () => {
+      if (this.ro || !window.ResizeObserver || !this.chartRef.current) return;
+      this.ro = new ResizeObserver((es) => { const w = Math.round(es[0].contentRect.width); if (w && w !== this.state.chartW) this.setState({ chartW: w }); });
+      this.ro.observe(this.chartRef.current);
+    };
+    this.watchChart();
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0), ease = 'cubic-bezier(.2,.7,.1,1)';
+          el.style.opacity = 0; el.style.transform = 'translateY(32px)';
+          el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => { this.observe(); this.watchChart(); });
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (document.title !== this.pageTitle) document.title = this.pageTitle;
+      const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      let bg = 'light';
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) bg = s.getAttribute('data-bg'); });
+      if (bg !== this.state.bg) this.setState({ bg, dark: bg === 'dark' });
+      const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
+      const cta = document.getElementById('reservar');
+      const barOn = y > vh * 0.7 && !(cta && cta.getBoundingClientRect().top < vh * 0.9);
+      if (barOn !== this.state.barOn) this.setState({ barOn });
+      let nav = null;
+      this.NAV.forEach(([id]) => { const s = document.getElementById(id); if (!s) return; const r = s.getBoundingClientRect(); if (r.top < vh * 0.45 && r.bottom > vh * 0.45) nav = id; });
+      if (nav !== this.state.nav) this.setState({ nav });
+      document.querySelectorAll('[data-expand]').forEach((sec) => {
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)));
+        const m = sec.querySelector('[data-expand-media]'), t = sec.querySelector('[data-expand-text]'), k = sec.querySelector('[data-expand-kicker]');
+        const e = this.motion ? 1 - Math.pow(1 - Math.min(1, p / 0.7), 3) : 1;
+        if (m) { m.style.clipPath = `inset(${(1 - e) * 22}% ${(1 - e) * 30}% round ${(1 - e) * 28}px)`; if (m.firstElementChild) m.firstElementChild.style.transform = `scale(${1.25 - e * 0.25})`; }
+        if (k) k.style.opacity = Math.max(0, 1 - e * 1.6);
+        if (t) {
+          const q = this.motion ? Math.min(1, Math.max(0, (p - 0.5) / 0.3)) : 1;
+          t.style.opacity = Math.min(1, q * 1.4); t.style.transform = `translateY(${(1 - q) * 40}px)`;
+          t.querySelectorAll('li').forEach((li, i) => { const qq = Math.min(1, Math.max(0, (q - 0.25 - i * 0.12) / 0.4)); li.style.opacity = qq; li.style.transform = `translateY(${(1 - qq) * 14}px)`; });
+        }
+      });
+      document.querySelectorAll('[data-hscroll]').forEach((sec) => {
+        const tr = sec.querySelector('[data-htrack]'); if (!tr) return;
+        const dist = Math.max(0, tr.scrollWidth - window.innerWidth);
+        const want = (dist + vh) + 'px'; if (sec.style.height !== want) sec.style.height = want;
+        const r = sec.getBoundingClientRect(); const p = Math.min(1, Math.max(0, -r.top / Math.max(1, dist)));
+        tr.style.transform = `translate3d(${-p * dist}px,0,0)`;
+        const bar = sec.querySelector('[data-hbar]'); if (bar) bar.style.transform = `scaleX(${p})`;
+      });
+      if (!this.state.chartIn && this.chartRef.current) { const cr = this.chartRef.current.getBoundingClientRect(); if (cr.top < vh * 0.85 && cr.bottom > 0) this.setState({ chartIn: true }); }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearInterval(this.ht); clearInterval(this.rt);
+    window.removeEventListener('storage', this.onStorage);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect(); this.ro && this.ro.disconnect();
+    document.body.style.overflow = '';
+  }
+
+  renderVals() {
+    const U = this.U, st = this.state, dark = st.dark, id = this.jid, J = this.J[id];
+    const fmt = (m) => String(m).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' m';
+    const P = this.PRINCIPLES[J.how];
+    const hi = st.hero % J.slides.length, ri = st.reelIdx % J.slides.length;
+    const D = J.itin || [];
+    const na = D.length;
+    const W = Math.max(200, st.chartW || 900), small = W < 560;
+    const H = small ? Math.round(Math.max(260, Math.min(340, W * 0.9))) : Math.round(Math.min(400, Math.max(280, W * 0.3)));
+    const padX = small ? 20 : 44, padT = 56, padB = 10;
+    const top = Math.max(4200, ...D.map((d) => d.m + 200)); const yOf = (m) => +(padT + (1 - m / top) * (H - padT - padB)).toFixed(1);
+    const xOf = (i) => +(padX + i * (W - 2 * padX) / Math.max(1, na - 1)).toFixed(1);
+    const ai = Math.min(Math.max(0, na - 1), Math.max(0, st.altIdx));
+    const pts = D.map((d, i) => [xOf(i), yOf(d.m)]);
+    const pick = (i) => { if (i !== this.state.altIdx || i !== this.state.day) this.setState({ altIdx: i, day: i }); };
+    const alt = na ? {
+      w: W, h: H, vb: `0 0 ${W} ${H}`, y4000: yOf(4000), y2000: yOf(2000), yBase: yOf(0), yTh: yOf(3400),
+      line: pts.map((q) => q.join(',')).join(' '), area: `${pts[0][0]},${yOf(0)} ` + pts.map((q) => q.join(',')).join(' ') + ` ${pts[na - 1][0]},${yOf(0)}`,
+      gx: pts[ai][0], gy: pts[ai][1], clip: st.chartIn ? '0%' : '100%',
+      tipX: pts[ai][0], tipY: pts[ai][1], tipTx: ai === 0 ? '-14px' : ai === na - 1 ? 'calc(-100% + 14px)' : '-50%', selM: fmt(D[ai].m),
+      selD: 'Giorno ' + (ai + 1), selTitle: D[ai].t, selBody: D[ai].body, selStage: D[ai].stage, selStageLabel: this.ETAPA[D[ai].stage] || D[ai].stage,
+      prev: () => { const i = (ai - 1 + na) % na; this.setState({ altIdx: i, day: i }); }, next: () => { const i = (ai + 1) % na; this.setState({ altIdx: i, day: i }); },
+      pts: D.map((d, i) => ({ x: pts[i][0], y: pts[i][1], d: small && na > 9 && i % 2 && i !== ai ? '' : 'D' + (i + 1), on: i === ai ? 'true' : 'false', label: `Giorno ${i + 1}, ${d.t}, ${fmt(d.m)}`, pick: () => pick(i) })),
+      move: (e) => { const r = e.currentTarget.getBoundingClientRect(); const x = e.clientX - r.left; let best = 0, bd = Infinity; pts.forEach((q, i) => { const dd = Math.abs(q[0] - x); if (dd < bd) { bd = dd; best = i; } }); pick(best); },
+    } : {};
+    const waHref = SunquView.site.waLink('Ciao Sunqu, vorrei sapere di più sul journey ' + J.title);
+    const card = (k) => { const c = this.J[k]; return { href: 'journey.html?j=' + k, img: U(c.card, 1400), srcset: this.S(c.card, [480, 720, 960, 1400]), ph: c.title, alt: c.alt, days: c.days, region: c.region, title: c.title, why: c.why, price: c.price }; };
+    const PL = this.PLAN[id], LV = ['Stagione delle piogge', 'Buona', 'Ideale'];
+    const season = { ...PL.season, label: 'Periodo migliore: ' + PL.season.cal.toLowerCase(), months: PL.season.months.map((l, i) => ({ m: this.MONTHS[i][0], level: String(l), tip: `${this.MONTHS[i]} · ${LV[l]}` })) };
+    const others = this.ORDER.filter((k) => k !== id && (st.concept === 'todo' || this.J[k].c.includes(st.concept))).map(card);
+    return {
+      sending: !!this.state.sending, sendError: this.state.sendError || '',
+      site: SunquView.site,
+      j: {
+        ...J, hasSub: !!J.sub, hasAyniNote: !!J.ayniNote,
+        how: { ...P, photo: U(P.photo, 700), photoSet: this.S(P.photo, [320, 700]), name: J.how === 'or' ? 'Dal piatto finito all\'origine dell\'ingrediente' : `${J.how} — ${P.title}`, text: J.howText },
+      },
+      wrapCls: st.barOn ? 'jr-has-bar' : '',
+      pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
+      headerCls: st.scrolled ? 'is-scrolled' : '',
+      navFg: dark ? '#e9eef1' : '#1c1c1c',
+      navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
+      navLinks: this.NAV.map(([k, label]) => ({ href: this.PAGES[k] || '#' + k, label, current: !this.PAGES[k] && st.nav === k ? 'true' : 'false' })),
+      menuLinks: [['descubre.html', 'Viaggi'], ['index.html#conecta', 'Padroni di casa'], ['index.html#vive', 'L\'esperienza'], ['recuerda.html', 'Recensioni']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
+      menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef, stripRef: this.stripRef, chartRef: this.chartRef,
+      toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
+      waCls: st.waOn ? 'is-on' : '', barCls: st.barOn ? 'is-on' : '', waHref,
+      heroSlides: J.slides.map(([sid], i) => ({ src: i === 0 || st.heroAll || st.reel ? U(sid, 2200) : '', srcset: i === 0 || st.heroAll || st.reel ? this.S(sid, [640, 960, 1280, 1600, 2200]) : '', fp: i === 0 ? 'high' : 'low', op: i === hi ? 1 : 0, sc: i === hi ? 1.1 : 1, bar: i === hi ? '#e9eef1' : 'rgba(233,238,241,.3)' })),
+      heroCaption: J.slides[hi][1],
+      openReel: () => this.openReel(hi), closeReel: () => this.closeReel(), reelPrev: () => this.stepReel(-1), reelNext: () => this.stepReel(1),
+      reelCls: st.reel ? 'is-open' : '', reelTitle: J.slides[ri][1],
+      reelSlides: J.slides.map(([sid, cap], i) => ({ src: st.heroAll || st.reel ? U(sid, 2200) : '', srcset: st.heroAll || st.reel ? this.S(sid, [640, 960, 1280, 1600, 2200]) : '', alt: cap, op: i === ri ? 1 : 0, sc: i === ri && st.reel ? 1.08 : 1, fill: st.reel && i <= ri ? 1 : 0, tr: i === ri && st.reel ? 'transform 4.4s linear' : 'none' })),
+      conditions: [
+        { title: 'Ha un nome', icon: '/assets/diamond-orange.png' },
+        { title: 'Fai qualcosa', icon: '/assets/diamond-yellow.png' },
+        { title: 'Esiste solo nel viaggio', icon: '/assets/diamond-lime.png' },
+        { title: 'Porti a casa qualcosa', icon: '/assets/diamond-olive.png' },
+      ],
+      hosts: J.hosts.map((k) => { const h = this.HOSTS[k]; return { ...h, img: U(h.img, 1000), srcset: this.S(h.img, [480, 720, 1000]) }; }),
+      hostsCls: J.hosts.length > 1 ? 'is-n2' : 'is-n1',
+      hasDays: na > 0, noDays: na === 0, alt,
+      days: D.map((d, i) => { const open = st.day === i; return { n: 'Giorno ' + (i + 1), title: d.t, stage: d.stage, stageLabel: this.ETAPA[d.stage] || d.stage, m: fmt(d.m), body: d.body, pid: 'jr-day-' + i, open: open ? 'true' : 'false', cls: open ? 'is-open' : '', toggle: () => this.setState((s) => (s.day === i ? { day: -1 } : { day: i, altIdx: i })) }; }),
+      phases: [
+        { kicker: 'Prima', color: '#676140', title: 'Tutto pronto prima di partire', body: 'La storia dei luoghi che conoscerai, le tue prime parole in quechua e chi ti accoglierà.', img: U('1541637593725-923467404d17', 900), srcset: this.S('1541637593725-923467404d17', [480, 720, 900]) },
+        { kicker: 'Durante', color: '#4a7300', title: 'Sempre accompagnato', body: 'Un Travel Advisor attento a te, un programma pensato per l\'altitudine e un itinerario che si adatta a come ti senti.', img: U('1593460915132-fcb729cc4597', 900), srcset: this.S('1593460915132-fcb729cc4597', [480, 720, 900]) },
+        { kicker: 'Dopo', color: '#8f6100', title: 'Il tuo diario di viaggio', body: 'Ciò che hai vissuto e i nomi di chi lo ha reso possibile, perché l\'amicizia resti viva.', img: U('1568805778734-f0a5a77d7272', 900), srcset: this.S('1568805778734-f0a5a77d7272', [480, 720, 900]) },
+      ],
+      gallery: this.GAL.map(([gid, ratio], i) => ({ src: U(gid, 900), srcset: this.S(gid, [360, 600, 900]), ratio, label: 'Ingrandisci la foto ' + (i + 1), open: () => this.openLb(i) })),
+      lbCls: st.lb >= 0 ? 'is-open' : '', lbSrc: st.lb >= 0 ? U(this.GAL[st.lb][0], 2000) : '', lbCount: st.lb >= 0 ? `Foto ${st.lb + 1} di ${this.GAL.length}` : '',
+      closeLb: () => this.closeLb(), lbPrev: () => this.stepLb(-1), lbNext: () => this.stepLb(1),
+      concepts: [['todo', 'Tutto'], ['historia', 'La storia'], ['sabor', 'Il cibo'], ['gente', 'La gente']].map(([cid, label]) => ({
+        label, bg: cid === st.concept ? '#e9eef1' : 'transparent', color: cid === st.concept ? '#1c1c1c' : '#e9eef1', pressed: cid === st.concept ? 'true' : 'false',
+        onClick: () => { this.setState({ concept: cid }); const sec = document.getElementById('otros'); sec && window.scrollTo({ top: sec.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); },
+      })),
+      tips: PL.tips.map((text) => ({ text })), access: PL.access, season,
+      others, journeyCount: String(others.length).padStart(2, '0') + ' journeys',
+      steps: [
+        { n: '01', title: 'Scegli come sentire il Perù', body: 'Ti appassionano la storia, il cibo o le persone? Raccontaci cosa ti emoziona e costruiamo il viaggio da lì, non da un catalogo.' },
+        { n: '02', title: 'Lo progettiamo con te', body: 'Un Travel Advisor costruisce il tuo viaggio su misura, con prezzi e altitudini chiari fin dal primo giorno.' },
+        { n: '03', title: 'Ti accompagniamo sempre', body: 'Prima di partire, durante ogni giornata e dopo il ritorno a casa.' },
+      ],
+      notSent: !st.sent, sent: st.sent, attach: this.attachVals('descubre.html'),
+      sentFavOn: (st.sentFav || 0) > 0, sentFavText: st.sentFav === 1 ? 'Abbiamo allegato il tuo preferito alla richiesta.' : `Abbiamo allegato i tuoi ${st.sentFav} preferiti alla richiesta.`,
+      submit: (e) => {
+        e.preventDefault();
+        const a = this.attachVals(''), datos = { ...SunquContent.datosDe(e.currentTarget), pagina: SunquContent.origen() };
+        this.setState({ sending: true, sendError: '' });
+        SunquContent.enviar('solicitud', datos).then(
+          () => this.setState({ sent: true, sending: false, sentFav: a.on ? a.items.length : 0 }),
+          () => this.setState({ sending: false, sendError: 'Non siamo riusciti a inviare la tua richiesta. Riprova o scrivici su WhatsApp.' })
+        );
+      },
+    };
+  }
+}
+		</script>
+		<script data-foot-art>
+(function(){
+  var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n = 0, t = setInterval(function(){
+    var a = document.querySelector('.sj-foot-art');
+    if (!a && ++n < 80) return; clearInterval(t);
+    if (!a || rm || !('IntersectionObserver' in window)) return;
+    a.classList.add('is-armed');
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { a.classList.add('is-in'); io.disconnect(); } }); }, { threshold: .35 });
+    io.observe(a);
+  }, 250);
+})();
+		</script>
+	</body>
+</html>

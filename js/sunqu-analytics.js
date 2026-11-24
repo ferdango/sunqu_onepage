@@ -181,7 +181,7 @@
   var aviso = null;
   function enlaceDatos() {
     var base = (window.SunquContent && window.SunquContent.base) || '/';
-    return C.rutas === 'limpias' ? (I18N.prefijo || '') + '/terminos#datos' : base + 'terminos.html#datos';
+    return C.rutas === 'limpias' ? (I18N.prefijo || '') + '/terminos#datos' : base + (I18N.contenido ? I18N.lang + '/' : '') + 'terminos.html#datos';
   }
   function abrirAviso(desdeBoton) {
     if (!HAY || MODO !== 'banner') return;

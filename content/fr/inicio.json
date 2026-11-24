@@ -1,0 +1,401 @@
+{
+  "_info": "Colecciones de la portada (index.html). Los journeys, anfitriones y artículos del Diario salen de sus propios archivos. En WordPress: Sunqu › Inicio.",
+  "heroSlides": [
+    {
+      "img": "1590835192370-3941b97e93fd",
+      "caption": "Machu Picchu · une citadelle du XVe siècle"
+    },
+    {
+      "img": "1568805778796-96b66708d6e0",
+      "caption": "Chinchero · des tissus teints aux plantes"
+    },
+    {
+      "img": "1535399831218-d5bd36d1a6b3",
+      "caption": "Lima · le ceviche, patrimoine de l'UNESCO"
+    },
+    {
+      "img": "1532996152552-eaffc4edfc1a",
+      "caption": "Machu Picchu · l'une des sept nouvelles merveilles"
+    }
+  ],
+  "principios": [
+    {
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "n": "01",
+      "layer": "Nous choisissons",
+      "title": "Peu de choses, bien choisies",
+      "q": "Nous ne remplissons pas vos journées de visites. Nous choisissons ce qui vaut vraiment votre temps.",
+      "icon": "/assets/diamond-orange.png",
+      "photo": "1567597243073-2d274aabecec"
+    },
+    {
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "n": "02",
+      "layer": "Nous racontons",
+      "title": "Nous vous racontons l'histoire",
+      "q": "Derrière chaque pierre, chaque plat et chaque tissage, il y a une histoire. Nous vous la racontons.",
+      "icon": "/assets/diamond-yellow.png",
+      "photo": "1568805647297-df963b524678"
+    },
+    {
+      "bg": "#f4a700",
+      "fg": "#1c1c1c",
+      "n": "03",
+      "layer": "Nous relions",
+      "title": "Nous vous présentons ses habitants",
+      "q": "Derrière chaque expérience, il y a une personne qui a un nom.",
+      "icon": "/assets/diamond-teal.png",
+      "photo": "1566793772361-1d5d9cefbd12"
+    },
+    {
+      "bg": "#df5f0c",
+      "fg": "#1c1c1c",
+      "n": "04",
+      "layer": "Vous participez",
+      "title": "Vous participez, vous ne faites pas que regarder",
+      "q": "Vous goûtez, vous posez des questions, vous participez. Vous le vivez de vos propres mains, pas depuis la fenêtre d'un bus.",
+      "icon": "/assets/diamond-lime.png",
+      "photo": "1568805778796-96b66708d6e0"
+    },
+    {
+      "bg": "#736d47",
+      "fg": "#ffffff",
+      "n": "05",
+      "layer": "Sur mesure",
+      "title": "Nous le construisons pour vous",
+      "q": "Votre rythme, vos goûts et vos dates. Chaque voyage s'adapte à vous.",
+      "icon": "/assets/diamond-olive.png",
+      "photo": "1526697675318-89790adec369"
+    },
+    {
+      "bg": "#48725E",
+      "fg": "#e9eef1",
+      "n": "06",
+      "layer": "Nous vous accompagnons",
+      "title": "Avant, pendant et après",
+      "q": "Nous sommes avec vous du moment où vous rêvez du voyage jusqu'à votre retour à la maison.",
+      "icon": "/assets/diamond-teal.png",
+      "photo": "1730423284218-a8a7e9422ebf"
+    }
+  ],
+  "formas": [
+    {
+      "title": "Sunqu Journeys",
+      "sub": "Des voyages de 9 à 14 jours sur la côte, dans les Andes et en Amazonie",
+      "img": "1567597243073-2d274aabecec",
+      "href": "descubre.html",
+      "cta": "Voir les journeys"
+    },
+    {
+      "title": "Sunqu Private",
+      "sub": "Votre voyage, conçu sur mesure",
+      "img": "1526697675318-89790adec369",
+      "href": "#contacto",
+      "cta": "Créer mon voyage"
+    },
+    {
+      "title": "Sunqu Collective",
+      "sub": "Les tisserandes, cuisinières, guides et familles qui vous accueillent",
+      "img": "1730424508745-29ea708ae698",
+      "href": "#conecta",
+      "cta": "Rencontrer les hôtes"
+    },
+    {
+      "title": "Sunqu Marketplace",
+      "sub": "Des souvenirs qui ont un nom",
+      "img": "1568805647297-df963b524678",
+      "href": "recuerda.html#tienda",
+      "cta": "Aller à la boutique"
+    }
+  ],
+  "condiciones": [
+    {
+      "n": "01",
+      "title": "Il a un nom",
+      "body": "Vous connaissez la personne et son histoire. Ce n'est jamais un spectacle pour touristes.",
+      "icon": "/assets/diamond-orange.png"
+    },
+    {
+      "n": "02",
+      "title": "Vous faites quelque chose",
+      "body": "Vous cuisinez, tissez, semez. Vous participez, vous ne faites pas que regarder.",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "n": "03",
+      "title": "Ça ne s'achète pas séparément",
+      "body": "Ce n'est sur aucun site de réservation. Vous ne le vivez que dans votre voyage.",
+      "icon": "/assets/diamond-lime.png"
+    },
+    {
+      "n": "04",
+      "title": "Vous rapportez quelque chose",
+      "body": "Une recette, une technique, un mot en quechua. Et une amitié.",
+      "icon": "/assets/diamond-olive.png"
+    }
+  ],
+  "altitud": {
+    "dias": [
+      {
+        "d": "D1",
+        "place": "Lima",
+        "short": "Lima",
+        "m": 154,
+        "status": "Niveau de la mer",
+        "body": "Vous arrivez à Lima et commencez par sa cuisine : douze bouchées péruviennes dans le centre historique."
+      },
+      {
+        "d": "D2",
+        "place": "Paracas et Huacachina",
+        "short": "Ica",
+        "m": 406,
+        "status": "Désert",
+        "body": "Les îles Ballestas le matin, un vignoble de pisco à midi et les dunes de Huacachina au coucher du soleil."
+      },
+      {
+        "d": "D3",
+        "place": "Arequipa",
+        "short": "Arequipa",
+        "m": 2335,
+        "status": "Première marche",
+        "body": "Vous prenez l'avion pour la Ville blanche. À 2 335 m, votre corps commence à découvrir l'altitude, sans effort."
+      },
+      {
+        "d": "D4",
+        "place": "Canyon du Colca",
+        "short": "Colca",
+        "m": 3635,
+        "status": "Vous montez petit à petit",
+        "body": "Vous traversez les Andes jusqu'au Colca et terminez la journée dans des sources chaudes."
+      },
+      {
+        "d": "D5",
+        "place": "Colca et Puno",
+        "short": "Puno",
+        "m": 3827,
+        "status": "Déjà en altitude",
+        "body": "Vous voyez voler le condor des Andes et continuez vers Puno, au bord du Titicaca."
+      },
+      {
+        "d": "D6",
+        "place": "Lac Titicaca",
+        "short": "Amantaní",
+        "m": 3850,
+        "status": "Une nuit sur le lac",
+        "body": "Les îles des Uros et Amantaní, où vous dînez et dormez chez une famille."
+      },
+      {
+        "d": "D7",
+        "place": "Taquile",
+        "short": "Taquile",
+        "m": 3810,
+        "status": "Acclimaté",
+        "body": "L'île de Taquile et, le soir, bus pour Cusco."
+      },
+      {
+        "d": "D8",
+        "place": "Cusco",
+        "short": "Cusco",
+        "m": 3400,
+        "status": "Vous arrivez acclimaté",
+        "body": "Vous arrivez à Cusco quand votre corps connaît déjà l'altitude. Visite privée de la capitale inca."
+      },
+      {
+        "d": "D9",
+        "place": "Vallée sacrée",
+        "short": "Vallée",
+        "m": 2800,
+        "status": "Vous descendez dans la vallée",
+        "body": "Maras, Moray, Chinchero et Ollantaytambo. L'après-midi, train pour Aguas Calientes."
+      },
+      {
+        "d": "D10",
+        "place": "Machu Picchu",
+        "short": "M. Picchu",
+        "m": 2430,
+        "status": "Plus bas que Cusco",
+        "body": "Machu Picchu avec un guide privé et retour à Cusco."
+      },
+      {
+        "d": "D11",
+        "place": "Vinicunca",
+        "short": "Vinicunca",
+        "m": 5036,
+        "status": "Le point le plus haut",
+        "body": "Randonnée à la montagne aux sept couleurs, à plus de 5 000 m. Le soir, bus pour Puerto Maldonado."
+      },
+      {
+        "d": "D12",
+        "place": "Río Tambopata",
+        "short": "Amazonie",
+        "m": 200,
+        "status": "Amazonie",
+        "body": "Vous naviguez sur le río Tambopata jusqu'au lodge et sortez la nuit à la recherche de singes et de caïmans."
+      },
+      {
+        "d": "D13",
+        "place": "Tambopata",
+        "short": "Amazonie",
+        "m": 200,
+        "status": "Amazonie",
+        "body": "À l'aube, perroquets et aras à la collpa Chuncho."
+      },
+      {
+        "d": "D14",
+        "place": "Puerto Maldonado",
+        "short": "Départ",
+        "m": 183,
+        "status": "Au revoir",
+        "body": "Dernière matinée dans la forêt et retour en bateau pour votre vol."
+      }
+    ],
+    "habitual": [
+      154,
+      3400,
+      3400
+    ]
+  },
+  "ruta": [
+    {
+      "name": "Lima",
+      "alt": "0 m",
+      "lon": -77.03,
+      "lat": -12.05
+    },
+    {
+      "name": "Vallée sacrée",
+      "alt": "2 800 m",
+      "lon": -72.12,
+      "lat": -13.3
+    },
+    {
+      "name": "Moray",
+      "alt": "3 500 m",
+      "lon": -72.195,
+      "lat": -13.33
+    },
+    {
+      "name": "Machu Picchu",
+      "alt": "2 430 m",
+      "lon": -72.545,
+      "lat": -13.163
+    },
+    {
+      "name": "Cusco",
+      "alt": "3 400 m",
+      "lon": -71.97,
+      "lat": -13.53
+    },
+    {
+      "name": "Arequipa",
+      "alt": "2 335 m",
+      "lon": -71.54,
+      "lat": -16.41
+    },
+    {
+      "name": "Colca",
+      "alt": "3 600 m",
+      "lon": -71.88,
+      "lat": -15.63
+    }
+  ],
+  "fases": [
+    {
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "kicker": "Avant",
+      "title": "Tout est prêt avant le départ",
+      "body": "L'histoire des lieux que vous allez découvrir, vos premiers mots en quechua et ceux qui vont vous accueillir.",
+      "img": "/assets/pattern-pair.png",
+      "photo": "1541637593725-923467404d17"
+    },
+    {
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "kicker": "Pendant",
+      "title": "Toujours accompagné",
+      "body": "Un Travel Advisor attentif à vous, un programme pensé pour l'altitude et un itinéraire qui s'adapte à votre forme.",
+      "img": "/assets/pattern-flower.png",
+      "photo": "1593460915132-fcb729cc4597"
+    },
+    {
+      "bg": "#f4a700",
+      "fg": "#1c1c1c",
+      "kicker": "Après",
+      "title": "Votre journal de voyage",
+      "body": "Ce que vous avez vécu et les noms de ceux qui l'ont rendu possible, pour que l'amitié reste vivante.",
+      "img": "/assets/pattern-steps.png",
+      "photo": "1568805778734-f0a5a77d7272"
+    }
+  ],
+  "palabras": [
+    {
+      "word": "Sunqu",
+      "meaning": "Cœur",
+      "color": "#736d47"
+    },
+    {
+      "word": "Añay",
+      "meaning": "Merci",
+      "color": "#df5f0c"
+    },
+    {
+      "word": "Ayni",
+      "meaning": "Réciprocité",
+      "color": "#766d44"
+    }
+  ],
+  "pasos": [
+    {
+      "n": "01",
+      "title": "Choisissez comment ressentir le Pérou",
+      "body": "Vous êtes passionné d'histoire, de cuisine ou de rencontres ? Dites-nous ce qui vous fait vibrer et nous construisons le voyage à partir de là, pas d'un catalogue."
+    },
+    {
+      "n": "02",
+      "title": "Nous le concevons avec vous",
+      "body": "Un Travel Advisor construit votre voyage sur mesure, avec des prix et des altitudes clairs dès le premier jour."
+    },
+    {
+      "n": "03",
+      "title": "Nous vous accompagnons toujours",
+      "body": "Avant le départ, pendant chaque journée et après votre retour à la maison."
+    }
+  ],
+  "anfitriones": [
+    "tejedora",
+    "picantera",
+    "familia"
+  ],
+  "instagram": [
+    {
+      "img": "1526697675318-89790adec369",
+      "href": "#"
+    },
+    {
+      "img": "1568805778734-f0a5a77d7272",
+      "href": "#"
+    },
+    {
+      "img": "1535400255456-984241443b29",
+      "href": "#"
+    },
+    {
+      "img": "1578362646678-a1b282e43ff8",
+      "href": "#"
+    },
+    {
+      "img": "1730424508745-29ea708ae698",
+      "href": "#"
+    },
+    {
+      "img": "1559160671-cc23bc25eb94",
+      "href": "#"
+    }
+  ],
+  "diario": {
+    "cantidad": 3
+  }
+}

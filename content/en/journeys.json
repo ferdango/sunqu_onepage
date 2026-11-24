@@ -1,0 +1,672 @@
+{
+  "_info": "Journeys. Cada journey tiene datos base y cuatro bloques: ficha (journey.html), plan (consejos, notas y temporada), catalogo (tarjeta de descubre.html) e inicio (tarjeta de la portada). En WordPress: tipo de contenido «Journeys». principios y galeria son comunes a todas las fichas.",
+  "items": [
+    {
+      "slug": "costa-andes-amazonia",
+      "title": "The Complete Peru: coast, Andes and Amazon",
+      "c": [
+        "historia",
+        "gente"
+      ],
+      "days": "14 days",
+      "alt": "5,036 m",
+      "ficha": {
+        "momentAlt": "Tambopata jungle",
+        "sub": "From the coast to the jungle",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Arequipa",
+          "Colca",
+          "Titicaca",
+          "Cusco",
+          "Machu Picchu",
+          "Tambopata"
+        ],
+        "what": "A 14-day journey across the coast, the Andes and the Amazon: Lima, Ica, Arequipa, the Colca, Titicaca, Cusco, Machu Picchu and Tambopata.",
+        "whatLong": "Fourteen days to cross Peru's three regions: the Ica desert, the southern Andes with the Colca, Titicaca and Cusco, and the Tambopata jungle.",
+        "storyTitle": "Three regions, one trip.",
+        "story": [
+          "You go up little by little, the way it should be: you start at sea level, pass through Arequipa (2,335 m) and the Colca, and by the time you reach Cusco your body already knows the altitude. At the end, you go down to the jungle.",
+          "Along the way you spend a night in a family's home on Amantaní Island, on Lake Titicaca, and two nights in a lodge by the Tambopata River."
+        ],
+        "how": "06",
+        "howText": "We're with you before, during and after: transfers, trains, overnight buses and someone from our team available 24 hours a day, every day of the trip.",
+        "hosts": [
+          "tejedora",
+          "familia"
+        ],
+        "vivTitle": "Fourteen days, from the desert to the jungle.",
+        "vivText": "Tap each day to see what you experience and where you sleep.",
+        "chartTitle": "From sea level to 5,036 m, and back down to the jungle.",
+        "chartText": "The altitude rises in stages: Arequipa, the Colca and Titicaca, before Cusco and Vinicunca. Tap a point on the curve to see each day.",
+        "kicker": "Journey · History · People",
+        "price": "Price based on your dates",
+        "priceShort": "Based on your dates",
+        "priceKicker": "Price based on your dates",
+        "priceNote": "your Travel Advisor sends it within 48 hours",
+        "altLabel": "Maximum altitude",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazon",
+        "card": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+        "why": "For those who want to understand all of Peru: the desert, the Andes, Lake Titicaca and the jungle, in a single trip.",
+        "moment": "Your first night in the Tambopata jungle, listening to the forest after crossing all of Peru.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, bite by bite",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "We pick you up at the airport. In the afternoon you explore Lima's historic center, a UNESCO World Heritage Site, and its markets, tasting 12 Peruvian bites. To finish, a pisco sour if you feel like it."
+          },
+          {
+            "t": "From the sea to the desert",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Boat to the Ballestas Islands, home to sea lions and Humboldt penguins, passing the Candelabra, a giant drawing in the sand whose origin nobody knows for sure. Lunch at a pisco vineyard and dune buggies with sandboarding in Huacachina until sunset."
+          },
+          {
+            "t": "The White City",
+            "m": 2335,
+            "stage": "DESCUBRE",
+            "body": "Flight to Arequipa and a private tour of its colonial center, built with sillar, a white volcanic stone: that's why it's called the White City. In the background, the Misti volcano."
+          },
+          {
+            "t": "Heading to the Colca",
+            "m": 3635,
+            "stage": "CONECTA",
+            "body": "You cross the Andes to the Colca Canyon, almost twice as deep as the Grand Canyon, and end the day in hot springs. Night in Chivay."
+          },
+          {
+            "t": "The flight of the condor",
+            "m": 3827,
+            "stage": "VIVE",
+            "body": "From the Colca viewpoint you watch the Andean condor glide, with a wingspan of up to three meters. Then, the road to Puno, gateway to Titicaca."
+          },
+          {
+            "t": "A night on the lake",
+            "m": 3850,
+            "stage": "CONECTA",
+            "body": "You sail Lake Titicaca, the highest navigable lake in the world: first the floating islands of the Uros, handmade from totora reeds, then Amantaní, where you have dinner and sleep in the home of a local family."
+          },
+          {
+            "t": "Taquile and the road to Cusco",
+            "m": 3810,
+            "stage": "VIVE",
+            "body": "Taquile Island, where the men knit and the textiles are recognized by UNESCO as Intangible Cultural Heritage. At night, bus to Cusco."
+          },
+          {
+            "t": "The Inca capital",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Private tour of Cusco, capital of the Inca Empire, where you'll see Inca walls beneath colonial churches. To finish, its viewpoints."
+          },
+          {
+            "t": "The Sacred Valley",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "The Maras salt pans, worked since before the Incas; the circular terraces of Moray; the textiles of Chinchero; and Ollantaytambo, an Inca town that is still inhabited. In the afternoon, panoramic train to Aguas Calientes."
+          },
+          {
+            "t": "First the stone",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu with a private guide: the 15th-century Inca citadel, one of the New Seven Wonders of the World. Return by train and private transfer to Cusco."
+          },
+          {
+            "t": "Rainbow Mountain",
+            "m": 5036,
+            "stage": "VIVE",
+            "body": "Hike to Vinicunca, Rainbow Mountain, above 5,000 m: its stripes come from the minerals in the earth. At night, bus to Puerto Maldonado."
+          },
+          {
+            "t": "The Tambopata River",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "You sail the Tambopata River to the lodge, in one of the most biodiverse places on the planet. Guided jungle walk and a night outing to see monkeys, caimans and birds."
+          },
+          {
+            "t": "The macaw clay lick",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "At dawn, hundreds of parrots and macaws arrive at the Chuncho clay lick to eat clay. Then, lakes and jungle trails."
+          },
+          {
+            "t": "Farewell to the jungle",
+            "m": 183,
+            "stage": "RECUERDA",
+            "body": "Last morning in the jungle, boat back to Puerto Maldonado and assistance for your departure."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+            "caption": "Huacachina · sunset picnic"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_2400-scaled-r4pe9lu4wxs4ybz0uephpksidc3o1g0lffomjidhmw.jpg",
+            "caption": "Maras · Sacred Valley"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg",
+            "caption": "Tambopata · the jungle"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Domestic flights and hotels in Lima, Arequipa, Puno and Cusco are not included: your Travel Advisor quotes them separately.",
+          "Take only what you need to the jungle: the rest of your luggage is stored free of charge until you return.",
+          "You can board the train to Machu Picchu with hand luggage of up to 5 kg."
+        ],
+        "access": "There are early mornings, two overnight buses and high-altitude hikes (Vinicunca is above 5,000 m). Let us know in advance if you have any medical condition or dietary restriction.",
+        "season": {
+          "text": "The coast, the Andes and the jungle have different climates on the same day. From May to September the Andes and the Amazon are in the dry season: clear skies in the highlands and less rain in the jungle; Lima, on the other hand, wakes up gray and cool.",
+          "clima": "Desert, highlands and jungle",
+          "temp": "From 0 °C to 32 °C",
+          "cal": "From May to September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 1,
+        "kicker": "Journey · 14 days from the coast to the jungle",
+        "why": "For those who want to understand all of Peru: the desert, the Andes, Lake Titicaca and the jungle, in a single trip.",
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazon",
+        "dest": [
+          "lima",
+          "ica",
+          "arequipa",
+          "titicaca",
+          "cusco",
+          "machu",
+          "amazonia"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Price based on your dates",
+        "kw": "ballestas huacachina arequipa colca condor titicaca uros amantani taquile cusco machu picchu rainbow mountain vinicunca tambopata jungle amazon",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/2026/04/jungle-1-scaled-1.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Arequipa · Titicaca · Cusco · Amazon",
+        "price": "Price based on your dates",
+        "icon": "/assets/diamond-teal.png",
+        "ph": "Photo — Huacachina",
+        "why": "For those who want to understand all of Peru: the desert, the Andes, Lake Titicaca and the jungle, in a single trip.",
+        "moment": "Your first night in the Tambopata jungle, listening to the forest after crossing all of Peru.",
+        "img": "https://limaexperience.com/wp-content/uploads/2026/04/picnic-scaled.jpg"
+      }
+    },
+    {
+      "slug": "esencial-con-amazonia",
+      "title": "The Essential Peru, with the Amazon",
+      "c": [
+        "historia",
+        "sabor"
+      ],
+      "days": "10 days",
+      "alt": "5,036 m",
+      "ficha": {
+        "momentAlt": "Tambopata jungle",
+        "sub": "Desert, mountains and jungle",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Sacred Valley",
+          "Machu Picchu",
+          "Vinicunca",
+          "Tambopata"
+        ],
+        "what": "A 10-day journey through Lima, Ica, Cusco, Machu Picchu and the Tambopata jungle.",
+        "whatLong": "A 10-day journey with the essentials of Peru: the flavors of Lima, the Ica desert, Cusco and Machu Picchu, Rainbow Mountain and two nights in the Amazon.",
+        "storyTitle": "The essentials, unhurried.",
+        "story": [
+          "Ten days are enough for the desert, the Andes and the jungle if the order is right: first the coast, then Cusco with a free day to acclimatize, and finally the Amazon.",
+          "In Cusco and Machu Picchu you have a guide just for you; in the jungle, two nights in a lodge on the Tambopata River."
+        ],
+        "how": "02",
+        "howText": "We tell you the story: in Cusco and Machu Picchu you have a private guide so that every stone makes sense, not just a photo.",
+        "hosts": [
+          "tejedora"
+        ],
+        "vivTitle": "Ten days, from the coast to the jungle.",
+        "vivText": "Tap each day to see what you experience and where you sleep.",
+        "chartTitle": "From sea level to 5,036 m.",
+        "chartText": "You reach Cusco on the third day and have a free day before climbing Vinicunca. Tap a point on the curve to see each day.",
+        "kicker": "Journey · History · Food",
+        "price": "Price based on your dates",
+        "priceShort": "Based on your dates",
+        "priceKicker": "Price based on your dates",
+        "priceNote": "your Travel Advisor sends it within 48 hours",
+        "altLabel": "Maximum altitude",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazon",
+        "card": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+        "why": "For those with ten days who don't want to choose between Machu Picchu and the Amazon: here you get both.",
+        "moment": "Your first night at the lodge, listening to the jungle.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, bite by bite",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "We pick you up at the airport. In the afternoon you explore Lima's historic center, a UNESCO World Heritage Site, and its markets, tasting 12 Peruvian bites. To finish, a pisco sour if you feel like it."
+          },
+          {
+            "t": "From the sea to the desert",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Boat to the Ballestas Islands, home to sea lions and Humboldt penguins, passing the Candelabra, a giant drawing in the sand whose origin nobody knows for sure. Lunch at a pisco vineyard and dune buggies with sandboarding in Huacachina until sunset."
+          },
+          {
+            "t": "The Inca capital",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Flight to Cusco and a private tour of the capital of the Inca Empire, where you'll see Inca walls beneath colonial churches. To finish, its viewpoints."
+          },
+          {
+            "t": "The Sacred Valley",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "The Maras salt pans, worked since before the Incas; the circular terraces of Moray; the textiles of Chinchero; and Ollantaytambo, an Inca town that is still inhabited. In the afternoon, panoramic train to Aguas Calientes."
+          },
+          {
+            "t": "First the stone",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu with a private guide: the 15th-century Inca citadel, one of the New Seven Wonders of the World. Return by train and private transfer to Cusco."
+          },
+          {
+            "t": "A day for you",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Free day in Cusco to rest, wander or try the local food."
+          },
+          {
+            "t": "Rainbow Mountain",
+            "m": 5036,
+            "stage": "VIVE",
+            "body": "Hike to Vinicunca, Rainbow Mountain, above 5,000 m: its stripes come from the minerals in the earth. At night, bus to Puerto Maldonado."
+          },
+          {
+            "t": "The Tambopata River",
+            "m": 200,
+            "stage": "CONECTA",
+            "body": "You sail the Tambopata River to the lodge, in one of the most biodiverse places on the planet. Guided jungle walk and a night outing to see monkeys, caimans and birds."
+          },
+          {
+            "t": "The macaw clay lick",
+            "m": 200,
+            "stage": "VIVE",
+            "body": "At dawn, hundreds of parrots and macaws arrive at the Chuncho clay lick to eat clay. Then, lakes and jungle trails."
+          },
+          {
+            "t": "Farewell to the jungle",
+            "m": 183,
+            "stage": "RECUERDA",
+            "body": "Last morning in the jungle, boat back to Puerto Maldonado and assistance for your departure."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_8024-scaled-rof6spxtm9d8zssztwiwrrbu97w0gqz31pwle4nf60.jpg",
+            "caption": "Huacachina · sunset picnic"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/2A4F0E76-D246-4A02-8BFC-AA83373A5BCF-1-scaled-qwyqogdjk48v5nu25vypga2p7v5lbsk2chr1ko1214.jpg",
+            "caption": "Cusco"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/IMG_3421-scaled-rch2oirtpi6q3ad5zzwysbnabij3eenw4aonc6zx54.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-Copia-de-Copia-de-Copia-de-Copia-de-Montana-de-colores-1-scaled-r4pffaye3cv1zlekcxkotjzn1okui2jxhtj1yejrm0.jpg",
+            "caption": "Vinicunca"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+            "caption": "Tambopata · the jungle"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Domestic flights and hotels in Lima and Cusco are not included: your Travel Advisor quotes them separately.",
+          "Use the free day in Cusco to acclimatize before climbing Vinicunca.",
+          "Take only what you need to the jungle: the rest of your luggage is stored free of charge until you return."
+        ],
+        "access": "There are early mornings, an overnight bus and high-altitude hikes (Vinicunca is above 5,000 m). Let us know in advance if you have any medical condition or dietary restriction.",
+        "season": {
+          "text": "The coast, the Andes and the jungle have different climates on the same day. From May to September the Andes and the Amazon are in the dry season: clear skies in the highlands and less rain in the jungle; Lima, on the other hand, wakes up gray and cool.",
+          "clima": "Desert, highlands and jungle",
+          "temp": "From 0 °C to 32 °C",
+          "cal": "From May to September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 2,
+        "kicker": "Journey · 10 days of desert, mountains and jungle",
+        "why": "For those with ten days who don't want to choose between Machu Picchu and the Amazon: here you get both.",
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazon",
+        "dest": [
+          "lima",
+          "ica",
+          "cusco",
+          "machu",
+          "amazonia"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Price based on your dates",
+        "kw": "lima bites food ballestas vineyard pisco huacachina cusco sacred valley maras moray machu picchu rainbow mountain vinicunca tambopata jungle amazon",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Copia-de-jungle1-scaled-qwyqoffpda7ku1vfbdk2vsb8mha843gc0d3k3e2g7c.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Cusco · Machu Picchu · Amazon",
+        "price": "Price based on your dates",
+        "icon": "/assets/diamond-lime.png",
+        "ph": "Photo — Tambopata jungle",
+        "why": "For those with ten days who don't want to choose between Machu Picchu and the Amazon: here you get both.",
+        "moment": "Your first night at the lodge, listening to the jungle.",
+        "img": "https://limaexperience.com/wp-content/uploads/2024/10/Copia-de-jungle-scaled.jpg"
+      }
+    },
+    {
+      "slug": "lo-mejor-del-peru",
+      "title": "The Best of Peru in 9 days",
+      "c": [
+        "sabor",
+        "historia"
+      ],
+      "days": "9 days",
+      "alt": "5,036 m",
+      "ficha": {
+        "momentAlt": "Humantay Lake",
+        "sub": "From Lima to the Andes",
+        "route": [
+          "Lima",
+          "Paracas",
+          "Huacachina",
+          "Cusco",
+          "Sacred Valley",
+          "Machu Picchu",
+          "Humantay",
+          "Vinicunca"
+        ],
+        "what": "A 9-day journey through Lima, Ica, Cusco and Machu Picchu, with the hikes to Humantay and Vinicunca.",
+        "whatLong": "A 9-day journey with the best of the coast and the Andes: Lima, Paracas and Huacachina, Cusco, the Sacred Valley, Machu Picchu, Humantay Lake, a cooking class and Rainbow Mountain.",
+        "storyTitle": "The altitude, little by little.",
+        "story": [
+          "After Machu Picchu comes a free day in Cusco: your body gets used to the altitude before the two big hikes of the trip, Humantay and Vinicunca.",
+          "In between, a morning at the market with a chef and a class to cook a Peruvian dish with him."
+        ],
+        "how": "or",
+        "howText": "From the market to the kitchen: on day 8 you walk through a Cusco market with a chef and cook with him what you bought together.",
+        "hosts": [
+          "tejedora"
+        ],
+        "vivTitle": "Nine days, from the coast to the mountains.",
+        "vivText": "Tap each day to see what you experience and where you sleep.",
+        "chartTitle": "From sea level to 5,036 m.",
+        "chartText": "You reach Cusco on the third day and rest on the sixth before Humantay and Vinicunca. Tap a point on the curve to see each day.",
+        "kicker": "Journey · Food · History",
+        "price": "Price based on your dates",
+        "priceShort": "Based on your dates",
+        "priceKicker": "Price based on your dates",
+        "priceNote": "your Travel Advisor sends it within 48 hours",
+        "altLabel": "Maximum altitude",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "card": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+        "why": "For those who love good food and mountain walks: from Lima's bites to Humantay Lake, with Machu Picchu in between.",
+        "moment": "Reaching Humantay Lake, turquoise at the foot of the snowy peaks, and falling silent.",
+        "mp": null,
+        "itin": [
+          {
+            "t": "Lima, bite by bite",
+            "m": 154,
+            "stage": "DESCUBRE",
+            "body": "We pick you up at the airport. In the afternoon you explore Lima's historic center, a UNESCO World Heritage Site, and its markets, tasting 12 Peruvian bites. To finish, a pisco sour if you feel like it."
+          },
+          {
+            "t": "From the sea to the desert",
+            "m": 406,
+            "stage": "VIVE",
+            "body": "Boat to the Ballestas Islands, home to sea lions and Humboldt penguins, passing the Candelabra, a giant drawing in the sand whose origin nobody knows for sure. Lunch at a pisco vineyard and dune buggies with sandboarding in Huacachina until sunset."
+          },
+          {
+            "t": "The Inca capital",
+            "m": 3400,
+            "stage": "DESCUBRE",
+            "body": "Flight to Cusco and a private tour of the capital of the Inca Empire, where you'll see Inca walls beneath colonial churches. To finish, a viewpoint over the city."
+          },
+          {
+            "t": "The Sacred Valley",
+            "m": 2800,
+            "stage": "VIVE",
+            "body": "The Maras salt pans, worked since before the Incas; the circular terraces of Moray; the textiles of Chinchero; and Ollantaytambo, an Inca town that is still inhabited. In the afternoon, panoramic train to Aguas Calientes."
+          },
+          {
+            "t": "First the stone",
+            "m": 2430,
+            "stage": "VIVE",
+            "body": "Machu Picchu with a private guide: the 15th-century Inca citadel, one of the New Seven Wonders of the World. Return by train and private transfer to Cusco."
+          },
+          {
+            "t": "Rest",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "Free day in Cusco to rest, walk or try the local food."
+          },
+          {
+            "t": "Humantay Lake",
+            "m": 4200,
+            "stage": "VIVE",
+            "body": "Full-day hike to Humantay Lake, its turquoise water born from the meltwater of the Humantay glacier."
+          },
+          {
+            "t": "From the market to the kitchen",
+            "m": 3400,
+            "stage": "CONECTA",
+            "body": "You walk through a local market with a chef, among some of Peru's more than 3,000 potato varieties, and cook a traditional dish with him."
+          },
+          {
+            "t": "Rainbow Mountain",
+            "m": 5036,
+            "stage": "RECUERDA",
+            "body": "Hike to Vinicunca, Rainbow Mountain, above 5,000 m: its stripes come from the minerals in the earth. Afterwards, transfer to Cusco airport for your departure."
+          }
+        ],
+        "momentImg": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
+        "slides": [
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2026/04/oasis-huacachina-scaled.jpg",
+            "caption": "Huacachina · the oasis"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2025/09/IMG_2205-scaled.jpg",
+            "caption": "Machu Picchu"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg",
+            "caption": "Humantay Lake"
+          },
+          {
+            "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_30319-scaled.jpg",
+            "caption": "Cusco"
+          }
+        ]
+      },
+      "plan": {
+        "tips": [
+          "Domestic flights and accommodation are not included: your Travel Advisor quotes them separately.",
+          "Don't skip the free day in Cusco: on the next two days you hike above 4,000 m.",
+          "You can board the train to Machu Picchu with hand luggage of up to 5 kg."
+        ],
+        "access": "There are early mornings and two full-day hikes at altitude (Humantay and Vinicunca). Let us know in advance if you have any medical condition or dietary restriction.",
+        "season": {
+          "text": "From May to September the highlands are dry and clear, the best time for the hikes to Humantay and Vinicunca; Lima, on the other hand, wakes up gray and cool.",
+          "clima": "Gray coast, sunny highlands",
+          "temp": "From 0 °C to 22 °C",
+          "cal": "From May to September",
+          "months": [
+            0,
+            0,
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            0
+          ]
+        }
+      },
+      "catalogo": {
+        "orden": 3,
+        "kicker": "Journey · 9 days between the coast and the Andes",
+        "why": "For those who love good food and mountain walks: from Lima's bites to Humantay Lake, with Machu Picchu in between.",
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "dest": [
+          "lima",
+          "ica",
+          "cusco",
+          "machu"
+        ],
+        "dur": "journey",
+        "price": 0,
+        "priceKicker": "Price based on your dates",
+        "kw": "lima bites food ballestas vineyard pisco huacachina cusco sacred valley machu picchu humantay lake rainbow mountain vinicunca cooking class market",
+        "imagenes": [
+          "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg",
+          "https://limaexperience.com/wp-content/uploads/elementor/thumbs/Humantay-scaled-r4pe8m49p8f8p5ewmz9o2tszsozpwy2smiw6azug7c.jpg"
+        ]
+      },
+      "inicio": {
+        "region": "Lima · Ica · Cusco · Machu Picchu",
+        "price": "Price based on your dates",
+        "icon": "/assets/diamond-yellow.png",
+        "ph": "Photo — Peru",
+        "why": "For those who love good food and mountain walks: from Lima's bites to Humantay Lake, with Machu Picchu in between.",
+        "moment": "Reaching Humantay Lake, turquoise at the foot of the snowy peaks, and falling silent.",
+        "img": "https://limaexperience.com/wp-content/uploads/2025/11/IMG_22399-scaled.jpg"
+      }
+    }
+  ],
+  "principios": [
+    {
+      "id": "01",
+      "kicker": "01 · We choose",
+      "title": "Few things, well chosen",
+      "q": "We don't pack your day with visits: we choose what is truly worth your time.",
+      "bg": "#1c1c1c",
+      "fg": "#e9eef1",
+      "photo": "1567597243073-2d274aabecec"
+    },
+    {
+      "id": "02",
+      "kicker": "02 · Storytelling",
+      "title": "We tell you the story",
+      "q": "You don't just enter places: you understand what happened there and why it matters.",
+      "bg": "#83b300",
+      "fg": "#1c1c1c",
+      "photo": "1568805647297-df963b524678"
+    },
+    {
+      "id": "06",
+      "kicker": "06 · We're with you",
+      "title": "Before, during and after",
+      "q": "We're with you from the moment you dream of the trip until you're back home.",
+      "bg": "#48725E",
+      "fg": "#e9eef1",
+      "photo": "1730423284218-a8a7e9422ebf"
+    },
+    {
+      "id": "or",
+      "kicker": "How it's lived",
+      "title": "From the plate to the origin",
+      "q": "You walk through the market, learn where each ingredient comes from and cook with your own hands.",
+      "bg": "#df5f0c",
+      "fg": "#1c1c1c",
+      "photo": "1632913582499-381c7c798787"
+    }
+  ],
+  "galeria": [
+    {
+      "img": "1526697675318-89790adec369",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1568805778734-f0a5a77d7272",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1535400255456-984241443b29",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1578362646678-a1b282e43ff8",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1730424508745-29ea708ae698",
+      "ratio": "3/4"
+    },
+    {
+      "img": "1559160671-cc23bc25eb94",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1567597243073-2d274aabecec",
+      "ratio": "4/3"
+    },
+    {
+      "img": "1568805647297-df963b524678",
+      "ratio": "3/4"
+    }
+  ]
+}

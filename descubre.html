@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
-		<!-- sunqu:seo --><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
+		<!-- sunqu:seo --><meta name="description" content="Journeys de 9 a 14 días y experiencias de un día en el Perú. Elige por lo que te interesa, el destino o los días que tienes."><link rel="canonical" href="https://sunqujourneys.com/descubre.html"><link rel="alternate" hreflang="es" href="https://sunqujourneys.com/descubre.html"><link rel="alternate" hreflang="en" href="https://sunqujourneys.com/en/descubre.html"><link rel="alternate" hreflang="fr" href="https://sunqujourneys.com/fr/descubre.html"><link rel="alternate" hreflang="de" href="https://sunqujourneys.com/de/descubre.html"><link rel="alternate" hreflang="it" href="https://sunqujourneys.com/it/descubre.html"><link rel="alternate" hreflang="ru" href="https://sunqujourneys.com/ru/descubre.html"><link rel="alternate" hreflang="x-default" href="https://sunqujourneys.com/en/descubre.html"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/descubre.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-idiomas.js"></script>
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="descubre"></script>
 		<script src="js/sunqu-analytics.js" defer></script>
@@ -16,7 +17,7 @@
 		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
 		<x-dc>
 			<helmet>
-				<title>Descubre · Catálogo — Sunqu Journeys</title>
+				<title>Viajes y experiencias en el Perú — Sunqu Journeys</title>
 			</helmet>
 			<div class="jr-wrap" style="background:{{ pageBg }}">
 
@@ -101,9 +102,9 @@
 					<!-- Sección #catalogo · Encuentra tu viaje perfecto -->
 					<section id="catalogo" class="dc-hero sj-dark" data-bg="dark" aria-label="Encuentra tu viaje perfecto">
 						<div class="sj-in">
-							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Descubre · Catálogo</span>
+							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Viajes y experiencias</span>
 							<h1 class="dc-title" data-reveal="">Encuentra tu viaje perfecto<em>.</em></h1>
-							<p class="sj-lead" data-reveal="">Journeys de autor y experiencias con nombre propio. Filtra por lo que quieres sentir, el destino o el tiempo que tienes.</p>
+							<p class="sj-lead" data-reveal="">Journeys de 9 a 14 días y experiencias de un día para vivir el Perú de verdad. Elige por lo que te interesa, el destino o los días que tienes.</p>
 							<form class="dc-search" onSubmit="{{ submitSearch }}" role="search" data-reveal="" data-delay="120">
 								<label class="dc-field dc-kw">
 									<img src="assets/diamond-olive.png" alt="" class="dc-kw-iso">
@@ -122,8 +123,8 @@
 											<path d="M16 2v4M8 2v4M3 10h18"></path>
 										</svg>
 										<span class="dc-date-in">
-											<span class="dc-cap">Desde</span>
-											<input type="date" value="{{ from }}" min="{{ minDate }}" onChange="{{ setFrom }}" aria-label="Fecha de inicio">
+											<span class="dc-cap">Llegada</span>
+											<input type="date" value="{{ from }}" min="{{ minDate }}" onChange="{{ setFrom }}" aria-label="Fecha de llegada al Perú">
 										</span>
 									</label>
 									<span class="dc-sep" aria-hidden="true"></span>
@@ -133,8 +134,8 @@
 											<path d="M16 2v4M8 2v4M3 10h18"></path>
 										</svg>
 										<span class="dc-date-in">
-											<span class="dc-cap">Hasta</span>
-											<input type="date" value="{{ to }}" min="{{ minTo }}" onChange="{{ setTo }}" aria-label="Fecha de regreso">
+											<span class="dc-cap">Salida</span>
+											<input type="date" value="{{ to }}" min="{{ minTo }}" onChange="{{ setTo }}" aria-label="Fecha de salida del Perú">
 										</span>
 									</label>
 								</div>
@@ -143,9 +144,9 @@
 										<circle cx="12" cy="8" r="4"></circle>
 										<path d="M4 21a8 8 0 0 1 16 0"></path>
 									</svg>
-									<span class="dc-pax-in"><span class="dc-cap">Pasajeros</span><span class="dc-pax-v" aria-live="polite">{{ paxText }}</span></span>
-									<button type="button" class="dc-step" onClick="{{ paxDown }}" disabled="{{ paxMin }}" aria-label="Quitar un pasajero">−</button>
-									<button type="button" class="dc-step" onClick="{{ paxUp }}" disabled="{{ paxMax }}" aria-label="Añadir un pasajero">+</button>
+									<span class="dc-pax-in"><span class="dc-cap">Viajeros</span><span class="dc-pax-v" aria-live="polite">{{ paxText }}</span></span>
+									<button type="button" class="dc-step" onClick="{{ paxDown }}" disabled="{{ paxMin }}" aria-label="Quitar un viajero">−</button>
+									<button type="button" class="dc-step" onClick="{{ paxUp }}" disabled="{{ paxMax }}" aria-label="Añadir un viajero">+</button>
 								</div>
 							</form>
 						</div>
@@ -159,7 +160,7 @@
 									<button type="button" class="dc-clear {{ clearCls }}" onClick="{{ clearAll }}">Limpiar todo</button>
 								</div>
 								<div class="dc-tools">
-									<button type="button" class="dc-tbtn dc-help" onClick="{{ onbStart }}" aria-label="Cómo usar Descubre">
+									<button type="button" class="dc-tbtn dc-help" onClick="{{ onbStart }}" aria-label="Cómo usar el catálogo">
 										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.3-2.5 3.8"></path><path d="M12 17.2h.01"></path></svg>
 										<span class="dc-help-lbl">Cómo funciona</span>
 									</button>
@@ -191,7 +192,7 @@
 							<div>
 								<div class="sj-in dc-panel-in">
 									<div class="dc-group">
-										<h2 class="dc-group-t">Qué quieres sentir</h2>
+										<h2 class="dc-group-t">Qué te interesa</h2>
 										<div class="dc-pills">
 											<sc-for list="{{ pillsC }}" as="p" hint-placeholder-count="3">
 												<button type="button" class="dc-pill" onClick="{{ p.toggle }}" aria-pressed="{{ p.on }}" tabIndex="{{ panelTab }}"><img src="{{ p.icon }}" alt="">{{ p.label }}</button>
@@ -242,11 +243,11 @@
 													<div class="dc-feels">
 														<div class="dc-feel">
 															<span class="dc-feel-i"><img src="{{ j.f1i }}" alt=""></span>
-															<span><span class="dc-feel-k">Sentirás</span><span class="dc-feel-v">{{ j.f1 }}</span></span>
+															<span><span class="dc-feel-k">Tema</span><span class="dc-feel-v">{{ j.f1 }}</span></span>
 														</div>
 														<div class="dc-feel">
 															<span class="dc-feel-i"><img src="{{ j.f2i }}" alt=""></span>
-															<span><span class="dc-feel-k">Sentirás</span><span class="dc-feel-v">{{ j.f2 }}</span></span>
+															<span><span class="dc-feel-k">Tema</span><span class="dc-feel-v">{{ j.f2 }}</span></span>
 														</div>
 													</div>
 													<p class="dc-note {{ j.noteCls }}">{{ j.note }}</p>
@@ -260,7 +261,7 @@
 															<button type="button" class="dc-fav {{ j.favCls }}" onClick="{{ j.toggleFav }}" aria-pressed="{{ j.favOn }}" aria-label="{{ j.favLabel }}">
 																<img src="assets/diamond-orange.png" alt="">
 															</button>
-															<a href="{{ j.href }}" class="btn dc-go">Conocer<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
+															<a href="{{ j.href }}" class="btn dc-go">Ver detalles<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
 														</div>
 													</div>
 												</div>
@@ -298,7 +299,7 @@
 						<div class="sj-in sj-pad">
 							<div class="dc-exp-head">
 								<div>
-									<span class="sj-eyebrow" data-reveal="">Momentos que puedes sumar</span>
+									<span class="sj-eyebrow" data-reveal="">Experiencias de un día para sumar a tu viaje</span>
 									<h2 class="dc-sec-t" data-reveal=""><span class="dc-plus" aria-hidden="true">+</span>Experiencias Sunqu</h2>
 								</div>
 								<p class="dc-exp-count" aria-live="polite">{{ expCount }}</p>
@@ -364,7 +365,7 @@
 										<span class="sj-eyebrow" style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#676140">Sunqu Private · diseñamos contigo</span>
 										<div class="sj-form-row">
 											<div class="field">
-												<label for="f-name">Nombres completos</label>
+												<label for="f-name">Nombre y apellido</label>
 												<input id="f-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Tus nombres y apellidos">
 											</div>
 											<div class="field">
@@ -374,7 +375,7 @@
 										</div>
 										<div class="sj-form-row">
 											<div class="field">
-												<label for="f-tel">Celular</label>
+												<label for="f-tel">WhatsApp o celular</label>
 												<div data-sunqu-campo="celular" data-id="f-tel" data-required="1"></div>
 											</div>
 											<div class="field">
@@ -405,19 +406,19 @@
 											</div>
 										</div>
 										<div class="field">
-											<label for="f-group">Mi grupo</label>
+											<label for="f-group">Viajeros y habitaciones</label>
 											<div data-sunqu-campo="grupo" data-id="f-group"></div>
 										</div>
 										<fieldset class="field">
-											<legend class="sj-label">¿Qué quieres sentir?</legend>
+											<legend class="sj-label">¿Qué te interesa más?</legend>
 											<div class="sj-chips">
 												<label class="radio"><input type="radio" name="sentir" value="historia" defaultChecked="{{ true }}"><span class="dot"></span>La historia</label>
-												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>El sabor</label>
+												<label class="radio"><input type="radio" name="sentir" value="sabor"><span class="dot"></span>La comida</label>
 												<label class="radio"><input type="radio" name="sentir" value="gente"><span class="dot"></span>La gente</label>
 											</div>
 										</fieldset>
 										<div class="field">
-											<label for="f-msg">Cuéntanos de ti <span class="sj-optional">Opcional</span></label>
+											<label for="f-msg">Cuéntanos sobre tu viaje <span class="sj-optional">Opcional</span></label>
 											<textarea id="f-msg" name="mensaje" class="input" rows="4" placeholder="Con quién viajas, qué te mueve, qué no quieres perderte…"></textarea>
 										</div>
 										<div class="sj-attach {{ attach.cls }}">
@@ -443,15 +444,15 @@
 										</div>
 										<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
 										<div class="sj-form-foot">
-											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Diseñar mi viaje<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
-											<p class="sj-form-note">Un Travel Advisor te responde en menos de 48 horas.</p>
+											<button type="submit" class="btn btn-primary sj-submit" disabled="{{ sending }}">Enviar mi solicitud<img src="assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<p class="sj-form-note">Es gratis y sin compromiso. Un Travel Advisor te responde en menos de 48 horas.</p>
 										</div>
 									</form>
 								</sc-if>
 								<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
 									<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
 										<img src="assets/diamond-lime.png" alt="" style="width:56px">
-										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Gracias.</h3>
+										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay, gracias. Recibimos tu solicitud.</h3>
 										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Un Travel Advisor de Sunqu te escribirá en menos de 48 horas para empezar a diseñar tu viaje.</p>
 										<sc-if value="{{ sentFavOn }}" hint-placeholder-val="{{ false }}">
 											<p class="sj-attach-ok"><img src="assets/diamond-lime.png" alt="">{{ sentFavText }}</p>
@@ -550,8 +551,8 @@
 							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
 								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
 								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
-								<a href="descubre.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a>
-								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a>
+								<a href="descubre.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viajes</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reseñas y tienda</a>
 								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
 								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
@@ -631,7 +632,7 @@ class Component extends DCLogic {
   state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, q: '', from: '', to: '', pax: 2, filtersOpen: false, fc: [], fd: [], fr: [], view: 'list', favOnly: false, fav: {}, favPop: null, page: 0, sent: false, onb: false, onbStep: 0, onbFav0: 0, onbNudge: false, sentFav: 0, attachFav: true };
   burgerRef = React.createRef();
   closeRef = React.createRef();
-  NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
+  NAV = [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']];
   MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   CL = SunquView.CL;
   CI = SunquView.CI;
@@ -683,11 +684,11 @@ class Component extends DCLogic {
   // ── Onboarding: cómo buscar y cómo guardar. Se abre solo una vez por sesión (sessionStorage 'sunqu-onb-descubre');
   //    el botón «Cómo funciona» lo vuelve a abrir cuando se quiera.
   ONB = [
-    { k: 'Bienvenido a Descubre', t: 'Encuentra y guarda tu próximo viaje', p: 'Te mostramos en cinco pasos cómo buscar una experiencia, afinar los resultados y guardar lo que te gusta.' },
+    { k: 'Bienvenido al catálogo', t: 'Encuentra y guarda tu próximo viaje', p: 'Te mostramos en cinco pasos cómo buscar una experiencia, filtrar los resultados y guardar lo que te gusta.' },
     { k: 'Buscar', t: 'Escribe lo que buscas', p: 'Un lugar, una emoción o una actividad: «Cusco», «tejido», «cocina». Los journeys y experiencias se filtran mientras escribes.', target: ['.dc-kw'] },
     { k: 'Buscar', t: 'Tus fechas y tus viajeros', p: 'Con tus fechas te decimos qué journeys están en su mejor época y si te alcanzan los días. Con los viajeros calculamos el precio total.', target: ['.dc-dates', '.dc-pax'] },
-    { k: 'Afinar', t: 'Filtra por lo que quieres sentir', p: 'La historia, el sabor o la gente; también por destino y duración. Cada filtro activo aparece como etiqueta y se quita con un toque.', target: ['.dc-toolbar-in > .dc-tbtn'] },
-    { k: 'Guardar', t: 'Guarda lo que te gusta', p: 'Toca el isotipo de cualquier journey o experiencia para guardarlo; tócalo otra vez para quitarlo. Pruébalo ahora.', target: ['.dc-j .dc-fav', '.dc-fav'], try: true },
+    { k: 'Filtrar', t: 'Filtra por lo que te interesa', p: 'La historia, la comida o la gente, y también el destino y la duración. Cada filtro activo aparece como etiqueta y se quita con un toque.', target: ['.dc-toolbar-in > .dc-tbtn'] },
+    { k: 'Guardar', t: 'Guarda lo que te gusta', p: 'Toca el rombo de cualquier journey o experiencia para guardarlo. Tócalo otra vez para quitarlo. Pruébalo ahora.', target: ['.dc-j .dc-fav', '.dc-fav'], try: true },
     { k: 'Guardar', t: 'Tus guardados, siempre a mano', p: 'Aquí ves solo lo que guardaste. Y al diseñar tu viaje puedes adjuntarlos al formulario para que tu Travel Advisor los tenga en cuenta.', target: ['.dc-tools .dc-tbtn:not(.dc-help)'] },
   ];
   onbTargets(step) {
@@ -761,7 +762,7 @@ class Component extends DCLogic {
   }
 
   componentDidMount() {
-    this.pageTitle = SunquContent.titulo('Descubre · Catálogo — Sunqu Journeys');
+    this.pageTitle = SunquContent.titulo('Viajes y experiencias en el Perú — Sunqu Journeys');
     document.title = this.pageTitle;
     this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     try {
@@ -844,7 +845,7 @@ class Component extends DCLogic {
     const journeys = this.JOURNEYS.map((j) => ({ ...j, key: 'j-' + j.id, hay: [j.title, j.region, j.why, j.kicker, j.kw, ...j.c.map((c) => CL[c]), ...j.dest.map((d) => DL[d])].join(' ') })).filter(ok).map((j, i) => {
       const lv = month >= 0 ? j.months[month] : -1, mName = month >= 0 ? this.MONTHS[month] : '';
       const need = parseInt(j.days, 10);
-      const price = j.price ? 'USD ' + num(j.price) + (j.priceMax ? ' – ' + num(j.priceMax) : '') : 'A consultar';
+      const price = j.price ? 'USD ' + num(j.price) + (j.priceMax ? ' – ' + num(j.priceMax) : '') : 'Según tus fechas';
       const total = j.price ? `Para ${pax} ${paxWord}: ${j.priceMax ? '' : 'desde '}USD ${num(j.price * pax)}${j.priceMax ? ' – ' + num(j.priceMax * pax) : ''}` : 'Tu Travel Advisor te envía el precio';
       return {
         href: 'journey.html?j=' + j.id, kicker: j.kicker, title: j.title, why: j.why, region: j.region, days: j.days, altitude: j.alt,
@@ -887,7 +888,7 @@ class Component extends DCLogic {
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 0 ? 'page' : 'false' })),
-      menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      menuLinks: [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
       langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,
@@ -923,7 +924,7 @@ class Component extends DCLogic {
       prevPage: () => this.goPage(page - 1), nextPage: () => this.goPage(Math.min(nPages - 1, page + 1)),
 
       steps: [
-        { n: '01', title: 'Elige cómo sentir el Perú', body: 'La historia, el sabor o la gente. Empezamos por lo que te mueve, no por un catálogo.' },
+        { n: '01', title: 'Elige cómo sentir el Perú', body: '¿Te apasiona la historia, la comida o conocer gente? Cuéntanos qué te mueve y armamos el viaje desde ahí, no desde un catálogo.' },
         { n: '02', title: 'Diseñamos contigo', body: 'Un Travel Advisor arma tu viaje a medida, con precio y altitud claros desde el primer día.' },
         { n: '03', title: 'Te acompañamos siempre', body: 'Antes de volar, durante cada jornada y después de volver a casa.' },
       ],

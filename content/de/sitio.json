@@ -1,0 +1,111 @@
+{
+  "_info": "Ajustes globales del sitio: contacto, redes, empresa, SEO de las páginas fijas y taxonomías (conceptos, destinos, duraciones). En WordPress: Sunqu › Sitio.",
+  "contacto": {
+    "email": "hola@sunqujourneys.com",
+    "telefono": "+51 000 000 000",
+    "telefonoHref": "+51000000000",
+    "oficina": "Lima, Peru",
+    "whatsapp": "51966461384"
+  },
+  "redes": {
+    "youtube": "#",
+    "instagram": "#",
+    "facebook": "#",
+    "tiktok": "#",
+    "instagramUsuario": "@sunqujourneys"
+  },
+  "empresa": {
+    "name": "Sunqu Journeys Perú S.A.C.",
+    "ruc": "por confirmar",
+    "address": "Lima, Peru"
+  },
+  "seo": {
+    "paginas": {
+      "inicio": {
+        "title": "Sunqu Journeys — Maßgeschneiderte Reisen ins Herz Perus",
+        "description": "Peruanische Agentur für maßgeschneiderte Reisen. Erlebe die Geschichte, die Küche und die Menschen Perus mit lokalen Gastgebern und einem Travel Advisor an deiner Seite, vorher, währenddessen und danach."
+      },
+      "descubre": {
+        "title": "Entdecke Journeys und Erlebnisse in Peru — Sunqu Journeys",
+        "description": "Journeys von 9 bis 14 Tagen und Tageserlebnisse in Peru. Wähle nach deinen Interessen, nach Reiseziel oder nach der Zahl deiner Reisetage."
+      },
+      "recuerda": {
+        "title": "Erinnern · Bewertungen und Shop — Sunqu Journeys",
+        "description": "Bewertungen, Fotos und Videos von Reisenden und der Sunqu-Shop, um Peru mit dir zu tragen."
+      },
+      "diario": {
+        "title": "Sunqu-Journal: Ratgeber und Geschichten für deine Peru-Reise",
+        "description": "Ratgeber für deine Reiseplanung, die peruanische Küche und die Gemeinschaften, die dich empfangen, erzählt vom Sunqu-Team."
+      },
+      "terminos": {
+        "title": "Allgemeine Geschäftsbedingungen — Sunqu Journeys",
+        "description": "Diese Bedingungen erklären, wie du bei Sunqu buchst, wie du bezahlst, was passiert, wenn du verschieben oder stornieren musst, und wie wir deine Daten schützen."
+      },
+      "reclamaciones": {
+        "title": "Beschwerdebuch — Sunqu Journeys",
+        "description": "Wenn etwas nicht so lief, wie wir es versprochen haben, wollen wir es wissen. Virtuelles Beschwerdeformular gemäß peruanischem Gesetz Nr. 29571."
+      }
+    }
+  },
+  "conceptos": [
+    {
+      "slug": "historia",
+      "label": "Geschichte",
+      "icon": "/assets/diamond-orange.png"
+    },
+    {
+      "slug": "sabor",
+      "label": "Essen",
+      "icon": "/assets/diamond-yellow.png"
+    },
+    {
+      "slug": "gente",
+      "label": "Menschen",
+      "icon": "/assets/diamond-lime.png"
+    }
+  ],
+  "destinos": [
+    {
+      "slug": "cusco",
+      "label": "Cusco und das Heilige Tal"
+    },
+    {
+      "slug": "machu",
+      "label": "Machu Picchu"
+    },
+    {
+      "slug": "arequipa",
+      "label": "Arequipa und Colca"
+    },
+    {
+      "slug": "lima",
+      "label": "Lima"
+    },
+    {
+      "slug": "ica",
+      "label": "Ica und Paracas"
+    },
+    {
+      "slug": "titicaca",
+      "label": "Titicacasee"
+    },
+    {
+      "slug": "amazonia",
+      "label": "Amazonas · Tambopata"
+    }
+  ],
+  "duraciones": [
+    {
+      "slug": "exp",
+      "label": "Tageserlebnisse"
+    },
+    {
+      "slug": "escapada",
+      "label": "Kurzreisen · 3–4 Tage"
+    },
+    {
+      "slug": "journey",
+      "label": "Journeys · 9–14 Tage"
+    }
+  ]
+}

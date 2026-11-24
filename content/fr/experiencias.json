@@ -1,0 +1,297 @@
+{
+  "_info": "Experiencias de un día o medio día (catálogo de descubre.html). En WordPress: tipo de contenido «Experiencias». Cada experiencia tiene además su ficha (experiencia.html?e=<slug>): resumen, datos, itinerario, incluye, noIncluye, llevar, notas y galeria.",
+  "items": [
+    {
+      "slug": "lima-colonial-y-catacumbas-de-san-francisco",
+      "t": "Lima coloniale et les catacombes de San Francisco",
+      "place": "Centre historique, Lima",
+      "dest": "lima",
+      "img": "https://limaexperience.com/wp-content/uploads/2024/10/IMG_7911-1.jpg",
+      "alt": "154 m",
+      "dur": "2 heures · après-midi",
+      "c": [
+        "historia",
+        "sabor"
+      ],
+      "resumen": "En fin d'après-midi, vous parcourez à pied le centre historique de Lima : du parc de la Muralla aux catacombes sous le couvent de San Francisco, où des milliers de Liméniens furent enterrés à l'époque coloniale. Vous passez par l'ancienne gare et terminez sur la Plaza Mayor. Deux heures pour ressentir la Lima des vice-rois.",
+      "datos": [
+        [
+          "Durée",
+          "2 heures"
+        ],
+        [
+          "Horaires",
+          "De 16 h 30 à 18 h 30 (rendez-vous à 16 h 15)"
+        ],
+        [
+          "Point de rendez-vous",
+          "Parque de la Muralla, Jr. Amazonas 101, centre historique"
+        ],
+        [
+          "Langues",
+          "Espagnol et anglais"
+        ],
+        [
+          "Groupe",
+          "Petit"
+        ],
+        [
+          "Départs",
+          "Tous les jours"
+        ]
+      ],
+      "itinerario": [
+        [
+          "16 h 30",
+          "Parque de la Muralla : introduction à la culture et à la société liméniennes, face à la colline San Cristóbal."
+        ],
+        [
+          "16 h 50",
+          "Église et couvent de San Francisco : le cloître, la bibliothèque et les catacombes souterraines. Nous goûtons des churros péruviens."
+        ],
+        [
+          "17 h 40",
+          "Casa de la Literatura : l'ancienne gare, les langues originelles du Pérou et son premier chemin de fer (fermée le lundi)."
+        ],
+        [
+          "18 h 00",
+          "Plaza Mayor : histoire et architecture face au Palais du gouvernement et à la cathédrale."
+        ]
+      ],
+      "incluye": [
+        "Guide certifié anglophone",
+        "Petit groupe",
+        "Entrées"
+      ],
+      "noIncluye": [
+        "Repas",
+        "Pourboires",
+        "Assurance voyage",
+        "Prise en charge à votre hébergement (en option, payante) : Barranco 15 h 40, Miraflores 15 h 45, San Isidro 15 h 55 et centre 16 h 00."
+      ],
+      "llevar": [
+        "Veste légère",
+        "Crème solaire, lunettes de soleil et casquette",
+        "Baskets",
+        "Passeport physique, une photo nette de celui-ci ou le document avec lequel vous êtes entré au Pérou (le permis de conduire n'est pas valable)"
+      ],
+      "notas": [
+        "Ne convient pas aux fauteuils roulants ni aux poussettes.",
+        "Annulation gratuite jusqu'à 24 heures avant.",
+        "Les jours fériés, les horaires peuvent changer et certains lieux peuvent être fermés."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_64942-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_7854-1.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_6931-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_8994-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/10/IMG_3588-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/08/IMG_3638-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/a-fun-lima-city-tour-and-catacombs-all-included/"
+    },
+    {
+      "slug": "museo-larco-el-peru-antes-de-los-incas",
+      "t": "Musée Larco : le Pérou avant les Incas",
+      "place": "Pueblo Libre, Lima",
+      "dest": "lima",
+      "img": "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4267-2-scaled.jpg",
+      "alt": "154 m",
+      "dur": "1 h 15 · matin",
+      "c": [
+        "historia"
+      ],
+      "resumen": "Avant les Incas, il y a eu des milliers d'années d'histoire. Au musée Larco, une demeure du XVIIIe siècle construite sur une pyramide précolombienne, vous les découvrez avec un guide : la religion des Andes, les textiles, les rituels, l'or et la célèbre galerie érotique, le «Kamasutra andin».",
+      "datos": [
+        [
+          "Durée",
+          "1 heure 15 minutes"
+        ],
+        [
+          "Horaires",
+          "De 11 h 30 à 12 h 45 (rendez-vous à 11 h 25)"
+        ],
+        [
+          "Point de rendez-vous",
+          "Entrée principale du musée Larco"
+        ],
+        [
+          "Langues",
+          "Anglais et espagnol"
+        ],
+        [
+          "Groupe",
+          "Petit (aussi en privé)"
+        ],
+        [
+          "Départs",
+          "Tous les jours"
+        ]
+      ],
+      "itinerario": [
+        [
+          "11 h 25",
+          "Rendez-vous avec votre guide à l'entrée principale."
+        ],
+        [
+          "11 h 30",
+          "Introduction à l'histoire et à la religion des Andes et du Pérou."
+        ],
+        [
+          "12 h 15",
+          "Galerie érotique, le «Kamasutra andin» : comment pensaient les cultures anciennes."
+        ],
+        [
+          "12 h 30",
+          "Culture et textiles, sacrifice et mort dans le Pérou ancien, et la salle de l'or et des bijoux."
+        ],
+        [
+          "12 h 45",
+          "Fin de la visite."
+        ]
+      ],
+      "incluye": [
+        "Guide certifié anglophone",
+        "Entrées",
+        "Petit groupe"
+      ],
+      "noIncluye": [
+        "Repas",
+        "Pourboires",
+        "Assurance voyage",
+        "Prise en charge à votre hébergement (en option, payante) : Barranco 10 h 40, Miraflores 10 h 45, centre 10 h 50 et San Isidro 10 h 55 ; retour à 13 h 15."
+      ],
+      "llevar": [
+        "Veste légère",
+        "Baskets",
+        "Passeport physique, une photo nette de celui-ci ou le document avec lequel vous êtes entré au Pérou (le permis de conduire n'est pas valable)"
+      ],
+      "notas": [
+        "Arrivez 10 minutes avant l'heure du rendez-vous.",
+        "Le musée est ouvert tous les jours de 9 h 00 à 19 h 00.",
+        "Annulation gratuite jusqu'à 24 heures avant.",
+        "Les jours fériés, les horaires peuvent changer."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_41271-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4160-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_42239-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4218-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4521-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_4222-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/tour-museo-larco/"
+    },
+    {
+      "slug": "huacachina-vinedo-tubulares-y-picnic",
+      "t": "Huacachina : vignoble, buggys et pique-nique au coucher du soleil",
+      "place": "Paracas · Huacachina, Ica",
+      "dest": "ica",
+      "img": "https://limaexperience.com/wp-content/uploads/2024/09/oasis-huacachina-scaled.jpg",
+      "alt": "406 m",
+      "dur": "Journée complète · depuis Lima",
+      "c": [
+        "sabor",
+        "gente"
+      ],
+      "resumen": "Une journée complète depuis Lima : déjeuner au vignoble La Caravedo, à Ica, où l'on fait du pisco depuis plus de 400 ans ; l'oasis de Huacachina ; buggys et sandboard dans les dunes ; et un pique-nique pour regarder le soleil se coucher sur le désert.",
+      "datos": [
+        [
+          "Durée",
+          "Journée complète (environ 16 heures)"
+        ],
+        [
+          "Départ",
+          "Entre 6 h 20 et 6 h 45 depuis votre hébergement dans le centre, à San Isidro, Miraflores ou Barranco"
+        ],
+        [
+          "Retour",
+          "Vers 23 h 00, au même endroit"
+        ],
+        [
+          "Langue",
+          "Anglais"
+        ],
+        [
+          "Groupe",
+          "Bus de 35 places"
+        ],
+        [
+          "Départs",
+          "Tous les jours"
+        ]
+      ],
+      "itinerario": [
+        [
+          "6 h 30",
+          "Prise en charge et bus pour Paracas, environ 4 h 30 de route."
+        ],
+        [
+          "11 h 20",
+          "Paracas : votre guide vous accueille et vous continuez dans son bus."
+        ],
+        [
+          "12 h 50",
+          "Vignoble La Caravedo : visite, déjeuner et dégustation de pisco en option."
+        ],
+        [
+          "14 h 30",
+          "En route vers Huacachina."
+        ],
+        [
+          "15 h 10",
+          "Oasis de Huacachina : temps libre pour marcher et prendre des photos. Vous pouvez commander votre dîner à emporter."
+        ],
+        [
+          "16 h 00",
+          "Buggys dans les dunes pendant deux heures, avec sandboard pour glisser."
+        ],
+        [
+          "18 h 00",
+          "Pique-nique dans les dunes au coucher du soleil."
+        ],
+        [
+          "18 h 30",
+          "Retour à Lima."
+        ]
+      ],
+      "incluye": [
+        "Prise en charge et retour à votre hébergement",
+        "Bus climatisé, avec prises USB et toilettes",
+        "Guide certifié anglophone",
+        "Visite et déjeuner au vignoble (options végétariennes et véganes)",
+        "Buggys et sandboard, avec casque",
+        "Pique-nique au coucher du soleil",
+        "Entrées"
+      ],
+      "noIncluye": [
+        "Petit-déjeuner et dîner",
+        "Boissons alcoolisées après la dégustation",
+        "Pourboires"
+      ],
+      "llevar": [
+        "Passeport physique (envoyez une photo 24 heures avant)",
+        "Prendre le petit-déjeuner avant la prise en charge",
+        "Veste imperméable et coupe-vent",
+        "Crème solaire, lunettes de soleil et casquette",
+        "Pantalon confortable et baskets (pas de sandales)"
+      ],
+      "notas": [
+        "Les mineurs ont besoin de l'autorisation de leurs parents pour les buggys.",
+        "Les personnes de plus de 100 kg paient un siège supplémentaire dans le buggy ou le bus.",
+        "Les femmes enceintes ne peuvent participer qu'en circuit privé et jusqu'au quatrième mois.",
+        "Par temps nuageux, le coucher du soleil peut ne pas être visible.",
+        "Annulation gratuite jusqu'à 24 heures avant."
+      ],
+      "galeria": [
+        "https://limaexperience.com/wp-content/uploads/2024/09/OASIS-AT-NIGHT-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/caravedo-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/IMG_9115-1-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/IMG_4783-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2025/07/IMG_0214-scaled.jpg",
+        "https://limaexperience.com/wp-content/uploads/2024/09/picnic-1-scaled.jpg"
+      ],
+      "fuente": "https://limaexperience.com/product/huacachina-tour-vineyard-buggy-and-desert-picnic/"
+    }
+  ]
+}

@@ -7,6 +7,7 @@
 		<!-- sunqu:seo --><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/articulo.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-idiomas.js"></script>
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="experiencia"></script>
 		<script src="js/sunqu-analytics.js" defer></script>
@@ -32,7 +33,7 @@
 							</sc-for>
 						</ul>
 						<div class="sj-actions">
-							<a href="descubre.html" class="sj-back">Descubre</a>
+							<a href="descubre.html" class="sj-back">Volver al catálogo</a>
 							<a href="index.html#contacto" class="btn btn-primary sj-cta">Diseña tu viaje</a>
 							<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú">
 								<span></span>
@@ -266,8 +267,8 @@
 							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
 								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
 								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
-								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a>
-								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viajes</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reseñas y tienda</a>
 								<a href="blog.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
 								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
@@ -314,7 +315,7 @@ class Component extends DCLogic {
   state = { scrolled: false, dark: false, bg: 'light', menuOpen: false, waOn: false, sec: 0, url: '', copied: false };
   burgerRef = React.createRef();
   closeRef = React.createRef();
-  NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
+  NAV = [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']];
   EXPS = SunquView.EXPS || [];
   DL = SunquView.DL || {};
   U(id, w) { return SunquContent.img(id, w, 72); }
@@ -375,7 +376,7 @@ class Component extends DCLogic {
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([href, label]) => ({ href, label, current: 'false' })),
-      menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      menuLinks: [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
       langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,

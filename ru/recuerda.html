@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="description" content="Отзывы, фото и видео путешественников и магазин Sunqu, чтобы носить Перу с собой."><link rel="canonical" href="https://sunqujourneys.com/ru/recuerda.html"><link rel="alternate" hreflang="es" href="https://sunqujourneys.com/recuerda.html"><link rel="alternate" hreflang="en" href="https://sunqujourneys.com/en/recuerda.html"><link rel="alternate" hreflang="fr" href="https://sunqujourneys.com/fr/recuerda.html"><link rel="alternate" hreflang="de" href="https://sunqujourneys.com/de/recuerda.html"><link rel="alternate" hreflang="it" href="https://sunqujourneys.com/it/recuerda.html"><link rel="alternate" hreflang="ru" href="https://sunqujourneys.com/ru/recuerda.html"><link rel="alternate" hreflang="x-default" href="https://sunqujourneys.com/en/recuerda.html"><link rel="icon" href="/assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
+		<link rel="stylesheet" href="/css/recuerda.min.css">
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script>window.SUNQU_I18N_DIC={"Mi grupo": "Моя группа", "ene": "янв", "feb": "фев", "mar": "мар", "abr": "апр", "may": "мая", "jun": "июн", "jul": "июл", "ago": "авг", "sep": "сен", "oct": "окт", "nov": "ноя", "dic": "дек", "No se pudo cargar la verificación. Vuelve a intentarlo.": "Не удалось загрузить проверку. Попробуйте ещё раз.", "No pudimos verificar el envío. Vuelve a intentarlo.": "Не удалось проверить отправку. Попробуйте ещё раз.", "La verificación tardó demasiado. Vuelve a intentarlo.": "Проверка заняла слишком много времени. Попробуйте ещё раз.", "medir cómo se usa la web": "понимать, как используется сайт", "medir nuestros anuncios": "оценивать нашу рекламу", "Cookies de medición": "Аналитические cookie", "Con tu permiso usamos cookies para %s.": "С вашего разрешения мы используем cookie, чтобы %s.", "y": "и", "Nunca enviamos lo que escribes en los formularios.": "Мы никогда не отправляем то, что вы пишете в формах.", "Protección de datos": "Защита данных", "Solo necesarias": "Только необходимые", "Aceptar": "Принять", "No encontramos ese país.": "Мы не нашли такую страну.", "Busca tu país": "Найдите свою страну", "Elige un país de la lista.": "Выберите страну из списка.", "Países": "Страны", "Busca un país o un código": "Найдите страну или код", "Prefijo del país": "Код страны", "Escribe un número de celular válido.": "Введите правильный номер мобильного телефона.", "Adultos": "Взрослые", "11 años o más": "11 лет и старше", "Niños": "Дети", "De 3 a 10 años": "От 3 до 10 лет", "Bebés": "Младенцы", "De 0 a 2 años": "От 0 до 2 лет", "1 habitación": "1 номер", "{n} habitaciones": "Номеров: {n}", "1 huésped": "1 гость", "{n} huéspedes": "Гостей: {n}", "Necesito {habitaciones}, {huespedes}": "Мне нужно: {habitaciones}, {huespedes}", "Habitación {n}": "Номер {n}", "Menos {categoria} en la habitación {n}": "Меньше: {categoria}, номер {n}", "Más {categoria} en la habitación {n}": "Больше: {categoria}, номер {n}", "Quitar habitación": "Убрать номер", "Agregar habitación": "Добавить номер"};</script>
+		<script src="/js/sunqu-idiomas.js"></script>
+		<script src="/js/sunqu-config.js"></script>
+		<script src="/js/sunqu-content.js" data-page="recuerda"></script>
+		<script src="/js/sunqu-analytics.js" defer></script>
+		<script src="/js/sunqu-campos.js" defer></script>
+	</head>
+	<body>
+		<a class="sj-skip" href="#contenido">Перейти к содержимому</a>
+		<x-dc>
+			<helmet>
+				<title>Вспомнить · Отзывы и магазин — Sunqu Journeys</title>
+			</helmet>
+			<div class="jr-wrap" style="background:{{ pageBg }}">
+
+				<!-- Header -->
+				<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+					<nav class="sj-nav" aria-label="Основная навигация">
+						<a href="index.html" class="sj-logo" aria-label="Sunqu Journeys, на главную">
+							<img src="/assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}">
+							<img src="/assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}">
+						</a>
+						<ul class="sj-links">
+							<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+								<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+							</sc-for>
+						</ul>
+						<div class="sj-actions">
+							<a href="#tienda" class="sj-back">Магазин</a>
+							<a href="index.html#contacto" class="btn btn-primary sj-cta">Спланируйте поездку</a>
+							<button type="button" class="rc-bag-btn" onClick="{{ openBag }}" aria-label="{{ bagAria }}" aria-controls="rc-bag" aria-expanded="{{ bagExpanded }}">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+									<path d="M3 6h18"></path>
+									<path d="M16 10a4 4 0 0 1-8 0"></path>
+								</svg>
+								<span class="rc-bag-n {{ bagNCls }}">{{ bagN }}</span>
+							</button>
+							<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Открыть меню">
+								<span></span>
+								<span></span>
+							</button>
+						</div>
+					</nav>
+				</header>
+				<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+
+				<!-- Modal · Menú -->
+				<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Меню">
+					<div class="sj-drawer-top">
+						<img src="/assets/logo-light.png" alt="Sunqu Journeys">
+						<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Закрыть меню">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M18 6 6 18"></path>
+								<path d="m6 6 12 12"></path>
+							</svg>
+						</button>
+					</div>
+					<div>
+						<div class="sj-drawer-kicker sj-eyebrow">Путешествие в сердце Перу</div>
+
+						<!-- Menú lateral (móvil) -->
+						<nav class="sj-drawer-nav" aria-label="Главное меню">
+							<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+								<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link">
+									<span class="sj-drawer-n">{{ m.n }}</span>
+									<span>{{ m.label }}</span>
+									<img src="/assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg">
+								</a>
+							</sc-for>
+						</nav>
+					</div>
+					<div class="sj-drawer-sub">
+						<a href="index.html#sunqu" onClick="{{ closeMenu }}">О Sunqu</a>
+						<a href="index.html#formas" onClick="{{ closeMenu }}">Как путешествовать</a>
+						<a href="blog.html" onClick="{{ closeMenu }}">Журнал Sunqu</a>
+						<a href="index.html#contacto" onClick="{{ closeMenu }}">Контакты</a>
+					</div>
+					<div class="sj-drawer-foot">
+						<a href="index.html#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Спланируйте поездку</a>
+						<div class="sj-drawer-row">
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
+							<div class="sj-seg" role="group" aria-label="Язык">
+								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
+								</sc-for>
+							</div>
+						</div>
+						<div class="sj-band sj-band--light" aria-hidden="true"></div>
+					</div>
+				</aside>
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+					</svg>
+					<span class="sj-wa-label">Поговорим?</span>
+				</a>
+
+				<!-- Modal -->
+				<div class="rc-view {{ viewCls }}" role="dialog" aria-modal="true" aria-label="{{ v.aria }}" aria-hidden="{{ viewHidden }}" onClick="{{ viewBackdrop }}">
+					<div class="rc-view-in">
+						<div class="rc-stage {{ v.stageCls }}">
+							<sc-if value="{{ v.isEmbed }}">
+								<iframe src="{{ v.embed }}" title="{{ v.aria }}" allow="autoplay; encrypted-media; picture-in-picture; clipboard-write" allowFullScreen="{{ true }}" loading="lazy"></iframe>
+							</sc-if>
+							<sc-if value="{{ v.isVideo }}">
+								<video src="{{ v.video }}" poster="{{ v.poster }}" controls="{{ true }}" autoPlay="{{ true }}" playsInline="{{ true }}" loop="{{ true }}"></video>
+							</sc-if>
+							<sc-if value="{{ v.isPhoto }}">
+								<img src="{{ v.src }}" alt="{{ v.alt }}">
+								<button type="button" class="rc-nav rc-nav--prev {{ v.navCls }}" onClick="{{ v.prev }}" aria-label="Предыдущее фото">
+									<img src="/assets/diamond-olive.png" alt="" class="sj-iso sj-iso--back">
+								</button>
+								<button type="button" class="rc-nav rc-nav--next {{ v.navCls }}" onClick="{{ v.next }}" aria-label="Следующее фото">
+									<img src="/assets/diamond-olive.png" alt="" class="sj-iso">
+								</button>
+								<div class="rc-dots {{ v.navCls }}" aria-hidden="true">
+									<sc-for list="{{ v.dots }}" as="d" hint-placeholder-count="0"><span class="rc-dot {{ d.cls }}"></span></sc-for>
+								</div>
+							</sc-if>
+						</div>
+						<div class="rc-side">
+							<div class="rc-side-top">
+								<span class="rc-plat rc-p-{{ v.plat }}"><svg class="rc-i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg><svg class="rc-i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path></svg><img class="rc-i-web" src="/assets/diamond-lime.png" alt="">{{ v.platLabel }}</span>
+								<button type="button" class="rc-x" ref="{{ viewCloseRef }}" onClick="{{ closeView }}" aria-label="Закрыть">
+									<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+										<path d="M18 6 6 18"></path>
+										<path d="m6 6 12 12"></path>
+									</svg>
+								</button>
+							</div>
+							<div class="rc-who">
+								<span class="rc-av" style="background:{{ v.avBg }}" aria-hidden="true">{{ v.initial }}</span>
+								<span class="rc-who-t"><span class="rc-who-n">{{ v.name }}</span><span class="rc-who-f">{{ v.from }}</span></span>
+							</div>
+							<p class="rc-text">{{ v.caption }}</p>
+							<div class="rc-foot">
+								<span class="rc-topic">{{ v.topicLabel }}</span>
+								<span class="rc-likes {{ v.likesCls }}"><img src="/assets/diamond-orange.png" alt="">{{ v.likes }}</span>
+							</div>
+							<a class="rc-side-link {{ v.linkCls }}" href="{{ v.url }}" target="_blank" rel="noopener">{{ v.linkLabel }}<img src="/assets/diamond-yellow.png" alt="" class="sj-iso"></a>
+							<span class="rc-flag {{ v.flagCls }}">{{ v.flag }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="rc-scrim {{ bagCls }}" onClick="{{ closeBag }}" aria-hidden="true"></div>
+
+				<!-- Modal · Tu bolsa -->
+				<aside id="rc-bag" class="rc-bag {{ bagCls }}" role="dialog" aria-modal="true" aria-label="Ваша сумка" aria-hidden="{{ bagHidden }}">
+					<div class="rc-bag-top">
+						<h2>Ваша сумка <span style="color:#676140">{{ bagCountLabel }}</span></h2>
+						<button type="button" class="rc-x" ref="{{ bagCloseRef }}" onClick="{{ closeBag }}" aria-label="Закрыть сумку">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+								<path d="M18 6 6 18"></path>
+								<path d="m6 6 12 12"></path>
+							</svg>
+						</button>
+					</div>
+					<sc-if value="{{ bagEmpty }}" hint-placeholder-val="{{ true }}">
+						<div class="rc-bag-empty">
+							<img src="/assets/pattern-pair.png" alt="" style="width:64px">
+							<p>Ваша сумка пуста. Выберите что-нибудь из мерча Sunqu, чтобы носить Перу с собой.</p>
+							<a href="#tienda" class="btn btn-primary" onClick="{{ closeBag }}">Смотреть магазин<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></a>
+						</div>
+					</sc-if>
+					<ul class="rc-bag-list">
+						<sc-for list="{{ bag }}" as="l" hint-placeholder-count="0">
+							<li class="rc-line">
+								<img src="{{ l.img }}" alt="">
+								<div>
+									<span class="rc-line-n">{{ l.name }}</span>
+									<span class="rc-line-s">{{ l.meta }}</span>
+									<span class="rc-line-q">
+										<button type="button" class="rc-q" onClick="{{ l.dec }}" aria-label="{{ l.decAria }}">−</button>
+										<span aria-live="polite">{{ l.qty }}</span>
+										<button type="button" class="rc-q" onClick="{{ l.inc }}" aria-label="{{ l.incAria }}">+</button>
+									</span>
+								</div>
+								<div><span class="rc-line-p">{{ l.total }}</span><button type="button" class="rc-rm" onClick="{{ l.remove }}">Удалить</button></div>
+							</li>
+						</sc-for>
+					</ul>
+					<div class="rc-bag-foot {{ bagFootCls }}">
+						<div class="rc-total"><span>Промежуточный итог</span><b>{{ bagTotal }}</b></div>
+						<p class="rc-bag-note">Мы напишем вам в WhatsApp, чтобы уточнить размеры, оплату и доставку: во время поездки, в отель или почтой.</p>
+						<a class="btn rc-wa-buy" href="{{ bagWaHref }}" data-track="bolsa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm5.8 14.13c-.25.69-1.44 1.33-2.01 1.41-.51.08-1.16.11-1.87-.12-.43-.14-.99-.32-1.7-.62-2.98-1.29-4.93-4.29-5.08-4.49-.15-.2-1.21-1.61-1.21-3.07s.77-2.18 1.04-2.48c.27-.3.6-.37.79-.37h.57c.18.01.43-.07.67.51.25.59.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.77 1.27 1.65 2.06 1.13 1.01 2.09 1.32 2.39 1.47.3.15.47.12.64-.07.17-.2.74-.87.94-1.16.2-.3.4-.25.67-.15.27.1 1.74.82 2.04.97.3.15.5.22.57.35.07.12.07.72-.18 1.41Z"></path></svg>Купить через WhatsApp</a>
+					</div>
+				</aside>
+
+				<!-- Contenido principal -->
+				<main id="contenido" tabIndex="-1">
+
+					<!-- Sección #resenas · Reseñas de viajeros -->
+					<section id="resenas" class="rc-hero sj-dark" data-bg="dark" aria-label="Отзывы путешественников">
+						<div class="sj-in">
+							<span class="sj-eyebrow" data-reveal="" style="color:#f4a700">Вспомнить · Отзывы и магазин</span>
+							<h1 class="rc-title" data-reveal="">Что вы увозите из Перу<em>.</em></h1>
+							<div class="rc-hero-row">
+								<p class="sj-lead" data-reveal="">Видео, фото и комментарии путешественников, которые прожили Journey, купили сувенир с именем мастера или увезли мерч Sunqu.</p>
+								<div class="rc-stats" data-reveal="" data-delay="120">
+									<div>
+										<span class="rc-stat-v">{{ avg }}<span class="rc-stat-s" aria-hidden="true">★</span></span>
+										<span class="rc-stat-k">Комментарии: {{ nComments }}</span>
+									</div>
+									<div><span class="rc-stat-v">{{ nVideos }}</span><span class="rc-stat-k">Видео</span></div>
+									<div><span class="rc-stat-v">{{ nPhotos }}</span><span class="rc-stat-k">Фото</span></div>
+								</div>
+							</div>
+						</div>
+						<div class="rc-bar">
+							<div class="sj-in rc-bar-in">
+								<div class="rc-tabs" role="group" aria-label="Тип отзыва">
+									<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+										<button type="button" class="rc-tab" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}">{{ t.label }}<span class="rc-tab-n">{{ t.n }}</span></button>
+									</sc-for>
+								</div>
+								<div class="rc-topics" role="group" aria-label="Что они увезли">
+									<sc-for list="{{ topics }}" as="t" hint-placeholder-count="3">
+										<button type="button" class="rc-topic-b" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}"><img src="{{ t.icon }}" alt="">{{ t.label }}</button>
+									</sc-for>
+								</div>
+							</div>
+						</div>
+						<div class="sj-in">
+							<div class="rc-wall">
+								<sc-for list="{{ wall }}" as="r" hint-placeholder-count="12">
+									<article class="rc-card rc-k-{{ r.kind }} {{ r.playCls }}" data-reveal="">
+										<sc-if value="{{ r.isVideo }}">
+											<button type="button" class="rc-media rc-media--video" onClick="{{ r.open }}" onMouseEnter="{{ r.hoverIn }}" onMouseLeave="{{ r.hoverOut }}" aria-label="{{ r.aria }}">
+												<img src="{{ r.poster }}" srcSet="{{ r.posterSet }}" sizes="(max-width: 767px) 45vw, 350px" class="{{ r.posterCls }}" alt="" loading="lazy" decoding="async">
+												<sc-if value="{{ r.hasPreview }}">
+													<video src="{{ r.video }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="none" aria-hidden="true"></video>
+												</sc-if>
+												<span class="rc-plat rc-p-{{ r.plat }}"><svg class="rc-i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg><svg class="rc-i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path></svg><img class="rc-i-web" src="/assets/diamond-lime.png" alt="">{{ r.platLabel }}</span>
+												<span class="rc-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.8v14.4L19 12z"></path></svg></span>
+												<span class="rc-dur">{{ r.dur }}</span>
+											</button>
+										</sc-if>
+										<sc-if value="{{ r.isPhoto }}">
+											<button type="button" class="rc-media rc-media--photo" onClick="{{ r.open }}" aria-label="{{ r.aria }}">
+												<img src="{{ r.cover }}" srcSet="{{ r.coverSet }}" sizes="(max-width: 767px) 45vw, 350px" class="{{ r.coverCls }}" alt="" loading="lazy" decoding="async">
+												<span class="rc-plat rc-p-{{ r.plat }}"><svg class="rc-i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg><svg class="rc-i-tt" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path></svg><img class="rc-i-web" src="/assets/diamond-lime.png" alt="">{{ r.platLabel }}</span>
+												<span class="rc-count {{ r.countCls }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M4 16V5a1 1 0 0 1 1-1h11"></path></svg>{{ r.countLabel }}</span>
+											</button>
+										</sc-if>
+										<div class="rc-body">
+											<sc-if value="{{ r.hasStars }}">
+												<div class="rc-stars" role="img" aria-label="{{ r.starsLabel }}"><span>{{ r.starsOn }}</span><span class="rc-stars-off">{{ r.starsOff }}</span></div>
+											</sc-if>
+											<p class="rc-text">{{ r.caption }}</p>
+											<sc-if value="{{ r.hasThumbs }}">
+												<div class="rc-thumbs">
+													<sc-for list="{{ r.thumbs }}" as="th" hint-placeholder-count="2">
+														<button type="button" onClick="{{ th.open }}" aria-label="{{ th.aria }}"><img src="{{ th.src }}" alt="" loading="lazy"></button>
+													</sc-for>
+												</div>
+											</sc-if>
+											<div class="rc-who">
+												<span class="rc-av" style="background:{{ r.avBg }}" aria-hidden="true">{{ r.initial }}</span>
+												<span class="rc-who-t"><span class="rc-who-n">{{ r.name }}</span><span class="rc-who-f">{{ r.from }}</span></span>
+												<span class="rc-src rc-p-{{ r.plat }}" aria-label="{{ r.platLabel }}">
+													<svg class="rc-i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+														<rect x="3" y="3" width="18" height="18" rx="5"></rect>
+														<circle cx="12" cy="12" r="4"></circle>
+														<path d="M17.5 6.5h.01"></path>
+													</svg>
+													<svg class="rc-i-tt" viewBox="0 0 24 24" fill="currentColor">
+														<path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path>
+													</svg>
+													<img class="rc-i-web" src="/assets/diamond-lime.png" alt="">
+												</span>
+											</div>
+											<div class="rc-foot">
+												<span class="rc-topic">{{ r.topicLabel }}</span>
+												<span class="rc-likes {{ r.likesCls }}"><img src="/assets/diamond-orange.png" alt="">{{ r.likes }}</span>
+											</div>
+											<span class="rc-flag {{ r.flagCls }}">{{ r.flag }}</span>
+										</div>
+									</article>
+								</sc-for>
+							</div>
+							<sc-if value="{{ noWall }}" hint-placeholder-val="{{ false }}"><p class="rc-empty">С такими фильтрами отзывов пока нет.</p></sc-if>
+						</div>
+						<div style="height:clamp(64px,8vw,112px)"></div>
+					</section>
+
+					<!-- Sección #tienda · Tienda Sunqu -->
+					<section id="tienda" class="sj-light" data-bg="light" aria-label="Магазин Sunqu">
+						<div class="sj-in sj-pad">
+							<div class="rc-shop-head">
+								<div>
+									<span class="sj-eyebrow" data-reveal="">Магазин Sunqu</span>
+									<h2 class="rc-sec-t" data-reveal=""><span class="rc-plus" aria-hidden="true">+</span>Мерч Sunqu</h2>
+									<p class="sj-lead" data-reveal="">Одежда и сувениры в цветах и с символами Sunqu, чтобы носить Перу с собой. Оплату и доставку согласуем с вами в WhatsApp.</p>
+								</div>
+								<div class="rc-cats" role="group" aria-label="Категории" data-reveal="">
+									<sc-for list="{{ cats }}" as="c" hint-placeholder-count="4">
+										<button type="button" class="rc-cat" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}">{{ c.label }}</button>
+									</sc-for>
+								</div>
+							</div>
+							<div class="rc-shop">
+								<sc-for list="{{ products }}" as="p" hint-placeholder-count="8">
+									<article class="rc-prod" data-reveal="">
+										<div class="rc-prod-img">
+											<img src="{{ p.img }}" alt="{{ p.alt }}" loading="lazy" style="object-position:{{ p.pos }}">
+											<span class="rc-prod-tag">{{ p.tag }}</span>
+										</div>
+										<div class="rc-prod-body">
+											<div class="rc-prod-top"><h3>{{ p.name }}</h3><span class="rc-price">{{ p.price }}</span></div>
+											<p class="rc-prod-d">{{ p.desc }}</p>
+											<div class="rc-sizes {{ p.sizesCls }}" role="group" aria-label="{{ p.sizesAria }}">
+												<sc-for list="{{ p.sizes }}" as="s" hint-placeholder-count="0">
+													<button type="button" class="rc-size" onClick="{{ s.pick }}" aria-pressed="{{ s.on }}">{{ s.label }}</button>
+												</sc-for>
+											</div>
+											<button type="button" class="btn btn-primary rc-buy {{ p.buyCls }}" onClick="{{ p.buy }}" aria-label="{{ p.buyAria }}">{{ p.buyLabel }}<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></button>
+										</div>
+									</article>
+								</sc-for>
+							</div>
+						</div>
+					</section>
+
+					<!-- Sección #comparte · Comparte tu reseña -->
+					<section id="comparte" class="sj-alt-bg" data-bg="alt" aria-label="Поделитесь отзывом">
+						<div class="sj-in sj-pad rc-share">
+							<div>
+								<span class="sj-eyebrow" data-reveal="">Ваш сувенир</span>
+								<h2 class="rc-sec-t" data-reveal=""><span class="rc-plus" aria-hidden="true">+</span>Поделитесь поездкой</h2>
+								<p class="sj-lead" data-reveal="">Расскажите, что вы увезли, загрузите фото или вставьте ссылку на своё видео в Instagram или TikTok. Мы проверим его и опубликуем с вашего разрешения.</p>
+								<div class="rc-tagline" data-reveal="">
+									<span class="rc-handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5h.01"></path></svg>@sunqujourneys</span>
+									<span class="rc-handle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"></path></svg>#SunquJourneys</span>
+								</div>
+								<ul class="rc-rules" data-reveal="">
+									<li><img src="/assets/diamond-orange.png" alt="">Мы публикуем отзывы с именем, страной и месяцем поездки: отзыв без даты никому не поможет.</li>
+									<li><img src="/assets/diamond-yellow.png" alt="">Видео из Instagram и TikTok смотрятся прямо здесь, из вашей исходной публикации.</li>
+									<li><img src="/assets/diamond-lime.png" alt="">Мы никогда не редактируем то, что вы пишете. Если вам что-то не понравилось, мы тоже хотим об этом знать.</li>
+								</ul>
+							</div>
+							<div class="blueprint sj-form-card" data-reveal="" data-delay="120" style="align-self:start" aria-live="polite">
+								<sc-if value="{{ notShared }}" hint-placeholder-val="{{ true }}">
+									<form class="sj-form" onSubmit="{{ submitReview }}" data-form="resena" aria-busy="{{ sending }}">
+										<div class="sj-hp" aria-hidden="true"><label for="hp-web">Оставьте это поле пустым</label><input id="hp-web" name="website" tabIndex="-1" autoComplete="off"></div>
+										<span class="sj-eyebrow" style="font-size:12px">Оставьте отзыв</span>
+										<div class="sj-form-row">
+											<div class="field">
+												<label for="r-name">Имя и фамилия</label>
+												<input id="r-name" name="nombre" class="input" required="{{ true }}" autoComplete="name" placeholder="Ваши имя и фамилия">
+											</div>
+											<div class="field">
+												<label for="r-country">Страна</label>
+												<div data-sunqu-campo="pais" data-id="r-country" data-required="1"></div>
+											</div>
+										</div>
+										<div class="field">
+											<label for="r-mail">Адрес эл. почты</label>
+											<input id="r-mail" name="email" type="email" class="input" required="{{ true }}" autoComplete="email" placeholder="name@email.com" aria-describedby="r-mail-d">
+											<span id="r-mail-d" class="sj-optional">Только чтобы сообщить вам о публикации отзыва. На стене он не показывается.</span>
+										</div>
+										<fieldset class="field">
+											<legend class="sj-label">Что вы увезли?</legend>
+											<div class="sj-chips">
+												<label class="radio"><input type="radio" name="tema" value="viaje" defaultChecked="{{ true }}"><span class="dot"></span>Путешествие</label>
+												<label class="radio"><input type="radio" name="tema" value="souvenir"><span class="dot"></span>Сувенир</label>
+												<label class="radio"><input type="radio" name="tema" value="merch"><span class="dot"></span>Мерч Sunqu</label>
+											</div>
+										</fieldset>
+										<div class="field">
+											<span class="sj-label" id="r-rate-l">Ваша оценка</span>
+											<div class="rc-rate" role="radiogroup" aria-labelledby="r-rate-l">
+												<sc-for list="{{ rateBtns }}" as="b" hint-placeholder-count="5">
+													<button type="button" role="radio" class="{{ b.cls }}" aria-checked="{{ b.on }}" aria-label="{{ b.aria }}" onClick="{{ b.pick }}">★</button>
+												</sc-for>
+											</div>
+										</div>
+										<div class="field">
+											<label for="r-text">Ваш комментарий</label>
+											<textarea id="r-text" name="texto" class="input" rows="4" required="{{ true }}" placeholder="Что вы прожили, что купили, с кем познакомились…"></textarea>
+										</div>
+										<div class="field">
+											<label for="r-link">Ссылка на публикацию или видео <span class="sj-optional">Необязательно</span></label>
+											<input id="r-link" name="enlace" type="url" class="input" value="{{ fLink }}" onChange="{{ setLink }}" placeholder="https://www.instagram.com/reel/… или https://www.tiktok.com/@…/video/…">
+											<span class="rc-err {{ linkErrCls }}">{{ linkErr }}</span>
+										</div>
+										<div class="field">
+											<span class="sj-label">Фото <span class="sj-optional">До 4</span></span>
+											<label class="rc-drop">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+													<rect x="3" y="3" width="18" height="18" rx="3"></rect>
+													<circle cx="9" cy="9" r="2"></circle>
+													<path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"></path>
+												</svg>
+												<span><span class="rc-drop-t">Прикрепите фото</span><span class="rc-drop-s">JPG или PNG · нажмите, чтобы выбрать</span></span>
+												<input type="file" accept="image/*" multiple="{{ true }}" onChange="{{ addPhotos }}" aria-label="Прикрепить фото">
+											</label>
+											<div class="rc-previews">
+												<sc-for list="{{ fPhotos }}" as="p" hint-placeholder-count="0">
+													<span class="rc-prev">
+														<img src="{{ p.src }}" alt="{{ p.name }}">
+														<button type="button" onClick="{{ p.remove }}" aria-label="{{ p.aria }}">
+															<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+														</button>
+													</span>
+												</sc-for>
+											</div>
+										</div>
+										<label class="rc-check"><input type="checkbox" name="permiso" required="{{ true }}">Я согласен(на), что Sunqu опубликует мой отзыв, мои фото и ссылку, которой я делюсь.</label>
+										<div class="sj-form-foot">
+											<sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}"><p class="sj-form-err" role="alert">{{ sendError }}</p></sc-if>
+											<button type="submit" disabled="{{ sending }}" class="btn btn-primary sj-submit">Опубликовать отзыв<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></button>
+											<p class="sj-form-note">Он появится на стене с пометкой «На проверке», пока мы его не одобрим.</p>
+										</div>
+									</form>
+								</sc-if>
+								<sc-if value="{{ shared }}" hint-placeholder-val="{{ false }}">
+									<div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;padding:24px 0">
+										<img src="/assets/diamond-lime.png" alt="" style="width:56px">
+										<h3 style="letter-spacing:-.02em;font-size:32px;margin:0;line-height:1.12">Añay. Спасибо.</h3>
+										<p style="margin:0;font-size:17px;color:#424244;max-width:40ch">Ваш отзыв уже виден вверху стены с пометкой «На проверке», пока мы его не одобрим.</p>
+										<div style="display:flex;gap:10px;flex-wrap:wrap">
+											<a href="#resenas" class="btn btn-primary">Смотреть стену<img src="/assets/diamond-lime.png" alt="" class="sj-iso"></a>
+											<button type="button" class="btn" onClick="{{ newReview }}">Написать ещё один</button>
+										</div>
+									</div>
+								</sc-if>
+							</div>
+						</div>
+					</section>
+				</main>
+
+				<!-- Footer -->
+				<footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+					<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+					<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+						<div class="sj-foot-top" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+							<div class="sj-foot-art" aria-hidden="true">
+								<svg viewBox="0 0 860 172" preserveAspectRatio="xMidYMax meet" focusable="false">
+									<defs>
+										<mask id="faRouteM" maskUnits="userSpaceOnUse" x="0" y="-40" width="860" height="220">
+											<path class="fa-draw" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" pathLength="1" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+										</mask>
+										<clipPath id="faClip"><rect x="-20" y="-80" width="900" height="252"/></clipPath>
+										<clipPath id="faSunC"><rect x="0" y="-80" width="240" height="217"/></clipPath>
+									</defs>
+									<g clip-path="url(#faClip)">
+										<g clip-path="url(#faSunC)">
+											<g class="fa-l fa-sun">
+												<circle cx="96" cy="136" r="36" fill="#f4a700"/>
+												<circle class="fa-halo" cx="96" cy="136" r="50" fill="none" stroke="#f4a700" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>
+											</g>
+										</g>
+										<g class="fa-l fa-sea">
+											<path class="fa-wave fa-wave0" d="M34,143 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="18 10" stroke-dashoffset="0"/>
+											<path class="fa-wave fa-wave1" d="M8,152 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="12 12" stroke-dashoffset="9"/>
+											<path class="fa-wave fa-wave0" d="M48,161 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="22 9" stroke-dashoffset="4"/>
+											<path class="fa-wave fa-wave1" d="M20,170 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 13" stroke-dashoffset="14"/>
+											<path d="M73,143 H119" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M81,152 H111" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M87,161 H105" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M92,170 H100" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+										</g>
+										<g class="fa-l fa-back">
+											<path d="M262,172 L338,114 L378,134 L462,44 L544,108 L606,70 L690,140 L764,92 L846,166 L846,172 Z" fill="#736d47" stroke="#736d47" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M441.4,66 L452,60 L461,68 L472,60 L480.6,59 L462,44 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M593.4,80 L602,78 L610,84 L619,80 L606,70 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="10" stroke-linejoin="round"/>
+											<path d="M754,99 L762,97 L770,102 L774,100 L764,92 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="9" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-mid">
+											<path d="M300,172 L372,130 L404,146 L500,96 L576,150 L650,110 L724,160 L790,126 L838,170 L838,172 Z" fill="#48725E" stroke="#48725E" stroke-width="12" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-dunes"><path d="M214,172 C236,152 262,148 288,160 C306,150 330,150 352,172 Z" fill="#5e5939"/></g>
+										<g class="fa-l fa-front">
+											<clipPath id="faHillC"><path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z"/></clipPath>
+											<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z" fill="#83b300"/>
+											<g clip-path="url(#faHillC)">
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 9)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 18)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 27)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+											</g>
+										</g>
+										<path class="fa-route" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" fill="none" stroke="#e9eef1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5 8" mask="url(#faRouteM)"/>
+										<g class="fa-stop fa-stop1"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(226 164) rotate(45)" fill="#f4a700"/></g>
+										<g class="fa-stop fa-stop2"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(392 122) rotate(45)" fill="#df5f0c"/></g>
+										<g class="fa-heart"><g class="fa-heart-in"><image href="/assets/diamond-lime.png" x="446" y="-9" width="32" height="37.4"/></g></g>
+										<g class="fa-condor">
+											<path d="M604,30 Q612,22 621,32 Q630,22 638,30" fill="none" stroke="#e9eef1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-condor fa-condor2">
+											<path d="M660,15 Q666,10 672.5,17.5 Q679,10 685,15" fill="none" stroke="#e9eef1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+										</g>
+									</g>
+								</svg>
+							</div>
+							<div style="display:flex;flex-direction:column;gap:20px">
+								<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Путешествие в сердце Перу.</h2>
+								<a href="index.html#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Спланируйте поездку</a>
+							</div>
+							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Напишите нам</span>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Позвоните нам</span>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Офис</span>
+									<span>{{ site.office }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+							<img src="/assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+							<nav aria-label="Подвал сайта" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
+								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Главная</a>
+								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">О Sunqu</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Путешествия</a>
+								<a href="recuerda.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Отзывы и магазин</a>
+								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Журнал Sunqu</a>
+								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Вопросы и ответы</a>
+								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Правовая информация</a>
+							</nav>
+							<div style="display:flex;gap:10px">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+										<path d="m10 15 5-3-5-3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</a>
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M16 3a5 5 0 0 0 5 5"></path>
+										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
+									</svg>
+								</a>
+							</div>
+						</div>
+						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+							<span>Copyright © 2026 Sunqu Journeys. Все права защищены</span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Настройки cookie</button>
+							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Дизайн: Wuality (откроется в новой вкладке)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Дизайн:<img src="/assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
+							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Книга жалоб</a>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</x-dc>
+		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false, type: 'todo', topic: '', view: null, vIdx: 0, playing: null, rStars: 5, fLink: '', linkErr: '', fPhotos: [], shared: false, userReviews: [], cat: 'todo', sizes: {}, bag: [], bagOpen: false, added: null };
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  viewCloseRef = React.createRef();
+  bagCloseRef = React.createRef();
+  NAV = [['descubre.html', 'Путешествия'], ['index.html#conecta', 'Хозяева'], ['index.html#vive', 'Впечатления'], ['recuerda.html', 'Отзывы']];
+  MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+  TOPICS = SunquView.TOPICS;
+  TOPIC_ONE = SunquView.TOPIC_ONE;
+  TOPIC_ICON = SunquView.TOPIC_ICON;
+  PLAT = SunquView.PLAT;
+  AV = ['#83b300', '#f4a700', '#df5f0c', '#9fb4a8', '#d8cfae'];
+  // Reseñas de ejemplo (sample: true muestra la etiqueta «Ejemplo»). Para una reseña real: sample: false y, si es de Instagram o TikTok, su enlace en `url`.
+  REVIEWS = SunquView.REVIEWS;
+  // Merch de las aplicaciones del manual de marca (precios de referencia)
+  PRODUCTS = SunquView.PRODUCTS;
+  CATS = SunquView.CATS;
+
+  U(id, w) { return SunquContent.img(id, w, 72); }
+  parseEmbed(u) {
+    let m = u.match(/instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([\w-]+)/i);
+    if (m) { const t = m[1].toLowerCase() === 'p' ? 'p' : 'reel'; return { plat: 'instagram', kind: t === 'p' ? 'photo' : 'video', embed: `https://www.instagram.com/${t}/${m[2]}/embed/captioned/` }; }
+    m = u.match(/tiktok\.com\/@[\w.-]+\/(?:video|photo)\/(\d+)/i) || u.match(/tiktok\.com\/(?:embed\/v2|player\/v1)\/(\d+)/i);
+    if (m) return { plat: 'tiktok', kind: 'video', embed: `https://www.tiktok.com/embed/v2/${m[1]}` };
+    return null;
+  }
+  all() {
+    return [...this.state.userReviews, ...this.REVIEWS.map((r) => (r.url && !r.embed ? { ...r, ...(this.parseEmbed(r.url) || {}), kind: r.kind } : r))];
+  }
+  lock() { document.body.style.overflow = (this.state.menuOpen || this.state.view || this.state.bagOpen) ? 'hidden' : ''; }
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  openView(id, i) {
+    this.lastFocus = document.activeElement;
+    document.querySelectorAll('.rc-wall video').forEach((v) => v.pause());
+    SunquContent.medir('select_content', { content_type: 'resena', content_id: id });
+    this.setState({ view: id, vIdx: i || 0, playing: null }, () => {
+      this.lock(); setTimeout(() => this.viewCloseRef.current && this.viewCloseRef.current.focus({ preventScroll: true }), 80);
+      const vid = document.querySelector('.rc-stage video');
+      if (vid) { const p = vid.play(); if (p && p.catch) p.catch(() => { vid.muted = true; vid.play().catch(() => {}); }); }
+    });
+  }
+  closeView() { this.setState({ view: null, vIdx: 0 }, () => { this.lock(); if (this.lastFocus && this.lastFocus.focus) this.lastFocus.focus({ preventScroll: true }); }); }
+  stepPhoto(d) {
+    const cur = this.all().find((r) => r.id === this.state.view); const n = cur && cur.photos ? cur.photos.length : 0;
+    if (n > 1) this.setState((s) => ({ vIdx: (s.vIdx + d + n) % n }));
+  }
+  setBag(open) {
+    if (!!this.state.bagOpen === open) return;
+    if (open) this.bagFocus = document.activeElement;
+    this.setState({ bagOpen: open }, () => { this.lock(); const el = open ? this.bagCloseRef.current : this.bagFocus; if (el && el.focus) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  saveBag(bag) { try { window.localStorage.setItem('sunqu-bag', JSON.stringify(bag)); } catch (e) {} }
+  addToBag(p, size) {
+    SunquContent.medir('add_to_cart', { items: [{ item_id: p.id, item_name: p.name, item_variant: size || undefined }] });
+    this.setState((s) => {
+      const key = p.id + (size ? '-' + size : '');
+      const bag = s.bag.some((l) => l.key === key) ? s.bag.map((l) => (l.key === key ? { ...l, qty: Math.min(20, l.qty + 1) } : l)) : [...s.bag, { key, pid: p.id, size, qty: 1 }];
+      this.saveBag(bag);
+      return { bag, added: p.id };
+    }, () => { clearTimeout(this.addT); this.addT = setTimeout(() => this.setState({ added: null }), 1800); this.setBag(true); });
+  }
+  changeQty(key, d) {
+    this.setState((s) => { const bag = s.bag.map((l) => (l.key === key ? { ...l, qty: l.qty + d } : l)).filter((l) => l.qty > 0); this.saveBag(bag); return { bag }; });
+  }
+
+  componentDidMount() {
+    this.pageTitle = SunquContent.titulo('Вспомнить · Отзывы и магазин — Sunqu Journeys');
+    document.title = this.pageTitle;
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.canHover = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+    try { const b = JSON.parse(window.localStorage.getItem('sunqu-bag') || '[]'); if (Array.isArray(b)) this.setState({ bag: b.filter((l) => l && this.PRODUCTS.some((p) => p.id === l.pid) && l.qty > 0) }); } catch (e) {}
+    this.onKey = (e) => {
+      if (e.key === 'Escape') { if (this.state.view) this.closeView(); else if (this.state.bagOpen) this.setBag(false); else if (this.state.menuOpen) this.setMenu(false); }
+      if (this.state.view && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) this.stepPhoto(e.key === 'ArrowRight' ? 1 : -1);
+    };
+    this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0), ease = 'cubic-bezier(.2,.7,.1,1)';
+          el.style.opacity = 0; el.style.transform = 'translateY(32px)';
+          el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => this.observe());
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (document.title !== this.pageTitle) document.title = this.pageTitle;
+      const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      // El fondo lo define la última sección que cruzó el centro; el header toma el color de lo que tiene debajo.
+      let bg = 'dark', at = null;
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && s.tagName === 'SECTION') bg = s.getAttribute('data-bg'); if (r.top < 36 && r.bottom > 36) at = s.getAttribute('data-bg'); });
+      const dark = (at || bg) === 'dark';
+      if (bg !== this.state.bg || dark !== this.state.dark) this.setState({ bg, dark });
+      const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearTimeout(this.addT);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect();
+    document.body.style.overflow = '';
+  }
+
+  renderVals() {
+    const st = this.state, dark = st.dark, U = (id, w) => this.U(id, w);
+    const all = this.all();
+    const av = (name) => this.AV[[...name].reduce((a, c) => a + c.charCodeAt(0), 0) % this.AV.length];
+    const byTopic = all.filter((r) => !st.topic || r.topic === st.topic);
+    const shown = byTopic.filter((r) => st.type === 'todo' || r.kind === st.type);
+    const card = (r) => {
+      const photos = r.photos || [];
+      const local = r.kind === 'video' && !r.embed && !!r.video;
+      const n = photos.length;
+      return {
+        kind: r.kind, plat: r.plat, platLabel: this.PLAT[r.plat],
+        isVideo: r.kind === 'video', isPhoto: r.kind === 'photo', hasPreview: local, hasStars: !!r.stars,
+        video: r.video || '', poster: r.poster || (n ? U(photos[0], 700) : '/assets/pattern-pair.png'), posterSet: r.poster ? SunquContent.srcset(r.poster, [350, 700], 72) : n ? SunquContent.srcset(photos[0], [350, 700], 72) : '', posterCls: r.poster || n ? '' : 'is-contain', dur: r.embed ? 'Видео' : r.dur,
+        cover: n ? U(photos[0], 800) : '/assets/pattern-pair.png', coverSet: n ? SunquContent.srcset(photos[0], [400, 800], 72) : '', coverCls: n ? '' : 'is-contain', countLabel: n > 1 ? `1/${n}` : '', countCls: n > 1 ? '' : 'is-one',
+        aria: (r.kind === 'video' ? 'Смотреть видео: ' : 'Смотреть фото: ') + r.name + ' en ' + this.PLAT[r.plat],
+        playCls: st.playing === r.id ? 'is-playing' : '',
+        open: () => this.openView(r.id, 0),
+        hoverIn: (e) => { if (!this.canHover || !local) return; const v = e.currentTarget.querySelector('video'); if (v) { v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); this.setState({ playing: r.id }); } },
+        hoverOut: (e) => { const v = e.currentTarget.querySelector('video'); if (v) v.pause(); if (this.state.playing === r.id) this.setState({ playing: null }); },
+        starsOn: '★'.repeat(r.stars || 0), starsOff: '★'.repeat(5 - (r.stars || 0)), starsLabel: `Оценка: ${r.stars || 0} из 5`,
+        caption: r.caption,
+        hasThumbs: r.kind === 'comment' && n > 0,
+        thumbs: r.kind === 'comment' ? photos.map((ph, i) => ({ src: U(ph, 240), aria: `Ver foto ${i + 1} de ${r.name}`, open: () => this.openView(r.id, i) })) : [],
+        name: r.name, from: `${r.country} · ${r.user ? 'Отзыв: ' : 'Поездка: '}${r.when}`, initial: r.name.trim().charAt(0).toUpperCase(), avBg: av(r.name),
+        topicLabel: `${this.TOPIC_ONE[r.topic]}${r.what ? ' · ' + r.what : ''}`,
+        likes: r.likes || '', likesCls: r.likes ? '' : 'is-empty',
+        flag: r.user ? 'На проверке' : r.sample ? 'Пример' : '', flagCls: r.user ? 'is-new' : r.sample ? '' : 'is-hidden',
+      };
+    };
+    const wall = shown.map(card);
+    const rated = all.filter((r) => r.stars);
+    const avg = rated.length ? (rated.reduce((a, r) => a + r.stars, 0) / rated.length).toFixed(1).replace('.', ',') : '–';
+    const count = (k) => byTopic.filter((r) => k === 'todo' || r.kind === k).length;
+
+    const cur = st.view ? all.find((r) => r.id === st.view) : null;
+    let v = { aria: '', stageCls: '', isEmbed: false, isVideo: false, isPhoto: false, embed: '', video: '', poster: '', src: '', alt: '', dots: [], navCls: 'is-hidden', plat: 'web', platLabel: '', avBg: '', initial: '', name: '', from: '', caption: '', topicLabel: '', likes: '', likesCls: 'is-empty', url: '#', linkCls: 'is-hidden', linkLabel: '', flag: '', flagCls: 'is-hidden', prev: () => {}, next: () => {} };
+    if (cur) {
+      const c = card(cur), photos = cur.photos || [], i = Math.min(st.vIdx, Math.max(0, photos.length - 1));
+      const isEmbed = !!cur.embed;
+      v = { ...c, aria: c.aria, isEmbed, embed: cur.embed || '', isVideo: !isEmbed && cur.kind === 'video', isPhoto: !isEmbed && cur.kind !== 'video',
+        stageCls: !isEmbed && cur.kind !== 'video' ? 'is-wide' : '',
+        src: photos.length ? U(photos[i], 1600) : '', alt: `Foto ${i + 1} de ${cur.name}`,
+        dots: photos.map((_, k) => ({ cls: k === i ? 'is-on' : '' })), navCls: photos.length > 1 ? '' : 'is-hidden',
+        prev: () => this.stepPhoto(-1), next: () => this.stepPhoto(1),
+        url: cur.url || '#', linkCls: cur.url ? '' : 'is-hidden', linkLabel: cur.plat === 'tiktok' ? 'Смотреть в TikTok' : 'Смотреть в Instagram' };
+    }
+
+    const money = (n) => 'USD ' + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const prods = this.PRODUCTS.filter((p) => st.cat === 'todo' || p.cat === st.cat).map((p) => {
+      const size = p.sizes.length ? (st.sizes[p.id] || 'M') : '';
+      const added = st.added === p.id;
+      return { name: p.name, price: money(p.price), img: p.img, alt: p.name, pos: p.pos, desc: p.desc, tag: p.tag,
+        sizes: p.sizes.map((s) => ({ label: s, on: s === size ? 'true' : 'false', pick: () => this.setState((x) => ({ sizes: { ...x.sizes, [p.id]: s } })) })),
+        sizesCls: p.sizes.length ? '' : 'is-hidden', sizesAria: 'Размер для ' + p.name,
+        buy: () => this.addToBag(p, size), buyLabel: added ? 'Добавлено' : 'Купить', buyCls: added ? 'is-added' : '', buyAria: `Comprar ${p.name}${size ? ', размер ' + size : ''}, ${money(p.price)}` };
+    });
+    const lines = st.bag.map((l) => { const p = this.PRODUCTS.find((x) => x.id === l.pid); return p ? { ...l, p } : null; }).filter(Boolean);
+    const bagN = lines.reduce((a, l) => a + l.qty, 0), bagSum = lines.reduce((a, l) => a + l.qty * l.p.price, 0);
+    const waText = 'Hola Sunqu, quiero comprar:\n' + lines.map((l) => `• ${l.p.name}${l.size ? ' (talla ' + l.size + ')' : ''} x${l.qty} — ${money(l.qty * l.p.price)}`).join('\n') + `\nTotal: ${money(bagSum)}`;
+
+    return {
+      sending: !!this.state.sending, sendError: this.state.sendError || '',
+      site: SunquView.site,
+      pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
+      headerCls: st.scrolled ? 'is-scrolled' : '',
+      navFg: dark ? '#e9eef1' : '#1c1c1c',
+      navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
+      navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 3 ? 'page' : 'false' })),
+      menuLinks: [['descubre.html', 'Путешествия'], ['index.html#conecta', 'Хозяева'], ['index.html#vive', 'Впечатления'], ['recuerda.html', 'Отзывы']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
+      menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef, viewCloseRef: this.viewCloseRef, bagCloseRef: this.bagCloseRef,
+      toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
+      waCls: st.waOn && !st.bagOpen ? 'is-on' : '', waHref: SunquView.site.waLink('Здравствуйте, Sunqu! У меня вопрос о магазине'),
+
+      avg, nComments: String(count('comment')), nVideos: String(count('video')), nPhotos: String(count('photo')),
+      tabs: [['todo', 'Все'], ['video', 'Видео'], ['photo', 'Фото'], ['comment', 'Комментарии']].map(([k, label]) => ({ label, n: String(count(k)), on: st.type === k ? 'true' : 'false', pick: () => this.setState({ type: k }) })),
+      topics: Object.keys(this.TOPICS).map((k) => ({ label: this.TOPICS[k], icon: this.TOPIC_ICON[k], on: st.topic === k ? 'true' : 'false', pick: () => this.setState((s) => ({ topic: s.topic === k ? '' : k })) })),
+      wall, noWall: wall.length === 0,
+
+      v, viewCls: cur ? 'is-open' : '', viewHidden: cur ? 'false' : 'true',
+      viewBackdrop: (e) => { if (e.target === e.currentTarget) this.closeView(); }, closeView: () => this.closeView(),
+
+      notShared: !st.shared, shared: st.shared,
+      rateBtns: [1, 2, 3, 4, 5].map((n) => ({ cls: n <= st.rStars ? 'is-lit' : '', on: n === st.rStars ? 'true' : 'false', aria: `${n} de 5 estrellas`, pick: () => this.setState({ rStars: n }) })),
+      fLink: st.fLink, setLink: (e) => this.setState({ fLink: e.target.value, linkErr: '' }),
+      linkErr: st.linkErr, linkErrCls: st.linkErr ? '' : 'is-hidden',
+      fPhotos: st.fPhotos.map((p, i) => ({ src: p.src, name: p.name, aria: 'Удалить ' + p.name, remove: () => this.setState((s) => ({ fPhotos: s.fPhotos.filter((_, k) => k !== i) })) })),
+      addPhotos: (e) => {
+        const files = Array.from(e.target.files || []).filter((f) => /^image\//.test(f.type));
+        const add = files.map((f) => ({ src: URL.createObjectURL(f), name: f.name, file: f }));
+        this.setState((s) => ({ fPhotos: [...s.fPhotos, ...add].slice(0, 4) })); e.target.value = '';
+      },
+      submitReview: (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.currentTarget), link = String(fd.get('enlace') || '').trim();
+        const emb = link ? this.parseEmbed(link) : null;
+        if (link && !emb) { this.setState({ linkErr: 'Вставьте полную ссылку на публикацию в Instagram или видео в TikTok.' }); return; }
+        const now = new Date(), photos = st.fPhotos.map((p) => p.src);
+        const r = { id: 'u' + now.getTime(), user: true, kind: emb ? emb.kind : 'comment', plat: emb ? emb.plat : 'web', embed: emb ? emb.embed : '', url: emb ? link : '',
+          name: String(fd.get('nombre') || '').trim() || 'Путешественник', country: String(fd.get('pais_nombre') || '').trim() || 'Перу', when: `${this.MONTHS[now.getMonth()]} ${now.getFullYear()}`,
+          topic: String(fd.get('tema') || 'viaje'), what: '', stars: st.rStars, caption: String(fd.get('texto') || '').trim(), photos, poster: photos[0] || '' };
+        // Con WordPress, la reseña queda pendiente de moderación (Reseñas › Pendientes) con sus fotos.
+        const files = st.fPhotos.map((p) => p.file).filter(Boolean), datos = SunquContent.datosDe(e.currentTarget);
+        this.setState({ sending: true, sendError: '' });
+        SunquContent.fotos(files).then((fotos) => SunquContent.enviar('resena', { ...datos, estrellas: st.rStars, fotos })).then(
+          () => this.setState((s) => ({ userReviews: [r, ...s.userReviews], shared: true, sending: false, fPhotos: [], fLink: '', linkErr: '', type: 'todo', topic: '' })),
+          () => this.setState({ sending: false, sendError: 'Не удалось отправить отзыв. Попробуйте ещё раз через несколько минут.' })
+        );
+      },
+      newReview: () => this.setState({ shared: false, rStars: 5 }),
+
+      cats: this.CATS.map(([k, label]) => ({ label, on: st.cat === k ? 'true' : 'false', pick: () => this.setState({ cat: k }) })),
+      products: prods,
+      bag: lines.map((l) => ({ img: l.p.img, name: l.p.name, meta: (l.size ? `Talla ${l.size} · ` : '') + `${money(l.p.price)} c/u`, qty: String(l.qty), total: money(l.qty * l.p.price),
+        inc: () => this.changeQty(l.key, 1), dec: () => this.changeQty(l.key, -1), remove: () => this.changeQty(l.key, -l.qty),
+        incAria: 'Добавить ещё один: ' + l.p.name, decAria: 'Убрать один: ' + l.p.name })),
+      bagEmpty: lines.length === 0, bagFootCls: lines.length ? '' : 'is-hidden', bagTotal: money(bagSum),
+      bagN: String(bagN), bagNCls: bagN ? 'is-on' : '', bagCountLabel: bagN ? `(${bagN})` : '',
+      bagCls: st.bagOpen ? 'is-open' : '', bagHidden: st.bagOpen ? 'false' : 'true', bagExpanded: st.bagOpen ? 'true' : 'false',
+      bagAria: bagN ? `Abrir tu bolsa, ${bagN} ${bagN === 1 ? 'producto' : 'productos'}` : 'Открыть сумку',
+      openBag: () => this.setBag(true), closeBag: () => this.setBag(false),
+      bagWaHref: SunquView.site.waLink(waText),
+
+    };
+  }
+}
+		</script>
+		<script data-foot-art>
+(function(){
+  var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n = 0, t = setInterval(function(){
+    var a = document.querySelector('.sj-foot-art');
+    if (!a && ++n < 80) return; clearInterval(t);
+    if (!a || rm || !('IntersectionObserver' in window)) return;
+    a.classList.add('is-armed');
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { a.classList.add('is-in'); io.disconnect(); } }); }, { threshold: .35 });
+    io.observe(a);
+  }, 250);
+})();
+		</script>
+	</body>
+</html>

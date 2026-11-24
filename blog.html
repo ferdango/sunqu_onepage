@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
-		<!-- sunqu:seo --><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
+		<!-- sunqu:seo --><meta name="description" content="Guías para preparar tu viaje, la cocina peruana y las comunidades que te reciben, contadas por el equipo de Sunqu."><link rel="canonical" href="https://sunqujourneys.com/blog.html"><link rel="alternate" hreflang="es" href="https://sunqujourneys.com/blog.html"><link rel="alternate" hreflang="en" href="https://sunqujourneys.com/en/blog.html"><link rel="alternate" hreflang="fr" href="https://sunqujourneys.com/fr/blog.html"><link rel="alternate" hreflang="de" href="https://sunqujourneys.com/de/blog.html"><link rel="alternate" hreflang="it" href="https://sunqujourneys.com/it/blog.html"><link rel="alternate" hreflang="ru" href="https://sunqujourneys.com/ru/blog.html"><link rel="alternate" hreflang="x-default" href="https://sunqujourneys.com/en/blog.html"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
 		<link rel="stylesheet" href="css/blog.min.css">
 		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-idiomas.js"></script>
 		<script src="js/sunqu-config.js"></script>
 		<script src="js/sunqu-content.js" data-page="blog"></script>
 		<script src="js/sunqu-analytics.js" defer></script>
@@ -102,7 +103,7 @@
 						<div class="sj-in bl-hero">
 							<span class="sj-eyebrow" data-reveal="">Diario Sunqu · Blog</span>
 							<h1 class="bl-title" data-reveal="">Historias antes, durante y después del viaje.</h1>
-							<p class="sj-lead" data-reveal="">Guías para prepararte, cocinas con nombre propio y las comunidades que te reciben, contadas por el equipo de Sunqu.</p>
+							<p class="sj-lead" data-reveal="">Guías para preparar tu viaje, la cocina peruana y las comunidades que te reciben, contadas por el equipo de Sunqu.</p>
 							<div class="bl-tabs" role="group" aria-label="Categorías">
 								<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
 									<button type="button" class="bl-tab" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}">{{ t.label }}<sup>{{ t.n }}</sup></button>
@@ -215,8 +216,8 @@
 							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
 								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
 								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
-								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Descubre</a>
-								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Recuerda</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viajes</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reseñas y tienda</a>
 								<a href="blog.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
 								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
 								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
@@ -263,7 +264,7 @@ class Component extends DCLogic {
   state = { scrolled: false, dark: false, bg: 'light', menuOpen: false, waOn: false, cat: 'todas', shown: 6 };
   burgerRef = React.createRef();
   closeRef = React.createRef();
-  NAV = [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']];
+  NAV = [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']];
   MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   CATS = SunquView.CATS;
   POSTS = (SunquView.POSTS || []).slice().sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -330,7 +331,7 @@ class Component extends DCLogic {
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
       navLinks: this.NAV.map(([href, label]) => ({ href, label, current: 'false' })),
-      menuLinks: [['descubre.html', 'Descubre'], ['index.html#conecta', 'Conecta'], ['index.html#vive', 'Vive'], ['recuerda.html', 'Recuerda']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      menuLinks: [['descubre.html', 'Viajes'], ['index.html#conecta', 'Anfitriones'], ['index.html#vive', 'La experiencia'], ['recuerda.html', 'Reseñas']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
       langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef,

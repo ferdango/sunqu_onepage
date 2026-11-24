@@ -9,7 +9,8 @@
  * Orden de origen del contenido:
  *   1. window.SUNQU_PRELOADED  → lo inyecta el servidor de producción (server/index.php).
  *   2. WordPress (REST)        → si la configuración tiene api: GET {api}/sunqu/v1/contenido?secciones=…
- *   3. content/*.json          → archivos locales (también es el respaldo si WordPress no responde).
+ *   3. content/*.json          → archivos locales (también es el respaldo si WordPress no responde). En la web
+ *                                estática, una página traducida (/en/…) lee content/<idioma>/*.json (js/sunqu-idiomas.js).
  *
  * Configuración: window.SUNQU_CONFIG (servidor) tiene prioridad sobre window.SUNQU_CMS (js/sunqu-config.js).
  *
@@ -490,7 +491,7 @@
   }
   function local() {
     return Promise.all(NEED[PAGE].map(function (n) {
-      return fetch(BASE + 'content/' + n + '.json').then(function (r) {
+      return fetch(BASE + 'content/' + (I18N && I18N.contenido ? LANG + '/' : '') + n + '.json').then(function (r) {
         if (!r.ok) throw new Error('content/' + n + '.json: ' + r.status);
         return r.json();
       });
