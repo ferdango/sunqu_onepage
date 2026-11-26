@@ -856,6 +856,7 @@
 								<a href="#inicio" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Главная</a>
 								<a href="#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">О Sunqu</a>
 								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Путешествия</a>
+								<a href="mice.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">MICE</a>
 								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Отзывы и магазин</a>
 								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Журнал Sunqu</a>
 								<a href="#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Вопросы и ответы</a>
@@ -889,7 +890,7 @@
 							</div>
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
-							<span>Copyright © 2026 Sunqu Journeys. Все права защищены</span>
+							<span>Copyright © 2026 Sunqu Journeys. Все права защищены<span class="sj-ruc"> · RUC {{ site.ruc }}</span></span>
 							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Настройки cookie</button>
 							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Дизайн: Wuality (откроется в новой вкладке)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Дизайн:<img src="/assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Книга жалоб</a>
@@ -909,8 +910,8 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   ALT = SunquView.ALT;
   HAB = SunquView.HAB;
-  NAV = [['descubre', 'Путешествия'], ['conecta', 'Хозяева'], ['vive', 'Впечатления'], ['recuerda', 'До и после']];
-  PAGES = { descubre: 'descubre.html', recuerda: 'recuerda.html' };
+  NAV = [['descubre', 'Открыть'], ['mice', 'MICE'], ['recuerda', 'Вспомнить'], ['tienda', 'Магазин']];
+  PAGES = { descubre: 'descubre.html', mice: 'mice.html', recuerda: 'recuerda.html', tienda: 'recuerda.html#tienda' };
   setMenu(open) {
     if (!!this.state.menuOpen === open) return;
     document.body.style.overflow = open ? 'hidden' : '';

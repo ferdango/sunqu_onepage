@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- SEO: en producción server/index.php reemplaza el bloque siguiente (título, descripción, canonical, Open Graph y datos estructurados) -->
+		<!-- sunqu:seo --><meta name="description" content="Reuniones, viajes de incentivo, congresos y eventos en el Perú, a la medida de tu empresa. Cuéntanos qué necesitas y te enviamos una propuesta."><link rel="canonical" href="https://sunqujourneys.com/mice.html"><link rel="alternate" hreflang="es" href="https://sunqujourneys.com/mice.html"><link rel="alternate" hreflang="en" href="https://sunqujourneys.com/en/mice.html"><link rel="alternate" hreflang="fr" href="https://sunqujourneys.com/fr/mice.html"><link rel="alternate" hreflang="de" href="https://sunqujourneys.com/de/mice.html"><link rel="alternate" hreflang="it" href="https://sunqujourneys.com/it/mice.html"><link rel="alternate" hreflang="ru" href="https://sunqujourneys.com/ru/mice.html"><link rel="alternate" hreflang="x-default" href="https://sunqujourneys.com/en/mice.html"><link rel="icon" href="assets/favicon-32.png" type="image/png"><!-- /sunqu:seo -->
+		<link rel="stylesheet" href="css/mice.min.css">
+		<!-- Contenido (WordPress o content/*.json) y después el runtime: ver js/sunqu-content.js -->
+		<script src="js/sunqu-idiomas.js"></script>
+		<script src="js/sunqu-config.js"></script>
+		<script src="js/sunqu-content.js" data-page="mice"></script>
+		<script src="js/sunqu-analytics.js" defer></script>
+	</head>
+	<body>
+		<a class="sj-skip" href="#contenido">Saltar al contenido</a>
+		<x-dc>
+			<helmet>
+				<title>MICE · Viajes para empresas en el Perú — Sunqu Journeys</title>
+			</helmet>
+			<div class="jr-wrap" style="background:{{ pageBg }}">
+
+				<!-- Header -->
+				<header class="sj-header {{ headerCls }}" style="color:{{ navFg }};background:{{ navBg }};border-bottom:1px solid {{ navBorder }}">
+					<nav class="sj-nav" aria-label="Principal">
+						<a href="index.html" class="sj-logo" aria-label="Sunqu Journeys, ir al inicio">
+							<img src="assets/logo-light.png" alt="" style="opacity:{{ logoLightOp }}">
+							<img src="assets/logo-dark.png" alt="" style="opacity:{{ logoDarkOp }}">
+						</a>
+						<ul class="sj-links">
+							<sc-for list="{{ navLinks }}" as="n" hint-placeholder-count="4">
+								<li><a href="{{ n.href }}" class="sj-link" aria-current="{{ n.current }}">{{ n.label }}</a></li>
+							</sc-for>
+						</ul>
+						<div class="sj-actions">
+							<a href="index.html" class="sj-back">Inicio</a>
+							<a href="#propuesta" class="btn btn-primary sj-cta">Pide tu propuesta</a>
+							<button type="button" class="sj-burger" ref="{{ burgerRef }}" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" aria-controls="sj-menu" aria-label="Abrir menú">
+								<span></span>
+								<span></span>
+							</button>
+						</div>
+					</nav>
+				</header>
+				<div class="sj-scrim {{ menuCls }}" onClick="{{ closeMenu }}" aria-hidden="true"></div>
+
+				<!-- Modal · Menú -->
+				<aside id="sj-menu" class="sj-drawer {{ menuCls }}" role="dialog" aria-modal="true" aria-label="Menú">
+					<div class="sj-drawer-top">
+						<img src="assets/logo-light.png" alt="Sunqu Journeys">
+						<button type="button" class="sj-close" ref="{{ closeRef }}" onClick="{{ closeMenu }}" aria-label="Cerrar menú">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M18 6 6 18"></path>
+								<path d="m6 6 12 12"></path>
+							</svg>
+						</button>
+					</div>
+					<div>
+						<div class="sj-drawer-kicker sj-eyebrow">Viaja al corazón del Perú</div>
+
+						<!-- Menú lateral (móvil) -->
+						<nav class="sj-drawer-nav" aria-label="Menú principal">
+							<sc-for list="{{ menuLinks }}" as="m" hint-placeholder-count="4">
+								<a href="{{ m.href }}" onClick="{{ closeMenu }}" class="sj-drawer-link">
+									<span class="sj-drawer-n">{{ m.n }}</span>
+									<span>{{ m.label }}</span>
+									<img src="assets/diamond-lime.png" alt="" class="sj-iso sj-iso--lg">
+								</a>
+							</sc-for>
+						</nav>
+					</div>
+					<div class="sj-drawer-sub">
+						<a href="index.html#sunqu" onClick="{{ closeMenu }}">Sobre Sunqu</a>
+						<a href="index.html#formas" onClick="{{ closeMenu }}">Formas de viajar</a>
+						<a href="blog.html" onClick="{{ closeMenu }}">Diario Sunqu</a>
+						<a href="index.html#contacto" onClick="{{ closeMenu }}">Contacto</a>
+					</div>
+					<div class="sj-drawer-foot">
+						<a href="index.html#contacto" onClick="{{ closeMenu }}" class="btn sj-drawer-cta">Diseña tu viaje</a>
+						<div class="sj-drawer-row">
+							<div class="sj-drawer-contact"><a href="mailto:{{ site.email }}">{{ site.email }}</a><a href="tel:{{ site.phoneHref }}">{{ site.phone }}</a></div>
+							<div class="sj-seg" role="group" aria-label="Idioma">
+								<sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+									<button type="button" class="sj-seg-btn" onClick="{{ l.set }}" aria-pressed="{{ l.pressed }}" aria-label="{{ l.name }}">{{ l.code }}</button>
+								</sc-for>
+							</div>
+						</div>
+						<div class="sj-band sj-band--light" aria-hidden="true"></div>
+					</div>
+				</aside>
+				<a class="sj-wa {{ waCls }}" href="{{ waHref }}" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp al {{ site.waLabel }}">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+					</svg>
+					<span class="sj-wa-label">¿Hablamos?</span>
+				</a>
+
+				<!-- Contenido principal -->
+				<main id="contenido" tabIndex="-1">
+
+					<!-- Sección · MICE -->
+					<section class="lg-hero" data-bg="dark" aria-label="MICE · Viajes para empresas">
+						<div class="lg-hero-in">
+							<span class="sj-eyebrow">MICE · Viajes para empresas</span>
+							<div class="lg-head"><img src="assets/diamond-lime.png" alt="" class="lg-iso"><h1 class="lg-title">Lleva a tu equipo al corazón del Perú</h1></div>
+							<p class="lg-meta"><span><b>Reuniones</b></span><span><b>Incentivos</b></span><span><b>Congresos</b></span><span><b>Eventos</b></span></p>
+						</div>
+						<img src="assets/pattern-steps.png" alt="" class="lg-art" aria-hidden="true">
+						<img src="assets/pattern-pair.png" alt="" class="lg-art lg-art--pair" aria-hidden="true">
+					</section>
+
+					<!-- Sección · Qué hacemos para empresas -->
+					<section class="sj-light" data-bg="light" aria-label="Viajes para empresas">
+						<div class="lg-body">
+							<div class="lg-intro">
+								<p class="lg-lead" data-reveal="">¿Buscas un viaje para tu equipo, un premio para tus mejores vendedores o un programa para los asistentes de tu congreso? Lo diseñamos a la medida de tu empresa, con lo que mejor sabemos hacer: historia, cocina y anfitriones locales que convierten un viaje de trabajo en algo que tu equipo va a recordar.</p>
+								<div class="blueprint mc-box" data-reveal="" data-delay="120">
+									<span class="lg-toc-t">Para tu propuesta, cuéntanos</span>
+									<ul>
+										<li><img src="assets/diamond-olive.png" alt="">Tu empresa y desde dónde viaja el grupo</li>
+										<li><img src="assets/diamond-olive.png" alt="">Fechas o mes tentativo</li>
+										<li><img src="assets/diamond-olive.png" alt="">Cuántas personas viajan</li>
+										<li><img src="assets/diamond-olive.png" alt="">Qué buscas: reunión, incentivo, congreso o evento</li>
+										<li><img src="assets/diamond-olive.png" alt="">Presupuesto aproximado por persona</li>
+									</ul>
+								</div>
+							</div>
+							<div class="mc-grid">
+								<article class="blueprint mc-card" data-reveal="">
+									<span class="mc-card-n">01</span>
+									<h2>Reuniones</h2>
+									<p>Encuentros de trabajo en el Perú, con tiempo para salir de la sala y conocer el lugar.</p>
+								</article>
+								<article class="blueprint mc-card" data-reveal="" data-delay="80">
+									<span class="mc-card-n">02</span>
+									<h2>Viajes de incentivo</h2>
+									<p>Premia a tu equipo con un viaje que no sale de un catálogo: historia, cocina y comunidades del Perú.</p>
+								</article>
+								<article class="blueprint mc-card" data-reveal="" data-delay="160">
+									<span class="mc-card-n">03</span>
+									<h2>Congresos y convenciones</h2>
+									<p>Visitas y experiencias para los asistentes, antes, durante o después de tu congreso.</p>
+								</article>
+								<article class="blueprint mc-card" data-reveal="" data-delay="240">
+									<span class="mc-card-n">04</span>
+									<h2>Eventos</h2>
+									<p>Cenas, celebraciones y actividades para grupos, con anfitriones locales.</p>
+								</article>
+							</div>
+							<div class="lg-sec">
+								<h2 data-reveal=""><span class="lg-sec-n">→</span><span>Cómo trabajamos</span></h2>
+								<ol class="mc-steps">
+									<li data-reveal=""><span class="mc-card-n">01</span><b>Nos cuentas</b><p>Qué buscas, cuántas personas viajan, en qué fechas y con qué presupuesto.</p></li>
+									<li data-reveal="" data-delay="80"><span class="mc-card-n">02</span><b>Te enviamos una propuesta</b><p>Un programa a la medida de tu grupo, con el detalle de lo que incluye.</p></li>
+									<li data-reveal="" data-delay="160"><span class="mc-card-n">03</span><b>Lo afinamos juntos</b><p>Ajustamos el programa contigo hasta que esté listo para tu equipo.</p></li>
+								</ol>
+							</div>
+							<div class="blueprint lg-help" id="propuesta" data-reveal="">
+								<div>
+									<h3>Pide tu propuesta</h3>
+									<p>Escríbenos por WhatsApp o por correo y te respondemos en menos de 48 horas.</p>
+								</div>
+								<div class="lg-help-actions">
+									<a href="{{ waHref }}" class="btn btn-primary" target="_blank" rel="noopener">Escribir por WhatsApp<img src="assets/diamond-lime.png" alt="" class="sj-iso"></a>
+									<a href="{{ mailHref }}" class="btn btn-secondary">Escribir un correo<img src="assets/diamond-olive.png" alt="" class="sj-iso"></a>
+								</div>
+							</div>
+						</div>
+					</section>
+				</main>
+
+				<!-- Footer -->
+				<footer data-bg="dark" style="position:relative;z-index:1;background:#2b271b;color:#e9eef1">
+					<div class="sj-band" aria-hidden="true" style="height:12px"></div>
+					<div style="max-width:1440px;margin:0 auto;padding:clamp(64px,8vw,112px) clamp(20px,4vw,56px) 28px">
+						<div class="sj-foot-top" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,5vw,72px);padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid rgba(233,238,241,.14)">
+							<div class="sj-foot-art" aria-hidden="true">
+								<svg viewBox="0 0 860 172" preserveAspectRatio="xMidYMax meet" focusable="false">
+									<defs>
+										<mask id="faRouteM" maskUnits="userSpaceOnUse" x="0" y="-40" width="860" height="220">
+											<path class="fa-draw" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" pathLength="1" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+										</mask>
+										<clipPath id="faClip"><rect x="-20" y="-80" width="900" height="252"/></clipPath>
+										<clipPath id="faSunC"><rect x="0" y="-80" width="240" height="217"/></clipPath>
+									</defs>
+									<g clip-path="url(#faClip)">
+										<g clip-path="url(#faSunC)">
+											<g class="fa-l fa-sun">
+												<circle cx="96" cy="136" r="36" fill="#f4a700"/>
+												<circle class="fa-halo" cx="96" cy="136" r="50" fill="none" stroke="#f4a700" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/>
+											</g>
+										</g>
+										<g class="fa-l fa-sea">
+											<path class="fa-wave fa-wave0" d="M34,143 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="18 10" stroke-dashoffset="0"/>
+											<path class="fa-wave fa-wave1" d="M8,152 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="12 12" stroke-dashoffset="9"/>
+											<path class="fa-wave fa-wave0" d="M48,161 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="22 9" stroke-dashoffset="4"/>
+											<path class="fa-wave fa-wave1" d="M20,170 H214" stroke="#48725E" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 13" stroke-dashoffset="14"/>
+											<path d="M73,143 H119" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M81,152 H111" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M87,161 H105" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+											<path d="M92,170 H100" stroke="#f4a700" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+										</g>
+										<g class="fa-l fa-back">
+											<path d="M262,172 L338,114 L378,134 L462,44 L544,108 L606,70 L690,140 L764,92 L846,166 L846,172 Z" fill="#736d47" stroke="#736d47" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M441.4,66 L452,60 L461,68 L472,60 L480.6,59 L462,44 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="12" stroke-linejoin="round"/>
+											<path d="M593.4,80 L602,78 L610,84 L619,80 L606,70 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="10" stroke-linejoin="round"/>
+											<path d="M754,99 L762,97 L770,102 L774,100 L764,92 Z" fill="#e9eef1" stroke="#e9eef1" stroke-width="9" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-mid">
+											<path d="M300,172 L372,130 L404,146 L500,96 L576,150 L650,110 L724,160 L790,126 L838,170 L838,172 Z" fill="#48725E" stroke="#48725E" stroke-width="12" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-l fa-dunes"><path d="M214,172 C236,152 262,148 288,160 C306,150 330,150 352,172 Z" fill="#5e5939"/></g>
+										<g class="fa-l fa-front">
+											<clipPath id="faHillC"><path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z"/></clipPath>
+											<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172 Z" fill="#83b300"/>
+											<g clip-path="url(#faHillC)">
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 9)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 18)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+												<path d="M548,172 C588,148 640,136 700,140 C756,144 806,158 850,172" transform="translate(0 27)" fill="none" stroke="#6a9200" stroke-width="2.5" stroke-linecap="round"/>
+											</g>
+										</g>
+										<path class="fa-route" d="M226,164 C246,158 262,160 280,154 C302,146 320,150 340,142 C362,134 372,130 392,122 L418,112 L400,101 L430,88 L414,77 L446,62 L436,52 L460,34" fill="none" stroke="#e9eef1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5 8" mask="url(#faRouteM)"/>
+										<g class="fa-stop fa-stop1"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(226 164) rotate(45)" fill="#f4a700"/></g>
+										<g class="fa-stop fa-stop2"><rect x="-5" y="-5" width="10" height="10" rx="2.5" transform="translate(392 122) rotate(45)" fill="#df5f0c"/></g>
+										<g class="fa-heart"><g class="fa-heart-in"><image href="assets/diamond-lime.png" x="446" y="-9" width="32" height="37.4"/></g></g>
+										<g class="fa-condor">
+											<path d="M604,30 Q612,22 621,32 Q630,22 638,30" fill="none" stroke="#e9eef1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+										</g>
+										<g class="fa-condor fa-condor2">
+											<path d="M660,15 Q666,10 672.5,17.5 Q679,10 685,15" fill="none" stroke="#e9eef1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+										</g>
+									</g>
+								</svg>
+							</div>
+							<div style="display:flex;flex-direction:column;gap:20px">
+								<h2 style="letter-spacing:-.03em;font-size:clamp(32px,4vw,60px);line-height:1.02;margin:0;color:#e9eef1;max-width:12ch">Viaja al corazón del Perú.</h2>
+								<a href="index.html#contacto" class="btn btn-primary" style="align-self:flex-start;background:#83b300;border-color:#83b300;color:#1c1c1c;border-radius:999px;font-size:15px;padding:13px 22px;letter-spacing:.04em;text-transform:uppercase" style-hover="background:#e9eef1;border-color:#e9eef1;color:#1c1c1c">Diseña tu viaje</a>
+							</div>
+							<div class="sj-foot-contact" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-content:start">
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Escríbenos</span>
+									<a href="mailto:{{ site.email }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.email }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Llámanos</span>
+									<a href="tel:{{ site.phoneHref }}" style="color:#e9eef1;text-decoration:none" style-hover="color:#83b300">{{ site.phone }}</a>
+								</div>
+								<div style="display:flex;flex-direction:column;gap:6px">
+									<span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(233,238,241,.6)">Oficina</span>
+									<span>{{ site.office }}</span>
+								</div>
+							</div>
+						</div>
+						<div class="sj-foot-row" style="display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;padding:clamp(28px,3vw,40px) 0">
+							<img src="assets/logo-light.png" alt="Sunqu" style="height:44px;width:auto">
+							<nav aria-label="Pie de página" style="display:flex;gap:12px clamp(18px,3vw,44px);flex-wrap:wrap">
+								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Inicio</a>
+								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sobre Sunqu</a>
+								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Viajes</a>
+								<a href="mice.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">MICE</a>
+								<a href="recuerda.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reseñas y tienda</a>
+								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Diario Sunqu</a>
+								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
+								<a href="terminos.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Legales</a>
+							</nav>
+							<div style="display:flex;gap:10px">
+								<a href="{{ site.youtube }}" aria-label="YouTube" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+										<path d="m10 15 5-3-5-3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.instagram }}" aria-label="Instagram" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<rect x="2" y="2" width="20" height="20" rx="5"></rect>
+										<circle cx="12" cy="12" r="4"></circle>
+										<circle cx="17.5" cy="6.5" r=".5" fill="currentColor"></circle>
+									</svg>
+								</a>
+								<a href="{{ site.facebook }}" aria-label="Facebook" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+									</svg>
+								</a>
+								<a href="{{ site.tiktok }}" aria-label="TikTok" style="width:48px;height:48px;border-radius:50%;border:1px solid rgba(233,238,241,.35);display:flex;align-items:center;justify-content:center;color:#e9eef1;transition:all .3s" style-hover="background:#83b300;border-color:#83b300;color:#1c1c1c">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+										<path d="M16 3a5 5 0 0 0 5 5"></path>
+										<path d="M16 3v11a5 5 0 1 1-5-5"></path>
+									</svg>
+								</a>
+							</div>
+						</div>
+						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
+							<span>Copyright © 2026 Sunqu Journeys. Todos los derechos reservados<span class="sj-ruc"> · RUC {{ site.ruc }}</span></span>
+							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Preferencias de cookies</button>
+							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Diseñado por Wuality (se abre en una pestaña nueva)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Diseñado por<img src="assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
+							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Libro de reclamaciones</a>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</x-dc>
+		<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experiencia&quot;}}">
+class Component extends DCLogic {
+  state = { scrolled: false, dark: true, bg: 'dark', menuOpen: false, waOn: false };
+  burgerRef = React.createRef();
+  closeRef = React.createRef();
+  NAV = [['descubre.html', 'Descubre'], ['mice.html', 'MICE'], ['recuerda.html', 'Recuerda'], ['recuerda.html#tienda', 'Tienda']];
+  MON = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  U(id, w) { return SunquContent.img(id, w, 72); }
+  fdate(iso) { const [y, m, d] = iso.split('-'); return `${d} ${this.MON[+m - 1]} ${y}`; }
+  lock() { document.body.style.overflow = this.state.menuOpen ? 'hidden' : ''; }
+  setMenu(open) {
+    if (!!this.state.menuOpen === open) return;
+    this.setState({ menuOpen: open }, () => { this.lock(); const el = open ? this.closeRef.current : this.burgerRef.current; if (el) setTimeout(() => el.focus({ preventScroll: true }), open ? 120 : 0); });
+  }
+  mountCommon(extraTick) {
+    this.motion = (this.props.motion ?? true) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.menuOpen) this.setMenu(false); };
+    this.onResize = () => { if (window.innerWidth > 1100 && this.state.menuOpen) this.setMenu(false); };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('resize', this.onResize);
+    if (this.motion) {
+      this.io = new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting) return; e.target.style.opacity = 1; e.target.style.transform = 'none'; this.io.unobserve(e.target); }), { threshold: 0.01, rootMargin: '0px 0px -4% 0px' });
+      this.observe = () => {
+        document.querySelectorAll('[data-reveal]:not([data-rv])').forEach((el) => {
+          el.setAttribute('data-rv', '1');
+          const d = +(el.getAttribute('data-delay') || 0), ease = 'cubic-bezier(.2,.7,.1,1)';
+          el.style.opacity = 0; el.style.transform = 'translateY(32px)';
+          el.style.transition = `opacity 1s ${ease} ${d}ms, transform 1.1s ${ease} ${d}ms`;
+          this.io.observe(el);
+        });
+      };
+      this.observe();
+      this.mo = new MutationObserver(() => this.observe());
+      this.mo.observe(document.body, { childList: true, subtree: true });
+    }
+    const tick = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (document.title !== this.pageTitle) document.title = this.pageTitle;
+      const scrolled = y > 30; if (scrolled !== this.state.scrolled) this.setState({ scrolled });
+      // Fondo: la última sección que cruzó el centro. Header: lo que tiene debajo (el footer lo oscurece).
+      let bg = 'light', at = null;
+      document.querySelectorAll('[data-bg]').forEach((s) => { const r = s.getBoundingClientRect(); if (r.top < vh * 0.5 && s.tagName === 'SECTION') bg = s.getAttribute('data-bg'); if (r.top < 36 && r.bottom > 36) at = s.getAttribute('data-bg'); });
+      const dark = (at || bg) === 'dark';
+      if (bg !== this.state.bg || dark !== this.state.dark) this.setState({ bg, dark });
+      const waOn = y > vh * 0.6; if (waOn !== this.state.waOn) this.setState({ waOn });
+      if (extraTick) extraTick(y, vh);
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.raf); clearTimeout(this.copyT);
+    window.removeEventListener('keydown', this.onKey); window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect();
+    document.body.style.overflow = '';
+  }
+  shellVals(waText) {
+    const st = this.state, dark = st.dark;
+    return {
+      pageBg: st.bg === 'dark' ? '#1c1c1c' : st.bg === 'alt' ? '#dde3e7' : '#e9eef1',
+      headerCls: st.scrolled ? 'is-scrolled' : '',
+      navFg: dark ? '#e9eef1' : '#1c1c1c',
+      navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
+      navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
+      logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
+      navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 1 ? 'page' : 'false' })),
+      menuLinks: this.NAV.map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
+      menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
+      burgerRef: this.burgerRef, closeRef: this.closeRef,
+      toggleMenu: () => this.setMenu(!st.menuOpen), closeMenu: () => this.setMenu(false),
+      waCls: st.waOn ? 'is-on' : '', waHref: SunquView.site.waLink(waText),
+    };
+  }
+  componentDidMount() {
+    this.pageTitle = SunquContent.titulo('MICE · Viajes para empresas en el Perú — Sunqu Journeys');
+    document.title = this.pageTitle;
+    this.mountCommon();
+  }
+  renderVals() {
+    const site = SunquView.site;
+    return {
+      site,
+      ...this.shellVals('Hola Sunqu, quiero una propuesta MICE para mi empresa'),
+      mailHref: 'mailto:' + site.email + '?subject=' + encodeURIComponent('Propuesta MICE para mi empresa'),
+    };
+  }
+}
+		</script>
+		<script data-foot-art>
+(function(){
+  var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var n = 0, t = setInterval(function(){
+    var a = document.querySelector('.sj-foot-art');
+    if (!a && ++n < 80) return; clearInterval(t);
+    if (!a || rm || !('IntersectionObserver' in window)) return;
+    a.classList.add('is-armed');
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { a.classList.add('is-in'); io.disconnect(); } }); }, { threshold: .35 });
+    io.observe(a);
+  }, 250);
+})();
+		</script>
+	</body>
+</html>

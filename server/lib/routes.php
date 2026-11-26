@@ -10,6 +10,7 @@
  *   /{idioma}/recuerda              recuerda.html
  *   /{idioma}/diario                blog.html           (?cat= filtra)
  *   /{idioma}/diario/{slug}         articulo.html
+ *   /{idioma}/mice                  mice.html
  *   /{idioma}/terminos              terminos.html
  *   /{idioma}/libro-de-reclamaciones reclamaciones.html
  *   /sitemap.xml · /robots.txt      generados
@@ -29,6 +30,7 @@ const SUNQU_PAGINAS = [
 	'recuerda' => ['plantilla' => 'recuerda.html', 'ruta' => '/recuerda'],
 	'blog' => ['plantilla' => 'blog.html', 'ruta' => '/diario'],
 	'articulo' => ['plantilla' => 'articulo.html', 'ruta' => '/diario/{slug}'],
+	'mice' => ['plantilla' => 'mice.html', 'ruta' => '/mice'],
 	'terminos' => ['plantilla' => 'terminos.html', 'ruta' => '/terminos'],
 	'reclamaciones' => ['plantilla' => 'reclamaciones.html', 'ruta' => '/libro-de-reclamaciones'],
 ];
@@ -41,6 +43,7 @@ const SUNQU_ENLACES = [
 	'blog.html' => '/diario',
 	'descubre.html' => '/descubre',
 	'recuerda.html' => '/recuerda',
+	'mice.html' => '/mice',
 	'terminos.html' => '/terminos',
 	'reclamaciones.html' => '/libro-de-reclamaciones',
 	'index.html#' => '/#',
@@ -100,7 +103,7 @@ function sunqu_resolver(string $uri): array {
 	$base = basename($path);
 	$antiguas = [
 		'index.html' => '/' . $qs([]), 'Sunqu Journeys v2.dc.html' => '/' . $qs([]), 'descubre.html' => '/es/descubre' . $qs(['q']),
-		'recuerda.html' => '/es/recuerda' . $qs([]), 'terminos.html' => '/es/terminos' . $qs([]), 'reclamaciones.html' => '/es/libro-de-reclamaciones' . $qs([]),
+		'recuerda.html' => '/es/recuerda' . $qs([]), 'mice.html' => '/es/mice' . $qs([]), 'terminos.html' => '/es/terminos' . $qs([]), 'reclamaciones.html' => '/es/libro-de-reclamaciones' . $qs([]),
 		'blog.html' => '/es/diario' . $qs(['cat']),
 		'journey.html' => (is_string($q['j'] ?? null) && $q['j'] !== '' ? '/es/journeys/' . rawurlencode($q['j']) : '/es/descubre') . $qs([]),
 		'articulo.html' => (is_string($q['a'] ?? null) && $q['a'] !== '' ? '/es/diario/' . rawurlencode($q['a']) : '/es/diario') . $qs([]),
@@ -149,7 +152,7 @@ function sunqu_resolver(string $uri): array {
 
 /** Página de una ruta (ya sin el prefijo de idioma). */
 function sunqu_resolver_pagina(string $path, array $q): array {
-	$fijas = ['/' => 'home', '/descubre' => 'descubre', '/recuerda' => 'recuerda', '/diario' => 'blog', '/terminos' => 'terminos', '/libro-de-reclamaciones' => 'reclamaciones'];
+	$fijas = ['/' => 'home', '/descubre' => 'descubre', '/recuerda' => 'recuerda', '/diario' => 'blog', '/mice' => 'mice', '/terminos' => 'terminos', '/libro-de-reclamaciones' => 'reclamaciones'];
 	if (isset($fijas[$path])) {
 		$params = [];
 		// Búsqueda: texto corto, sin caracteres de control (la página la muestra como texto)

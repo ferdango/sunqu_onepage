@@ -19,6 +19,7 @@ const SUNQU_NECESITA = [
 	'recuerda' => ['sitio', 'resenas', 'productos'],
 	'blog' => ['sitio', 'diario'],
 	'articulo' => ['sitio', 'diario'],
+	'mice' => ['sitio'],
 	'terminos' => ['sitio', 'legales'],
 	'reclamaciones' => ['sitio'],
 ];

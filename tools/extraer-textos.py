@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-PLANTILLAS = ['index.html', 'journey.html', 'experiencia.html', 'descubre.html', 'recuerda.html', 'blog.html', 'articulo.html', 'terminos.html', 'reclamaciones.html']
+PLANTILLAS = ['index.html', 'journey.html', 'experiencia.html', 'descubre.html', 'recuerda.html', 'blog.html', 'articulo.html', 'mice.html', 'terminos.html', 'reclamaciones.html']
 JS = ['js/sunqu-content.js', 'js/sunqu-analytics.js', 'js/sunqu-campos.js']
 PHP = sorted(str(p.relative_to(RAIZ)) for p in [*RAIZ.glob('server/lib/*.php'), *RAIZ.glob('wordpress/sunqu-cms/includes/*.php')])
 SALIDA = RAIZ / 'wordpress/sunqu-cms/i18n/textos-web.php'

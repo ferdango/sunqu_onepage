@@ -16,7 +16,7 @@
   },
   "empresa": {
     "name": "Sunqu Journeys Perú S.A.C.",
-    "ruc": "por confirmar",
+    "ruc": "20613289969",
     "address": "Lima, Pérou"
   },
   "seo": {
@@ -36,6 +36,10 @@
       "diario": {
         "title": "Journal Sunqu : guides et histoires pour voyager au Pérou",
         "description": "Des guides pour préparer votre voyage, la cuisine péruvienne et les communautés qui vous accueillent, racontés par l'équipe Sunqu."
+      },
+      "mice": {
+        "title": "MICE · Voyages d’entreprise au Pérou — Sunqu Journeys",
+        "description": "Réunions, voyages incentive, congrès et événements au Pérou, sur mesure pour votre entreprise. Dites-nous ce dont vous avez besoin et nous vous envoyons une proposition."
       },
       "terminos": {
         "title": "Conditions générales — Sunqu Journeys",

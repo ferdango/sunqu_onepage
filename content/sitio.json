@@ -16,7 +16,7 @@
   },
   "empresa": {
     "name": "Sunqu Journeys Perú S.A.C.",
-    "ruc": "por confirmar",
+    "ruc": "20613289969",
     "address": "Lima, Perú"
   },
   "seo": {
@@ -36,6 +36,10 @@
       "diario": {
         "title": "Diario Sunqu: guías e historias para viajar al Perú",
         "description": "Guías para preparar tu viaje, la cocina peruana y las comunidades que te reciben, contadas por el equipo de Sunqu."
+      },
+      "mice": {
+        "title": "MICE · Viajes para empresas en el Perú — Sunqu Journeys",
+        "description": "Reuniones, viajes de incentivo, congresos y eventos en el Perú, a la medida de tu empresa. Cuéntanos qué necesitas y te enviamos una propuesta."
       },
       "terminos": {
         "title": "Términos y condiciones — Sunqu Journeys",

@@ -527,6 +527,7 @@
 								<a href="index.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Start</a>
 								<a href="index.html#sunqu" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Über Sunqu</a>
 								<a href="descubre.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Reisen</a>
+								<a href="mice.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">MICE</a>
 								<a href="recuerda.html" aria-current="page" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Bewertungen &amp; Shop</a>
 								<a href="blog.html" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">Sunqu-Journal</a>
 								<a href="index.html#contacto" style="color:#e9eef1;text-decoration:none;font-size:16px" style-hover="color:#83b300">FAQ</a>
@@ -560,7 +561,7 @@
 							</div>
 						</div>
 						<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(233,238,241,.14);font-size:13px;color:rgba(233,238,241,.75)">
-							<span>Copyright © 2026 Sunqu Journeys. Alle Rechte vorbehalten</span>
+							<span>Copyright © 2026 Sunqu Journeys. Alle Rechte vorbehalten<span class="sj-ruc"> · RUC {{ site.ruc }}</span></span>
 							<button type="button" class="sj-cookie-btn" data-cookie-prefs="">Cookie-Einstellungen</button>
 							<a href="https://wuality.agency" target="_blank" rel="noopener" aria-label="Gestaltet von Wuality (öffnet in einem neuen Tab)" style="display:inline-flex;align-items:center;gap:10px;color:rgba(233,238,241,.75);text-decoration:none;transition:color .2s" style-hover="color:#e9eef1">Gestaltet von<img src="/assets/wuality-light.png" alt="Wuality" style="height:20px;width:auto;display:block"></a>
 							<a href="reclamaciones.html" style="display:inline-flex;align-items:center;gap:8px;color:#e9eef1;text-decoration:none;font-weight:600" style-hover="color:#83b300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>Beschwerdebuch</a>
@@ -576,7 +577,7 @@ class Component extends DCLogic {
   closeRef = React.createRef();
   viewCloseRef = React.createRef();
   bagCloseRef = React.createRef();
-  NAV = [['descubre.html', 'Reisen'], ['index.html#conecta', 'Gastgeber'], ['index.html#vive', 'Das Erlebnis'], ['recuerda.html', 'Bewertungen']];
+  NAV = [['descubre.html', 'Entdecken'], ['mice.html', 'MICE'], ['recuerda.html', 'Erinnern'], ['recuerda.html#tienda', 'Shop']];
   MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
   TOPICS = SunquView.TOPICS;
   TOPIC_ONE = SunquView.TOPIC_ONE;
@@ -759,8 +760,8 @@ class Component extends DCLogic {
       navBg: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(28,28,28,.7)' : 'rgba(233,238,241,.88)',
       navBorder: !st.scrolled ? 'rgba(0,0,0,0)' : dark ? 'rgba(233,238,241,.14)' : 'rgba(28,28,28,.16)',
       logoLightOp: dark ? 1 : 0, logoDarkOp: dark ? 0 : 1,
-      navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 3 ? 'page' : 'false' })),
-      menuLinks: [['descubre.html', 'Reisen'], ['index.html#conecta', 'Gastgeber'], ['index.html#vive', 'Das Erlebnis'], ['recuerda.html', 'Bewertungen']].map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
+      navLinks: this.NAV.map(([href, label], i) => ({ href, label, current: i === 2 ? 'page' : 'false' })),
+      menuLinks: this.NAV.map(([href, label], i) => ({ href, label, n: String(i + 1).padStart(2, '0') })),
       langs: SunquContent.idiomas().map(({ code, name }) => ({ code: code.toUpperCase(), name, pressed: (this.state.lang || SunquContent.idioma()) === code ? 'true' : 'false', set: () => SunquContent.irIdioma(code) || this.setState({ lang: code }) })),
       menuCls: st.menuOpen ? 'is-open' : '', menuExpanded: st.menuOpen ? 'true' : 'false',
       burgerRef: this.burgerRef, closeRef: this.closeRef, viewCloseRef: this.viewCloseRef, bagCloseRef: this.bagCloseRef,

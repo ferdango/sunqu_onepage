@@ -29,9 +29,9 @@ RAIZ = Path(__file__).resolve().parent.parent
 DOMINIO = 'https://sunqujourneys.com'
 IDIOMAS = ['en', 'fr', 'de', 'it', 'ru']
 LOCALES = {'es': 'es_PE', 'en': 'en_US', 'fr': 'fr_FR', 'de': 'de_DE', 'it': 'it_IT', 'ru': 'ru_RU'}
-PLANTILLAS = ['index.html', 'journey.html', 'experiencia.html', 'descubre.html', 'recuerda.html', 'blog.html', 'articulo.html', 'terminos.html', 'reclamaciones.html']
+PLANTILLAS = ['index.html', 'journey.html', 'experiencia.html', 'descubre.html', 'recuerda.html', 'blog.html', 'articulo.html', 'mice.html', 'terminos.html', 'reclamaciones.html']
 # Páginas fijas: descripción (Sunqu › Sitio › SEO) y hreflang. Las de journey, experiencia y artículo dependen del parámetro.
-SEO = {'index.html': 'inicio', 'descubre.html': 'descubre', 'recuerda.html': 'recuerda', 'blog.html': 'diario', 'terminos.html': 'terminos', 'reclamaciones.html': 'reclamaciones'}
+SEO = {'index.html': 'inicio', 'descubre.html': 'descubre', 'recuerda.html': 'recuerda', 'blog.html': 'diario', 'mice.html': 'mice', 'terminos.html': 'terminos', 'reclamaciones.html': 'reclamaciones'}
 JS = ['js/sunqu-content.js', 'js/sunqu-analytics.js', 'js/sunqu-campos.js']
 CONTENIDO = ['sitio', 'inicio', 'journeys', 'anfitriones', 'experiencias', 'diario', 'productos', 'resenas', 'legales']
 # Claves que nunca se traducen: identificadores, rutas, colores, etapas (data-s del CSS) y datos de contacto

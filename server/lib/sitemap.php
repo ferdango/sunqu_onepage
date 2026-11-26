@@ -43,6 +43,7 @@ function sunqu_sitemap(): string {
 			$add(sunqu_ruta('articulo', $p['slug']), sunqu_lastmod((string) ($p['_modificado'] ?? '')) ?: (string) ($p['date'] ?? ''), (string) ($p['img'] ?? ''));
 		}
 	}
+	$add('/mice');
 	$add('/terminos');
 	$add('/libro-de-reclamaciones');
 

@@ -194,6 +194,9 @@ function sunqu_seo(string $pagina, array $params, array $c): ?array {
 		case 'recuerda':
 			$seo['migas'] = [$inicio, [sunqu_t('Recuerda'), $seo['canonical']]];
 			break;
+		case 'mice':
+			$seo['migas'] = [$inicio, [sunqu_t('MICE'), $seo['canonical']]];
+			break;
 		case 'terminos':
 			$seo['migas'] = [$inicio, [sunqu_t('Términos y condiciones'), $seo['canonical']]];
 			break;

@@ -56,6 +56,7 @@
     recuerda: ['sitio', 'resenas', 'productos'],
     blog: ['sitio', 'diario'],
     articulo: ['sitio', 'diario'],
+    mice: ['sitio'],
     terminos: ['sitio', 'legales'],
     reclamaciones: ['sitio'],
   };
@@ -217,6 +218,7 @@
       email: k.email || '', phone: k.telefono || '', phoneHref: k.telefonoHref || '', office: k.oficina || '',
       wa: wa, waLabel: waLabel, youtube: r.youtube || '#', instagram: r.instagram || '#', facebook: r.facebook || '#', tiktok: r.tiktok || '#',
       igUser: r.instagramUsuario || '',
+      ruc: (s.empresa || {}).ruc || '',
       waLink: function (text) { return 'https://wa.me/' + wa + '?text=' + encodeURIComponent(text); },
     };
   }
@@ -325,6 +327,10 @@
 
     reclamaciones: function (c) {
       return { CO: c.sitio.empresa };
+    },
+
+    mice: function () {
+      return {};
     },
   };
   views.articulo = views.blog;
