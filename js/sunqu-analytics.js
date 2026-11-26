@@ -188,7 +188,7 @@
     if (!aviso) {
       // Para qué y con qué servicios (los del .env y los del panel de WordPress)
       var analitica = (GA4 || GTM ? ['Google Analytics'] : []).concat(nombres('google'), nombres('analitica'));
-      var marketing = (PIXEL || GTM ? ['Meta'] : []).concat(nombres('marketing'));
+      var marketing = (PIXEL ? ['Meta'] : []).concat(nombres('marketing')); // con GTM, Meta solo si hay Pixel (C.pixel)
       var usos = [];
       if (analitica.length) usos.push(t('medir cómo se usa la web') + ' (' + analitica.join(', ') + ')');
       if (marketing.length) usos.push(t('medir nuestros anuncios') + ' (' + marketing.join(', ') + ')');

@@ -183,6 +183,96 @@
       "fuente": "https://limaexperience.com/product/tour-museo-larco/"
     },
     {
+      "slug": "huaca-pucllana-de-noche-y-cena",
+      "t": "Huaca Pucllana di notte, con cena davanti alla piramide",
+      "place": "Miraflores, Lima",
+      "dest": "lima",
+      "img": "1771258938427-d96882cfac28",
+      "alt": "79 m",
+      "dur": "3 h 30 min · sera",
+      "c": [
+        "historia",
+        "sabor"
+      ],
+      "resumen": "Al calar della sera la Huaca Pucllana si illumina nel cuore di Miraflores. Con una guida percorri questa piramide di adobe che la cultura Lima costruì tra gli anni 200 e 700, oggi circondata da edifici moderni, e poi ceni nel ristorante della huaca, con la piramide illuminata davanti al tuo tavolo.",
+      "datos": [
+        [
+          "Durata",
+          "Circa 3 ore e mezza"
+        ],
+        [
+          "Orario",
+          "Dalle 18:45; la cena inizia subito dopo la visita"
+        ],
+        [
+          "Punto di ritrovo",
+          "Ingresso della Huaca Pucllana, calle General Borgoño isolato 8, Miraflores"
+        ],
+        [
+          "Lingue",
+          "Spagnolo e inglese"
+        ],
+        [
+          "Gruppo",
+          "Piccolo (anche in privato)"
+        ],
+        [
+          "Partenze",
+          "Da mercoledì a domenica, tranne la prima domenica del mese"
+        ]
+      ],
+      "itinerario": [
+        [
+          "18:45",
+          "Incontro con la tua guida all'ingresso della huaca, già illuminata."
+        ],
+        [
+          "19:00",
+          "Visita notturna: la piramide fu costruita con mattoni di adobe messi di taglio, come libri su uno scaffale, una tecnica che, secondo gli archeologi, la aiutava a resistere ai terremoti."
+        ],
+        [
+          "19:45",
+          "Cosa succedeva qui: le cerimonie e le offerte della cultura Lima, le tombe lasciate poi dai wari e ciò che gli archeologi continuano a trovare."
+        ],
+        [
+          "20:00",
+          "Cena al ristorante Huaca Pucllana, con la piramide illuminata davanti al tuo tavolo."
+        ],
+        [
+          "21:45",
+          "Fine dell'esperienza, circa."
+        ]
+      ],
+      "incluye": [
+        "Guida che parla spagnolo e inglese",
+        "Ingresso notturno alla Huaca Pucllana",
+        "Cena al ristorante Huaca Pucllana (il tuo Travel Advisor ti conferma il menu al momento della prenotazione)"
+      ],
+      "noIncluye": [
+        "Bevande non incluse nel menu",
+        "Mance",
+        "Assicurazione di viaggio",
+        "Prelievo e ritorno al tuo alloggio (facoltativo, a pagamento)"
+      ],
+      "llevar": [
+        "Una giacca leggera: le sere a Lima sono fresche",
+        "Scarpe da ginnastica comode",
+        "Passaporto originale, una foto nitida o il documento con cui sei entrato in Perù (la patente non è valida)"
+      ],
+      "notas": [
+        "Di notte si segue il circuito notturno, senza salire sulla parte più alta della piramide.",
+        "Non ci sono visite notturne il lunedì, il martedì e la prima domenica del mese.",
+        "Se hai restrizioni alimentari, avvisaci al momento della prenotazione.",
+        "Nei giorni festivi gli orari possono cambiare."
+      ],
+      "galeria": [
+        "1771258938427-d96882cfac28",
+        "1687835073280-fd0f002062d2",
+        "1687835070928-510e95804d84"
+      ],
+      "fuente": "https://museos.cultura.pe/museos/museo-de-sitio-pucllana"
+    },
+    {
       "slug": "huacachina-vinedo-tubulares-y-picnic",
       "t": "Huacachina: vigneto, dune buggy e picnic al tramonto",
       "place": "Paracas · Huacachina, Ica",

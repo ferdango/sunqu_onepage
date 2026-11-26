@@ -23,7 +23,7 @@ return [
 	'2.000 m' => 'index.html (texto), journey.html (texto)',
 	'20 días antes' => 'journey.html (texto)',
 	'4.000 m' => 'index.html (texto), journey.html (texto)',
-	'@sunqujourneys' => 'recuerda.html (texto)',
+	'@sunquviajes' => 'recuerda.html (texto)',
 	'Abril' => 'journey.html (código)',
 	'Abril – junio' => 'descubre.html (texto), index.html (texto), journey.html (texto)',
 	'Abrir menú' => 'articulo.html (aria-label), blog.html (aria-label), descubre.html (aria-label), experiencia.html (aria-label), index.html (aria-label), journey.html (aria-label), recuerda.html (aria-label), terminos.html (aria-label)',

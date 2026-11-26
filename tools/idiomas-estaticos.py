@@ -192,6 +192,21 @@ def url(lang, pagina):
     return DOMINIO + '/' + ('' if lang == 'es' else lang + '/') + ('' if pagina == 'index.html' else pagina)
 
 
+def datos_contacto(lang):
+    """Datos estructurados de la agencia (TravelAgency) con su contacto, para buscadores. Solo redes con enlace real."""
+    sitio = contenido('sitio')
+    k, r, e = sitio['contacto'], sitio['redes'], sitio['empresa']
+    redes = [v for n, v in r.items() if n != 'instagramUsuario' and isinstance(v, str) and v.startswith('https://')]
+    d = {'@context': 'https://schema.org', '@type': 'TravelAgency', 'name': 'Sunqu Journeys', 'legalName': e['name'],
+         'url': url(lang, 'index.html'), 'logo': DOMINIO + '/assets/logo-dark.png', 'image': DOMINIO + '/assets/og/sunqu-og-' + lang + '.jpg',
+         'email': k['email'], 'telephone': k['telefono'], 'address': {'@type': 'PostalAddress', 'addressLocality': 'Lima', 'addressCountry': 'PE'},
+         'areaServed': {'@type': 'Country', 'name': 'Peru'},
+         'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer service', 'email': k['email'], 'telephone': k['telefono']}}
+    if redes:
+        d['sameAs'] = redes
+    return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False).replace('</', '<\\/') + '</script>'
+
+
 def bloque_seo(pagina, lang, dic):
     sitio = contenido('sitio')['seo']['paginas']
     h = []
@@ -202,6 +217,8 @@ def bloque_seo(pagina, lang, dic):
         for l in ['es'] + IDIOMAS:
             h.append(f'<link rel="alternate" hreflang="{l}" href="{url(l, pagina)}">')
         h.append(f'<link rel="alternate" hreflang="x-default" href="{url("en", pagina)}">')
+    if pagina == 'index.html':
+        h.append(datos_contacto(lang))
     h.append('<link rel="icon" href="' + ('' if lang == 'es' else '/') + 'assets/favicon-32.png" type="image/png">')
     return '<!-- sunqu:seo -->' + ''.join(h) + '<!-- /sunqu:seo -->'
 

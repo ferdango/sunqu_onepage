@@ -481,6 +481,13 @@
     try {
       window.SunquView = views[PAGE](content);
       window.SunquView.site = site(content);
+      // Redes sin cuenta todavía (Sunqu › Sitio › Redes en «#»): sus íconos y la sección de Instagram no se muestran
+      var redes = window.SunquView.site, ocultar = [];
+      ['Instagram', 'Facebook', 'TikTok', 'YouTube'].forEach(function (n) {
+        if (!redes[n.toLowerCase()] || redes[n.toLowerCase()] === '#') ocultar.push('a[aria-label="' + n + '"][href="#"]');
+      });
+      if (!redes.instagram || redes.instagram === '#') ocultar.push('#instagram');
+      if (ocultar.length) { var st = document.createElement('style'); st.textContent = ocultar.join(',') + '{display:none!important}'; document.head.appendChild(st); }
     } catch (e) {
       console.error('[sunqu] el contenido no tiene el formato esperado para «' + PAGE + '»:', e);
       return;
