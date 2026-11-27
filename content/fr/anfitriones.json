@@ -21,12 +21,12 @@
     },
     {
       "slug": "familia",
-      "role": "Famille d'accueil",
+      "role": "Famille locale",
       "place": "Île d'Amantaní, lac Titicaca",
       "teach": "leur vie sur le lac : vous dînez et dormez chez eux.",
       "img": "1730423284218-a8a7e9422ebf",
-      "alt": "Famille d'accueil",
-      "altInicio": "Portrait — famille d'accueil"
+      "alt": "Famille locale",
+      "altInicio": "Portrait — famille locale"
     }
   ]
 }

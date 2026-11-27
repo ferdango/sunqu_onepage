@@ -65,7 +65,7 @@
             "ul": [
               {
                 "b": "Aplazamiento.",
-                "t": "Puedes aplazar sin coste hasta 20 días antes de la salida, sujeto a la disponibilidad de anfitriones y proveedores."
+                "t": "Puedes aplazar sin coste hasta 20 días antes de la salida, sujeto a la disponibilidad de guías locales y proveedores."
               },
               {
                 "b": "Cancelación con más de 20 días.",
@@ -73,7 +73,7 @@
               },
               {
                 "b": "Cancelación con 20 días o menos, o no presentación.",
-                "t": "El importe no es reembolsable; te ayudamos a reprogramar según la disponibilidad de anfitriones y proveedores."
+                "t": "El importe no es reembolsable; te ayudamos a reprogramar según la disponibilidad de guías locales y proveedores."
               },
               {
                 "b": "Proveedores con políticas propias.",
@@ -106,10 +106,10 @@
       },
       {
         "id": "comunidades",
-        "h": "Comunidades anfitrionas y conducta",
+        "h": "Comunidades locales y conducta",
         "blocks": [
           {
-            "p": "Viajamos con comunidades, no por ellas. Pedimos respetar sus normas, preguntar antes de fotografiar a las personas y seguir las indicaciones de tus anfitriones."
+            "p": "Viajamos con comunidades, no por ellas. Pedimos respetar sus normas, preguntar antes de fotografiar a las personas y seguir las indicaciones de tus guías locales."
           },
           {
             "p": "Sunqu puede dar por terminados los servicios de un viajero cuya conducta ponga en riesgo a otras personas o dañe la relación con una comunidad, sin derecho a reembolso de los servicios no utilizados."

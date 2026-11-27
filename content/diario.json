@@ -107,7 +107,7 @@
       "excerpt": "Chupe, rocoto relleno y chicha de guiñapo: la cocina que se resiste a desaparecer.",
       "author": "Equipo Sunqu",
       "role": "Diseño de experiencias",
-      "lead": "Una picantería no es un restaurante con otro nombre. Es una cocina con anfitriona de nombre propio, con un menú que cambia según el día de la semana y con recetas que pasan de madre a hija.",
+      "lead": "Una picantería no es un restaurante con otro nombre. Es una cocina con cocinera de nombre propio, con un menú que cambia según el día de la semana y con recetas que pasan de madre a hija.",
       "sections": [
         {
           "h": "Una cocina con calendario",
@@ -141,7 +141,7 @@
             },
             {
               "quote": "Aquí no vienes a probar: vienes a cocinar conmigo. Y la receta te la llevas.",
-              "cite": "Picantera anfitriona · Arequipa"
+              "cite": "Picantera · Arequipa"
             },
             {
               "img": "1535400875775-0269e7a919af",
@@ -178,7 +178,7 @@
           "h": "Qué es la ficha",
           "blocks": [
             {
-              "p": "Cada comunidad anfitriona tiene una ficha de reciprocidad. Dice qué recibe de tu viaje, cómo se decidió ese acuerdo y quién lo administra."
+              "p": "Cada comunidad que visitas tiene una ficha de reciprocidad. Dice qué recibe de tu viaje, cómo se decidió ese acuerdo y quién lo administra."
             },
             {
               "ul": [
@@ -215,7 +215,7 @@
           "blocks": [
             {
               "img": "1730423284218-a8a7e9422ebf",
-              "cap": "La ficha se revisa cada año con cada comunidad anfitriona."
+              "cap": "La ficha se revisa cada año con cada comunidad."
             },
             {
               "p": "Encontrarás la ficha en la página de cada journey, en la sección Conecta. Si una comunidad no tiene ficha publicada, esa experiencia todavía no se vende."
@@ -399,7 +399,7 @@
             },
             {
               "quote": "Tupananchiskama: hasta que nos volvamos a encontrar.",
-              "cite": "La despedida que más repiten nuestros anfitriones"
+              "cite": "La despedida que más repiten nuestros guías locales"
             }
           ]
         },
@@ -407,7 +407,7 @@
           "h": "Cómo practicarlas",
           "blocks": [
             {
-              "p": "Tu Travel Advisor te envía audios con la pronunciación antes del viaje. Y el primer día, tus anfitriones te corrigen con mucha más paciencia de la que imaginas."
+              "p": "Tu Travel Advisor te envía audios con la pronunciación antes del viaje. Y el primer día, tus guías locales te corrigen con mucha más paciencia de la que imaginas."
             }
           ]
         }
